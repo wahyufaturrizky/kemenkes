@@ -69,3 +69,12 @@ export const dataGraphRegionalRoutineImmunizationCoverageTrend = [
 ]
 
 export const dataMonth = ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember']
+export const filterLocationOptions = [
+  {
+    label: "Lokasi Domisili Pasien",
+    value: "Lokasi Domisili Pasien"
+  },
+  {
+    label: "Lokasi Fasilitas Kesehatan",
+    value: "Lokasi Fasilitas Kesehatan"
+  }];

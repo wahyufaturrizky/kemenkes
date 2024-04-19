@@ -1,6 +1,7 @@
 'use client'
 
 import { DatePicker, Select } from "@/components"
+import { filterLocationOptions } from "@/utils/constants"
 
 const options = [
   { value: 'chocolate', label: 'Chocolate' },
@@ -30,9 +31,10 @@ const FilterSummaryImmunization: React.FC = () => {
         </div>
         <div>
           <Select
-            options={options}
+            options={filterLocationOptions}
             onChange={(e) => { }}
-            value={{ value: 'vanilla', label: 'Vanilla' }}
+            placeholder="Pilih Lokasi"
+          // value={{ value: 'vanilla', label: 'Vanilla' }}
           />
         </div>
       </div>

@@ -1,5 +1,10 @@
+'use client'
 import { Banner, BannerText, Footer, Navbar, Select, Tabs } from "@/components"
+import { useAppSelector } from "@/lib/hook";
+import { RootState, reducers } from "@/lib/store";
+import { memoizedSelector } from "@/lib/utils";
 import { dataGraphRegionalRoutineImmunizationCoverageTrend, dataTabs, dataTotalSummaryImmunization } from "@/utils/constants";
+import { sidebarNavigation } from "@/utils/navigation";
 import {
   RoutineImmunizationCoverageTrendGraph,
   SummaryImmunization,
@@ -8,9 +13,13 @@ import {
   GraphAddOn,
   GraphRoutineImmunizationCoverageTrend
 } from "@/view/home"
+import { useRouter } from "next/navigation";
 import { FiPlus } from "react-icons/fi";
 
 const HomeView = () => {
+  const { push } = useRouter();
+  const { auth, baseApi, source } = useAppSelector((state: RootState) => memoizedSelector(state));
+
   return (
     <div className="flex flex-col items-center">
       {/* <div className="container px-4">
@@ -32,7 +41,7 @@ const HomeView = () => {
       <div className="container px-4">
         <Tabs data={dataTabs} />
         <div className="pb-6">
-          <div className="flex items-center justify-between pb-4 text-xl text-primary-2 font-bold">
+          <div className="flex items-center justify-between pb-4 text-xl text-primary-2 font-bold" onClick={() => push(sidebarNavigation[0].path)}>
             Cara Membaca Data dan Informasi Pada Dashboard
             <FiPlus className="text-third-1" />
           </div>

@@ -2,6 +2,9 @@ import type { Metadata } from "next";
 import { Archivo } from "next/font/google";
 import "./globals.css";
 import "react-datepicker/dist/react-datepicker.css";
+import StoreProvider from "./StoreProvider";
+import { Suspense } from "react";
+import Loading from "./loading";
 
 const archivo = Archivo({ subsets: ["latin"] });
 
@@ -17,7 +20,13 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={archivo.className}>{children}</body>
+      <body className={archivo.className}>
+        <StoreProvider>
+          <Suspense fallback={<Loading />}>
+            {children}
+          </Suspense>
+        </StoreProvider>
+      </body>
     </html>
   );
 }
