@@ -1,86 +1,268 @@
 'use client'
 
+import { useState } from "react"
 import { DatePicker, Select } from "@/components"
-import { filterLocationOptions } from "@/utils/constants"
+import { useGetFacilityOfTypeQuery, useGetMedicalFacilityQuery, useGetProvinceQuery, useGetRegencyQuery, useGetSubDistrictQuery } from "@/lib/services/region"
+import { dataMonth, filterLocationOptions } from "@/utils/constants"
+import { generateYearsArray, standardOptionSameLabel, standardOptions } from "@/helpers"
 
-const options = [
-  { value: 'chocolate', label: 'Chocolate' },
-  { value: 'strawberry', label: 'Strawberry' },
-  { value: 'vanilla', label: 'Vanilla' }
-]
-const FilterSummaryImmunization: React.FC = () => {
+interface FilterProps {
+  filterState?: any
+}
+
+const FilterSummaryImmunization: React.FC<FilterProps> = ({ filterState }) => {
+  const [filter, setFilter] = filterState || useState({})
+  // const [filter, setFilter] = useState({
+  //   tahun: '',
+  //   bulan: '',
+  //   // tanggal: null,
+  //   // lokasi: '',
+  //   provinsi: '',
+  //   kabkota: '',
+  //   kecamatan: '',
+  //   jenis_sarana: '',
+  //   faskes: ''
+  // })
+  const { data: getProvince } = useGetProvinceQuery({},
+    // { skip: filter.lokasi === filterLocationOptions[0].value }
+  );
+  const { data: getRegency } = useGetRegencyQuery(
+    { provinsi: filter.provinsi },
+    {
+      skip: !filter.provinsi
+      , refetchOnMountOrArgChange: true
+    });
+  const { data: getSubDistrict } = useGetSubDistrictQuery(
+    { provinsi: filter.provinsi, kabkota: filter.kabkota },
+    {
+      skip: !filter.provinsi && !filter.kabkota,
+      refetchOnMountOrArgChange: true
+    }
+  );
+  const { data: getFacilityOfType } = useGetFacilityOfTypeQuery({});
+  const { data: getMedicalFacility } = useGetMedicalFacilityQuery(
+    { provinsi: filter.provinsi, kabkota: filter.kabkota, kecamatan: filter.kecamatan, jenis_sarana: filter.jenis_sarana },
+    {
+      skip: !filter.provinsi && !filter.kabkota,
+      refetchOnMountOrArgChange: true
+    }
+  );
+
   return (
     <div className="flex flex-col gap-2">
       <div>Filter</div>
-      <div className="flex flex-wrap items-center gap-4">
-        <div>
+      {/* <div className="flex flex-wrap items-center gap-4"> */}
+      {/* <div>
           <Select
-            options={options}
-            onChange={(e) => { }}
-            value={{ value: 'vanilla', label: 'Vanilla' }}
+            placeholder="Pilih Tahun"
+            options={standardOptionSameLabel(generateYearsArray(1979, new Date().getFullYear()))}
+            onChange={(e: any) => { setFilter({ ...filter, 
+              tahun: e?.value,
+              bulan: '',
+              provinsi: '',
+              kabkota: '',
+              kecamatan: '',
+              jenis_sarana: '',
+              faskes: ''
+            }) }}
+            value={filter.tahun ?
+              standardOptionSameLabel(generateYearsArray(1979, new Date().getFullYear()))
+                ?.find((f) => f.value === filter.tahun)
+              : filter.tahun}
           />
         </div>
         <div>
+          <Select
+            placeholder="Pilih Bulan"
+            options={dataMonth}
+            onChange={(e: any) => { setFilter({ ...filter, 
+              bulan: e?.value,
+              provinsi: '',
+              kabkota: '',
+              kecamatan: '',
+              jenis_sarana: '',
+              faskes: ''
+            }) }}
+            value={filter.bulan ?
+              dataMonth
+                ?.find((f) => f.value === filter.bulan)
+              : filter.bulan}
+              isDisabled={!filter.tahun}
+
+          />
+        </div> */}
+      {/* <div>
           <DatePicker
             className="md:w-96"
-            selected={new Date()}
-            onChange={(date, event) => { }}
-            startDate={new Date()}
-            endDate={new Date()}
+            selected={filter.tanggal}
+            placeholderText="Pilih Tanggal"
+            onChange={(date: any) => {
+              setFilter({
+                ...filter,
+                // @ts-ignore
+                tanggal: date
+              })
+            }}
+          // startDate={filter.tanggal ? filter.tanggal[0] : new Date()}
+          // endDate={filter.tanggal ? filter.tanggal[1] : new Date()}
           />
-        </div>
-        <div>
+        </div> */}
+      {/* <div>
           <Select
             options={filterLocationOptions}
-            onChange={(e) => { }}
+            onChange={(e: any) => { setFilter({ ...filter, lokasi: e?.value }) }}
             placeholder="Pilih Lokasi"
-          // value={{ value: 'vanilla', label: 'Vanilla' }}
+            value={filter.lokasi ?
+              filterLocationOptions
+                ?.find((f) => f.value === filter.lokasi)
+              : filter.lokasi}
+          />
+        </div> */}
+      {/* </div> */}
+      {/* {filter.lokasi && */}
+      <div className="flex flex-wrap justify-between items-center gap-4">
+        <div className="flex-1">
+          <Select
+            placeholder="Pilih Tahun"
+            options={standardOptionSameLabel(generateYearsArray(1979, new Date().getFullYear()))}
+            onChange={(e: any) => {
+              setFilter({
+                ...filter,
+                tahun: e?.value,
+                bulan: '',
+                provinsi: '',
+                kabkota: '',
+                kecamatan: '',
+                jenis_sarana: '',
+                faskes: ''
+              })
+            }}
+            value={filter.tahun ?
+              standardOptionSameLabel(generateYearsArray(1979, new Date().getFullYear()))
+                ?.find((f) => f.value === filter.tahun)
+              : filter.tahun}
           />
         </div>
-      </div>
-      <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
-        <div>
+        <div className="flex-1">
+          <Select
+            placeholder="Pilih Bulan"
+            options={dataMonth}
+            onChange={(e: any) => {
+              setFilter({
+                ...filter,
+                bulan: e?.value,
+                provinsi: '',
+                kabkota: '',
+                kecamatan: '',
+                jenis_sarana: '',
+                faskes: ''
+              })
+            }}
+            value={filter.bulan ?
+              dataMonth
+                ?.find((f) => f.value === filter.bulan)
+              : filter.bulan}
+            isDisabled={!filter.tahun}
+
+          />
+        </div>
+        <div className="flex-1">
           <Select
             placeholder="Pilih Provinsi"
-            options={options}
-            onChange={(e) => { }}
-            value={{ value: 'vanilla', label: 'Vanilla' }}
+            options={standardOptions((getProvince?.data || []), "provinsi_name", "provinsi")}
+            onChange={(e: any) => {
+              setFilter({
+                ...filter,
+                provinsi: e?.value,
+                kabkota: '',
+                kecamatan: '',
+                jenis_sarana: '',
+                faskes: ''
+              })
+            }}
+            value={filter.provinsi ?
+              standardOptions((getProvince?.data || []), "provinsi_name", "provinsi")
+                ?.find((f) => f.value === filter.provinsi)
+              : filter.provinsi}
+            isDisabled={!filter.bulan}
           />
         </div>
-        <div>
+        <div className="flex-1">
           <Select
             placeholder="Pilih Kabupaten/Kota"
-            options={options}
-            onChange={(e) => { }}
-            value={{ value: 'vanilla', label: 'Vanilla' }}
+            options={standardOptions((getRegency?.data || []), "kabkota_name", "kabkota")}
+            onChange={(e: any) => {
+              setFilter({
+                ...filter,
+                kabkota: e?.value,
+                kecamatan: '',
+                jenis_sarana: '',
+                faskes: ''
+              })
+            }}
+            value={filter.kabkota ?
+              standardOptions((getRegency?.data || []), "kabkota_name", "kabkota")
+                ?.find((f) => f.value === filter.kabkota)
+              : filter.kabkota}
+            isDisabled={!filter.provinsi}
           />
         </div>
-        <div>
+        <div className="flex-1">
           <Select
             placeholder="Pilih Kecamatan"
-            options={options}
-            onChange={(e) => { }}
-            value={{ value: 'vanilla', label: 'Vanilla' }}
+            options={standardOptions((getSubDistrict?.data || []), "kecamatan_name", "kecamatan")}
+            onChange={(e: any) => {
+              setFilter({
+                ...filter,
+                kecamatan: e?.value,
+                jenis_sarana: '',
+                faskes: ''
+              })
+            }}
+            value={filter.kecamatan ?
+              standardOptions((getSubDistrict?.data || []), "kecamatan_name", "kecamatan")
+                ?.find((f) => f.value === filter.kecamatan)
+              : filter.kecamatan}
+            isDisabled={!filter.kabkota}
           />
         </div>
-        <div>
-          <Select
-            placeholder="Pilih Kelurahan"
-            options={options}
-            onChange={(e) => { }}
-            value={{ value: 'vanilla', label: 'Vanilla' }}
-          />
-        </div>
-        <div>
-          <Select
-            placeholder="Pilih Jenis Fasilitas Kesehatan"
-            options={options}
-            onChange={(e) => { }}
-            value={{ value: 'vanilla', label: 'Vanilla' }}
-          />
-        </div>
+        {/* {filter.lokasi === filterLocationOptions[1].value && */}
+        <>
+          <div className="flex-1">
+            <Select
+              placeholder="Pilih Jenis Faskes"
+              options={standardOptions((getFacilityOfType?.data || []), "jenis_sarana_name", "jenis_sarana")}
+              onChange={(e: any) => {
+                setFilter({
+                  ...filter,
+                  jenis_sarana: e?.value,
+                  faskes: ''
+                })
+              }}
+              value={filter.jenis_sarana ?
+                standardOptions((getFacilityOfType?.data || []), "jenis_sarana_name", "jenis_sarana")
+                  ?.find((f) => f.value === filter.jenis_sarana)
+                : filter.jenis_sarana}
+              isDisabled={!filter.kecamatan}
+            />
+          </div>
+          <div className="flex-1">
+            <Select
+              placeholder="Pilih Faskes"
+              options={standardOptions((getMedicalFacility?.data || []), "faskes_name", "faskes")}
+              onChange={(e: any) => { setFilter({ ...filter, faskes: e?.value }) }}
+              value={filter.faskes ?
+                standardOptions((getMedicalFacility?.data || []), "faskes_name", "faskes")
+                  ?.find((f) => f.value === filter.faskes)
+                : filter.faskes}
+              isDisabled={!filter.jenis_sarana}
+            />
+          </div>
+        </>
+        {/* } */}
       </div>
-    </div>
+      {/* } */}
+    </div >
   )
 }
 

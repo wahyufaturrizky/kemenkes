@@ -68,7 +68,56 @@ export const dataGraphRegionalRoutineImmunizationCoverageTrend = [
   },
 ]
 
-export const dataMonth = ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember']
+export const dataMonth = [
+  {
+    label: 'Januari',
+    value: '01'
+  },
+  {
+    label: 'Februari',
+    value: '02'
+  },
+  {
+    label: 'Maret',
+    value: '03'
+  },
+  {
+    label: 'April',
+    value: '04'
+  },
+  {
+    label: 'Mei',
+    value: '05'
+  },
+  {
+    label: 'Juni',
+    value: '06'
+  },
+  {
+    label: 'Juli',
+    value: '07'
+  },
+  {
+    label: 'Agustus',
+    value: '08'
+  },
+  {
+    label: 'September',
+    value: '09'
+  },
+  {
+    label: 'Oktober',
+    value: '10'
+  },
+  {
+    label: 'November',
+    value: '11'
+  },
+  {
+    label: 'Desember',
+    value: '12'
+  },
+]
 export const filterLocationOptions = [
   {
     label: "Lokasi Domisili Pasien",
@@ -78,3 +127,46 @@ export const filterLocationOptions = [
     label: "Lokasi Fasilitas Kesehatan",
     value: "Lokasi Fasilitas Kesehatan"
   }];
+
+export const vaccineTypeOptions = [
+  {
+    label: "IMUNISASI BADUTA LENGKAP",
+    value: "1"
+  },
+  {
+    label: "DPT-HB-Hib 4",
+    value: "2"
+  },
+  {
+    label: "Campak Rubela 2",
+    value: "3"
+  },
+  {
+    label: "PCV 3",
+    value: "4"
+  },
+];
+
+export const regionOptions = [
+  {
+    label: "Semua",
+    value: "All"
+  },
+  {
+    label: "Provinsi",
+    value: "province"
+  },
+  {
+    label: "Kabupaten/Kota",
+    value: "city"
+  },
+  {
+    label: "Kecamatan",
+    value: "district"
+  },
+  {
+    label: "Faskes",
+    value: "faskes"
+  },
+];
+

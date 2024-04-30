@@ -8,10 +8,10 @@ import { API_URL } from '@/helpers/config';
 export const baseQuery = fetchBaseQuery({
   baseUrl: '/',
   prepareHeaders: async (headers, { getState }) => {
-    const token = (getState() as RootState)?.auth?.token;
-    if (token) {
-      headers.set('authorization', `Bearer ${token}`)
-    }
+    // const token = (getState() as RootState)?.auth?.token;
+    // if (token) {
+    //   headers.set('authorization', `Bearer ${token}`)
+    // }
     return headers;
   },
 });

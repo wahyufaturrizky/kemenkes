@@ -5,9 +5,13 @@ import ReactECharts from 'echarts-for-react';
 
 interface GraphEChartsProps {
   dataXAxis: string[] | number[]
+  dataValue1: string[] | number[]
+  dataValue2: string[] | number[]
+  dataValue3: string[] | number[]
+  series: any[]
 }
 
-const GraphECharts: React.FC<GraphEChartsProps> = ({ dataXAxis }) => {
+const GraphECharts: React.FC<GraphEChartsProps> = ({ dataXAxis, dataValue1, dataValue2, dataValue3 }) => {
   const [option, setOption] = useState({})
   useEffect(() => {
     const graphOptions = {
@@ -74,7 +78,7 @@ const GraphECharts: React.FC<GraphEChartsProps> = ({ dataXAxis }) => {
               return value + ' °C';
             }
           },
-          data: [2.0, 2.2, 3.3, 4.5, 6.3, 10.2, 20.3, 23.4, 23.0, 16.5, 12.0, 6.2]
+          data: dataValue1
         },
         {
           name: 'Jumlah Penerima Antigen',
@@ -84,9 +88,7 @@ const GraphECharts: React.FC<GraphEChartsProps> = ({ dataXAxis }) => {
               return value + ' ml';
             }
           },
-          data: [
-            2.0, 4.9, 7.0, 23.2, 25.6, 76.7, 135.6, 162.2, 32.6, 20.0, 6.4, 3.3
-          ]
+          data: dataValue2
         },
         {
           name: '% Cakupan',
@@ -96,9 +98,7 @@ const GraphECharts: React.FC<GraphEChartsProps> = ({ dataXAxis }) => {
               return value + ' ml';
             }
           },
-          data: [
-            2.6, 5.9, 9.0, 26.4, 28.7, 70.7, 175.6, 182.2, 48.7, 18.8, 6.0, 2.3
-          ]
+          data: dataValue3
         },
       ]
     }

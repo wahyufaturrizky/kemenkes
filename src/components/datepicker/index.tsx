@@ -24,10 +24,10 @@ const DatePicker: React.FC<DatePickerProps> = (props) => {
         startDate={props.startDate}
         endDate={props.endDate}
         dateFormat="dd MMMM yyyy"
-        selectsRange
+      // selectsRange
       // inline
       />
-      <LuCalendarDays className='absolute right-4' />
+      <LuCalendarDays className='right-4 absolute' />
     </div>
   )
 }

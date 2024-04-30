@@ -27,6 +27,7 @@ const Select: React.FC<SelectProps> = (props) => {
     <div>
       <div>{props?.label}</div>
       <ReactSelect {...props}
+        isClearable
         styles={CustomStylesFunc()}
         components={{
           IndicatorSeparator: () => null

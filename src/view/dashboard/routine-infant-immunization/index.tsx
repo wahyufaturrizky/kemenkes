@@ -28,7 +28,7 @@ const RoutineInfantImmunization = () => {
       {/* <div className="container px-4">
         <Navbar />
       </div> */}
-      <div className="w-full flex justify-center bg-success">
+      <div className="bg-image2 w-full flex justify-center bg-success">
         <div className="container px-4">
           <Banner
             text={<BannerText

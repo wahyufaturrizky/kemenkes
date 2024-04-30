@@ -1,12 +1,14 @@
 import { combineReducers, configureStore } from '@reduxjs/toolkit';
 import authSlice from '@/lib/features/authSlice';
-import sourceSlice from '@/lib/features/sourceSlice';
+import regionSlice from '@/lib/features/regionSlice';
+import badutaImmunizationSlice from '@/lib/features/badutaImmunizationSlice';
 import { baseApi } from '@/lib/baseQuery';
 
 export const reducers = {
   [baseApi.reducerPath]: baseApi.reducer,
   auth: authSlice,
-  source: sourceSlice,
+  region: regionSlice,
+  badutaImmunization: badutaImmunizationSlice
 }
 
 const reducer = combineReducers(reducers);
@@ -14,6 +16,8 @@ const reducer = combineReducers(reducers);
 export const makeStore = () => {
   return configureStore({
     reducer: reducer,
+    middleware: (getDefaultMiddleware) =>
+      getDefaultMiddleware().concat(baseApi.middleware),
   });
 };
 
