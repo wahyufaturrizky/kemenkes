@@ -16,11 +16,12 @@ export interface ChildSummaryImmunizationProps {
   titleIcon?: JSX.Element
   contentTooltip?: JSX.Element
   background?: string
-
+  showLine?: boolean
 }
 
 const ChildSummaryImmunization: React.FC<ChildSummaryImmunizationProps> = ({
-  title, value, subtitle, percent, target, className, classNameTitle, classNameValue, titleIcon, contentTooltip, background
+  title, value, subtitle, percent, target, className, classNameTitle, classNameValue,
+  titleIcon, contentTooltip, background, showLine = true
 }) => {
   return (
     <div className={`py-4 ${className}`} style={{ background: background ? background : "#FEFAFF", borderColor: percent ? "#F6D0FE" : '' }}>
@@ -37,10 +38,12 @@ const ChildSummaryImmunization: React.FC<ChildSummaryImmunizationProps> = ({
       {percent &&
         <>
           <div>{percent} {subtitle} {target}</div>
-          <Line percent={percent}
-            strokeWidth={5} strokeColor={"#00B1A9"}
-            trailColor="#83E0DB" trailWidth={5}
-          />
+          {showLine &&
+            <Line percent={percent}
+              strokeWidth={5} strokeColor={"#00B1A9"}
+              trailColor="#83E0DB" trailWidth={5}
+            />
+          }
         </>
       }
     </div>

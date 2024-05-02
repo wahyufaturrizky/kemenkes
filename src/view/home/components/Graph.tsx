@@ -1,10 +1,9 @@
 'use client'
 
-import { dataMonth, regionOptions, vaccineTypeOptions } from '@/utils/constants'
+import { regionOptions, vaccineTypeOptions } from '@/utils/constants'
 import styles from '../home.module.css'
 import { Button, GraphComposed, GraphEcharts, Select } from "@/components"
 import { useState } from 'react'
-import { standardOptionSameLabel } from '@/helpers'
 
 const options = [
   { value: 'chocolate', label: 'Chocolate' },
@@ -18,13 +17,13 @@ interface GraphRoutineImmunizationCoverageTrendProps {
   addOn?: JSX.Element
   layout?: 'horizontal' | 'vertical'
   variant?: 'public' | 'private'
-  echarts?: boolean
+  threshold?: JSX.Element
+  graphOptions?: any
   filterState?: any
-  data?: any[]
 }
 
 const GraphRoutineImmunizationCoverageTrend: React.FC<GraphRoutineImmunizationCoverageTrendProps> = ({
-  title, subTitle, addOn, layout, variant = 'public', echarts, filterState, data
+  title, subTitle, addOn, variant = 'public', graphOptions, filterState, threshold
 }) => {
   const [filter, setFilter] = filterState || useState({})
   return (
@@ -35,7 +34,9 @@ const GraphRoutineImmunizationCoverageTrend: React.FC<GraphRoutineImmunizationCo
             <div>
               <Select
                 options={vaccineTypeOptions}
-                onChange={(e: any) => { setFilter({ ...filter, tipe_vaksin: e.value }) }}
+                onChange={(e: any) => {
+                  setFilter({ ...filter, tipe_vaksin: e ? e.value : "All" })
+                }}
                 value={filter.tipe_vaksin ?
                   vaccineTypeOptions
                     ?.find((f) => f.value === filter.tipe_vaksin)
@@ -45,7 +46,7 @@ const GraphRoutineImmunizationCoverageTrend: React.FC<GraphRoutineImmunizationCo
             <div>
               <Select
                 options={regionOptions}
-                onChange={(e: any) => { setFilter({ ...filter, wilayah: e.value }) }}
+                onChange={(e: any) => { setFilter({ ...filter, wilayah: e ? e.value : "All" }) }}
                 value={filter.wilayah ?
                   vaccineTypeOptions
                     ?.find((f) => f.value === filter.wilayah)
@@ -66,23 +67,15 @@ const GraphRoutineImmunizationCoverageTrend: React.FC<GraphRoutineImmunizationCo
       <div className="font-bold md:text-2xl">{title}</div>
       <div>{subTitle}</div>
       <div>
-        <div className={`${styles.hGraph} flex flex-wrap sm:flex-nowrap gap-4 relative`}>
+        <div className={`flex flex-wrap sm:flex-nowrap gap-4 relative`}>
           <div className="flex-grow">
-            {data && data?.length > 0 && <GraphEcharts
-              legend={["% Imunisasi Baduta", "Target Cakupan Imunisasi Baduta", "% Total Imunisasi Baduta"]}
-              // @ts-ignore
-              dataXAxis={data ? standardOptionSameLabel((data || [])?.map((r: any) => r?.faskes || '')) : [0]}
-              dataValue1={data ? (data || [])?.map((r) => r.pct_immunization || 0) : [0]}
-              dataValue2={data ? (data || [])?.map((r) => r.pct_target_threshold || 0) : [0]}
-              dataValue3={data ? (data || [])?.map((r) => r.total_immunization || 0) : [0]}
-            />
+            {graphOptions ?
+              <GraphEcharts graphOptions={graphOptions} />
+              :
+              <GraphComposed />
             }
           </div>
-          {/* <div className="p-2 sm:w-32 md:w-64 h-fit">
-            <div className="text-sm">Total cakupan kumulatif pada tahun 2023</div>
-            <div className="py-2 font-bold text-3xl text-primary">42,33%</div>
-            <div>Jumlah antigen baru lengkap: 154.167</div>
-          </div> */}
+          {threshold}
         </div>
         <div>
           {addOn}

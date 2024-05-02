@@ -149,10 +149,6 @@ export const vaccineTypeOptions = [
 
 export const regionOptions = [
   {
-    label: "Semua",
-    value: "All"
-  },
-  {
     label: "Provinsi",
     value: "province"
   },

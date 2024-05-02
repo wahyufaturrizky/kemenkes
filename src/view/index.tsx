@@ -99,7 +99,6 @@ const HomeView = () => {
                   <GraphRoutineImmunizationCoverageTrend
                     title={<div className="font-bold md:text-2xl">Data Kumulatif Jumlah Penerima, Cakupan, dan Target Cakupan <b className="text-primary-2">Antigen Baru Lengkap</b> pada Bayi Usia di Bawah 1 Tahun Selama Tahun <b className="text-primary-2">2023</b></div>}
                     subTitle="Grafik menampilkan tren cakupan kumulatif penerima antigen baru lengkap selama tahun 2023"
-                    echarts
                   />
                 </div>
               }

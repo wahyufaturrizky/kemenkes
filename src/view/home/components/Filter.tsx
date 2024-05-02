@@ -120,21 +120,15 @@ const FilterSummaryImmunization: React.FC<FilterProps> = ({ filterState }) => {
         </div> */}
       {/* </div> */}
       {/* {filter.lokasi && */}
-      <div className="flex flex-wrap justify-between items-center gap-4">
-        <div className="flex-1">
+      <div className="flex flex-wrap items-center gap-4">
+        <div>
           <Select
             placeholder="Pilih Tahun"
             options={standardOptionSameLabel(generateYearsArray(1979, new Date().getFullYear()))}
             onChange={(e: any) => {
               setFilter({
                 ...filter,
-                tahun: e?.value,
-                bulan: '',
-                provinsi: '',
-                kabkota: '',
-                kecamatan: '',
-                jenis_sarana: '',
-                faskes: ''
+                tahun: e?.value
               })
             }}
             value={filter.tahun ?
@@ -143,7 +137,7 @@ const FilterSummaryImmunization: React.FC<FilterProps> = ({ filterState }) => {
               : filter.tahun}
           />
         </div>
-        <div className="flex-1">
+        <div>
           <Select
             placeholder="Pilih Bulan"
             options={dataMonth}
@@ -151,11 +145,6 @@ const FilterSummaryImmunization: React.FC<FilterProps> = ({ filterState }) => {
               setFilter({
                 ...filter,
                 bulan: e?.value,
-                provinsi: '',
-                kabkota: '',
-                kecamatan: '',
-                jenis_sarana: '',
-                faskes: ''
               })
             }}
             value={filter.bulan ?
@@ -166,7 +155,7 @@ const FilterSummaryImmunization: React.FC<FilterProps> = ({ filterState }) => {
 
           />
         </div>
-        <div className="flex-1">
+        <div>
           <Select
             placeholder="Pilih Provinsi"
             options={standardOptions((getProvince?.data || []), "provinsi_name", "provinsi")}
@@ -187,7 +176,7 @@ const FilterSummaryImmunization: React.FC<FilterProps> = ({ filterState }) => {
             isDisabled={!filter.bulan}
           />
         </div>
-        <div className="flex-1">
+        <div>
           <Select
             placeholder="Pilih Kabupaten/Kota"
             options={standardOptions((getRegency?.data || []), "kabkota_name", "kabkota")}
@@ -207,7 +196,7 @@ const FilterSummaryImmunization: React.FC<FilterProps> = ({ filterState }) => {
             isDisabled={!filter.provinsi}
           />
         </div>
-        <div className="flex-1">
+        <div>
           <Select
             placeholder="Pilih Kecamatan"
             options={standardOptions((getSubDistrict?.data || []), "kecamatan_name", "kecamatan")}
@@ -228,7 +217,7 @@ const FilterSummaryImmunization: React.FC<FilterProps> = ({ filterState }) => {
         </div>
         {/* {filter.lokasi === filterLocationOptions[1].value && */}
         <>
-          <div className="flex-1">
+          <div>
             <Select
               placeholder="Pilih Jenis Faskes"
               options={standardOptions((getFacilityOfType?.data || []), "jenis_sarana_name", "jenis_sarana")}
@@ -246,7 +235,7 @@ const FilterSummaryImmunization: React.FC<FilterProps> = ({ filterState }) => {
               isDisabled={!filter.kecamatan}
             />
           </div>
-          <div className="flex-1">
+          <div>
             <Select
               placeholder="Pilih Faskes"
               options={standardOptions((getMedicalFacility?.data || []), "faskes_name", "faskes")}

@@ -4,31 +4,15 @@ import Image from "next/image"
 import { Banner, BannerHighlightFooter, BannerText, Navbar, Sidebar } from "@/components"
 import { ChildSummaryImmunization, FilterSummaryImmunization, GraphAddOn, GraphRoutineImmunizationCoverageTrend, RoutineImmunizationCoverageTrendGraph, SummaryImmunization, TotalSummaryImmunization } from "@/view/home";
 import { dataGraphRegionalRoutineImmunizationCoverageTrend, dataMonth, dataTotalSummaryImmunization, vaccineTypeOptions } from "@/utils/constants";
-import { useGetDoPercentageCampakRubelaQuery, useGetDoPercentageDPHTHBHIBQuery, useGetPercentageTotalImmunizationQuery, useGetTotalHighestScopeQuery, useGetTotalImmunizationByVaccineTypeQuery, useGetTotalImmunizationQuery, useGetTotalLowestScopeQuery, useGetTotalScopeQuery } from "@/lib/services/baduta-immunization";
+import { useGetAverageImmunizationByGenderQuery, useGetDoPercentageCampakRubelaQuery, useGetDoPercentageDPHTHBHIBQuery, useGetExceedTargetPerVaccineQuery, useGetHighestImmunizationByAgeQuery, useGetImmunizationWithHighetFemaleRecivientQuery, useGetImmunizationWithHighetMaleRecivientQuery, useGetInExceedTargetPerVaccineQuery, useGetMaxImmunizationByAgeQuery, useGetPercentageTotalImmunizationQuery, useGetScopePercentagePerMonthQuery, useGetSummaryImmunizationByAgeQuery, useGetSummaryImmunizationPerGenderQuery, useGetSummaryImmunizationPerVaccineQuery, useGetSummaryScopePercentageQuery, useGetTotalHighestScopeByVaccineTypeQuery, useGetTotalHighestScopeQuery, useGetTotalImmunizationByVaccineTypeQuery, useGetTotalImmunizationQuery, useGetTotalLowestScopeByVaccineTypeQuery, useGetTotalLowestScopeQuery, useGetTotalScopeByVaccineTypeQuery, useGetTotalScopeQuery } from "@/lib/services/baduta-immunization";
 import VaccinateNudge from "@/assets/icons/vaccinate-nudge.png"
 import { useState } from "react";
+import { graphOptions1, graphOptions2 } from "./graphOptions";
 
-const dataTotalSummaryImmunizationTotal = [
-  {
-    title: "Total Penerima Imunisasi Bayi",
-    value: "36.818.437"
-  },
-  {
-    title: "Total Penerima Imunisasi Bayi",
-    value: "36.818.437"
-  },
-  {
-    title: "Total Penerima Imunisasi Bayi",
-    value: "36.818.437"
-  },
-  {
-    title: "Total Penerima Imunisasi Bayi",
-    value: "36.818.437"
-  },
-]
 const RoutineBadutaImmunization = () => {
   const filterState = useState({
-    tahun: new Date().getFullYear(),
+    // tahun: new Date().getFullYear(),
+    tahun: 2023,
     bulan: dataMonth.find((r, i) => i === new Date().getMonth())?.value,
     provinsi: '',
     kabkota: '',
@@ -36,10 +20,10 @@ const RoutineBadutaImmunization = () => {
     jenis_sarana: '',
     faskes: '',
     tipe_vaksin: 1,
+    tipe_umur: 1,
     wilayah: "All"
   })
   const [filter] = filterState
-
 
   const dateQuery = {
     year: filter.tahun,
@@ -48,10 +32,9 @@ const RoutineBadutaImmunization = () => {
   const filterQuery = {
     ...dateQuery,
     region_type: filter.faskes ? 'faskes'
-      : filter.jenis_sarana ? 'faskes'
-        : filter.kecamatan ? 'district'
-          : filter.kabkota ? 'city'
-            : filter.provinsi ? 'province' : 'All',
+      : filter.kecamatan ? 'district'
+        : filter.kabkota ? 'city'
+          : filter.provinsi ? 'province' : 'All',
     region_id: filter.faskes ? filter.faskes
       : filter.kecamatan ? filter.kecamatan
         : filter.kabkota ? filter.kabkota
@@ -60,11 +43,24 @@ const RoutineBadutaImmunization = () => {
   const filterQueryGraph = {
     ...dateQuery,
     region_type: filter.wilayah,
-    region_id: filter.wilayah,
+    region_id: filter.wilayah === 'faskes' ? filter.faskes
+      : filter.wilayah === 'district' ? filter.kecamatan
+        : filter.wilayah === 'city' ? filter.kabkota
+          : filter.wilayah === 'provinsi' ? filter.provinsi
+            : "All"
   }
   const optionQuery = {
     refetchOnMountOrArgChange: true,
     skip: (!filter.tahun || !filter.bulan && (!filter.provinsi || !filter.kabkota || !filter.kecamatan))
+  }
+  const optionQueryGraph = {
+    refetchOnMountOrArgChange: true,
+    skip: (!filter.tahun || !filter.bulan || !filter.wilayah || !filter.tipe_vaksin
+      && (!filter.provinsi || !filter.kabkota || !filter.kecamatan))
+  }
+  const optionQueryTotal = {
+    refetchOnMountOrArgChange: true,
+    skip: !filter.wilayah || !filter.tipe_vaksin
   }
   const { data: getTotalImmunizationQuery } = useGetTotalImmunizationQuery(filterQuery, optionQuery)
   const { data: getDoPercentageDPHTHBHIBQuery } = useGetDoPercentageDPHTHBHIBQuery(filterQuery, optionQuery)
@@ -73,10 +69,25 @@ const RoutineBadutaImmunization = () => {
   const { data: getTotalImmunizationByVaccineTypeQuery2 } = useGetTotalImmunizationByVaccineTypeQuery({ ...filterQuery, vaccine_type: 2 }, optionQuery)
   const { data: getTotalImmunizationByVaccineTypeQuery3 } = useGetTotalImmunizationByVaccineTypeQuery({ ...filterQuery, vaccine_type: 3 }, optionQuery)
   const { data: getTotalImmunizationByVaccineTypeQuery4 } = useGetTotalImmunizationByVaccineTypeQuery({ ...filterQuery, vaccine_type: 4 }, optionQuery)
-  const { data: getTotalScopeQuery } = useGetTotalScopeQuery({ ...filterQuery, vaccine_type: filter.tipe_vaksin }, optionQuery)
-  const { data: getTotalHighestScopeQuery } = useGetTotalHighestScopeQuery({ ...filterQueryGraph, vaccine_type: filter.tipe_vaksin }, optionQuery)
-  const { data: getTotalLowestScopeQuery } = useGetTotalLowestScopeQuery({ ...filterQueryGraph, vaccine_type: filter.tipe_vaksin }, optionQuery)
+  const { data: getTotalScopeQuery } = useGetTotalScopeQuery({ ...filterQuery, vaccine_type: filter.tipe_vaksin }, optionQueryTotal)
+  const { data: getTotalHighestScopeQuery } = useGetTotalHighestScopeQuery({ ...filterQueryGraph, vaccine_type: filter.tipe_vaksin }, optionQueryTotal)
+  const { data: getTotalLowestScopeQuery } = useGetTotalLowestScopeQuery({ ...filterQueryGraph, vaccine_type: filter.tipe_vaksin }, optionQueryTotal)
   const { data: getPercentageTotalImmunizationQuery } = useGetPercentageTotalImmunizationQuery({ ...filterQueryGraph, vaccine_type: filter.tipe_vaksin }, optionQuery)
+  const { data: getSetScopePercentagePerMonthQuery } = useGetScopePercentagePerMonthQuery({ ...filterQueryGraph, vaccine_type: filter.tipe_vaksin }, optionQuery)
+  const { data: getSetSummaryScopePercentageQuery } = useGetSummaryScopePercentageQuery({ ...filterQueryGraph, vaccine_type: filter.tipe_vaksin }, optionQuery)
+  const { data: getTotalScopeByVaccineTypeQuery } = useGetTotalScopeByVaccineTypeQuery({ ...filterQueryGraph, vaccine_type: filter.tipe_vaksin }, optionQuery)
+  const { data: getTotalHighestScopeByVaccineTypeQuery } = useGetTotalHighestScopeByVaccineTypeQuery(filterQueryGraph, optionQuery)
+  const { data: getTotalLowestScopeByVaccineTypeQuery } = useGetTotalLowestScopeByVaccineTypeQuery(filterQueryGraph, optionQuery)
+  const { data: getExceedTargetPerVaccineQuery } = useGetExceedTargetPerVaccineQuery(filterQueryGraph, optionQuery)
+  const { data: getInExceedTargetPerVaccineQuery } = useGetInExceedTargetPerVaccineQuery(filterQueryGraph, optionQuery)
+  const { data: getSummaryImmunizationPerVaccineQuery } = useGetSummaryImmunizationPerVaccineQuery(filterQueryGraph, optionQuery)
+  const { data: getMaxImmunizationByAgeQuery } = useGetMaxImmunizationByAgeQuery({ ...filterQueryGraph, age_type: filter.tipe_umur }, optionQuery)
+  const { data: getHighestImmunizationByAgeQuery } = useGetHighestImmunizationByAgeQuery({ ...filterQueryGraph, age_type: filter.tipe_umur }, optionQuery)
+  const { data: getSummaryImmunizationByAgeQuery } = useGetSummaryImmunizationByAgeQuery(filterQueryGraph, optionQuery)
+  const { data: getAverageImmunizationByGenderQuery } = useGetAverageImmunizationByGenderQuery(filterQueryGraph, optionQuery)
+  const { data: getImmunizationWithHighetMaleRecivientQuery } = useGetImmunizationWithHighetMaleRecivientQuery(filterQueryGraph, optionQuery)
+  const { data: getImmunizationWithHighetFemaleRecivientQuery } = useGetImmunizationWithHighetFemaleRecivientQuery(filterQueryGraph, optionQuery)
+  const { data: getSummaryImmunizationPerGenderQuery } = useGetSummaryImmunizationPerGenderQuery(filterQueryGraph, optionQuery)
 
   const dataGraphRegionalRoutineImmunizationCoverageTrend = [
     {
@@ -147,6 +158,7 @@ const RoutineBadutaImmunization = () => {
                   percent={getDoPercentageDPHTHBHIBQuery?.data?.pct || '0'}
                   target={getDoPercentageDPHTHBHIBQuery?.data?.target || '0'}
                   subtitle={" dari "}
+                  showLine={false}
                 />
                 <ChildSummaryImmunization className="px-4 border rounded-lg" background="#FAC515" classNameTitle="text-white" classNameValue="text-4xl text-white"
                   title={"Persentase Drop Out \nCampak Rubela"}
@@ -154,6 +166,7 @@ const RoutineBadutaImmunization = () => {
                   percent={getDoPercentageCampakRubelaQuery?.data?.pct || '0'}
                   target={getDoPercentageCampakRubelaQuery?.data?.target || '0'}
                   subtitle={" dari "}
+                  showLine={false}
                 />
               </div>
               <div className="gap-4 grid grid-cols-1 sm:grid-cols-3 md:grid-cols-4 mt-4">
@@ -197,9 +210,15 @@ const RoutineBadutaImmunization = () => {
                       layout="vertical"
                       title={<div className="font-bold md:text-2xl">Data Cakupan <b className="text-primary-2">Imunisasi Dasar Lengkap</b> pada Provinsi di <b className="text-primary-2">Indonesia</b> Selama Tahun <b className="text-primary-2">2023</b></div>}
                       subTitle="Grafik menampilkan hasil cakupan semua data imunisasi rutin lengkap dari 34 provinsi di Indonesia"
-                      addOn={<GraphAddOn dataCard={dataGraphRegionalRoutineImmunizationCoverageTrend} />} variant="private" echarts
+                      addOn={<GraphAddOn dataCard={dataGraphRegionalRoutineImmunizationCoverageTrend} />} variant="private"
                       filterState={filterState}
-                      data={getPercentageTotalImmunizationQuery?.data || []}
+                      graphOptions={graphOptions1((getPercentageTotalImmunizationQuery?.data || [])?.map((r: any) => {
+                        return {
+                          name: r.faskes,
+                          data: (getPercentageTotalImmunizationQuery?.data || [])?.map((r: any) => r?.total_immunization) || [],
+                          type: 'bar',
+                        }
+                      }))}
                     />
                   </div>
                 }
@@ -214,12 +233,39 @@ const RoutineBadutaImmunization = () => {
                     <GraphRoutineImmunizationCoverageTrend
                       title={<div className="font-bold md:text-2xl">Data Kumulatif Jumlah Penerima, Cakupan, dan Target Cakupan <b className="text-primary-2">Imunisasi Dasar Lengkap</b> pada Bayi Selama Tahun <b className="text-primary-2">2023</b></div>}
                       subTitle="Grafik menampilkan tren cakupan kumulatif penerima antigen baru lengkap selama tahun 2023"
-                      variant="private" />
+                      variant="private"
+                      filterState={filterState}
+                      threshold={
+                        <div className="p-2 sm:w-32 md:w-64 h-fit">
+                          <div className="text-sm">Total cakupan kumulatif pada tahun 2023</div>
+                          <div className="py-2 font-bold text-3xl text-primary">{getSetSummaryScopePercentageQuery?.data?.pct}%</div>
+                          <div>Jumlah antigen baru lengkap: 154.167</div>
+                        </div>
+                      }
+                      graphOptions={graphOptions2([
+                        {
+                          name: "% Cakupan",
+                          data: (getSetScopePercentagePerMonthQuery?.data || [])?.map((r: any) => r?.total) || [],
+                          type: 'bar'
+                        },
+                        {
+                          name: "% Target Cakupan",
+                          data: (getSetScopePercentagePerMonthQuery?.data || [])?.map((r: any) => r?.total) || [],
+                          type: 'bar'
+                        },
+                        {
+                          name: "Jumlah Penerima Imunisasi",
+                          data: (getSetScopePercentagePerMonthQuery?.data || [])?.map((r: any) => r?.total) || [],
+                          type: 'bar'
+                        },
+                      ]
+                      )}
+                    />
                   </div>
                 }
               />
             </div>
-            <div className="py-4 pb-12">
+            {/* <div className="py-4 pb-12">
               <RoutineImmunizationCoverageTrendGraph
                 title="Grafik Tren Cakupan Kumulatif atau Bulanan Penerima Imunisasi Bayi "
                 subTitle=""
@@ -240,7 +286,7 @@ const RoutineBadutaImmunization = () => {
                   </>
                 }
               />
-            </div>
+            </div> */}
           </div>
         </div>
       </div>

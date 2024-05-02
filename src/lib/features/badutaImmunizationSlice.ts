@@ -10,6 +10,21 @@ export interface BadutaImmunizationState {
   getTotalHighestScope?: any;
   getTotalLowestScope?: any;
   getPercentageTotalImmunization?: any;
+  getScopePercentagePerMonth?: any;
+  getSummaryScopePercentage?: any;
+  getTotalScopeByVaccineType?: any;
+  getTotalHighestScopeByVaccineType?: any;
+  getTotalLowestScopeByVaccineType?: any;
+  getExceedTargetPerVaccine?: any;
+  getInExceedTargetPerVaccine?: any;
+  getSummaryImmunizationPerVaccine?: any;
+  getMaxImmunizationByAge?: any;
+  getHighestImmunizationByAge?: any;
+  getSummaryImmunizationByAge?: any;
+  getAverageImmunizationByGender?: any;
+  getImmunizationWithHighetMaleRecivient?: any;
+  getImmunizationWithHighetFemaleRecivient?: any;
+  getSummaryImmunizationPerGender?: any;
 }
 
 interface UpdateFieldPayload {
@@ -54,6 +69,51 @@ export const BadutaImmunizationSlice = createSlice({
       })
       .addMatcher(badutaImmunizationApi.endpoints.getPercentageTotalImmunization.matchFulfilled, (state, { payload }) => {
         state.getPercentageTotalImmunization = payload
+      })
+      .addMatcher(badutaImmunizationApi.endpoints.getScopePercentagePerMonth.matchFulfilled, (state, { payload }) => {
+        state.getScopePercentagePerMonth = payload
+      })
+      .addMatcher(badutaImmunizationApi.endpoints.getSummaryScopePercentage.matchFulfilled, (state, { payload }) => {
+        state.getSummaryScopePercentage = payload
+      })
+      .addMatcher(badutaImmunizationApi.endpoints.getTotalScopeByVaccineType.matchFulfilled, (state, { payload }) => {
+        state.getTotalScopeByVaccineType = payload
+      })
+      .addMatcher(badutaImmunizationApi.endpoints.getTotalHighestScopeByVaccineType.matchFulfilled, (state, { payload }) => {
+        state.getTotalHighestScopeByVaccineType = payload
+      })
+      .addMatcher(badutaImmunizationApi.endpoints.getTotalLowestScopeByVaccineType.matchFulfilled, (state, { payload }) => {
+        state.getTotalLowestScopeByVaccineType = payload
+      })
+      .addMatcher(badutaImmunizationApi.endpoints.getExceedTargetPerVaccine.matchFulfilled, (state, { payload }) => {
+        state.getExceedTargetPerVaccine = payload
+      })
+      .addMatcher(badutaImmunizationApi.endpoints.getInExceedTargetPerVaccine.matchFulfilled, (state, { payload }) => {
+        state.getInExceedTargetPerVaccine = payload
+      })
+      .addMatcher(badutaImmunizationApi.endpoints.getSummaryImmunizationPerVaccine.matchFulfilled, (state, { payload }) => {
+        state.getSummaryImmunizationPerVaccine = payload
+      })
+      .addMatcher(badutaImmunizationApi.endpoints.getMaxImmunizationByAge.matchFulfilled, (state, { payload }) => {
+        state.getMaxImmunizationByAge = payload
+      })
+      .addMatcher(badutaImmunizationApi.endpoints.getHighestImmunizationByAge.matchFulfilled, (state, { payload }) => {
+        state.getHighestImmunizationByAge = payload
+      })
+      .addMatcher(badutaImmunizationApi.endpoints.getSummaryImmunizationByAge.matchFulfilled, (state, { payload }) => {
+        state.getSummaryImmunizationByAge = payload
+      })
+      .addMatcher(badutaImmunizationApi.endpoints.getAverageImmunizationByGender.matchFulfilled, (state, { payload }) => {
+        state.getAverageImmunizationByGender = payload
+      })
+      .addMatcher(badutaImmunizationApi.endpoints.getImmunizationWithHighetMaleRecivient.matchFulfilled, (state, { payload }) => {
+        state.getImmunizationWithHighetMaleRecivient = payload
+      })
+      .addMatcher(badutaImmunizationApi.endpoints.getImmunizationWithHighetFemaleRecivient.matchFulfilled, (state, { payload }) => {
+        state.getImmunizationWithHighetFemaleRecivient = payload
+      })
+      .addMatcher(badutaImmunizationApi.endpoints.getSummaryImmunizationPerGender.matchFulfilled, (state, { payload }) => {
+        state.getSummaryImmunizationPerGender = payload
       })
   }
 });
