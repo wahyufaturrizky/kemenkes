@@ -24,3 +24,7 @@ export function generateYearsArray(startYear: number, endYear: number) {
   }
   return yearsArray.sort((a, b) => b - a);
 }
+
+export function formatNumber(number: number) {
+  return number.toLocaleString('id-Id')
+}

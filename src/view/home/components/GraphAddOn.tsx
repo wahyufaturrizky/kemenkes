@@ -1,7 +1,8 @@
 interface DataCard {
   title: string
-  value: string
-  regional: string
+  value: JSX.Element
+  regional?: JSX.Element
+  threshold?: JSX.Element
 }
 
 interface GraphAddOnProps {
@@ -14,14 +15,15 @@ const GraphAddOn: React.FC<GraphAddOnProps> = ({
   return (
     <div className='flex flex-wrap gap-4'>
       {dataCard.map((r) => (
-        <div key={r.title} className='flex flex-col flex-1 gap-4 rounded-xl px-4 py-3' style={{ boxShadow: '0px 2px 12px 0px #00000014' }}>
+        <div key={r.title} className='flex flex-col flex-1 gap-4 px-4 py-3 rounded-xl' style={{ boxShadow: '0px 2px 12px 0px #00000014' }}>
           <div>{r.title}</div>
-          <div className='text-primary-3 text-4xl font-bold'>
-            {r.value}%
+          <div className='font-bold text-4xl text-primary-3'>
+            {r.value}
           </div>
-          {r.regional &&
-            <div className='font-bold'>{r.regional}</div>
-          }
+          <div>
+            {r.regional}
+            {r.threshold}
+          </div>
         </div>
       ))}
     </div>

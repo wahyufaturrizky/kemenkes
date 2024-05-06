@@ -1,13 +1,15 @@
 'use client'
 
-import Image from "next/image"
-import { Banner, BannerHighlightFooter, BannerText, Navbar, Sidebar } from "@/components"
-import { ChildSummaryImmunization, FilterSummaryImmunization, GraphAddOn, GraphRoutineImmunizationCoverageTrend, RoutineImmunizationCoverageTrendGraph, SummaryImmunization, TotalSummaryImmunization } from "@/view/home";
-import { dataGraphRegionalRoutineImmunizationCoverageTrend, dataMonth, dataTotalSummaryImmunization, vaccineTypeOptions } from "@/utils/constants";
-import { useGetAverageImmunizationByGenderQuery, useGetDoPercentageCampakRubelaQuery, useGetDoPercentageDPHTHBHIBQuery, useGetExceedTargetPerVaccineQuery, useGetHighestImmunizationByAgeQuery, useGetImmunizationWithHighetFemaleRecivientQuery, useGetImmunizationWithHighetMaleRecivientQuery, useGetInExceedTargetPerVaccineQuery, useGetMaxImmunizationByAgeQuery, useGetPercentageTotalImmunizationQuery, useGetScopePercentagePerMonthQuery, useGetSummaryImmunizationByAgeQuery, useGetSummaryImmunizationPerGenderQuery, useGetSummaryImmunizationPerVaccineQuery, useGetSummaryScopePercentageQuery, useGetTotalHighestScopeByVaccineTypeQuery, useGetTotalHighestScopeQuery, useGetTotalImmunizationByVaccineTypeQuery, useGetTotalImmunizationQuery, useGetTotalLowestScopeByVaccineTypeQuery, useGetTotalLowestScopeQuery, useGetTotalScopeByVaccineTypeQuery, useGetTotalScopeQuery } from "@/lib/services/baduta-immunization";
-import VaccinateNudge from "@/assets/icons/vaccinate-nudge.png"
 import { useState } from "react";
-import { graphOptions1, graphOptions2 } from "./graphOptions";
+import Image from "next/image"
+import VaccinateNudge from "@/assets/icons/vaccinate-nudge.png"
+import { Banner, BannerHighlightFooter, BannerText, GraphEcharts, Navbar, Sidebar } from "@/components"
+import { ChildSummaryImmunization, FilterSummaryImmunization, GraphAddOn, GraphRoutineImmunizationCoverageTrend, RoutineImmunizationCoverageTrendGraph, SummaryImmunization, TotalSummaryImmunization } from "@/view/home";
+import { Filter1, Filter2, Filter3, Filter4, Filter5 } from "@/view/dashboard/routine-baduta-immunization/Filter";
+import { graphOptions1, graphOptions2, graphOptions3, graphOptions4 } from "@/view/dashboard/routine-baduta-immunization//graphOptions";
+import { useGetAverageImmunizationByGenderQuery, useGetDoPercentageCampakRubelaQuery, useGetDoPercentageDPHTHBHIBQuery, useGetExceedTargetPerVaccineQuery, useGetHighestImmunizationByAgeQuery, useGetImmunizationWithHighetFemaleRecivientQuery, useGetImmunizationWithHighetMaleRecivientQuery, useGetInExceedTargetPerVaccineQuery, useGetMaxImmunizationByAgeQuery, useGetPercentageTotalImmunizationQuery, useGetScopePercentagePerMonthQuery, useGetSummaryImmunizationByAgeQuery, useGetSummaryImmunizationPerGenderQuery, useGetSummaryImmunizationPerVaccineQuery, useGetSummaryScopePercentageQuery, useGetTotalHighestScopeByVaccineTypeQuery, useGetTotalHighestScopeQuery, useGetTotalImmunizationByVaccineTypeQuery, useGetTotalImmunizationQuery, useGetTotalLowestScopeByVaccineTypeQuery, useGetTotalLowestScopeQuery, useGetTotalScopeByVaccineTypeQuery, useGetTotalScopeQuery } from "@/lib/services/baduta-immunization";
+import { dataMonth, vaccineTypeOptions } from "@/utils/constants";
+import { formatNumber } from "@/helpers";
 
 const RoutineBadutaImmunization = () => {
   const filterState = useState({
@@ -19,8 +21,13 @@ const RoutineBadutaImmunization = () => {
     kecamatan: '',
     jenis_sarana: '',
     faskes: '',
-    tipe_vaksin: 1,
+    tipe_vaksin1: 1,
+    tipe_vaksin2: 1,
+    tipe_vaksin3: 1,
+    tipe_vaksin4: 1,
+    tipe_vaksin5: 1,
     tipe_umur: 1,
+    jenis_kelamin: 1,
     wilayah: "All"
   })
   const [filter] = filterState
@@ -55,12 +62,12 @@ const RoutineBadutaImmunization = () => {
   }
   const optionQueryGraph = {
     refetchOnMountOrArgChange: true,
-    skip: (!filter.tahun || !filter.bulan || !filter.wilayah || !filter.tipe_vaksin
+    skip: (!filter.tahun || !filter.bulan || !filter.wilayah || (!filter.tipe_vaksin1 || !filter.tipe_vaksin2 || !filter.tipe_vaksin3)
       && (!filter.provinsi || !filter.kabkota || !filter.kecamatan))
   }
   const optionQueryTotal = {
     refetchOnMountOrArgChange: true,
-    skip: !filter.wilayah || !filter.tipe_vaksin
+    skip: !filter.wilayah || (!filter.tipe_vaksin1 || !filter.tipe_vaksin2 || !filter.tipe_vaksin3)
   }
   const { data: getTotalImmunizationQuery } = useGetTotalImmunizationQuery(filterQuery, optionQuery)
   const { data: getDoPercentageDPHTHBHIBQuery } = useGetDoPercentageDPHTHBHIBQuery(filterQuery, optionQuery)
@@ -69,43 +76,121 @@ const RoutineBadutaImmunization = () => {
   const { data: getTotalImmunizationByVaccineTypeQuery2 } = useGetTotalImmunizationByVaccineTypeQuery({ ...filterQuery, vaccine_type: 2 }, optionQuery)
   const { data: getTotalImmunizationByVaccineTypeQuery3 } = useGetTotalImmunizationByVaccineTypeQuery({ ...filterQuery, vaccine_type: 3 }, optionQuery)
   const { data: getTotalImmunizationByVaccineTypeQuery4 } = useGetTotalImmunizationByVaccineTypeQuery({ ...filterQuery, vaccine_type: 4 }, optionQuery)
-  const { data: getTotalScopeQuery } = useGetTotalScopeQuery({ ...filterQuery, vaccine_type: filter.tipe_vaksin }, optionQueryTotal)
-  const { data: getTotalHighestScopeQuery } = useGetTotalHighestScopeQuery({ ...filterQueryGraph, vaccine_type: filter.tipe_vaksin }, optionQueryTotal)
-  const { data: getTotalLowestScopeQuery } = useGetTotalLowestScopeQuery({ ...filterQueryGraph, vaccine_type: filter.tipe_vaksin }, optionQueryTotal)
-  const { data: getPercentageTotalImmunizationQuery } = useGetPercentageTotalImmunizationQuery({ ...filterQueryGraph, vaccine_type: filter.tipe_vaksin }, optionQuery)
-  const { data: getSetScopePercentagePerMonthQuery } = useGetScopePercentagePerMonthQuery({ ...filterQueryGraph, vaccine_type: filter.tipe_vaksin }, optionQuery)
-  const { data: getSetSummaryScopePercentageQuery } = useGetSummaryScopePercentageQuery({ ...filterQueryGraph, vaccine_type: filter.tipe_vaksin }, optionQuery)
-  const { data: getTotalScopeByVaccineTypeQuery } = useGetTotalScopeByVaccineTypeQuery({ ...filterQueryGraph, vaccine_type: filter.tipe_vaksin }, optionQuery)
+  const { data: getTotalScopeQuery } = useGetTotalScopeQuery({ ...filterQuery, vaccine_type: filter.tipe_vaksin1 }, optionQueryTotal)
+  const { data: getTotalHighestScopeQuery } = useGetTotalHighestScopeQuery({ ...filterQueryGraph, vaccine_type: filter.tipe_vaksin1 }, optionQueryTotal)
+  const { data: getTotalLowestScopeQuery } = useGetTotalLowestScopeQuery({ ...filterQueryGraph, vaccine_type: filter.tipe_vaksin1 }, optionQueryTotal)
+  const { data: getPercentageTotalImmunizationQuery } = useGetPercentageTotalImmunizationQuery({ ...filterQueryGraph, vaccine_type: filter.tipe_vaksin1 }, optionQuery)
+  const { data: getSetScopePercentagePerMonthQuery } = useGetScopePercentagePerMonthQuery({ ...filterQueryGraph, vaccine_type: filter.tipe_vaksin2 }, optionQuery)
+  const { data: getSetSummaryScopePercentageQuery } = useGetSummaryScopePercentageQuery({ ...filterQueryGraph, vaccine_type: filter.tipe_vaksin2 }, optionQuery)
+  const { data: getTotalScopeByVaccineTypeQuery } = useGetTotalScopeByVaccineTypeQuery({ ...filterQueryGraph, vaccine_type: filter.tipe_vaksin3 }, optionQuery)
   const { data: getTotalHighestScopeByVaccineTypeQuery } = useGetTotalHighestScopeByVaccineTypeQuery(filterQueryGraph, optionQuery)
   const { data: getTotalLowestScopeByVaccineTypeQuery } = useGetTotalLowestScopeByVaccineTypeQuery(filterQueryGraph, optionQuery)
   const { data: getExceedTargetPerVaccineQuery } = useGetExceedTargetPerVaccineQuery(filterQueryGraph, optionQuery)
   const { data: getInExceedTargetPerVaccineQuery } = useGetInExceedTargetPerVaccineQuery(filterQueryGraph, optionQuery)
   const { data: getSummaryImmunizationPerVaccineQuery } = useGetSummaryImmunizationPerVaccineQuery(filterQueryGraph, optionQuery)
-  const { data: getMaxImmunizationByAgeQuery } = useGetMaxImmunizationByAgeQuery({ ...filterQueryGraph, age_type: filter.tipe_umur }, optionQuery)
-  const { data: getHighestImmunizationByAgeQuery } = useGetHighestImmunizationByAgeQuery({ ...filterQueryGraph, age_type: filter.tipe_umur }, optionQuery)
+  // const { data: getMaxImmunizationByAgeQuery1 } = useGetMaxImmunizationByAgeQuery({ ...filterQueryGraph, age_type: 1 }, optionQuery)
+  const { data: getMaxImmunizationByAgeQuery2 } = useGetMaxImmunizationByAgeQuery({ ...filterQueryGraph, age_type: 2 }, optionQuery)
+  const { data: getMaxImmunizationByAgeQuery3 } = useGetMaxImmunizationByAgeQuery({ ...filterQueryGraph, age_type: 3 }, optionQuery)
+  // const { data: getHighestImmunizationByAgeQuery } = useGetHighestImmunizationByAgeQuery({ ...filterQueryGraph, age_type: filter.tipe_umur }, optionQuery)
   const { data: getSummaryImmunizationByAgeQuery } = useGetSummaryImmunizationByAgeQuery(filterQueryGraph, optionQuery)
   const { data: getAverageImmunizationByGenderQuery } = useGetAverageImmunizationByGenderQuery(filterQueryGraph, optionQuery)
   const { data: getImmunizationWithHighetMaleRecivientQuery } = useGetImmunizationWithHighetMaleRecivientQuery(filterQueryGraph, optionQuery)
   const { data: getImmunizationWithHighetFemaleRecivientQuery } = useGetImmunizationWithHighetFemaleRecivientQuery(filterQueryGraph, optionQuery)
   const { data: getSummaryImmunizationPerGenderQuery } = useGetSummaryImmunizationPerGenderQuery(filterQueryGraph, optionQuery)
 
-  const dataGraphRegionalRoutineImmunizationCoverageTrend = [
+  const dataGraphRegionalRoutineImmunizationCoverageTrend1 = [
     {
       title: `Total Cakupan Imunisasi Rutin Lengkap Nasional Tahun ${getTotalScopeQuery?.data?.year || filter.tahun}`,
-      value: getTotalScopeQuery?.data?.pct || 0,
-      regional: ""
+      value: (<div>{getTotalScopeQuery?.data?.pct || 0}</div>),
+      regional: <></>
     },
     {
       title: `Cakupan Tertinggi Tahun ${getTotalHighestScopeQuery?.data?.year || filter.tahun}`,
-      value: getTotalHighestScopeQuery?.data?.pct || 0,
-      regional: getTotalHighestScopeQuery?.data?.provinsi || ''
+      value: (<div className="font-bold">{getTotalHighestScopeQuery?.data?.pct || 0}</div>),
+      regional: <div>{getTotalHighestScopeQuery?.data?.provinsi || ''}</div>
     },
     {
       title: `Cakupan Terendah Tahun ${getTotalHighestScopeQuery?.data?.year || filter.tahun}`,
-      value: getTotalLowestScopeQuery?.data?.pct || 0,
-      regional: getTotalLowestScopeQuery?.data?.provinsi || ''
+      value: (<div className="font-bold">{getTotalLowestScopeQuery?.data?.pct || 0}</div>),
+      regional: <div>{getTotalLowestScopeQuery?.data?.provinsi || ''}</div>
     },
   ]
+  const dataGraphRegionalRoutineImmunizationCoverageTrend2 = [
+    {
+      title: `Cakupan Imunisasi Baduta Lengkap`,
+      value: (<div>{getTotalScopeByVaccineTypeQuery?.data?.pct || 0}%</div>),
+      regional: (<div>Jumlah Cakupan: {formatNumber(getTotalScopeByVaccineTypeQuery?.data?.total || 0)}</div>),
+    },
+    {
+      title: `Cakupan Imunisasi Tertinggi`,
+      value: (<div>{getTotalHighestScopeByVaccineTypeQuery?.data?.vaccine || ""}</div>),
+      regional: (<div>Jumlah Cakupan: {formatNumber(getTotalHighestScopeByVaccineTypeQuery?.data?.total || 0)}</div>),
+      threshold: (<div>% Cakupan: {getTotalHighestScopeByVaccineTypeQuery?.data?.pct || 0}%</div>),
+    },
+    {
+      title: `Cakupan Imunisasi Terendah`,
+      value: (<div>{getTotalLowestScopeByVaccineTypeQuery?.data?.vaccine || ""}</div>),
+      regional: (<div>Jumlah Cakupan: {formatNumber(getTotalLowestScopeByVaccineTypeQuery?.data?.total || 0)}</div>),
+      threshold: (<div>% Cakupan: {getTotalLowestScopeByVaccineTypeQuery?.data?.pct || 0}%</div>),
+    },
+  ]
+  const dataGraphRegionalRoutineImmunizationCoverageTrend3 = [
+    {
+      title: `3 Imunisasi dengan Penerima Usia Ideal Terbanyak`,
+      value: (getMaxImmunizationByAgeQuery2?.data?.map((r: any, i: number) => <li key={i + 'max'}>{i + 1}. {r.vaccine}</li>)),
+    },
+    {
+      title: `3 Imunisasi dengan Penerima Usia Non Ideal Terbanyak`,
+      value: (getMaxImmunizationByAgeQuery3?.data?.map((r: any, i: number) => <li key={i + 'max'}>{i + 1}. {r.vaccine}</li>)),
+    },
+  ]
+  const dataGraphRegionalRoutineImmunizationCoverageTrend4 = [
+    {
+      title: `3 Imunisasi dengan Penerima Usia Perempuan Terbanyak`,
+      value: (getImmunizationWithHighetMaleRecivientQuery?.data?.map((r: any, i: number) => <li key={i + 'max'}>{i + 1}. {r.vaccine}</li>)),
+    },
+    {
+      title: `3 Imunisasi dengan Penerima Usia Susulan Terbanyak`,
+      value: (getImmunizationWithHighetFemaleRecivientQuery?.data?.map((r: any, i: number) => <li key={i + 'max'}>{i + 1}. {r.vaccine}</li>)),
+    },
+  ]
+
+  const ageChartOptions: any = {
+    tooltip: {
+      trigger: 'item'
+    },
+    legend: {
+      orient: 'vertical',
+      left: 'left'
+    },
+    series: [
+      {
+        name: 'Access From',
+        type: 'pie',
+        radius: '50%',
+        label: {
+          show: true,
+          position: 'inner',
+          formatter: (params: any, i: number) => `${params.name === "Laki-laki" ? getAverageImmunizationByGenderQuery?.data?.pct_female
+            : getAverageImmunizationByGenderQuery?.data?.pct_male}%`
+        },
+        labelLine: {
+          show: false
+        },
+        data: [
+          { value: getAverageImmunizationByGenderQuery?.data?.total_male, name: 'Laki-laki' },
+          { value: getAverageImmunizationByGenderQuery?.data?.total_female, name: 'Perempuan' },
+        ],
+        emphasis: {
+          itemStyle: {
+            shadowBlur: 10,
+            shadowOffsetX: 0,
+            shadowColor: 'rgba(0, 0, 0, 0.5)'
+          }
+        }
+      }
+    ]
+  }
   return (
     <div className="flex flex-col items-center">
       {/* <div className="px-4 container">
@@ -207,16 +292,22 @@ const RoutineBadutaImmunization = () => {
                 graph={
                   <div className="my-4 p-4 md:p-8 border rounded-lg">
                     <GraphRoutineImmunizationCoverageTrend
-                      layout="vertical"
                       title={<div className="font-bold md:text-2xl">Data Cakupan <b className="text-primary-2">Imunisasi Dasar Lengkap</b> pada Provinsi di <b className="text-primary-2">Indonesia</b> Selama Tahun <b className="text-primary-2">2023</b></div>}
                       subTitle="Grafik menampilkan hasil cakupan semua data imunisasi rutin lengkap dari 34 provinsi di Indonesia"
-                      addOn={<GraphAddOn dataCard={dataGraphRegionalRoutineImmunizationCoverageTrend} />} variant="private"
+                      addOn={<GraphAddOn dataCard={dataGraphRegionalRoutineImmunizationCoverageTrend1} />} variant="private"
                       filterState={filterState}
+                      filterComp={<Filter1 filterState={filterState} />}
                       graphOptions={graphOptions1((getPercentageTotalImmunizationQuery?.data || [])?.map((r: any) => {
                         return {
                           name: r.faskes,
-                          data: (getPercentageTotalImmunizationQuery?.data || [])?.map((r: any) => r?.total_immunization) || [],
+                          data: (getPercentageTotalImmunizationQuery?.data || [])?.map((r: any) => r?.pct_immunization) || [],
                           type: 'bar',
+                          label: {
+                            show: true,
+                            precision: 1,
+                            position: 'right',
+                            formatter: (params: any) => `${params.value}% ${r?.total_immunization}`
+                          }
                         }
                       }))}
                     />
@@ -232,26 +323,27 @@ const RoutineBadutaImmunization = () => {
                   <div className="my-4 p-4 md:p-8 border rounded-lg">
                     <GraphRoutineImmunizationCoverageTrend
                       title={<div className="font-bold md:text-2xl">Data Kumulatif Jumlah Penerima, Cakupan, dan Target Cakupan <b className="text-primary-2">Imunisasi Dasar Lengkap</b> pada Bayi Selama Tahun <b className="text-primary-2">2023</b></div>}
-                      subTitle="Grafik menampilkan tren cakupan kumulatif penerima antigen baru lengkap selama tahun 2023"
+                      subTitle={`Grafik menampilkan tren cakupan kumulatif penerima antigen baru lengkap selama tahun ${filter.tahun}`}
                       variant="private"
                       filterState={filterState}
+                      filterComp={<Filter2 filterState={filterState} />}
                       threshold={
                         <div className="p-2 sm:w-32 md:w-64 h-fit">
-                          <div className="text-sm">Total cakupan kumulatif pada tahun 2023</div>
+                          <div className="text-sm">Total cakupan kumulatif pada tahun {filter.tahun}</div>
                           <div className="py-2 font-bold text-3xl text-primary">{getSetSummaryScopePercentageQuery?.data?.pct}%</div>
-                          <div>Jumlah antigen baru lengkap: 154.167</div>
+                          <div>Jumlah Imunisasi Baduta Lengkap: {formatNumber(getSetSummaryScopePercentageQuery?.data?.total || 0)}</div>
                         </div>
                       }
                       graphOptions={graphOptions2([
                         {
                           name: "% Cakupan",
-                          data: (getSetScopePercentagePerMonthQuery?.data || [])?.map((r: any) => r?.total) || [],
-                          type: 'bar'
+                          data: (getSetScopePercentagePerMonthQuery?.data || [])?.map((r: any) => r?.pct) || [],
+                          type: 'line'
                         },
                         {
                           name: "% Target Cakupan",
-                          data: (getSetScopePercentagePerMonthQuery?.data || [])?.map((r: any) => r?.total) || [],
-                          type: 'bar'
+                          data: (getSetScopePercentagePerMonthQuery?.data || [])?.map((r: any) => r?.target) || [],
+                          type: 'line'
                         },
                         {
                           name: "Jumlah Penerima Imunisasi",
@@ -265,28 +357,161 @@ const RoutineBadutaImmunization = () => {
                 }
               />
             </div>
-            {/* <div className="py-4 pb-12">
+
+            <div className="py-4 pb-12">
               <RoutineImmunizationCoverageTrendGraph
-                title="Grafik Tren Cakupan Kumulatif atau Bulanan Penerima Imunisasi Bayi "
+                title=""
                 subTitle=""
                 graph={
-                  <>
-                    <div className="my-4 p-4 md:p-8 border rounded-lg">
-                      <GraphRoutineImmunizationCoverageTrend
-                        title={<div className="font-bold md:text-2xl">Data Cakupan <b className="text-primary-2">Imunisasi Dasar Lengkap</b> pada Provinsi di <b className="text-primary-2">Indonesia</b> Selama Tahun <b className="text-primary-2">2023</b></div>}
-                        subTitle="Grafik menampilkan hasil cakupan semua data imunisasi rutin lengkap dari 34 provinsi di Indonesia"
-                        addOn={<GraphAddOn dataCard={dataGraphRegionalRoutineImmunizationCoverageTrend} />} variant="private" />
-                    </div>
-                    <div className="my-4 p-4 md:p-8 border rounded-lg">
-                      <GraphRoutineImmunizationCoverageTrend
-                        title={<div className="font-bold md:text-2xl">Data Cakupan <b className="text-primary-2">Imunisasi Dasar Lengkap</b> pada Provinsi di <b className="text-primary-2">Indonesia</b> Selama Tahun <b className="text-primary-2">2023</b></div>}
-                        subTitle="Grafik menampilkan hasil cakupan semua data imunisasi rutin lengkap dari 34 provinsi di Indonesia"
-                        addOn={<GraphAddOn dataCard={dataGraphRegionalRoutineImmunizationCoverageTrend} />} variant="private" />
-                    </div>
-                  </>
+                  <div className="my-4 p-4 md:p-8 border rounded-lg">
+                    <GraphRoutineImmunizationCoverageTrend
+                      layout="vertical"
+                      title={<div className="font-bold md:text-2xl">Data Cakupan <b className="text-primary-2">Imunisasi Dasar Lengkap</b> pada Provinsi di <b className="text-primary-2">Indonesia</b> Selama Tahun <b className="text-primary-2">2023</b></div>}
+                      subTitle="Grafik menampilkan hasil cakupan semua data imunisasi rutin lengkap dari 34 provinsi di Indonesia"
+                      addOn={<GraphAddOn dataCard={dataGraphRegionalRoutineImmunizationCoverageTrend2} />} variant="private"
+                      filterState={filterState}
+                      filterComp={<Filter3 filterState={filterState} />}
+                      threshold={
+                        <div className="flex flex-col gap-4 sm:w-32 md:w-64 text-sm">
+                          <div className='px-4 py-3 rounded-xl' style={{ boxShadow: '0px 2px 12px 0px #00000014' }}>
+                            <div className="font-bold">Imunisasi yang Melampaui Target Cakupan</div>
+                            <div>
+                              <ul>
+                                {getExceedTargetPerVaccineQuery?.data?.map((r: any, i: number) => <li key={i + 'exceed'}>{i + 1}. {r.vaccine}</li>)}
+                              </ul>
+                            </div>
+                          </div>
+                          <div className='px-4 py-3 rounded-xl' style={{ boxShadow: '0px 2px 12px 0px #00000014' }}>
+                            <div className="font-bold">Imunisasi yang Belum Melampaui Target Cakupan</div>
+                            <div>
+                              <ul>
+                                {getInExceedTargetPerVaccineQuery?.data?.map((r: any, i: number) => <li key={i + 'inexceed'}>{i + 1}. {r.vaccine}</li>)}
+                              </ul>
+                            </div>
+                          </div>
+                        </div>
+                      }
+                      graphOptions={graphOptions3([
+                        {
+                          name: "% Cakupan",
+                          data: (getSummaryImmunizationPerVaccineQuery?.data || [])?.map((r: any) => r?.pct) || [],
+                          type: 'line'
+                        },
+                        {
+                          name: "% Target Cakupan",
+                          data: (getSummaryImmunizationPerVaccineQuery?.data || [])?.map((r: any) => r?.pct_treshold) || [],
+                          type: 'line'
+                        },
+                        {
+                          name: "Jumlah Penerima Imunisasi",
+                          data: (getSummaryImmunizationPerVaccineQuery?.data || [])?.map((r: any) => r?.total) || [],
+                          type: 'bar'
+                        },
+                      ], getSummaryImmunizationPerVaccineQuery?.data?.map((r: any) => r?.vaccine)
+                      )}
+                    />
+                  </div>
                 }
               />
-            </div> */}
+            </div>
+            <div className="py-4 pb-12">
+              <RoutineImmunizationCoverageTrendGraph
+                title=""
+                subTitle=""
+                graph={
+                  <div className="my-4 p-4 md:p-8 border rounded-lg">
+                    <GraphRoutineImmunizationCoverageTrend
+                      layout="vertical"
+                      title={<div className="font-bold md:text-2xl">Data Cakupan <b className="text-primary-2">Imunisasi Dasar Lengkap</b> pada Provinsi di <b className="text-primary-2">Indonesia</b> Selama Tahun <b className="text-primary-2">2023</b></div>}
+                      subTitle="Grafik menampilkan hasil cakupan semua data imunisasi rutin lengkap dari 34 provinsi di Indonesia"
+                      addOn={
+                        <div className="flex gap-4 text-sm">
+                          {dataGraphRegionalRoutineImmunizationCoverageTrend3.map((r, i) => (
+                            <div className='px-4 py-3 rounded-xl' style={{ boxShadow: '0px 2px 12px 0px #00000014' }}>
+                              <div className="font-bold">
+                                {r.title}
+                              </div>
+                              <div>
+                                <ul>
+                                  {r?.value}
+                                </ul>
+                              </div>
+                            </div>
+                          ))}
+                        </div>
+                      } variant="private"
+                      filterState={filterState}
+                      filterComp={<Filter4 filterState={filterState} />}
+                      graphOptions={graphOptions3([
+                        {
+                          name: "Usia Ideal",
+                          data: (getSummaryImmunizationByAgeQuery?.data || [])?.map((r: any) => r?.total_ideal) || [],
+                          type: 'bar'
+                        },
+                        {
+                          name: "Usia Non Ideal",
+                          data: (getSummaryImmunizationByAgeQuery?.data || [])?.map((r: any) => r?.total_non_ideal) || [],
+                          type: 'bar'
+                        },
+                      ], getSummaryImmunizationPerVaccineQuery?.data?.map((r: any) => r?.vaccine)
+                      )}
+                    />
+                  </div>
+                }
+              />
+            </div>
+            <div className="py-4 pb-12">
+              <RoutineImmunizationCoverageTrendGraph
+                title=""
+                subTitle=""
+                graph={
+                  <div className="my-4 p-4 md:p-8 border rounded-lg">
+                    <GraphRoutineImmunizationCoverageTrend
+                      layout="vertical"
+                      title={<div className="font-bold md:text-2xl">Data Cakupan <b className="text-primary-2">Imunisasi Dasar Lengkap</b> pada Provinsi di <b className="text-primary-2">Indonesia</b> Selama Tahun <b className="text-primary-2">2023</b></div>}
+                      subTitle="Grafik menampilkan hasil cakupan semua data imunisasi rutin lengkap dari 34 provinsi di Indonesia"
+                      addOn={
+                        <div className="flex gap-4 text-sm">
+                          <div className='px-4 py-3 rounded-xl' style={{ boxShadow: '0px 2px 12px 0px #00000014' }}>
+                            <div className="font-bold">
+                              Rata-Rata Penerima Imunisasi Berdasarkan Jenis Kelamin
+                            </div>
+                            <GraphEcharts graphOptions={ageChartOptions} />
+                          </div>
+                          {dataGraphRegionalRoutineImmunizationCoverageTrend4.map((r, i) => (
+                            <div className='px-4 py-3 rounded-xl' style={{ boxShadow: '0px 2px 12px 0px #00000014' }}>
+                              <div className="font-bold">
+                                {r.title}
+                              </div>
+                              <div>
+                                <ul>
+                                  {r?.value}
+                                </ul>
+                              </div>
+                            </div>
+                          ))}
+                        </div>
+                      } variant="private"
+                      filterState={filterState}
+                      filterComp={<Filter5 filterState={filterState} />}
+                      graphOptions={graphOptions4([
+                        {
+                          name: "Laki-laki",
+                          data: (getSummaryImmunizationPerGenderQuery?.data || [])?.map((r: any) => r?.total_male) || [],
+                          type: 'bar'
+                        },
+                        {
+                          name: "Perempuan",
+                          data: (getSummaryImmunizationPerGenderQuery?.data || [])?.map((r: any) => r?.total_female) || [],
+                          type: 'bar'
+                        },
+                      ], getSummaryImmunizationPerGenderQuery?.data?.map((r: any) => r?.vaccine)
+                      )}
+                    />
+                  </div>
+                }
+              />
+            </div>
           </div>
         </div>
       </div>
