@@ -20,17 +20,20 @@ interface GraphRoutineImmunizationCoverageTrendProps {
   threshold?: JSX.Element
   graphOptions?: any
   filterState?: any
+  filterComp?: JSX.Element
 }
 
 const GraphRoutineImmunizationCoverageTrend: React.FC<GraphRoutineImmunizationCoverageTrendProps> = ({
-  title, subTitle, addOn, variant = 'public', graphOptions, filterState, threshold
+  title, subTitle, addOn, variant = 'public', graphOptions, filterState, threshold, filterComp
 }) => {
   const [filter, setFilter] = filterState || useState({})
   return (
     <>
-      {variant === 'private' &&
+      {filterComp ?
+        filterComp
+        : variant === 'private' &&
         <div className="flex flex-wrap justify-between items-center gap-4 sm:mt-20 md:mt-0 mb-8">
-          <div className="flex gap-4">
+          {/* <div className="flex gap-4">
             <div>
               <Select
                 options={vaccineTypeOptions}
@@ -53,7 +56,7 @@ const GraphRoutineImmunizationCoverageTrend: React.FC<GraphRoutineImmunizationCo
                   : filter.wilayah}
               />
             </div>
-          </div>
+          </div> */}
           <div className="flex gap-4">
             <div>
               <Button text="Unduh" variant="outlined" />
@@ -77,7 +80,7 @@ const GraphRoutineImmunizationCoverageTrend: React.FC<GraphRoutineImmunizationCo
           </div>
           {threshold}
         </div>
-        <div>
+        <div className='mt-4'>
           {addOn}
         </div>
         {variant === 'public' &&

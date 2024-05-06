@@ -31,16 +31,21 @@ import {
   useGetTotalImmunizationTdWusQuery,
   useGetTotalImmunizationTdWusPregnantQuery,
   useGetTotalImmunizationTdWusFertileQuery,
+  useGetTotalImmunizationTotalCoverageQuery,
+  useGetTotalImmunizationTotalCoverageHighestQuery,
+  useGetTotalImmunizationTotalCoverageLowestQuery,
+  useGetTotalImmunizationTotalCumulativeCoverageQuery,
 } from "@/lib/services/wus";
 import VaccinateNudge from "@/assets/icons/vaccinate-nudge.png";
 import { graphOptions1 } from "../routine-baduta-immunization/graphOptions";
 
 import { formatNumber } from "@/helpers";
+import { useGetPercentageTotalImmunizationQuery } from "@/lib/services/baduta-immunization";
 
 const Wus = () => {
   const filterState = useState({
     // tahun: new Date().getFullYear(),
-    tahun: 2023,
+    tahun: 2024,
     bulan: dataMonth.find((r, i) => i === new Date().getMonth())?.value,
     provinsi: "",
     kabkota: "",
@@ -79,6 +84,26 @@ const Wus = () => {
       ? filter.provinsi
       : "All",
   };
+  const filterQueryTotal = {
+    ...dateQuery,
+    region_type: "province",
+    faskes_parent_id: 11,
+    faskes_id: 11,
+    women_category: "All",
+  };
+
+  const filterQueryTotalCoverage = {
+    ...filterQueryTotal,
+    faskes_desc: "NASIONAL",
+  };
+  const filterQueryTotalCoverageHighest = {
+    ...filterQueryTotalCoverage,
+    faskes_desc: "JAWA TIMUR",
+  };
+  const filterQueryTotalCoverageLowest = {
+    ...filterQueryTotalCoverage,
+    faskes_desc: "PAPUA PEGUNUNGAN",
+  };
 
   const optionQuery = {
     refetchOnMountOrArgChange: true,
@@ -86,6 +111,22 @@ const Wus = () => {
       !filter.tahun ||
       (!filter.bulan &&
         (!filter.provinsi || !filter.kabkota || !filter.kecamatan)),
+  };
+
+  // sample
+  const filterQueryGraph = {
+    ...dateQuery,
+    region_type: filter.wilayah,
+    region_id:
+      filter.wilayah === "faskes"
+        ? filter.faskes
+        : filter.wilayah === "district"
+        ? filter.kecamatan
+        : filter.wilayah === "city"
+        ? filter.kabkota
+        : filter.wilayah === "provinsi"
+        ? filter.provinsi
+        : "All",
   };
 
   const { data: getTotalImmunizationQuery } = useGetTotalImmunizationQuery(
@@ -102,24 +143,50 @@ const Wus = () => {
     useGetTotalImmunizationTdWusPregnantQuery(filterQuery, optionQuery);
   const { data: getTotalImmunizationTdWusFertileQuery } =
     useGetTotalImmunizationTdWusFertileQuery(filterQuery, optionQuery);
+  const { data: getTotalImmunizationTotalCoverageQuery } =
+    useGetTotalImmunizationTotalCoverageQuery(filterQueryTotalCoverage);
+  const { data: getTotalImmunizationTotalCoverageHighestQuery } =
+    useGetTotalImmunizationTotalCoverageHighestQuery(
+      filterQueryTotalCoverageHighest
+    );
+  const { data: getTotalImmunizationTotalCoverageLowestQuery } =
+    useGetTotalImmunizationTotalCoverageLowestQuery(
+      filterQueryTotalCoverageLowest
+    );
+  const { data: getTotalImmunizationTotalCumulativeCoverageQuery } =
+    useGetTotalImmunizationTotalCumulativeCoverageQuery(
+      filterQueryTotalCoverageLowest
+    );
 
-  // console.log(getTotalImmunizationFertileQuery, "isi data");
+  // sample
+  const { data: getPercentageTotalImmunizationQuery } =
+    useGetPercentageTotalImmunizationQuery(
+      { ...filterQueryGraph, vaccine_type: filter.tipe_vaksin },
+      optionQuery
+    );
+
+  console.log(getTotalImmunizationTotalCumulativeCoverageQuery, "isi data");
 
   const dataGraphRegionalRoutineImmunizationCoverageTrend = [
     {
       title: "Total Cakupan Imunisasi Rutin Lengkap Nasional Tahun 2023",
-      value: "80",
+      value: getTotalImmunizationTotalCoverageQuery?.data.ytd_pct_total_t1,
       regional: "",
     },
     {
       title: "Cakupan Tertinggi Tahun 2023",
-      value: "70",
-      regional: "Jawa Tengah",
+      value:
+        getTotalImmunizationTotalCoverageHighestQuery?.data?.ytd_pct_total_t1,
+
+      regional:
+        getTotalImmunizationTotalCoverageHighestQuery?.data?.faskes_desc,
     },
     {
       title: "Cakupan Terendah Tahun 2023",
-      value: "0",
-      regional: "Papua Pegunungan",
+      value:
+        getTotalImmunizationTotalCoverageLowestQuery?.data?.ytd_pct_total_t1,
+
+      regional: getTotalImmunizationTotalCoverageLowestQuery?.data?.faskes_desc,
     },
   ];
 
@@ -297,7 +364,7 @@ const Wus = () => {
                 />
               </div>
             </div>
-            <div className="py-4 pb-12">
+            {/* <div className="py-4 pb-12">
               <div className="py-4 pb-12">
                 <RoutineImmunizationCoverageTrendGraph
                   title="Grafik Tren Cakupan Kumulatif atau Bulanan Penerima Imunisasi Bayi "
@@ -331,6 +398,57 @@ const Wus = () => {
                   }
                 />
               </div>
+            </div> */}
+
+            <div className="py-4 pb-12">
+              <RoutineImmunizationCoverageTrendGraph
+                title=""
+                subTitle=""
+                graph={
+                  <div className="my-4 p-4 md:p-8 border rounded-lg">
+                    <GraphRoutineImmunizationCoverageTrend
+                      layout="vertical"
+                      title={
+                        <div className="font-bold md:text-2xl">
+                          Data Cakupan{" "}
+                          <b className="text-primary-2">
+                            Imunisasi Dasar Lengkap
+                          </b>{" "}
+                          pada Provinsi di{" "}
+                          <b className="text-primary-2">Indonesia</b> Selama
+                          Tahun <b className="text-primary-2">2023</b>
+                        </div>
+                      }
+                      subTitle="Grafik menampilkan hasil cakupan semua data imunisasi rutin lengkap dari 34 provinsi di Indonesia"
+                      addOn={
+                        <GraphAddOn
+                          dataCard={
+                            dataGraphRegionalRoutineImmunizationCoverageTrend
+                          }
+                        />
+                      }
+                      variant="private"
+                      filterState={filterState}
+                      graphOptions={graphOptions1(
+                        (
+                          getTotalImmunizationTotalCumulativeCoverageQuery?.data ||
+                          []
+                        )?.map((r: any) => {
+                          return {
+                            name: r.faskes_desc,
+                            data:
+                              (
+                                getTotalImmunizationTotalCumulativeCoverageQuery?.data ||
+                                []
+                              )?.map((r: any) => r?.ytd_total_t1) || [],
+                            type: "bar",
+                          };
+                        })
+                      )}
+                    />
+                  </div>
+                }
+              />
             </div>
           </div>
         </div>

@@ -146,6 +146,20 @@ export const vaccineTypeOptions = [
     value: "4"
   },
 ];
+export const ageTypeOptions = [
+  {
+    label: "Semua",
+    value: "1"
+  },
+  {
+    label: "Ideal",
+    value: "2"
+  },
+  {
+    label: "Non Ideal",
+    value: "3"
+  },
+];
 
 export const regionOptions = [
   {
@@ -163,6 +177,24 @@ export const regionOptions = [
   {
     label: "Faskes",
     value: "faskes"
+  },
+];
+
+export const trendTypeOptions = [
+  {
+    label: "Kumulatif",
+    value: "kumulatif"
+  },
+];
+
+export const genderOptions = [
+  {
+    label: "Laki-laki",
+    value: "1"
+  },
+  {
+    label: "Perempuan",
+    value: "2"
   },
 ];
 
