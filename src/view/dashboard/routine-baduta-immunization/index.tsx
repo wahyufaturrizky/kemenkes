@@ -1,4 +1,4 @@
-'use client'
+"use client";
 
 import { useState } from "react";
 import Image from "next/image"
@@ -36,31 +36,49 @@ const RoutineBadutaImmunization = () => {
   const dateQuery = {
     year: filter.tahun,
     month: filter.bulan,
-  }
+  };
   const filterQuery = {
     ...dateQuery,
-    region_type: filter.faskes ? 'faskes'
-      : filter.kecamatan ? 'district'
-        : filter.kabkota ? 'city'
-          : filter.provinsi ? 'province' : 'All',
-    region_id: filter.faskes ? filter.faskes
-      : filter.kecamatan ? filter.kecamatan
-        : filter.kabkota ? filter.kabkota
-          : filter.provinsi ? filter.provinsi : 'All',
-  }
+    region_type: filter.faskes
+      ? "faskes"
+      : filter.kecamatan
+        ? "district"
+        : filter.kabkota
+          ? "city"
+          : filter.provinsi
+            ? "province"
+            : "All",
+    region_id: filter.faskes
+      ? filter.faskes
+      : filter.kecamatan
+        ? filter.kecamatan
+        : filter.kabkota
+          ? filter.kabkota
+          : filter.provinsi
+            ? filter.provinsi
+            : "All",
+  };
   const filterQueryGraph = {
     ...dateQuery,
     region_type: filter.wilayah,
-    region_id: filter.wilayah === 'faskes' ? filter.faskes
-      : filter.wilayah === 'district' ? filter.kecamatan
-        : filter.wilayah === 'city' ? filter.kabkota
-          : filter.wilayah === 'provinsi' ? filter.provinsi
-            : "All"
-  }
+    region_id:
+      filter.wilayah === "faskes"
+        ? filter.faskes
+        : filter.wilayah === "district"
+          ? filter.kecamatan
+          : filter.wilayah === "city"
+            ? filter.kabkota
+            : filter.wilayah === "provinsi"
+              ? filter.provinsi
+              : "All",
+  };
   const optionQuery = {
     refetchOnMountOrArgChange: true,
-    skip: (!filter.tahun || !filter.bulan && (!filter.provinsi || !filter.kabkota || !filter.kecamatan))
-  }
+    skip:
+      !filter.tahun ||
+      (!filter.bulan &&
+        (!filter.provinsi || !filter.kabkota || !filter.kecamatan)),
+  };
   const optionQueryGraph = {
     refetchOnMountOrArgChange: true,
     skip: (!filter.tahun || !filter.bulan || !filter.wilayah || (!filter.tipe_vaksin1 || !filter.tipe_vaksin2 || !filter.tipe_vaksin3)
@@ -200,12 +218,18 @@ const RoutineBadutaImmunization = () => {
       <div className="flex justify-center bg-image1 bg-support-b2 w-full">
         <div className="px-4 container">
           <Banner
-            text={<BannerText
-              highlight={`Dasbor Program Imunisasi Rutin`}
-              highlightFooter={
-                <BannerHighlightFooter look="567" comment="145" share="24" classNameShare="text-support-b2" />
-              }
-            />
+            text={
+              <BannerText
+                highlight={`Dasbor Program Imunisasi Rutin`}
+                highlightFooter={
+                  <BannerHighlightFooter
+                    look="567"
+                    comment="145"
+                    share="24"
+                    classNameShare="text-support-b2"
+                  />
+                }
+              />
             }
           />
         </div>
@@ -215,73 +239,143 @@ const RoutineBadutaImmunization = () => {
           <Sidebar />
           <div>
             <div className="flex flex-col gap-4 text-sm">
-              <div className="pt-8">
-                UPDATE TERAKHIR: 23 SEPTEMBER 2023
-              </div>
+              <div className="pt-8">UPDATE TERAKHIR: 23 SEPTEMBER 2023</div>
               <div className="font-bold text-primary-1 text-xl md:text-3xl">
                 Imunisasi Rutin Baduta
               </div>
               <div>
-                Menampilkan data cakupan imunisasi rutin baduta berdasarkan jenis imunisasi, cakupan daerah, usia pemberian, dan jenis kelamin baduta.
+                Menampilkan data cakupan imunisasi rutin baduta berdasarkan
+                jenis imunisasi, cakupan daerah, usia pemberian, dan jenis
+                kelamin baduta.
               </div>
             </div>
             <div className="pt-6">
               <FilterSummaryImmunization filterState={filterState} />
             </div>
-            <div className="py-6">
-            </div>
+            <div className="py-6"></div>
             <div>
-              <div className="font-bold text-primary-2 text-xl md:text-3xl">Ringkasan Data Cakupan Imunisasi Rutin Baduta</div>
-              <div>Ringkasan berisi data total penerima imunisasi rutin baduta dan jenis imunisasi rutin baduta terhadap target cakupan yang sudah ditentukan.</div>
+              <div className="font-bold text-primary-2 text-xl md:text-3xl">
+                Ringkasan Data Cakupan Imunisasi Rutin Baduta
+              </div>
+              <div>
+                Ringkasan berisi data total penerima imunisasi rutin baduta dan
+                jenis imunisasi rutin baduta terhadap target cakupan yang sudah
+                ditentukan.
+              </div>
               <div className="gap-4 grid grid-cols-1 sm:grid-cols-3 mt-4">
-                <ChildSummaryImmunization className="px-4 border rounded-lg" background="#9F1AB1" classNameTitle="text-white" classNameValue="text-4xl text-white"
+                <ChildSummaryImmunization
+                  className="px-4 border rounded-lg"
+                  background="#9F1AB1"
+                  classNameTitle="text-white"
+                  classNameValue="text-4xl text-white"
                   title="Total Penerima Imunisasi Baduta"
-                  value={getTotalImmunizationQuery?.data?.total || '0'}
+                  value={getTotalImmunizationQuery?.data?.total || "0"}
                 />
-                <ChildSummaryImmunization className="px-4 border rounded-lg" background="#FAC515" classNameTitle="text-white" classNameValue="text-4xl text-white"
+                <ChildSummaryImmunization
+                  className="px-4 border rounded-lg"
+                  background="#FAC515"
+                  classNameTitle="text-white"
+                  classNameValue="text-4xl text-white"
                   title={"Persentase Drop Out \nDPT-HB-Hib"}
                   value={`${getDoPercentageDPHTHBHIBQuery?.data?.pct || 0}%`}
-                  percent={getDoPercentageDPHTHBHIBQuery?.data?.pct || '0'}
-                  target={getDoPercentageDPHTHBHIBQuery?.data?.target || '0'}
+                  percent={getDoPercentageDPHTHBHIBQuery?.data?.pct || "0"}
+                  target={getDoPercentageDPHTHBHIBQuery?.data?.target || "0"}
                   subtitle={" dari "}
                   showLine={false}
                 />
-                <ChildSummaryImmunization className="px-4 border rounded-lg" background="#FAC515" classNameTitle="text-white" classNameValue="text-4xl text-white"
+                <ChildSummaryImmunization
+                  className="px-4 border rounded-lg"
+                  background="#FAC515"
+                  classNameTitle="text-white"
+                  classNameValue="text-4xl text-white"
                   title={"Persentase Drop Out \nCampak Rubela"}
                   value={`${getDoPercentageCampakRubelaQuery?.data?.pct || 0}%`}
-                  percent={getDoPercentageCampakRubelaQuery?.data?.pct || '0'}
-                  target={getDoPercentageCampakRubelaQuery?.data?.target || '0'}
+                  percent={getDoPercentageCampakRubelaQuery?.data?.pct || "0"}
+                  target={getDoPercentageCampakRubelaQuery?.data?.target || "0"}
                   subtitle={" dari "}
                   showLine={false}
                 />
               </div>
               <div className="gap-4 grid grid-cols-1 sm:grid-cols-3 md:grid-cols-4 mt-4">
-                <ChildSummaryImmunization className="px-4 border rounded-lg" contentTooltip={<div></div>}
+                <ChildSummaryImmunization
+                  className="px-4 border rounded-lg"
+                  contentTooltip={<div></div>}
                   title={vaccineTypeOptions[0].label}
-                  value={getTotalImmunizationByVaccineTypeQuery1?.data?.total || '0'}
-                  percent={getTotalImmunizationByVaccineTypeQuery1?.data?.pct || '0'}
-                  target={getTotalImmunizationByVaccineTypeQuery1?.data?.target || '0'}
+                  value={
+                    getTotalImmunizationByVaccineTypeQuery1?.data?.total || "0"
+                  }
+                  percent={
+                    getTotalImmunizationByVaccineTypeQuery1?.data?.pct || "0"
+                  }
+                  target={
+                    getTotalImmunizationByVaccineTypeQuery1?.data?.target || "0"
+                  }
                   subtitle={" dari "}
                 />
-                <ChildSummaryImmunization className="px-4 border rounded-lg" titleIcon={<Image alt="satusehat" src={VaccinateNudge.src} width={24} height={24} />}
+                <ChildSummaryImmunization
+                  className="px-4 border rounded-lg"
+                  titleIcon={
+                    <Image
+                      alt="satusehat"
+                      src={VaccinateNudge.src}
+                      width={24}
+                      height={24}
+                    />
+                  }
                   title={vaccineTypeOptions[1].label}
-                  value={getTotalImmunizationByVaccineTypeQuery2?.data?.total || '0'}
-                  percent={getTotalImmunizationByVaccineTypeQuery2?.data?.pct || '0'}
-                  target={getTotalImmunizationByVaccineTypeQuery2?.data?.target || '0'}
+                  value={
+                    getTotalImmunizationByVaccineTypeQuery2?.data?.total || "0"
+                  }
+                  percent={
+                    getTotalImmunizationByVaccineTypeQuery2?.data?.pct || "0"
+                  }
+                  target={
+                    getTotalImmunizationByVaccineTypeQuery2?.data?.target || "0"
+                  }
                   subtitle={" dari "}
                 />
-                <ChildSummaryImmunization className="px-4 border rounded-lg" titleIcon={<Image alt="satusehat" src={VaccinateNudge.src} width={24} height={24} />}
+                <ChildSummaryImmunization
+                  className="px-4 border rounded-lg"
+                  titleIcon={
+                    <Image
+                      alt="satusehat"
+                      src={VaccinateNudge.src}
+                      width={24}
+                      height={24}
+                    />
+                  }
                   title={vaccineTypeOptions[2].label}
-                  value={getTotalImmunizationByVaccineTypeQuery3?.data?.total || '0'}
-                  percent={getTotalImmunizationByVaccineTypeQuery3?.data?.pct || '0'}
-                  target={getTotalImmunizationByVaccineTypeQuery3?.data?.target || '0'}
+                  value={
+                    getTotalImmunizationByVaccineTypeQuery3?.data?.total || "0"
+                  }
+                  percent={
+                    getTotalImmunizationByVaccineTypeQuery3?.data?.pct || "0"
+                  }
+                  target={
+                    getTotalImmunizationByVaccineTypeQuery3?.data?.target || "0"
+                  }
                   subtitle={" dari "}
                 />
-                <ChildSummaryImmunization className="px-4 border rounded-lg" titleIcon={<Image alt="satusehat" src={VaccinateNudge.src} width={24} height={24} />}
+                <ChildSummaryImmunization
+                  className="px-4 border rounded-lg"
+                  titleIcon={
+                    <Image
+                      alt="satusehat"
+                      src={VaccinateNudge.src}
+                      width={24}
+                      height={24}
+                    />
+                  }
                   title={vaccineTypeOptions[3].label}
-                  value={getTotalImmunizationByVaccineTypeQuery4?.data?.total || '0'}
-                  percent={getTotalImmunizationByVaccineTypeQuery4?.data?.pct || '0'}
-                  target={getTotalImmunizationByVaccineTypeQuery4?.data?.target || '0'}
+                  value={
+                    getTotalImmunizationByVaccineTypeQuery4?.data?.total || "0"
+                  }
+                  percent={
+                    getTotalImmunizationByVaccineTypeQuery4?.data?.pct || "0"
+                  }
+                  target={
+                    getTotalImmunizationByVaccineTypeQuery4?.data?.target || "0"
+                  }
                   subtitle={" dari "}
                 />
               </div>
@@ -348,11 +442,13 @@ const RoutineBadutaImmunization = () => {
                         },
                         {
                           name: "Jumlah Penerima Imunisasi",
-                          data: (getSetScopePercentagePerMonthQuery?.data || [])?.map((r: any) => r?.total) || [],
-                          type: 'bar'
+                          data:
+                            (
+                              getSetScopePercentagePerMonthQuery?.data || []
+                            )?.map((r: any) => r?.total) || [],
+                          type: "bar",
                         },
-                      ]
-                      )}
+                      ])}
                     />
                   </div>
                 }
@@ -517,7 +613,7 @@ const RoutineBadutaImmunization = () => {
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default RoutineBadutaImmunization
+export default RoutineBadutaImmunization;

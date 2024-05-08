@@ -2,8 +2,8 @@ export function standardOptionSameLabel(data: any[]) {
   const value = data.map((r) => {
     return {
       label: r,
-      value: r
-    }
+      value: r,
+    };
   });
   return value;
 }
@@ -11,8 +11,8 @@ export function standardOptions(data: any[], key1: string, key2: string) {
   const value = (data || [])?.map((r) => {
     return {
       label: r[key1],
-      value: r[key2]
-    }
+      value: r[key2],
+    };
   });
   return value;
 }
@@ -26,5 +26,5 @@ export function generateYearsArray(startYear: number, endYear: number) {
 }
 
 export function formatNumber(number: number) {
-  return number.toLocaleString('id-Id')
+  return (number || 0).toLocaleString('id-Id')
 }
