@@ -14,6 +14,7 @@ export const baseQuery = fetchBaseQuery({
     // }
     return headers;
   },
+  timeout: 3000000 // 5 minutes
 });
 
 export const baseQueryWithReauth: BaseQueryFn<string | FetchArgs, unknown | undefined, FetchBaseQueryError | undefined> = async (

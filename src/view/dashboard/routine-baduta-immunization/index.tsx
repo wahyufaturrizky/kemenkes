@@ -26,6 +26,7 @@ const RoutineBadutaImmunization = () => {
     tipe_vaksin3: 1,
     tipe_vaksin4: 1,
     tipe_vaksin5: 1,
+    jenis_tren: 'kumulatif',
     tipe_umur: 1,
     jenis_kelamin: 1,
     wilayah: "All"
@@ -80,8 +81,8 @@ const RoutineBadutaImmunization = () => {
   const { data: getTotalHighestScopeQuery } = useGetTotalHighestScopeQuery({ ...filterQueryGraph, vaccine_type: filter.tipe_vaksin1 }, optionQueryTotal)
   const { data: getTotalLowestScopeQuery } = useGetTotalLowestScopeQuery({ ...filterQueryGraph, vaccine_type: filter.tipe_vaksin1 }, optionQueryTotal)
   const { data: getPercentageTotalImmunizationQuery } = useGetPercentageTotalImmunizationQuery({ ...filterQueryGraph, vaccine_type: filter.tipe_vaksin1 }, optionQuery)
-  const { data: getSetScopePercentagePerMonthQuery } = useGetScopePercentagePerMonthQuery({ ...filterQueryGraph, vaccine_type: filter.tipe_vaksin2 }, optionQuery)
-  const { data: getSetSummaryScopePercentageQuery } = useGetSummaryScopePercentageQuery({ ...filterQueryGraph, vaccine_type: filter.tipe_vaksin2 }, optionQuery)
+  const { data: getSetScopePercentagePerMonthQuery } = useGetScopePercentagePerMonthQuery({ ...filterQueryGraph, vaccine_type: filter.tipe_vaksin2, is_kumulatif: filter.jenis_tren === "kumulatif" ? true : false }, optionQuery)
+  const { data: getSetSummaryScopePercentageQuery } = useGetSummaryScopePercentageQuery({ ...filterQueryGraph, vaccine_type: filter.tipe_vaksin2, is_kumulatif: filter.jenis_tren === "kumulatif" ? true : false }, optionQuery)
   const { data: getTotalScopeByVaccineTypeQuery } = useGetTotalScopeByVaccineTypeQuery({ ...filterQueryGraph, vaccine_type: filter.tipe_vaksin3 }, optionQuery)
   const { data: getTotalHighestScopeByVaccineTypeQuery } = useGetTotalHighestScopeByVaccineTypeQuery(filterQueryGraph, optionQuery)
   const { data: getTotalLowestScopeByVaccineTypeQuery } = useGetTotalLowestScopeByVaccineTypeQuery(filterQueryGraph, optionQuery)
