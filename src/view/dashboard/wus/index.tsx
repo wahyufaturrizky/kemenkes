@@ -35,12 +35,27 @@ import {
   useGetTotalImmunizationTotalCoverageHighestQuery,
   useGetTotalImmunizationTotalCoverageLowestQuery,
   useGetTotalImmunizationTotalCumulativeCoverageQuery,
+  useGetTotalImmunizationTotalCumulativeCoverageRecipientsQuery,
 } from "@/lib/services/wus";
 import VaccinateNudge from "@/assets/icons/vaccinate-nudge.png";
-import { graphOptions1 } from "../routine-baduta-immunization/graphOptions";
+import {
+  graphOptions1,
+  graphOptions2,
+} from "../routine-baduta-immunization/graphOptions";
 
 import { formatNumber } from "@/helpers";
-import { useGetPercentageTotalImmunizationQuery } from "@/lib/services/baduta-immunization";
+import {
+  useGetPercentageTotalImmunizationQuery,
+  useGetScopePercentagePerMonthQuery,
+  useGetSummaryScopePercentageQuery,
+} from "@/lib/services/baduta-immunization";
+import {
+  Filter1,
+  Filter2,
+  Filter3,
+  Filter4,
+  Filter5,
+} from "@/view/dashboard/routine-baduta-immunization/Filter";
 
 const Wus = () => {
   const filterState = useState({
@@ -55,6 +70,13 @@ const Wus = () => {
     tipe_vaksin: 1,
     tipe_umur: 1,
     wilayah: "All",
+
+    // new
+    tipe_vaksin1: 1,
+    tipe_vaksin2: 1,
+    tipe_vaksin3: 1,
+    tipe_vaksin4: 1,
+    tipe_vaksin5: 1,
   });
   const [filter] = filterState;
 
@@ -157,15 +179,25 @@ const Wus = () => {
     useGetTotalImmunizationTotalCumulativeCoverageQuery(
       filterQueryTotalCoverageLowest
     );
+  const { data: getTotalImmunizationTotalCumulativeCoverageRecipientsQuery } =
+    useGetTotalImmunizationTotalCumulativeCoverageRecipientsQuery(
+      filterQueryTotal
+    );
 
   // sample
-  const { data: getPercentageTotalImmunizationQuery } =
-    useGetPercentageTotalImmunizationQuery(
-      { ...filterQueryGraph, vaccine_type: filter.tipe_vaksin },
+  const { data: getSetSummaryScopePercentageQuery } =
+    useGetSummaryScopePercentageQuery(
+      { ...filterQueryGraph, vaccine_type: filter.tipe_vaksin2 },
       optionQuery
     );
 
-  console.log(getTotalImmunizationTotalCumulativeCoverageQuery, "isi data");
+  const { data: getSetScopePercentagePerMonthQuery } =
+    useGetScopePercentagePerMonthQuery(
+      { ...filterQueryGraph, vaccine_type: filter.tipe_vaksin2 },
+      optionQuery
+    );
+
+  // console.log(getSetScopePercentagePerMonthQuery, "isi data");
 
   const dataGraphRegionalRoutineImmunizationCoverageTrend = [
     {
@@ -189,6 +221,8 @@ const Wus = () => {
       regional: getTotalImmunizationTotalCoverageLowestQuery?.data?.faskes_desc,
     },
   ];
+
+  console.log(getSetScopePercentagePerMonthQuery, "si   da");
 
   return (
     <div className="flex flex-col items-center">
@@ -445,6 +479,74 @@ const Wus = () => {
                           };
                         })
                       )}
+                    />
+                  </div>
+                }
+              />
+            </div>
+
+            <div className="py-4 pb-12">
+              <RoutineImmunizationCoverageTrendGraph
+                title="Grafik Tren Cakupan Kumulatif atau Bulanan Penerima Imunisasi WUS "
+                subTitle="Grafik di bawah menampilkan cakupan program imunisasi rutin lengkap secara kumulatif atau bulanan. Pilih filter yang sesuai untuk menyesuaikan data yang diinginkan atau unduh grafik dengan memilih tombol Unduh."
+                graph={
+                  <div className="my-4 p-4 md:p-8 border rounded-lg">
+                    <GraphRoutineImmunizationCoverageTrend
+                      title={
+                        <div className="font-bold md:text-2xl">
+                          Data Kumulatif Jumlah Penerima, Cakupan, dan Target
+                          Cakupan{" "}
+                          <b className="text-primary-2">Imunisasi WUS</b> Selama
+                          Tahun <b className="text-primary-2">2023</b>
+                        </div>
+                      }
+                      subTitle={`Grafik menampilkan tren cakupan kumulatif penerima selama tahun ${filter.tahun}`}
+                      variant="private"
+                      filterState={filterState}
+                      filterComp={<Filter2 filterState={filterState} />}
+                      // threshold={
+                      //   <div className="p-2 sm:w-32 md:w-64 h-fit">
+                      //     <div className="text-sm">
+                      //       Total cakupan kumulatif pada tahun {filter.tahun}
+                      //     </div>
+                      //     <div className="py-2 font-bold text-3xl text-primary">
+                      //       {getSetSummaryScopePercentageQuery?.data?.pct}%
+                      //     </div>
+                      //     <div>
+                      //       Jumlah Imunisasi Baduta Lengkap:{" "}
+                      //       {formatNumber(
+                      //         getSetSummaryScopePercentageQuery?.data?.total ||
+                      //           0
+                      //       )}
+                      //     </div>
+                      //   </div>
+                      // }
+                      graphOptions={graphOptions2([
+                        {
+                          name: "% Cakupan",
+                          data:
+                            (
+                              getSetScopePercentagePerMonthQuery?.data || []
+                            )?.map((r: any) => r?.pct) || [],
+                          type: "line",
+                        },
+                        {
+                          name: "% Target Cakupan",
+                          data:
+                            (
+                              getSetScopePercentagePerMonthQuery?.data || []
+                            )?.map((r: any) => r?.target) || [],
+                          type: "line",
+                        },
+                        {
+                          name: "Jumlah Penerima Imunisasi",
+                          data:
+                            (
+                              getSetScopePercentagePerMonthQuery?.data || []
+                            )?.map((r: any) => r?.total) || [],
+                          type: "bar",
+                        },
+                      ])}
                     />
                   </div>
                 }
