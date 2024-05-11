@@ -18,6 +18,7 @@ import {
   SummaryImmunization,
   TotalSummaryImmunization,
 } from "@/view/home";
+import FilterSummaryImmunizationWus from "@/view/home/components/FilterWus";
 import {
   // dataGraphRegionalRoutineImmunizationCoverageTrend,
   dataMonth,
@@ -36,11 +37,15 @@ import {
   useGetTotalImmunizationTotalCoverageLowestQuery,
   useGetTotalImmunizationTotalCumulativeCoverageQuery,
   useGetTotalImmunizationTotalCumulativeCoverageRecipientsQuery,
+  useGetDistributionStatusChartQuery,
+  useGetDistributionStatusPregnantChartQuery,
 } from "@/lib/services/wus";
 import VaccinateNudge from "@/assets/icons/vaccinate-nudge.png";
 import {
   graphOptions1,
   graphOptions2,
+  graphOptions5,
+  graphOptions6,
 } from "../routine-baduta-immunization/graphOptions";
 
 import { formatNumber } from "@/helpers";
@@ -59,24 +64,22 @@ import {
 
 const Wus = () => {
   const filterState = useState({
-    // tahun: new Date().getFullYear(),
     tahun: 2024,
     bulan: dataMonth.find((r, i) => i === new Date().getMonth())?.value,
     provinsi: "",
     kabkota: "",
     kecamatan: "",
-    jenis_sarana: "",
+    // jenis_sarana: "",
     faskes: "",
-    tipe_vaksin: 1,
-    tipe_umur: 1,
+    // tipe_vaksin1: 1,
+    // tipe_vaksin2: 1,
+    // tipe_vaksin3: 1,
+    // tipe_vaksin4: 1,
+    // tipe_vaksin5: 1,
+    // jenis_tren: "kumulatif",
+    // tipe_umur: 1,
+    // jenis_kelamin: 1,
     wilayah: "All",
-
-    // new
-    tipe_vaksin1: 1,
-    tipe_vaksin2: 1,
-    tipe_vaksin3: 1,
-    tipe_vaksin4: 1,
-    tipe_vaksin5: 1,
   });
   const [filter] = filterState;
 
@@ -96,7 +99,21 @@ const Wus = () => {
       : filter.provinsi
       ? "province"
       : "All",
-    region_id: filter.faskes
+    faskes_parent_id:
+      filter.provinsi !== "" &&
+      filter.kabkota !== "" &&
+      filter.kecamatan === undefined
+        ? filter.provinsi
+        : filter.provinsi !== "" &&
+          filter.kabkota !== "" &&
+          filter.kecamatan !== ""
+        ? filter.kabkota
+        : filter.provinsi !== "" && filter.kabkota !== ""
+        ? filter.provinsi
+        : filter.provinsi !== ""
+        ? filter.provinsi
+        : "All",
+    faskes_id: filter.faskes
       ? filter.faskes
       : filter.kecamatan
       ? filter.kecamatan
@@ -183,21 +200,10 @@ const Wus = () => {
     useGetTotalImmunizationTotalCumulativeCoverageRecipientsQuery(
       filterQueryTotal
     );
-
-  // sample
-  const { data: getSetSummaryScopePercentageQuery } =
-    useGetSummaryScopePercentageQuery(
-      { ...filterQueryGraph, vaccine_type: filter.tipe_vaksin2 },
-      optionQuery
-    );
-
-  const { data: getSetScopePercentagePerMonthQuery } =
-    useGetScopePercentagePerMonthQuery(
-      { ...filterQueryGraph, vaccine_type: filter.tipe_vaksin2 },
-      optionQuery
-    );
-
-  // console.log(getSetScopePercentagePerMonthQuery, "isi data");
+  const { data: getDistributionStatusChartQuery } =
+    useGetDistributionStatusChartQuery(filterQueryTotal);
+  const { data: getDistributionStatusPregnantChartQuery } =
+    useGetDistributionStatusPregnantChartQuery(filterQueryTotal);
 
   const dataGraphRegionalRoutineImmunizationCoverageTrend = [
     {
@@ -222,7 +228,7 @@ const Wus = () => {
     },
   ];
 
-  console.log(getSetScopePercentagePerMonthQuery, "si   da");
+  console.log(filter.kecamatan, "filter");
 
   return (
     <div className="flex flex-col items-center">
@@ -255,12 +261,12 @@ const Wus = () => {
                 Imunisasi Rutin WUS
               </div>
               <div>
-                Menampilkan data cakupan imunisasi rutin WUS berdasarkan
-                ...............
+                Menampilkan data cakupan imunisasi rutin wanita usia subur atau
+                ibu hamil berdasarkan jenis imunisasi dan daerah cakupan
               </div>
             </div>
             <div className="pt-6">
-              <FilterSummaryImmunization filterState={filterState} />
+              <FilterSummaryImmunizationWus filterState={filterState} />
             </div>
             <div className="py-6"></div>
             <div>
@@ -419,14 +425,13 @@ const Wus = () => {
                           </div>
                         }
                         subTitle="Grafik menampilkan hasil cakupan semua data imunisasi rutin lengkap dari 34 provinsi di Indonesia"
-                        addOn={
-                          <GraphAddOn
-                            dataCard={
-                              dataGraphRegionalRoutineImmunizationCoverageTrend
-                            }
-                          />
-                        }
-                        variant="private"
+                      // addOn={
+                      //   <GraphAddOn
+                      //     dataCard={
+                      //       dataGraphRegionalRoutineImmunizationCoverageTrend
+                      //     }
+                      //   />
+                      // }
                       />
                     </div>
                   }
@@ -526,28 +531,159 @@ const Wus = () => {
                           name: "% Cakupan",
                           data:
                             (
-                              getSetScopePercentagePerMonthQuery?.data || []
-                            )?.map((r: any) => r?.pct) || [],
+                              getTotalImmunizationTotalCumulativeCoverageRecipientsQuery?.data ||
+                              []
+                            )?.map((r: any) => r?.ytd_pct_total_t1) || [],
                           type: "line",
                         },
                         {
                           name: "% Target Cakupan",
                           data:
                             (
-                              getSetScopePercentagePerMonthQuery?.data || []
-                            )?.map((r: any) => r?.target) || [],
+                              getTotalImmunizationTotalCumulativeCoverageRecipientsQuery?.data ||
+                              []
+                            )?.map((r: any) => r?.pct_target_threshold_t1) ||
+                            [],
                           type: "line",
                         },
                         {
                           name: "Jumlah Penerima Imunisasi",
                           data:
                             (
-                              getSetScopePercentagePerMonthQuery?.data || []
-                            )?.map((r: any) => r?.total) || [],
+                              getTotalImmunizationTotalCumulativeCoverageRecipientsQuery?.data ||
+                              []
+                            )?.map((r: any) => r?.ytd_total_t1) || [],
                           type: "bar",
                         },
                       ])}
                     />
+                    <GraphRoutineImmunizationCoverageTrend
+                      title={
+                        <div className="font-bold md:text-2xl">
+                          Data Kumulatif Jumlah Penerima, Cakupan, dan Target
+                          Cakupan{" "}
+                          <b className="text-primary-2">Imunisasi WUS</b> Selama
+                          Tahun <b className="text-primary-2">2023</b>
+                        </div>
+                      }
+                      subTitle={`Grafik menampilkan tren cakupan kumulatif penerima selama tahun ${filter.tahun}`}
+                      variant="private"
+                      filterState={filterState}
+                      filterComp={<Filter2 filterState={filterState} />}
+                      graphOptions={graphOptions5([
+                        {
+                          name: "Total",
+                          type: "bar",
+                          barWidth: "60%",
+                          label: {
+                            show: true,
+                            position: "inside",
+                          },
+                          data: [
+                            getDistributionStatusChartQuery?.data?.ytd_total_t1,
+                            getDistributionStatusChartQuery?.data?.ytd_total_t2,
+                            getDistributionStatusChartQuery?.data?.ytd_total_t3,
+                            getDistributionStatusChartQuery?.data?.ytd_total_t4,
+                            getDistributionStatusChartQuery?.data?.ytd_total_t5,
+                            getDistributionStatusChartQuery?.data
+                              ?.ytd_total_t2plus,
+                          ],
+                        },
+                      ])}
+                    />
+                    <GraphRoutineImmunizationCoverageTrend
+                      title={
+                        <div className="font-bold md:text-2xl">
+                          Data Kumulatif Jumlah Penerima, Cakupan, dan Target
+                          Cakupan{" "}
+                          <b className="text-primary-2">Imunisasi WUS</b> Selama
+                          Tahun <b className="text-primary-2">2023</b>
+                        </div>
+                      }
+                      subTitle={`Grafik menampilkan tren cakupan kumulatif penerima selama tahun ${filter.tahun}`}
+                      variant="private"
+                      filterState={filterState}
+                      filterComp={<Filter2 filterState={filterState} />}
+                      graphOptions={graphOptions5([
+                        {
+                          name: "Total",
+                          type: "bar",
+                          barWidth: "60%",
+                          label: {
+                            show: true,
+                            position: "inside",
+                          },
+                          data: [
+                            getDistributionStatusPregnantChartQuery?.data
+                              ?.ytd_total_t1,
+                            getDistributionStatusPregnantChartQuery?.data
+                              ?.ytd_total_t2,
+                            getDistributionStatusPregnantChartQuery?.data
+                              ?.ytd_total_t3,
+                            getDistributionStatusPregnantChartQuery?.data
+                              ?.ytd_total_t4,
+                            getDistributionStatusPregnantChartQuery?.data
+                              ?.ytd_total_t5,
+                            getDistributionStatusPregnantChartQuery?.data
+                              ?.ytd_total_t2plus,
+                          ],
+                          itemStyle: {
+                            borderColor: "#FAC515",
+                            color: "#FAC515",
+                          },
+                          emphasis: {
+                            itemStyle: {
+                              borderColor: "#FAC515",
+                              color: "#FAC515",
+                            },
+                          },
+                        },
+                      ])}
+                    />
+                    {/* <GraphRoutineImmunizationCoverageTrend
+                      title={
+                        <div className="font-bold md:text-2xl">
+                          Data Kumulatif Jumlah Penerima, Cakupan, dan Target
+                          Cakupan{" "}
+                          <b className="text-primary-2">Imunisasi WUS</b> Selama
+                          Tahun <b className="text-primary-2">2023</b>
+                        </div>
+                      }
+                      subTitle={`Grafik menampilkan tren cakupan kumulatif penerima selama tahun ${filter.tahun}`}
+                      variant="private"
+                      filterState={filterState}
+                      filterComp={<Filter2 filterState={filterState} />}
+                      graphOptions={graphOptions6([
+                        {
+                          name: "% Cakupan",
+                          data:
+                            (
+                              getTotalImmunizationTotalCumulativeCoverageRecipientsQuery?.data ||
+                              []
+                            )?.map((r: any) => r?.ytd_pct_total_t1) || [],
+                          type: "line",
+                        },
+                        {
+                          name: "% Target Cakupan",
+                          data:
+                            (
+                              getTotalImmunizationTotalCumulativeCoverageRecipientsQuery?.data ||
+                              []
+                            )?.map((r: any) => r?.pct_target_threshold_t1) ||
+                            [],
+                          type: "line",
+                        },
+                        {
+                          name: "Jumlah Penerima Imunisasi",
+                          data:
+                            (
+                              getTotalImmunizationTotalCumulativeCoverageRecipientsQuery?.data ||
+                              []
+                            )?.map((r: any) => r?.ytd_total_t1) || [],
+                          type: "bar",
+                        },
+                      ])}
+                    /> */}
                   </div>
                 }
               />

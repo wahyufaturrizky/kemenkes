@@ -128,6 +128,88 @@ export const filterLocationOptions = [
     value: "Lokasi Fasilitas Kesehatan"
   }];
 
+export const vaccineTypeBabyOptions = [
+  {
+    label: "IMUNISASI DASAR LENGKAP - 1",
+    value: "1"
+  },
+  {
+    label: "HB - 1",
+    value: "2"
+  },
+  {
+    label: "MR - 2",
+    value: "3"
+  },
+  {
+    label: "BCG - 1",
+    value: "4"
+  },
+  {
+    label: "POLIO TETES - 1",
+    value: "5"
+  },
+  {
+    label: "POLIO TETES - 2",
+    value: "6"
+  },
+  {
+    label: "POLIO TETES - 3",
+    value: "7"
+  },
+  {
+    label: "POLIO TETES - 4",
+    value: "8"
+  },
+  {
+    label: "DPT-HB-Hib - 1",
+    value: "9"
+  },
+  {
+    label: "DPT-HB-Hib - 2",
+    value: "10"
+  },
+  {
+    label: "DPT-HB-Hib - 3",
+    value: "11"
+  },
+  {
+    label: "MR - 1",
+    value: "12"
+  },
+  {
+    label: "PCV - 1",
+    value: "13"
+  },
+  {
+    label: "PCV - 2",
+    value: "14"
+  },
+  {
+    label: "IPV - 1",
+    value: "15"
+  },
+  {
+    label: "IPV - 2",
+    value: "16"
+  },
+  {
+    label: "ROTA - 1",
+    value: "17"
+  },
+  {
+    label: "ROTA - 2",
+    value: "18"
+  },
+  {
+    label: "ROTA - 3",
+    value: "19"
+  },
+  {
+    label: "JE - 1",
+    value: "20"
+  },
+];
 export const vaccineTypeOptions = [
   {
     label: "IMUNISASI BADUTA LENGKAP",
@@ -184,6 +266,10 @@ export const trendTypeOptions = [
   {
     label: "Kumulatif",
     value: "kumulatif"
+  },
+  {
+    label: "Bulanan",
+    value: "bulanan"
   },
 ];
 

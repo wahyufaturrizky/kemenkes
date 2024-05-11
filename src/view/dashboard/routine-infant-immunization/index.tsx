@@ -8,7 +8,7 @@ import { ChildSummaryImmunization, FilterSummaryImmunization, GraphAddOn, GraphR
 import { Filter1, Filter2, Filter3, Filter4, Filter5 } from "@/view/dashboard/routine-infant-immunization/Filter";
 import { graphOptions1, graphOptions2, graphOptions3, graphOptions4 } from "@/view/dashboard/routine-infant-immunization//graphOptions";
 import { useGetAverageImmunizationByGenderQuery, useGetDoPercentageCampakRubelaQuery, useGetDoPercentageDPHTHBHIBQuery, useGetExceedTargetPerVaccineQuery, useGetHighestImmunizationByAgeQuery, useGetImmunizationWithHighetFemaleRecivientQuery, useGetImmunizationWithHighetMaleRecivientQuery, useGetInExceedTargetPerVaccineQuery, useGetMaxImmunizationByAgeQuery, useGetPercentageTotalImmunizationQuery, useGetScopePercentagePerMonthQuery, useGetSummaryImmunizationByAgeQuery, useGetSummaryImmunizationPerGenderQuery, useGetSummaryImmunizationPerVaccineQuery, useGetSummaryScopePercentageQuery, useGetTotalHighestScopeByVaccineTypeQuery, useGetTotalHighestScopeQuery, useGetTotalImmunizationByVaccineTypeQuery, useGetTotalImmunizationQuery, useGetTotalLowestScopeByVaccineTypeQuery, useGetTotalLowestScopeQuery, useGetTotalScopeByVaccineTypeQuery, useGetTotalScopeQuery } from "@/lib/services/baby-immunization";
-import { dataMonth, vaccineTypeOptions } from "@/utils/constants";
+import { dataMonth, vaccineTypeBabyOptions } from "@/utils/constants";
 import { formatNumber } from "@/helpers";
 
 const RoutineBabyImmunization = () => {
@@ -232,56 +232,56 @@ const RoutineBabyImmunization = () => {
             <div>
               <div className="font-bold text-primary-2 text-xl md:text-3xl">Ringkasan Data Cakupan Imunisasi Rutin Bayi</div>
               <div>Ringkasan berisi data total penerima imunisasi rutin bayi dan jenis imunisasi rutin bayi terhadap target cakupan yang sudah ditentukan.</div>
-              <div className="gap-4 grid grid-cols-1 sm:grid-cols-3 mt-4">
+              <div className="gap-4 grid grid-cols-1 sm:grid-cols-3 md:grid-cols-4 mt-4">
                 <ChildSummaryImmunization className="px-4 border rounded-lg" background="#9F1AB1" classNameTitle="text-white" classNameValue="text-4xl text-white"
                   title="Total Penerima Imunisasi Bayi"
                   value={getTotalImmunizationQuery?.data?.total || '0'}
                 />
-                {/* <ChildSummaryImmunization className="px-4 border rounded-lg" background="#FAC515" classNameTitle="text-white" classNameValue="text-4xl text-white"
-                  title={"Persentase Drop Out \nDPT-HB-Hib"}
-                  value={`${getDoPercentageDPHTHBHIBQuery?.data?.pct || 0}%`}
-                  percent={getDoPercentageDPHTHBHIBQuery?.data?.pct || '0'}
-                  target={getDoPercentageDPHTHBHIBQuery?.data?.target || '0'}
-                  subtitle={" dari "}
-                  showLine={false}
-                />
-                <ChildSummaryImmunization className="px-4 border rounded-lg" background="#FAC515" classNameTitle="text-white" classNameValue="text-4xl text-white"
-                  title={"Persentase Drop Out \nCampak Rubela"}
-                  value={`${getDoPercentageCampakRubelaQuery?.data?.pct || 0}%`}
-                  percent={getDoPercentageCampakRubelaQuery?.data?.pct || '0'}
-                  target={getDoPercentageCampakRubelaQuery?.data?.target || '0'}
-                  subtitle={" dari "}
-                  showLine={false}
-                /> */}
-              </div>
-              <div className="gap-4 grid grid-cols-1 sm:grid-cols-3 md:grid-cols-4 mt-4">
                 <ChildSummaryImmunization className="px-4 border rounded-lg" contentTooltip={<div></div>}
-                  title={vaccineTypeOptions[0].label}
+                  title={vaccineTypeBabyOptions[0].label}
                   value={getTotalImmunizationByVaccineTypeQuery1?.data?.total || '0'}
                   percent={getTotalImmunizationByVaccineTypeQuery1?.data?.pct || '0'}
                   target={getTotalImmunizationByVaccineTypeQuery1?.data?.target || '0'}
                   subtitle={" dari "}
                 />
                 <ChildSummaryImmunization className="px-4 border rounded-lg" titleIcon={<Image alt="satusehat" src={VaccinateNudge.src} width={24} height={24} />}
-                  title={vaccineTypeOptions[1].label}
+                  title={vaccineTypeBabyOptions[1].label}
                   value={getTotalImmunizationByVaccineTypeQuery2?.data?.total || '0'}
                   percent={getTotalImmunizationByVaccineTypeQuery2?.data?.pct || '0'}
                   target={getTotalImmunizationByVaccineTypeQuery2?.data?.target || '0'}
                   subtitle={" dari "}
                 />
                 <ChildSummaryImmunization className="px-4 border rounded-lg" titleIcon={<Image alt="satusehat" src={VaccinateNudge.src} width={24} height={24} />}
-                  title={vaccineTypeOptions[2].label}
+                  title={vaccineTypeBabyOptions[2].label}
                   value={getTotalImmunizationByVaccineTypeQuery3?.data?.total || '0'}
                   percent={getTotalImmunizationByVaccineTypeQuery3?.data?.pct || '0'}
                   target={getTotalImmunizationByVaccineTypeQuery3?.data?.target || '0'}
                   subtitle={" dari "}
                 />
                 <ChildSummaryImmunization className="px-4 border rounded-lg" titleIcon={<Image alt="satusehat" src={VaccinateNudge.src} width={24} height={24} />}
-                  title={vaccineTypeOptions[3].label}
+                  title={vaccineTypeBabyOptions[3].label}
                   value={getTotalImmunizationByVaccineTypeQuery4?.data?.total || '0'}
                   percent={getTotalImmunizationByVaccineTypeQuery4?.data?.pct || '0'}
                   target={getTotalImmunizationByVaccineTypeQuery4?.data?.target || '0'}
                   subtitle={" dari "}
+                />
+              </div>
+              <div className="gap-4 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 mt-4">
+                <ChildSummaryImmunization className="px-4 border rounded-lg" background="#FAC515" classNameTitle="text-white" classNameValue="text-4xl text-white"
+                  title="Presentase Left Out"
+                  value={getTotalImmunizationQuery?.data?.total || '0'}
+                />
+                <ChildSummaryImmunization className="px-4 border rounded-lg" background="#FAC515" classNameTitle="text-white" classNameValue="text-4xl text-white"
+                  title={"Persentase Drop Out \nDPT-HB-Hib"}
+                  value={`${getDoPercentageDPHTHBHIBQuery?.data?.pct || 0}%`}
+                />
+                <ChildSummaryImmunization className="px-4 border rounded-lg" background="#FAC515" classNameTitle="text-white" classNameValue="text-4xl text-white"
+                  title={"Persentase Drop Out \nCampak Rubela"}
+                  value={`${getDoPercentageCampakRubelaQuery?.data?.pct || 0}%`}
+                />
+                <ChildSummaryImmunization className="px-4 border rounded-lg" background="#FAC515" classNameTitle="text-white" classNameValue="text-4xl text-white"
+                  title={"Jumlah Zero Dose"}
+                  value={`${getDoPercentageCampakRubelaQuery?.data?.pct || 0}%`}
                 />
               </div>
             </div>

@@ -85,6 +85,20 @@ export const wusImmunizationApi = apiWithTag.injectEndpoints({
       }),
       providesTags: ["wus-immunization"],
     }),
+    getDistributionStatusChart: build.query({
+      query: (options = {}) => ({
+        url: `${API_URL}/v1/wus-immunization/get-distribution-status-chart`,
+        params: options,
+      }),
+      providesTags: ["wus-immunization"],
+    }),
+    getDistributionStatusPregnantChart: build.query({
+      query: (options = {}) => ({
+        url: `${API_URL}/v1/wus-immunization/get-distribution-status-pregnant-chart`,
+        params: options,
+      }),
+      providesTags: ["wus-immunization"],
+    }),
   }),
 });
 
@@ -100,4 +114,6 @@ export const {
   useGetTotalImmunizationTotalCoverageLowestQuery,
   useGetTotalImmunizationTotalCumulativeCoverageQuery,
   useGetTotalImmunizationTotalCumulativeCoverageRecipientsQuery,
+  useGetDistributionStatusChartQuery,
+  useGetDistributionStatusPregnantChartQuery,
 } = wusImmunizationApi;

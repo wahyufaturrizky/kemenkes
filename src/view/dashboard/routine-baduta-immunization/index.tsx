@@ -76,6 +76,7 @@ const RoutineBadutaImmunization = () => {
     tipe_vaksin3: 1,
     tipe_vaksin4: 1,
     tipe_vaksin5: 1,
+    jenis_tren: "kumulatif",
     tipe_umur: 1,
     jenis_kelamin: 1,
     wilayah: "All",
@@ -192,12 +193,20 @@ const RoutineBadutaImmunization = () => {
     );
   const { data: getSetScopePercentagePerMonthQuery } =
     useGetScopePercentagePerMonthQuery(
-      { ...filterQueryGraph, vaccine_type: filter.tipe_vaksin2 },
+      {
+        ...filterQueryGraph,
+        vaccine_type: filter.tipe_vaksin2,
+        is_kumulatif: filter.jenis_tren === "kumulatif" ? true : false,
+      },
       optionQuery
     );
   const { data: getSetSummaryScopePercentageQuery } =
     useGetSummaryScopePercentageQuery(
-      { ...filterQueryGraph, vaccine_type: filter.tipe_vaksin2 },
+      {
+        ...filterQueryGraph,
+        vaccine_type: filter.tipe_vaksin2,
+        is_kumulatif: filter.jenis_tren === "kumulatif" ? true : false,
+      },
       optionQuery
     );
   const { data: getTotalScopeByVaccineTypeQuery } =
