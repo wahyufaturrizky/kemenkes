@@ -131,6 +131,17 @@ const Wus = () => {
     women_category: "All",
   };
 
+  const filterCumulativeCoverage = {
+    ...dateQuery,
+    region_type: filter?.wilayah,
+    women_category: "All",
+  };
+  const filterCumulativeCoverageRecipients = {
+    ...dateQuery,
+    region_type: "All",
+    women_category: "All",
+  };
+
   const filterQueryTotalCoverage = {
     ...filterQueryTotal,
     faskes_desc: "NASIONAL",
@@ -194,11 +205,11 @@ const Wus = () => {
     );
   const { data: getTotalImmunizationTotalCumulativeCoverageQuery } =
     useGetTotalImmunizationTotalCumulativeCoverageQuery(
-      filterQueryTotalCoverageLowest
+      filterCumulativeCoverage
     );
   const { data: getTotalImmunizationTotalCumulativeCoverageRecipientsQuery } =
     useGetTotalImmunizationTotalCumulativeCoverageRecipientsQuery(
-      filterQueryTotal
+      filterCumulativeCoverageRecipients
     );
   const { data: getDistributionStatusChartQuery } =
     useGetDistributionStatusChartQuery(filterQueryTotal);
@@ -207,20 +218,22 @@ const Wus = () => {
 
   const dataGraphRegionalRoutineImmunizationCoverageTrend = [
     {
-      title: "Total Cakupan Imunisasi Rutin Lengkap Nasional Tahun 2023",
-      value: getTotalImmunizationTotalCoverageQuery?.data.ytd_pct_total_t1,
+      title: "Total Cakupan T2+  Nasioanl Tahun 2024",
+      value:
+        getTotalImmunizationTotalCoverageQuery?.data.ytd_pct_total_t1 + "%",
       regional: "",
     },
     {
-      title: "Cakupan Tertinggi Tahun 2023",
+      title: "Cakupan Tertinggi Tahun 2024",
       value:
-        getTotalImmunizationTotalCoverageHighestQuery?.data?.ytd_pct_total_t1,
+        getTotalImmunizationTotalCoverageHighestQuery?.data?.ytd_pct_total_t1 +
+        "%",
 
       regional:
         getTotalImmunizationTotalCoverageHighestQuery?.data?.faskes_desc,
     },
     {
-      title: "Cakupan Terendah Tahun 2023",
+      title: "Cakupan Terendah Tahun 2024",
       value:
         getTotalImmunizationTotalCoverageLowestQuery?.data?.ytd_pct_total_t1,
 
@@ -228,7 +241,10 @@ const Wus = () => {
     },
   ];
 
-  console.log(filter.kecamatan, "filter");
+  // console.log(
+  //   getTotalImmunizationTotalCumulativeCoverageRecipientsQuery,
+  //   "filter"
+  // );
 
   return (
     <div className="flex flex-col items-center">
@@ -450,12 +466,10 @@ const Wus = () => {
                       title={
                         <div className="font-bold md:text-2xl">
                           Data Cakupan{" "}
-                          <b className="text-primary-2">
-                            Imunisasi Dasar Lengkap
-                          </b>{" "}
+                          <b className="text-primary-2">Daerah Imunisasi WUS</b>{" "}
                           pada Provinsi di{" "}
                           <b className="text-primary-2">Indonesia</b> Selama
-                          Tahun <b className="text-primary-2">2023</b>
+                          Tahun <b className="text-primary-2">2024</b>
                         </div>
                       }
                       subTitle="Grafik menampilkan hasil cakupan semua data imunisasi rutin lengkap dari 34 provinsi di Indonesia"
@@ -468,6 +482,7 @@ const Wus = () => {
                       }
                       variant="private"
                       filterState={filterState}
+                      filterComp={<Filter1 filterState={filterState} />}
                       graphOptions={graphOptions1(
                         (
                           getTotalImmunizationTotalCumulativeCoverageQuery?.data ||
@@ -479,8 +494,15 @@ const Wus = () => {
                               (
                                 getTotalImmunizationTotalCumulativeCoverageQuery?.data ||
                                 []
-                              )?.map((r: any) => r?.ytd_total_t1) || [],
+                              )?.map((r: any) => r?.ytd_pct_total_t1) || [],
                             type: "bar",
+                            label: {
+                              show: true,
+                              precision: 1,
+                              position: "right",
+                              formatter: (params: any) =>
+                                `${params.value}% (${r?.ytd_total_t1})`,
+                            },
                           };
                         })
                       )}
@@ -500,12 +522,12 @@ const Wus = () => {
                       title={
                         <div className="font-bold md:text-2xl">
                           Data Kumulatif Jumlah Penerima, Cakupan, dan Target
-                          Cakupan{" "}
-                          <b className="text-primary-2">Imunisasi WUS</b> Selama
-                          Tahun <b className="text-primary-2">2023</b>
+                          Cakupan <b className="text-primary-2">T2+</b> pada
+                          Wanita Uaia Subur atau Ibu Hamil Selama Tahun{" "}
+                          <b className="text-primary-2">{filter.tahun}</b>
                         </div>
                       }
-                      subTitle={`Grafik menampilkan tren cakupan kumulatif penerima selama tahun ${filter.tahun}`}
+                      subTitle={`Grafik menampilkan tren cakupan kumulatif penerima imunisasi WUS`}
                       variant="private"
                       filterState={filterState}
                       filterComp={<Filter2 filterState={filterState} />}
