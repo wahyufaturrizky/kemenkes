@@ -2,13 +2,15 @@ import { combineReducers, configureStore } from '@reduxjs/toolkit';
 import authSlice from '@/lib/features/authSlice';
 import regionSlice from '@/lib/features/regionSlice';
 import badutaImmunizationSlice from '@/lib/features/badutaImmunizationSlice';
+import babyImmunizationSlice from '@/lib/features/babyImmunizationSlice';
 import { baseApi } from '@/lib/baseQuery';
 
 export const reducers = {
   [baseApi.reducerPath]: baseApi.reducer,
   auth: authSlice,
   region: regionSlice,
-  badutaImmunization: badutaImmunizationSlice
+  badutaImmunization: badutaImmunizationSlice,
+  babyImmunization: babyImmunizationSlice,
 }
 
 const reducer = combineReducers(reducers);

@@ -12,6 +12,7 @@ const CustomStylesFunc = () => {
     input: (base, props) => ({
       ...base,
       height: '38px',
+      minWidth: '120px'
     }),
     control: (base, props) => ({
       ...base,

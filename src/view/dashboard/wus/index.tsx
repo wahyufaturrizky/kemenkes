@@ -118,7 +118,7 @@ const Wus = () => {
     },
     {
       title: "Cakupan Terendah Tahun 2023",
-      value: "0",
+      value: 0,
       regional: "Papua Pegunungan",
     },
   ];
@@ -228,12 +228,12 @@ const Wus = () => {
                     ) || "0"
                   }
                   percent={
-                    getTotalImmunizationQuery?.data?.ytd_pct_t2plus || "0"
+                    getTotalImmunizationQuery?.data?.ytd_pct_t2plus || 0
                   }
                   target={
                     formatNumber(
                       getTotalImmunizationQuery?.data?.immunization_target_cnt
-                    ) || "0"
+                    ) || 0
                   }
                   subtitle={"%  dari "}
                 />
@@ -256,13 +256,13 @@ const Wus = () => {
                   }
                   percent={
                     getTotalImmunizationPregnantQuery?.data
-                      ?.ytd_pct_t2plus_pregnant || "0"
+                      ?.ytd_pct_t2plus_pregnant || 0
                   }
                   target={
                     formatNumber(
                       getTotalImmunizationPregnantQuery?.data
                         ?.immunization_target_cnt_pregnant
-                    ) || "0"
+                    ) || 0
                   }
                   subtitle={"%  dari "}
                 />
@@ -285,13 +285,13 @@ const Wus = () => {
                   }
                   percent={
                     getTotalImmunizationFertileQuery?.data
-                      ?.ytd_pct_t2plus_fertile || "0"
+                      ?.ytd_pct_t2plus_fertile || 0
                   }
                   target={
                     formatNumber(
                       getTotalImmunizationFertileQuery?.data
                         ?.immunization_target_cnt_fertile
-                    ) || "0"
+                    ) || 0
                   }
                   subtitle={"%  dari "}
                 />

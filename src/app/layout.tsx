@@ -1,12 +1,10 @@
 import type { Metadata } from "next";
-import { Archivo } from "next/font/google";
 import "./globals.css";
 import "react-datepicker/dist/react-datepicker.css";
 import StoreProvider from "./StoreProvider";
 import { Suspense } from "react";
 import Loading from "./loading";
-
-const archivo = Archivo({ subsets: ["latin"] });
+import { archivo } from "@/assets/fonts";
 
 export const metadata: Metadata = {
   title: "SatuSehat",

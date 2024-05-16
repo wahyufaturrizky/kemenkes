@@ -1,0 +1,15 @@
+.scoreCardPurple {
+  background-image: url('../images/scorecard-purple.png') !important;
+  background-size: inherit !important;
+  background-position: center !important;
+}
+
+.scoreCardYellow {
+  background-image: url('../images/scorecard-yellow.png') !important;
+  background-size: inherit !important;
+  background-position: center !important;
+}
+
+.fontStyleOpenSans {
+  font-family: 'Open Sans';
+}
