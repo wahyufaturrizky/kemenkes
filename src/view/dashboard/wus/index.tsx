@@ -285,7 +285,7 @@ const Wus = () => {
               <FilterSummaryImmunizationWus filterState={filterState} />
             </div>
             <div className="py-6"></div>
-            <div>
+            <div className="pb-12">
               <div className="font-bold text-primary-2 text-xl md:text-3xl">
                 Ringkasan Data Cakupan Imunisasi Rutin WUS
               </div>
@@ -295,45 +295,6 @@ const Wus = () => {
                 ditentukan.
               </div>
               <div className="gap-4 grid grid-cols-1 sm:grid-cols-3 mt-4">
-                <ChildSummaryImmunization
-                  className="px-4 border rounded-lg"
-                  background="#9F1AB1"
-                  classNameTitle="text-white"
-                  classNameValue="text-4xl text-white"
-                  title="Total Penerima Imunisasi Td WUS"
-                  value={
-                    formatNumber(
-                      getTotalImmunizationTdWusQuery?.data?.ytd_total_td_wus
-                    ) || "0"
-                  }
-                />
-                <ChildSummaryImmunization
-                  className="px-4 border rounded-lg"
-                  background="#9F1AB1"
-                  classNameTitle="text-white"
-                  classNameValue="text-4xl text-white"
-                  title="Total Penerima Imunisasi Td WUS Ibu Hamil"
-                  value={
-                    formatNumber(
-                      getTotalImmunizationTdWusPregnantQuery?.data
-                        ?.ytd_total_td_wus_pregnant
-                    ) || "0"
-                  }
-                />
-                <ChildSummaryImmunization
-                  className="px-4 border rounded-lg"
-                  background="#9F1AB1"
-                  classNameTitle="text-white"
-                  classNameValue="text-4xl text-white"
-                  title="Total Penerima Imunisasi Td WUS Ibu Tidak Hamil"
-                  value={
-                    formatNumber(
-                      getTotalImmunizationTdWusFertileQuery?.data
-                        ?.ytd_total_td_wus_fertile
-                    ) || "0"
-                  }
-                />
-
                 <ChildSummaryImmunization
                   className="px-4 border rounded-lg"
                   titleIcon={
@@ -418,46 +379,50 @@ const Wus = () => {
                   }
                   subtitle={"%  dari "}
                 />
-              </div>
-            </div>
-            {/* <div className="py-4 pb-12">
-              <div className="py-4 pb-12">
-                <RoutineImmunizationCoverageTrendGraph
-                  title="Grafik Tren Cakupan Kumulatif atau Bulanan Penerima Imunisasi Bayi "
-                  subTitle=""
-                  graph={
-                    <div className="my-4 p-4 md:p-8 border rounded-lg">
-                      <GraphRoutineImmunizationCoverageTrend
-                        layout="vertical"
-                        title={
-                          <div className="font-bold md:text-2xl">
-                            Data Cakupan{" "}
-                            <b className="text-primary-2">
-                              Imunisasi Dasar Lengkap
-                            </b>{" "}
-                            pada Provinsi di{" "}
-                            <b className="text-primary-2">Indonesia</b> Selama
-                            Tahun <b className="text-primary-2">2023</b>
-                          </div>
-                        }
-                        subTitle="Grafik menampilkan hasil cakupan semua data imunisasi rutin lengkap dari 34 provinsi di Indonesia"
-                      // addOn={
-                      //   <GraphAddOn
-                      //     dataCard={
-                      //       dataGraphRegionalRoutineImmunizationCoverageTrend
-                      //     }
-                      //   />
-                      // }
-                      />
-                    </div>
+                <ChildSummaryImmunization
+                  className="px-4 border rounded-lg"
+                  background="#9F1AB1"
+                  classNameTitle="text-white"
+                  classNameValue="text-4xl text-white"
+                  title="Total Penerima Imunisasi Td WUS"
+                  value={
+                    formatNumber(
+                      getTotalImmunizationTdWusQuery?.data?.ytd_total_td_wus
+                    ) || "0"
+                  }
+                />
+                <ChildSummaryImmunization
+                  className="px-4 border rounded-lg"
+                  background="#9F1AB1"
+                  classNameTitle="text-white"
+                  classNameValue="text-4xl text-white"
+                  title="Total Penerima Imunisasi Td WUS Ibu Hamil"
+                  value={
+                    formatNumber(
+                      getTotalImmunizationTdWusPregnantQuery?.data
+                        ?.ytd_total_td_wus_pregnant
+                    ) || "0"
+                  }
+                />
+                <ChildSummaryImmunization
+                  className="px-4 border rounded-lg"
+                  background="#9F1AB1"
+                  classNameTitle="text-white"
+                  classNameValue="text-4xl text-white"
+                  title="Total Penerima Imunisasi Td WUS Ibu Tidak Hamil"
+                  value={
+                    formatNumber(
+                      getTotalImmunizationTdWusFertileQuery?.data
+                        ?.ytd_total_td_wus_fertile
+                    ) || "0"
                   }
                 />
               </div>
-            </div> */}
+            </div>
 
             <div className="py-4 pb-12">
               <RoutineImmunizationCoverageTrendGraph
-                title=""
+                title="Grafik Tren Cakupan Daerah Imunisasi WUS"
                 subTitle=""
                 graph={
                   <div className="my-4 p-4 md:p-8 border rounded-lg">
@@ -465,14 +430,13 @@ const Wus = () => {
                       layout="vertical"
                       title={
                         <div className="font-bold md:text-2xl">
-                          Data Cakupan{" "}
-                          <b className="text-primary-2">Daerah Imunisasi WUS</b>{" "}
-                          pada Provinsi di{" "}
+                          Data Cakupan Status{" "}
+                          <b className="text-primary-2">T2+</b> pada Provinsi di{" "}
                           <b className="text-primary-2">Indonesia</b> Selama
                           Tahun <b className="text-primary-2">2024</b>
                         </div>
                       }
-                      subTitle="Grafik menampilkan hasil cakupan semua data imunisasi rutin lengkap dari 34 provinsi di Indonesia"
+                      subTitle="Grafik menampilkan hasil cakupan imunisasi dasar lengkap dari 38 provinsi di Indonesia"
                       addOn={
                         <GraphAddOn
                           dataCard={
@@ -515,15 +479,16 @@ const Wus = () => {
             <div className="py-4 pb-12">
               <RoutineImmunizationCoverageTrendGraph
                 title="Grafik Tren Cakupan Kumulatif atau Bulanan Penerima Imunisasi WUS "
-                subTitle="Grafik di bawah menampilkan cakupan program imunisasi rutin lengkap secara kumulatif atau bulanan. Pilih filter yang sesuai untuk menyesuaikan data yang diinginkan atau unduh grafik dengan memilih tombol Unduh."
+                subTitle=""
                 graph={
                   <div className="my-4 p-4 md:p-8 border rounded-lg">
                     <GraphRoutineImmunizationCoverageTrend
                       title={
                         <div className="font-bold md:text-2xl">
-                          Data Kumulatif Jumlah Penerima, Cakupan, dan Target
-                          Cakupan <b className="text-primary-2">T2+</b> pada
-                          Wanita Uaia Subur atau Ibu Hamil Selama Tahun{" "}
+                          Data <b className="text-primary-2">Kumulatif</b>{" "}
+                          Jumlah Penerima, Cakupan, dan Target Cakupan{" "}
+                          <b className="text-primary-2">T2+</b> pada Wanita Uaia
+                          Subur atau Ibu Hamil Selama Tahun{" "}
                           <b className="text-primary-2">{filter.tahun}</b>
                         </div>
                       }
