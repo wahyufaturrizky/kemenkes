@@ -1,3 +1,5 @@
+import { openSans } from "@/assets/fonts";
+
 interface DataCard {
   title: string;
   value: JSX.Element;
@@ -11,7 +13,7 @@ interface GraphAddOnProps {
 
 const GraphAddOn: React.FC<GraphAddOnProps> = ({ dataCard }) => {
   return (
-    <div className="flex flex-wrap gap-4">
+    <div className={`flex flex-wrap gap-4 ${openSans.className}`}>
       {dataCard.map((r) => (
         <div
           key={r.title}

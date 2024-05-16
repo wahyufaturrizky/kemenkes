@@ -46,6 +46,7 @@ import {
   graphOptions2,
   graphOptions5,
   graphOptions6,
+  graphOptions7,
 } from "../routine-baduta-immunization/graphOptions";
 
 import { formatNumber } from "@/helpers";
@@ -311,13 +312,11 @@ const Wus = () => {
                       getTotalImmunizationQuery?.data?.ytd_total_t2plus
                     ) || "0"
                   }
-                  percent={
-                    getTotalImmunizationQuery?.data?.ytd_pct_t2plus || "0"
-                  }
+                  percent={getTotalImmunizationQuery?.data?.ytd_pct_t2plus || 0}
                   target={
                     formatNumber(
                       getTotalImmunizationQuery?.data?.immunization_target_cnt
-                    ) || "0"
+                    ) || 0
                   }
                   subtitle={"%  dari "}
                 />
@@ -340,13 +339,13 @@ const Wus = () => {
                   }
                   percent={
                     getTotalImmunizationPregnantQuery?.data
-                      ?.ytd_pct_t2plus_pregnant || "0"
+                      ?.ytd_pct_t2plus_pregnant || 0
                   }
                   target={
                     formatNumber(
                       getTotalImmunizationPregnantQuery?.data
                         ?.immunization_target_cnt_pregnant
-                    ) || "0"
+                    ) || 0
                   }
                   subtitle={"%  dari "}
                 />
@@ -369,13 +368,13 @@ const Wus = () => {
                   }
                   percent={
                     getTotalImmunizationFertileQuery?.data
-                      ?.ytd_pct_t2plus_fertile || "0"
+                      ?.ytd_pct_t2plus_fertile || 0
                   }
                   target={
                     formatNumber(
                       getTotalImmunizationFertileQuery?.data
                         ?.immunization_target_cnt_fertile
-                    ) || "0"
+                    ) || 0
                   }
                   subtitle={"%  dari "}
                 />
@@ -557,7 +556,7 @@ const Wus = () => {
                       variant="private"
                       filterState={filterState}
                       filterComp={<Filter2 filterState={filterState} />}
-                      graphOptions={graphOptions5([
+                      graphOptions={graphOptions7([
                         {
                           name: "Total",
                           type: "bar",
@@ -591,7 +590,7 @@ const Wus = () => {
                       variant="private"
                       filterState={filterState}
                       filterComp={<Filter2 filterState={filterState} />}
-                      graphOptions={graphOptions5([
+                      graphOptions={graphOptions7([
                         {
                           name: "Total",
                           type: "bar",

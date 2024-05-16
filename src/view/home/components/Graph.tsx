@@ -4,6 +4,7 @@ import { regionOptions, vaccineTypeOptions } from '@/utils/constants'
 import styles from '../home.module.css'
 import { Button, GraphComposed, GraphEcharts, Select } from "@/components"
 import { useState } from 'react'
+import { openSans } from '@/assets/fonts'
 
 const options = [
   { value: 'chocolate', label: 'Chocolate' },
@@ -68,7 +69,7 @@ const GraphRoutineImmunizationCoverageTrend: React.FC<GraphRoutineImmunizationCo
         </div>
       }
       <div className="font-bold md:text-2xl">{title}</div>
-      <div>{subTitle}</div>
+      <div className={`${openSans.className}`}>{subTitle}</div>
       <div>
         <div className={`flex flex-wrap sm:flex-nowrap gap-4 relative`}>
           <div className="flex-grow">

@@ -1,6 +1,7 @@
 import { useState } from "react"
 import { Button, Select } from "@/components"
 import { ageTypeOptions, genderOptions, regionOptions, trendTypeOptions, vaccineTypeOptions } from "@/utils/constants"
+import { openSans } from "@/assets/fonts"
 
 interface FilterProps {
   filterState: any
@@ -9,7 +10,7 @@ export const Filter1: React.FC<FilterProps> = ({ filterState }) => {
   const [filter, setFilter] = filterState || useState({})
   return (
     <div className="flex flex-wrap justify-between items-center gap-4 sm:mt-20 md:mt-0 mb-8">
-      <div className="flex gap-4">
+      <div className={`flex gap-4 ${openSans.className}`}>
         <div>
           <Select
             options={vaccineTypeOptions}
@@ -25,11 +26,11 @@ export const Filter1: React.FC<FilterProps> = ({ filterState }) => {
         <div>
           <Select
             options={regionOptions}
-            onChange={(e: any) => { setFilter({ ...filter, wilayah: e ? e.value : "All" }) }}
-            value={filter.wilayah ?
-              vaccineTypeOptions
-                ?.find((f) => f.value === filter.wilayah)
-              : filter.wilayah}
+            onChange={(e: any) => { setFilter({ ...filter, wilayah1: e ? e.value : "All" }) }}
+            value={filter.wilayah1 ?
+              regionOptions
+                ?.find((f) => f.value === filter.wilayah1)
+              : filter.wilayah1}
           />
         </div>
       </div>
@@ -69,6 +70,7 @@ export const Filter2: React.FC<FilterProps> = ({ filterState }) => {
               vaccineTypeOptions
                 ?.find((f) => f.value === filter.tipe_vaksin2)
               : filter.tipe_vaksin2}
+            isClearable={false}
           />
         </div>
       </div>

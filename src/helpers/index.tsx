@@ -26,5 +26,5 @@ export function generateYearsArray(startYear: number, endYear: number) {
 }
 
 export function formatNumber(number: number) {
-  return (number || 0).toLocaleString('id-Id')
+  return Intl.NumberFormat("id-ID").format(Number((number || 0)?.toFixed(2)))
 }

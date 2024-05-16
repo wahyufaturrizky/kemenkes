@@ -9,7 +9,7 @@ import { Filter1, Filter2, Filter3, Filter4, Filter5 } from "@/view/dashboard/ro
 import { graphOptions1, graphOptions2, graphOptions3, graphOptions4 } from "@/view/dashboard/routine-infant-immunization//graphOptions";
 import { useGetAverageImmunizationByGenderQuery, useGetDoPercentageCampakRubelaQuery, useGetDoPercentageDPHTHBHIBQuery, useGetExceedTargetPerVaccineQuery, useGetHighestImmunizationByAgeQuery, useGetImmunizationWithHighetFemaleRecivientQuery, useGetImmunizationWithHighetMaleRecivientQuery, useGetInExceedTargetPerVaccineQuery, useGetMaxImmunizationByAgeQuery, useGetPercentageTotalImmunizationQuery, useGetScopePercentagePerMonthQuery, useGetSummaryImmunizationByAgeQuery, useGetSummaryImmunizationPerGenderQuery, useGetSummaryImmunizationPerVaccineQuery, useGetSummaryScopePercentageQuery, useGetTotalHighestScopeByVaccineTypeQuery, useGetTotalHighestScopeQuery, useGetTotalImmunizationByVaccineTypeQuery, useGetTotalImmunizationQuery, useGetTotalLowestScopeByVaccineTypeQuery, useGetTotalLowestScopeQuery, useGetTotalScopeByVaccineTypeQuery, useGetTotalScopeQuery } from "@/lib/services/baby-immunization";
 import { dataMonth, vaccineTypeBabyOptions } from "@/utils/constants";
-import { formatNumber } from "@/helpers";
+// import { formatNumber } from "@/helpers";
 
 const RoutineBabyImmunization = () => {
   const filterState = useState({
@@ -119,18 +119,18 @@ const RoutineBabyImmunization = () => {
     {
       title: `Cakupan Imunisasi Bayi Lengkap`,
       value: (<div>{getTotalScopeByVaccineTypeQuery?.data?.pct || 0}%</div>),
-      regional: (<div>Jumlah Cakupan: {formatNumber(getTotalScopeByVaccineTypeQuery?.data?.total || 0)}</div>),
+      regional: (<div>Jumlah Cakupan: {(getTotalScopeByVaccineTypeQuery?.data?.total || 0)}</div>),
     },
     {
       title: `Cakupan Imunisasi Tertinggi`,
       value: (<div>{getTotalHighestScopeByVaccineTypeQuery?.data?.vaccine || ""}</div>),
-      regional: (<div>Jumlah Cakupan: {formatNumber(getTotalHighestScopeByVaccineTypeQuery?.data?.total || 0)}</div>),
+      regional: (<div>Jumlah Cakupan: {(getTotalHighestScopeByVaccineTypeQuery?.data?.total || 0)}</div>),
       threshold: (<div>% Cakupan: {getTotalHighestScopeByVaccineTypeQuery?.data?.pct || 0}%</div>),
     },
     {
       title: `Cakupan Imunisasi Terendah`,
       value: (<div>{getTotalLowestScopeByVaccineTypeQuery?.data?.vaccine || ""}</div>),
-      regional: (<div>Jumlah Cakupan: {formatNumber(getTotalLowestScopeByVaccineTypeQuery?.data?.total || 0)}</div>),
+      regional: (<div>Jumlah Cakupan: {(getTotalLowestScopeByVaccineTypeQuery?.data?.total || 0)}</div>),
       threshold: (<div>% Cakupan: {getTotalLowestScopeByVaccineTypeQuery?.data?.pct || 0}%</div>),
     },
   ]
@@ -235,41 +235,41 @@ const RoutineBabyImmunization = () => {
               <div className="gap-4 grid grid-cols-1 sm:grid-cols-3 md:grid-cols-4 mt-4">
                 <ChildSummaryImmunization className="px-4 border rounded-lg" background="#9F1AB1" classNameTitle="text-white" classNameValue="text-4xl text-white"
                   title="Total Penerima Imunisasi Bayi"
-                  value={getTotalImmunizationQuery?.data?.total || '0'}
+                  value={getTotalImmunizationQuery?.data?.total || 0}
                 />
                 <ChildSummaryImmunization className="px-4 border rounded-lg" contentTooltip={<div></div>}
                   title={vaccineTypeBabyOptions[0].label}
-                  value={getTotalImmunizationByVaccineTypeQuery1?.data?.total || '0'}
-                  percent={getTotalImmunizationByVaccineTypeQuery1?.data?.pct || '0'}
-                  target={getTotalImmunizationByVaccineTypeQuery1?.data?.target || '0'}
+                  value={getTotalImmunizationByVaccineTypeQuery1?.data?.total || 0}
+                  percent={getTotalImmunizationByVaccineTypeQuery1?.data?.pct || 0}
+                  target={getTotalImmunizationByVaccineTypeQuery1?.data?.target || 0}
                   subtitle={" dari "}
                 />
                 <ChildSummaryImmunization className="px-4 border rounded-lg" titleIcon={<Image alt="satusehat" src={VaccinateNudge.src} width={24} height={24} />}
                   title={vaccineTypeBabyOptions[1].label}
-                  value={getTotalImmunizationByVaccineTypeQuery2?.data?.total || '0'}
-                  percent={getTotalImmunizationByVaccineTypeQuery2?.data?.pct || '0'}
-                  target={getTotalImmunizationByVaccineTypeQuery2?.data?.target || '0'}
+                  value={getTotalImmunizationByVaccineTypeQuery2?.data?.total || 0}
+                  percent={getTotalImmunizationByVaccineTypeQuery2?.data?.pct || 0}
+                  target={getTotalImmunizationByVaccineTypeQuery2?.data?.target || 0}
                   subtitle={" dari "}
                 />
                 <ChildSummaryImmunization className="px-4 border rounded-lg" titleIcon={<Image alt="satusehat" src={VaccinateNudge.src} width={24} height={24} />}
                   title={vaccineTypeBabyOptions[2].label}
-                  value={getTotalImmunizationByVaccineTypeQuery3?.data?.total || '0'}
-                  percent={getTotalImmunizationByVaccineTypeQuery3?.data?.pct || '0'}
-                  target={getTotalImmunizationByVaccineTypeQuery3?.data?.target || '0'}
+                  value={getTotalImmunizationByVaccineTypeQuery3?.data?.total || 0}
+                  percent={getTotalImmunizationByVaccineTypeQuery3?.data?.pct || 0}
+                  target={getTotalImmunizationByVaccineTypeQuery3?.data?.target || 0}
                   subtitle={" dari "}
                 />
                 <ChildSummaryImmunization className="px-4 border rounded-lg" titleIcon={<Image alt="satusehat" src={VaccinateNudge.src} width={24} height={24} />}
                   title={vaccineTypeBabyOptions[3].label}
-                  value={getTotalImmunizationByVaccineTypeQuery4?.data?.total || '0'}
-                  percent={getTotalImmunizationByVaccineTypeQuery4?.data?.pct || '0'}
-                  target={getTotalImmunizationByVaccineTypeQuery4?.data?.target || '0'}
+                  value={getTotalImmunizationByVaccineTypeQuery4?.data?.total || 0}
+                  percent={getTotalImmunizationByVaccineTypeQuery4?.data?.pct || 0}
+                  target={getTotalImmunizationByVaccineTypeQuery4?.data?.target || 0}
                   subtitle={" dari "}
                 />
               </div>
               <div className="gap-4 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 mt-4">
                 <ChildSummaryImmunization className="px-4 border rounded-lg" background="#FAC515" classNameTitle="text-white" classNameValue="text-4xl text-white"
                   title="Presentase Left Out"
-                  value={getTotalImmunizationQuery?.data?.total || '0'}
+                  value={getTotalImmunizationQuery?.data?.total || 0}
                 />
                 <ChildSummaryImmunization className="px-4 border rounded-lg" background="#FAC515" classNameTitle="text-white" classNameValue="text-4xl text-white"
                   title={"Persentase Drop Out \nDPT-HB-Hib"}
@@ -331,7 +331,7 @@ const RoutineBabyImmunization = () => {
                         <div className="p-2 sm:w-32 md:w-64 h-fit">
                           <div className="text-sm">Total cakupan kumulatif pada tahun {filter.tahun}</div>
                           <div className="py-2 font-bold text-3xl text-primary">{getSetSummaryScopePercentageQuery?.data?.pct}%</div>
-                          <div>Jumlah Imunisasi Bayi Lengkap: {formatNumber(getSetSummaryScopePercentageQuery?.data?.total || 0)}</div>
+                          <div>Jumlah Imunisasi Bayi Lengkap: {(getSetSummaryScopePercentageQuery?.data?.total || 0)}</div>
                         </div>
                       }
                       graphOptions={graphOptions2([
