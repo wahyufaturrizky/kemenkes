@@ -1,5 +1,6 @@
 "use client";
 
+import { Spin } from "@/components";
 import { formatNumber } from "@/helpers";
 import { cn } from "@/utils/cn";
 import { Line } from "rc-progress";
@@ -36,12 +37,15 @@ const ChildSummaryImmunization: React.FC<ChildSummaryImmunizationProps> = ({
 }) => {
   return (
     <div
-      className={`flex flex-col gap-2 justify-between py-4 ${className}`}
+      className={`relative group flex flex-col gap-2 py-4 ${className} h-full w-full`}
       style={{
         background: background ? background : "#FEFAFF",
         borderColor: percent ? "#F6D0FE" : "",
       }}
     >
+      <div className="group-hover:block bottom-full left-1/2 absolute hidden bg-gray-700 shadow-lg mb-2 p-2 rounded text-sm text-white transform -translate-x-1/2">
+        {contentTooltip}
+      </div>
       <div>
         <div
           className={cn(
@@ -56,24 +60,24 @@ const ChildSummaryImmunization: React.FC<ChildSummaryImmunizationProps> = ({
         <div className={cn(`text-2xl text-support-b2 py-2 ${classNameValue}`)}>
           {value}
         </div>
-      </div>
-      <div>
-        {percent && (
-          <>
-            <div>
-              {formatNumber(percent || 0)}% {subtitle} {target}
-            </div>
-            {showLine && (
-              <Line
-                percent={percent}
-                strokeWidth={5}
-                strokeColor={"#00B1A9"}
-                trailColor="#83E0DB"
-                trailWidth={5}
-              />
-            )}
-          </>
-        )}
+        <div>
+          {percent && (
+            <>
+              <div>
+                {formatNumber(percent || 0)}% {subtitle} {target}
+              </div>
+              {showLine && (
+                <Line
+                  percent={percent}
+                  strokeWidth={5}
+                  strokeColor={"#00B1A9"}
+                  trailColor="#83E0DB"
+                  trailWidth={5}
+                />
+              )}
+            </>
+          )}
+        </div>
       </div>
     </div>
   );
