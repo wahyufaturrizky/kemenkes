@@ -50,6 +50,55 @@ export const wusImmunizationApi = apiWithTag.injectEndpoints({
       }),
       providesTags: ["wus-immunization"],
     }),
+    getTotalImmunizationTotalCoverage: build.query({
+      query: (options = {}) => ({
+        url: `${API_URL}/v1/wus-immunization/total-immunization/get-total-coverage`,
+        params: options,
+      }),
+      providesTags: ["wus-immunization"],
+    }),
+    getTotalImmunizationTotalCoverageHighest: build.query({
+      query: (options = {}) => ({
+        url: `${API_URL}/v1/wus-immunization/total-immunization/get-total-coverage-highest`,
+        params: options,
+      }),
+      providesTags: ["wus-immunization"],
+    }),
+    getTotalImmunizationTotalCoverageLowest: build.query({
+      query: (options = {}) => ({
+        url: `${API_URL}/v1/wus-immunization/total-immunization/get-total-coverage-lowest`,
+        params: options,
+      }),
+      providesTags: ["wus-immunization"],
+    }),
+    getTotalImmunizationTotalCumulativeCoverage: build.query({
+      query: (options = {}) => ({
+        url: `${API_URL}/v1/wus-immunization/total-immunization/get-cumulative-coverage`,
+        params: options,
+      }),
+      providesTags: ["wus-immunization"],
+    }),
+    getTotalImmunizationTotalCumulativeCoverageRecipients: build.query({
+      query: (options = {}) => ({
+        url: `${API_URL}/v1/wus-immunization/total-immunization/get-cumulative-coverage-recipients`,
+        params: options,
+      }),
+      providesTags: ["wus-immunization"],
+    }),
+    getDistributionStatusChart: build.query({
+      query: (options = {}) => ({
+        url: `${API_URL}/v1/wus-immunization/get-distribution-status-chart`,
+        params: options,
+      }),
+      providesTags: ["wus-immunization"],
+    }),
+    getDistributionStatusPregnantChart: build.query({
+      query: (options = {}) => ({
+        url: `${API_URL}/v1/wus-immunization/get-distribution-status-pregnant-chart`,
+        params: options,
+      }),
+      providesTags: ["wus-immunization"],
+    }),
   }),
 });
 
@@ -60,4 +109,11 @@ export const {
   useGetTotalImmunizationTdWusQuery,
   useGetTotalImmunizationTdWusPregnantQuery,
   useGetTotalImmunizationTdWusFertileQuery,
+  useGetTotalImmunizationTotalCoverageQuery,
+  useGetTotalImmunizationTotalCoverageHighestQuery,
+  useGetTotalImmunizationTotalCoverageLowestQuery,
+  useGetTotalImmunizationTotalCumulativeCoverageQuery,
+  useGetTotalImmunizationTotalCumulativeCoverageRecipientsQuery,
+  useGetDistributionStatusChartQuery,
+  useGetDistributionStatusPregnantChartQuery,
 } = wusImmunizationApi;
