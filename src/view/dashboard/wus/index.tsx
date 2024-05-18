@@ -138,7 +138,13 @@ const Wus = () => {
   };
   const filterCumulativeCoverageRecipients = {
     ...dateQuery,
-    region_type: "All",
+    // region_type: "All",
+    // women_category: "All",
+    region_type: "province",
+    faskes_parent_id: 11,
+    faskes_id: 11,
+    status_type: "t1",
+    tren_type: "bulanan",
     women_category: "All",
   };
 
@@ -244,7 +250,10 @@ const Wus = () => {
     },
   ];
 
-  console.log(getTotalImmunizationTotalCoverageQuery, "total coverage");
+  console.log(
+    getTotalImmunizationTotalCumulativeCoverageRecipientsQuery,
+    "total"
+  );
 
   return (
     <div className="flex flex-col items-center">
@@ -494,8 +503,8 @@ const Wus = () => {
                       }
                       subTitle={`Grafik menampilkan tren cakupan kumulatif penerima imunisasi WUS`}
                       variant="private"
-                      filterState={filterState}
-                      filterComp={<Filter2 filterState={filterState} />}
+                      filterState={filterStateCoverage}
+                      filterComp={<Filter1 filterState={filterStateCoverage} />}
                       // threshold={
                       //   <div className="p-2 sm:w-32 md:w-64 h-fit">
                       //     <div className="text-sm">
@@ -515,22 +524,12 @@ const Wus = () => {
                       // }
                       graphOptions={graphOptions2([
                         {
-                          name: "% Cakupan",
-                          data:
-                            (
-                              getTotalImmunizationTotalCumulativeCoverageRecipientsQuery?.data ||
-                              []
-                            )?.map((r: any) => r?.ytd_pct_total_t1) || [],
-                          type: "line",
-                        },
-                        {
                           name: "% Target Cakupan",
                           data:
                             (
                               getTotalImmunizationTotalCumulativeCoverageRecipientsQuery?.data ||
                               []
-                            )?.map((r: any) => r?.pct_target_threshold_t1) ||
-                            [],
+                            )?.map((r: any) => r?.pct_target_threshold) || [],
                           type: "line",
                         },
                         {
@@ -539,8 +538,17 @@ const Wus = () => {
                             (
                               getTotalImmunizationTotalCumulativeCoverageRecipientsQuery?.data ||
                               []
-                            )?.map((r: any) => r?.ytd_total_t1) || [],
+                            )?.map((r: any) => r?.total) || [],
                           type: "bar",
+                        },
+                        {
+                          name: "% Cakupan",
+                          data:
+                            (
+                              getTotalImmunizationTotalCumulativeCoverageRecipientsQuery?.data ||
+                              []
+                            )?.map((r: any) => r?.pct_total) || [],
+                          type: "line",
                         },
                       ])}
                     />
