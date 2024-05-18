@@ -8,7 +8,7 @@ interface TabsProps {
   data: TabProps[]
   variant?: 'public' | 'private'
   value?: any
-  filterState: any
+  filterState?: any
 }
 
 const Tabs: React.FC<TabsProps> = ({
