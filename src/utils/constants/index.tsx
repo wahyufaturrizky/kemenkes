@@ -11,6 +11,19 @@ export const dataTabs: TabProps[] = [
   }
 ]
 
+export const dataTabBaduta: TabProps[] = [
+  {
+    text: 'Health Centre',
+    active: true,
+    value: 0
+  },
+  {
+    text: 'Domisili',
+    active: false,
+    value: 1
+  }
+]
+
 export const dataTotalSummaryImmunization = [
   {
     title: "Imunisasi Dasar Lengkap",

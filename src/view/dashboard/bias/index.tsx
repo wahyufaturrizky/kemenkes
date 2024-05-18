@@ -67,35 +67,35 @@ const Bias = () => {
     region_type: filter.faskes
       ? "faskes"
       : filter.kecamatan
-      ? "district"
-      : filter.kabkota
-      ? "city"
-      : filter.provinsi
-      ? "province"
-      : "All",
+        ? "district"
+        : filter.kabkota
+          ? "city"
+          : filter.provinsi
+            ? "province"
+            : "All",
     faskes_parent_id:
       filter.provinsi !== "" &&
-      filter.kabkota !== "" &&
-      filter.kecamatan === undefined
+        filter.kabkota !== "" &&
+        filter.kecamatan === undefined
         ? filter.provinsi
         : filter.provinsi !== "" &&
           filter.kabkota !== "" &&
           filter.kecamatan !== ""
-        ? filter.kabkota
-        : filter.provinsi !== "" && filter.kabkota !== ""
-        ? filter.provinsi
-        : filter.provinsi !== ""
-        ? filter.provinsi
-        : "All",
+          ? filter.kabkota
+          : filter.provinsi !== "" && filter.kabkota !== ""
+            ? filter.provinsi
+            : filter.provinsi !== ""
+              ? filter.provinsi
+              : "All",
     faskes_id: filter.faskes
       ? filter.faskes
       : filter.kecamatan
-      ? filter.kecamatan
-      : filter.kabkota
-      ? filter.kabkota
-      : filter.provinsi
-      ? filter.provinsi
-      : "All",
+        ? filter.kecamatan
+        : filter.kabkota
+          ? filter.kabkota
+          : filter.provinsi
+            ? filter.provinsi
+            : "All",
   };
   const optionQuery = {
     refetchOnMountOrArgChange: true,
@@ -157,8 +157,6 @@ const Bias = () => {
     optionQuery
   );
 
-  // console.log(getTotalCampakRubela, "toTAL");
-  // console.log(getTotalFullBias, "bias");
   const { data: getTotalImmunizationQuery } = useGetTotalImmunizationQuery(
     filterQuery,
     optionQuery

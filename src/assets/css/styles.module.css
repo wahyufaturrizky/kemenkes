@@ -1,13 +1,11 @@
 .scoreCardPurple {
   background-image: url('../images/scorecard-purple.png') !important;
-  background-size: inherit !important;
-  background-position: center !important;
+  background-size: 100% 100% !important;
 }
 
 .scoreCardYellow {
   background-image: url('../images/scorecard-yellow.png') !important;
-  background-size: inherit !important;
-  background-position: center !important;
+  background-size: 100% 100% !important;
 }
 
 .fontStyleOpenSans {

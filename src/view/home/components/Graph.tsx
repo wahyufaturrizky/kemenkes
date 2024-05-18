@@ -2,7 +2,7 @@
 
 import { regionOptions, vaccineTypeOptions } from '@/utils/constants'
 import styles from '../home.module.css'
-import { Button, GraphComposed, GraphEcharts, Select } from "@/components"
+import { Button, GraphComposed, GraphEcharts, Select, Spin } from "@/components"
 import { useState } from 'react'
 import { openSans } from '@/assets/fonts'
 
@@ -22,10 +22,11 @@ interface GraphRoutineImmunizationCoverageTrendProps {
   graphOptions?: any
   filterState?: any
   filterComp?: JSX.Element
+  isLoading?: boolean
 }
 
 const GraphRoutineImmunizationCoverageTrend: React.FC<GraphRoutineImmunizationCoverageTrendProps> = ({
-  title, subTitle, addOn, variant = 'public', graphOptions, filterState, threshold, filterComp
+  title, subTitle, addOn, variant = 'public', graphOptions, filterState, threshold, filterComp, isLoading
 }) => {
   const [filter, setFilter] = filterState || useState({})
   return (
@@ -73,11 +74,16 @@ const GraphRoutineImmunizationCoverageTrend: React.FC<GraphRoutineImmunizationCo
       <div>
         <div className={`flex flex-wrap sm:flex-nowrap gap-4 relative`}>
           <div className="flex-grow">
-            {graphOptions ?
-              <GraphEcharts graphOptions={graphOptions} />
-              :
-              <GraphComposed />
-            }
+            <div className="relative flex justify-center items-center">
+              {isLoading && <Spin />}
+              {graphOptions ?
+                <div className='w-full h-full'>
+                  <GraphEcharts graphOptions={graphOptions} />
+                </div>
+                :
+                <GraphComposed />
+              }
+            </div>
           </div>
           {threshold}
         </div>

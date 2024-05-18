@@ -56,12 +56,10 @@ import {
   useGetSummaryScopePercentageQuery,
 } from "@/lib/services/baduta-immunization";
 import {
-  Filter2,
-  Filter3,
   Filter4,
   Filter5,
 } from "@/view/dashboard/routine-baduta-immunization/Filter";
-import { Filter1 } from "@/view/dashboard/wus/FilterWus";
+import { Filter1, Filter2, Filter3 } from "@/view/dashboard/wus/FilterWus";
 
 const Wus = () => {
   const filterState = useState({
@@ -80,13 +78,6 @@ const Wus = () => {
     year: filter.tahun,
     month: filter.bulan,
   };
-
-  const filterStateCoverage = useState({
-    ...dateQuery,
-    status_type: "t1",
-    // women_category: "All",
-    // region_type: "province",
-  });
 
   const filterQuery = {
     ...dateQuery,
@@ -123,21 +114,46 @@ const Wus = () => {
       ? filter.provinsi
       : "All",
   };
+
+  const filterStateCoverage = useState({
+    ...dateQuery,
+    status_type: "t1",
+    women_category: "All",
+    region_type: "province",
+  });
+
+  const [filterCoverage] = filterStateCoverage;
+
+  const filterStateDistributionStatus = useState({
+    ...dateQuery,
+    status_type: "t1",
+    women_category: "All",
+    region_type: "province",
+  });
+
+  const [filterDistributionStatus] = filterStateDistributionStatus;
+
+  const filterStateDistributionStatusPregnant = useState({
+    ...dateQuery,
+    status_type: "t1",
+    women_category: "All",
+    region_type: "province",
+  });
+
+  const [filterDistributionStatusPregnant] =
+    filterStateDistributionStatusPregnant;
+
   const filterQueryTotal = {
     ...dateQuery,
-    region_type: "province",
+    region_type: filterQuery.region_type,
     faskes_parent_id: 11,
     faskes_id: 11,
     women_category: "All",
   };
 
-  const filterCumulativeCoverage = {
+  const filterCumulativeCoverageRecipients = useState({
     ...dateQuery,
-    region_type: filter?.wilayah,
-    women_category: "All",
-  };
-  const filterCumulativeCoverageRecipients = {
-    ...dateQuery,
+
     // region_type: "All",
     // women_category: "All",
     region_type: "province",
@@ -146,19 +162,32 @@ const Wus = () => {
     status_type: "t1",
     tren_type: "bulanan",
     women_category: "All",
-  };
+  });
+
+  const [filterCoverageRecipients] = filterCumulativeCoverageRecipients;
 
   const filterQueryTotalCoverage = {
     ...dateQuery,
     status_type: "t1",
   };
+
+  const filterCumulativeCoverage = {
+    ...dateQuery,
+    // region_type: "province",
+    // women_category: "All",
+    // status_type: filterCoverage.status_type,
+  };
   const filterQueryTotalCoverageHighest = {
     ...filterQueryTotalCoverage,
-    faskes_desc: "JAWA TIMUR",
+    women_category: "All",
+    region_type: "province",
+    // faskes_desc: "JAWA TIMUR",
   };
   const filterQueryTotalCoverageLowest = {
     ...filterQueryTotalCoverage,
-    faskes_desc: "PAPUA PEGUNUNGAN",
+    women_category: "All",
+    region_type: "province",
+    // faskes_desc: "PAPUA PEGUNUNGAN",
   };
 
   const optionQuery = {
@@ -202,29 +231,25 @@ const Wus = () => {
 
   // new
   const { data: getTotalImmunizationTotalCoverageQuery } =
-    useGetTotalImmunizationTotalCoverageQuery(filterStateCoverage);
+    useGetTotalImmunizationTotalCoverageQuery(filterCoverage);
   // new
 
   const { data: getTotalImmunizationTotalCoverageHighestQuery } =
-    useGetTotalImmunizationTotalCoverageHighestQuery(
-      filterQueryTotalCoverageHighest
-    );
+    useGetTotalImmunizationTotalCoverageHighestQuery(filterCoverage);
   const { data: getTotalImmunizationTotalCoverageLowestQuery } =
-    useGetTotalImmunizationTotalCoverageLowestQuery(
-      filterQueryTotalCoverageLowest
-    );
+    useGetTotalImmunizationTotalCoverageLowestQuery(filterCoverage);
   const { data: getTotalImmunizationTotalCumulativeCoverageQuery } =
-    useGetTotalImmunizationTotalCumulativeCoverageQuery(
-      filterCumulativeCoverage
-    );
+    useGetTotalImmunizationTotalCumulativeCoverageQuery(filterCoverage);
   const { data: getTotalImmunizationTotalCumulativeCoverageRecipientsQuery } =
     useGetTotalImmunizationTotalCumulativeCoverageRecipientsQuery(
-      filterCumulativeCoverageRecipients
+      filterCoverageRecipients
     );
   const { data: getDistributionStatusChartQuery } =
-    useGetDistributionStatusChartQuery(filterQueryTotal);
+    useGetDistributionStatusChartQuery(filterDistributionStatus);
   const { data: getDistributionStatusPregnantChartQuery } =
-    useGetDistributionStatusPregnantChartQuery(filterQueryTotal);
+    useGetDistributionStatusPregnantChartQuery(
+      filterDistributionStatusPregnant
+    );
 
   const dataGraphRegionalRoutineImmunizationCoverageTrend = [
     {
@@ -235,7 +260,7 @@ const Wus = () => {
     {
       title: "Cakupan Tertinggi Tahun 2024",
       value:
-        getTotalImmunizationTotalCoverageHighestQuery?.data?.ytd_pct_total_t1 +
+        getTotalImmunizationTotalCoverageHighestQuery?.data?.ytd_pct_total +
         "%",
 
       regional:
@@ -243,17 +268,13 @@ const Wus = () => {
     },
     {
       title: "Cakupan Terendah Tahun 2024",
-      value:
-        getTotalImmunizationTotalCoverageLowestQuery?.data?.ytd_pct_total_t1,
+      value: getTotalImmunizationTotalCoverageLowestQuery?.data?.ytd_pct_total,
 
       regional: getTotalImmunizationTotalCoverageLowestQuery?.data?.faskes_desc,
     },
   ];
 
-  console.log(
-    getTotalImmunizationTotalCumulativeCoverageRecipientsQuery,
-    "total"
-  );
+  console.log(getDistributionStatusChartQuery?.data?.ytd_total_t1, "isi data");
 
   return (
     <div className="flex flex-col items-center">
@@ -467,14 +488,14 @@ const Wus = () => {
                               (
                                 getTotalImmunizationTotalCumulativeCoverageQuery?.data ||
                                 []
-                              )?.map((r: any) => r?.ytd_pct_total_t1) || [],
+                              )?.map((r: any) => r?.ytd_pct_total) || [],
                             type: "bar",
                             label: {
                               show: true,
                               precision: 1,
                               position: "right",
                               formatter: (params: any) =>
-                                `${params.value}% (${r?.ytd_total_t1})`,
+                                `${params.value}% (${r?.ytd_total})`,
                             },
                           };
                         })
@@ -498,30 +519,17 @@ const Wus = () => {
                           Jumlah Penerima, Cakupan, dan Target Cakupan{" "}
                           <b className="text-primary-2">T2+</b> pada Wanita Uaia
                           Subur atau Ibu Hamil Selama Tahun{" "}
-                          <b className="text-primary-2">{filter.tahun}</b>
+                          <b className="text-primary-2">{"2024"}</b>
                         </div>
                       }
                       subTitle={`Grafik menampilkan tren cakupan kumulatif penerima imunisasi WUS`}
                       variant="private"
-                      filterState={filterStateCoverage}
-                      filterComp={<Filter1 filterState={filterStateCoverage} />}
-                      // threshold={
-                      //   <div className="p-2 sm:w-32 md:w-64 h-fit">
-                      //     <div className="text-sm">
-                      //       Total cakupan kumulatif pada tahun {filter.tahun}
-                      //     </div>
-                      //     <div className="py-2 font-bold text-3xl text-primary">
-                      //       {getSetSummaryScopePercentageQuery?.data?.pct}%
-                      //     </div>
-                      //     <div>
-                      //       Jumlah Imunisasi Baduta Lengkap:{" "}
-                      //       {formatNumber(
-                      //         getSetSummaryScopePercentageQuery?.data?.total ||
-                      //           0
-                      //       )}
-                      //     </div>
-                      //   </div>
-                      // }
+                      filterState={filterCumulativeCoverageRecipients}
+                      filterComp={
+                        <Filter2
+                          filterState={filterCumulativeCoverageRecipients}
+                        />
+                      }
                       graphOptions={graphOptions2([
                         {
                           name: "% Target Cakupan",
@@ -552,19 +560,34 @@ const Wus = () => {
                         },
                       ])}
                     />
+                  </div>
+                }
+              />
+            </div>
+            <div className="py-4 pb-12">
+              <RoutineImmunizationCoverageTrendGraph
+                title=""
+                subTitle=""
+                graph={
+                  <div className="my-4 p-4 md:p-8 border rounded-lg">
                     <GraphRoutineImmunizationCoverageTrend
                       title={
                         <div className="font-bold md:text-2xl">
-                          Data Kumulatif Jumlah Penerima, Cakupan, dan Target
-                          Cakupan{" "}
-                          <b className="text-primary-2">Imunisasi WUS</b> Selama
-                          Tahun <b className="text-primary-2">2023</b>
+                          {/* Data Kumulatif Jumlah Penerima, Cakupan, dan Target
+                          Cakupan{" "} */}
+                          <b className="text-primary-2">
+                            Grafik Sebaran Status T
+                          </b>
+                          {/* Selama
+                          Tahun <b className="text-primary-2">{"2024"}</b> */}
                         </div>
                       }
-                      subTitle={`Grafik menampilkan tren cakupan kumulatif penerima selama tahun ${filter.tahun}`}
+                      subTitle={``}
                       variant="private"
-                      filterState={filterState}
-                      filterComp={<Filter2 filterState={filterState} />}
+                      filterState={filterStateDistributionStatus}
+                      filterComp={
+                        <Filter3 filterState={filterStateDistributionStatus} />
+                      }
                       graphOptions={graphOptions7([
                         {
                           name: "Total",
@@ -586,19 +609,36 @@ const Wus = () => {
                         },
                       ])}
                     />
+                  </div>
+                }
+              />
+            </div>
+            <div className="py-4 pb-12">
+              <RoutineImmunizationCoverageTrendGraph
+                title=""
+                subTitle=""
+                graph={
+                  <div className="my-4 p-4 md:p-8 border rounded-lg">
                     <GraphRoutineImmunizationCoverageTrend
                       title={
                         <div className="font-bold md:text-2xl">
-                          Data Kumulatif Jumlah Penerima, Cakupan, dan Target
-                          Cakupan{" "}
-                          <b className="text-primary-2">Imunisasi WUS</b> Selama
-                          Tahun <b className="text-primary-2">2023</b>
+                          {/* Data Kumulatif Jumlah Penerima, Cakupan, dan Target
+                          Cakupan{" "} */}
+                          <b className="text-primary-2">
+                            Grafik Sebaran Status Kehamilan Terhadap Status T
+                          </b>
+                          {/* Selama
+                          Tahun <b className="text-primary-2">2023</b> */}
                         </div>
                       }
-                      subTitle={`Grafik menampilkan tren cakupan kumulatif penerima selama tahun ${filter.tahun}`}
+                      subTitle={``}
                       variant="private"
-                      filterState={filterState}
-                      filterComp={<Filter2 filterState={filterState} />}
+                      filterState={filterStateDistributionStatusPregnant}
+                      filterComp={
+                        <Filter3
+                          filterState={filterStateDistributionStatusPregnant}
+                        />
+                      }
                       graphOptions={graphOptions7([
                         {
                           name: "Total",
@@ -635,50 +675,6 @@ const Wus = () => {
                         },
                       ])}
                     />
-                    {/* <GraphRoutineImmunizationCoverageTrend
-                      title={
-                        <div className="font-bold md:text-2xl">
-                          Data Kumulatif Jumlah Penerima, Cakupan, dan Target
-                          Cakupan{" "}
-                          <b className="text-primary-2">Imunisasi WUS</b> Selama
-                          Tahun <b className="text-primary-2">2023</b>
-                        </div>
-                      }
-                      subTitle={`Grafik menampilkan tren cakupan kumulatif penerima selama tahun ${filter.tahun}`}
-                      variant="private"
-                      filterState={filterState}
-                      filterComp={<Filter2 filterState={filterState} />}
-                      graphOptions={graphOptions6([
-                        {
-                          name: "% Cakupan",
-                          data:
-                            (
-                              getTotalImmunizationTotalCumulativeCoverageRecipientsQuery?.data ||
-                              []
-                            )?.map((r: any) => r?.ytd_pct_total_t1) || [],
-                          type: "line",
-                        },
-                        {
-                          name: "% Target Cakupan",
-                          data:
-                            (
-                              getTotalImmunizationTotalCumulativeCoverageRecipientsQuery?.data ||
-                              []
-                            )?.map((r: any) => r?.pct_target_threshold_t1) ||
-                            [],
-                          type: "line",
-                        },
-                        {
-                          name: "Jumlah Penerima Imunisasi",
-                          data:
-                            (
-                              getTotalImmunizationTotalCumulativeCoverageRecipientsQuery?.data ||
-                              []
-                            )?.map((r: any) => r?.ytd_total_t1) || [],
-                          type: "bar",
-                        },
-                      ])}
-                    /> */}
                   </div>
                 }
               />
