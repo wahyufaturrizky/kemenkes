@@ -12,16 +12,15 @@ export const memoizedSelector = (() => {
     }
 
     // If input parameters are different, recalculate the result
-    const { auth, baseApi, region,
-      badutaImmunization,
-      babyImmunization
-    } = state; // Destructure state to extract relevant parts
+    const { auth, baseApi, region, badutaImmunization, babyImmunization, wus } =
+      state; // Destructure state to extract relevant parts
     const result = {
       auth,
       baseApi,
       region,
       badutaImmunization,
-      babyImmunization
+      babyImmunization,
+      wus,
     };
 
     // Cache the input parameters and the result

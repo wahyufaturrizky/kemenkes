@@ -56,12 +56,12 @@ import {
   useGetSummaryScopePercentageQuery,
 } from "@/lib/services/baduta-immunization";
 import {
-  Filter1,
   Filter2,
   Filter3,
   Filter4,
   Filter5,
 } from "@/view/dashboard/routine-baduta-immunization/Filter";
+import { Filter1 } from "@/view/dashboard/wus/FilterWus";
 
 const Wus = () => {
   const filterState = useState({
@@ -70,24 +70,23 @@ const Wus = () => {
     provinsi: "",
     kabkota: "",
     kecamatan: "",
-    // jenis_sarana: "",
     faskes: "",
-    // tipe_vaksin1: 1,
-    // tipe_vaksin2: 1,
-    // tipe_vaksin3: 1,
-    // tipe_vaksin4: 1,
-    // tipe_vaksin5: 1,
-    // jenis_tren: "kumulatif",
-    // tipe_umur: 1,
-    // jenis_kelamin: 1,
     wilayah: "All",
   });
+
   const [filter] = filterState;
 
   const dateQuery = {
     year: filter.tahun,
     month: filter.bulan,
   };
+
+  const filterStateCoverage = useState({
+    ...dateQuery,
+    status_type: "t1",
+    // women_category: "All",
+    // region_type: "province",
+  });
 
   const filterQuery = {
     ...dateQuery,
@@ -144,8 +143,8 @@ const Wus = () => {
   };
 
   const filterQueryTotalCoverage = {
-    ...filterQueryTotal,
-    faskes_desc: "NASIONAL",
+    ...dateQuery,
+    status_type: "t1",
   };
   const filterQueryTotalCoverageHighest = {
     ...filterQueryTotalCoverage,
@@ -194,8 +193,12 @@ const Wus = () => {
     useGetTotalImmunizationTdWusPregnantQuery(filterQuery, optionQuery);
   const { data: getTotalImmunizationTdWusFertileQuery } =
     useGetTotalImmunizationTdWusFertileQuery(filterQuery, optionQuery);
+
+  // new
   const { data: getTotalImmunizationTotalCoverageQuery } =
-    useGetTotalImmunizationTotalCoverageQuery(filterQueryTotalCoverage);
+    useGetTotalImmunizationTotalCoverageQuery(filterStateCoverage);
+  // new
+
   const { data: getTotalImmunizationTotalCoverageHighestQuery } =
     useGetTotalImmunizationTotalCoverageHighestQuery(
       filterQueryTotalCoverageHighest
@@ -220,8 +223,7 @@ const Wus = () => {
   const dataGraphRegionalRoutineImmunizationCoverageTrend = [
     {
       title: "Total Cakupan T2+  Nasioanl Tahun 2024",
-      value:
-        getTotalImmunizationTotalCoverageQuery?.data.ytd_pct_total_t1 + "%",
+      value: getTotalImmunizationTotalCoverageQuery?.data?.ytd_pct_total + "%",
       regional: "",
     },
     {
@@ -242,10 +244,7 @@ const Wus = () => {
     },
   ];
 
-  // console.log(
-  //   getTotalImmunizationTotalCumulativeCoverageRecipientsQuery,
-  //   "filter"
-  // );
+  console.log(getTotalImmunizationTotalCoverageQuery, "total coverage");
 
   return (
     <div className="flex flex-col items-center">
@@ -318,8 +317,9 @@ const Wus = () => {
                       getTotalImmunizationQuery?.data?.immunization_target_cnt
                     ) || 0
                   }
-                  subtitle={"%  dari "}
+                  subtitle={"dari "}
                 />
+
                 <ChildSummaryImmunization
                   className="px-4 border rounded-lg"
                   titleIcon={
@@ -339,16 +339,17 @@ const Wus = () => {
                   }
                   percent={
                     getTotalImmunizationPregnantQuery?.data
-                      ?.ytd_pct_t2plus_pregnant || 0
+                      ?.ytd_pct_t2plus_pregnant || "0"
                   }
                   target={
                     formatNumber(
                       getTotalImmunizationPregnantQuery?.data
                         ?.immunization_target_cnt_pregnant
-                    ) || 0
+                    ) || "0"
                   }
-                  subtitle={"%  dari "}
+                  subtitle={"  dari "}
                 />
+
                 <ChildSummaryImmunization
                   className="px-4 border rounded-lg"
                   titleIcon={
@@ -376,7 +377,7 @@ const Wus = () => {
                         ?.immunization_target_cnt_fertile
                     ) || 0
                   }
-                  subtitle={"%  dari "}
+                  subtitle={"  dari "}
                 />
                 <ChildSummaryImmunization
                   className="px-4 border rounded-lg"
@@ -444,8 +445,8 @@ const Wus = () => {
                         />
                       }
                       variant="private"
-                      filterState={filterState}
-                      filterComp={<Filter1 filterState={filterState} />}
+                      filterState={filterStateCoverage}
+                      filterComp={<Filter1 filterState={filterStateCoverage} />}
                       graphOptions={graphOptions1(
                         (
                           getTotalImmunizationTotalCumulativeCoverageQuery?.data ||

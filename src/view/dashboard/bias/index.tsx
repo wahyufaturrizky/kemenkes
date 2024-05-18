@@ -19,6 +19,7 @@ import {
 } from "@/view/home";
 import VaccinateNudge from "@/assets/icons/vaccinate-nudge.png";
 import { formatNumber } from "@/helpers";
+
 import {
   useGetTotalImmunizationQuery,
   useGetTotalImmunizationPregnantQuery,
@@ -34,7 +35,12 @@ import {
   useGetDistributionStatusChartQuery,
   useGetDistributionStatusPregnantChartQuery,
 } from "@/lib/services/wus";
-import { useGetTotalFullBiasQuery } from "@/lib/services/bias";
+import {
+  useGetTotalCampakRubelaQuery,
+  useGetTotalDt1Query,
+  useGetTotalFullBiasQuery,
+  useGetTotalRecipientsQuery,
+} from "@/lib/services/bias";
 import { Filter1, Filter2 } from "../routine-baduta-immunization/Filter";
 import {
   graphOptions1,
@@ -133,12 +139,26 @@ const Bias = () => {
     faskes_id: 11,
   };
 
-  const { data: getTotalFullBias } = useGetTotalFullBiasQuery(
+  const { data: getTotalRecipients } = useGetTotalRecipientsQuery(
     filterFullBias,
     optionQuery
   );
 
-  console.log(getTotalFullBias, "bias");
+  const { data: getTotalFullBias } = useGetTotalFullBiasQuery(
+    filterFullBias,
+    optionQuery
+  );
+  const { data: getTotalCampakRubela } = useGetTotalCampakRubelaQuery(
+    filterFullBias,
+    optionQuery
+  );
+  const { data: getTotalDt1 } = useGetTotalDt1Query(
+    filterFullBias,
+    optionQuery
+  );
+
+  // console.log(getTotalCampakRubela, "toTAL");
+  // console.log(getTotalFullBias, "bias");
   const { data: getTotalImmunizationQuery } = useGetTotalImmunizationQuery(
     filterQuery,
     optionQuery
@@ -259,12 +279,7 @@ const Bias = () => {
                   classNameTitle="text-white"
                   classNameValue="text-4xl text-white"
                   title="Total Penerima Imunisasi BIAS"
-                  value={
-                    formatNumber(
-                      getTotalImmunizationTdWusFertileQuery?.data
-                        ?.ytd_total_td_wus_fertile
-                    ) || "0"
-                  }
+                  value={formatNumber(getTotalRecipients?.data?.total) || "0"}
                 />
                 <ChildSummaryImmunization
                   className="px-4 border rounded-lg"
@@ -286,20 +301,12 @@ const Bias = () => {
                     />
                   }
                   title={"Campak Rubela - Kelas 1"}
-                  value={
-                    formatNumber(
-                      getTotalImmunizationQuery?.data?.ytd_total_t2plus
-                    ) || "0"
-                  }
-                  percent={
-                    getTotalImmunizationQuery?.data?.ytd_pct_t2plus || "0"
-                  }
+                  value={formatNumber(getTotalCampakRubela?.data?.total) || "0"}
+                  percent={getTotalCampakRubela?.data?.pct || "0"}
                   target={
-                    formatNumber(
-                      getTotalImmunizationQuery?.data?.immunization_target_cnt
-                    ) || "0"
+                    formatNumber(getTotalCampakRubela?.data?.target) || "0"
                   }
-                  subtitle={"%  dari "}
+                  subtitle={" dari "}
                 />
                 <ChildSummaryImmunization
                   className="px-4 border rounded-lg"
@@ -312,25 +319,12 @@ const Bias = () => {
                     />
                   }
                   title={"DT1 - Kelas 1"}
-                  value={
-                    formatNumber(
-                      getTotalImmunizationPregnantQuery?.data
-                        ?.ytd_total_t2plus_pregnant
-                    ) || "0"
-                  }
-                  percent={
-                    getTotalImmunizationPregnantQuery?.data
-                      ?.ytd_pct_t2plus_pregnant || "0"
-                  }
-                  target={
-                    formatNumber(
-                      getTotalImmunizationPregnantQuery?.data
-                        ?.immunization_target_cnt_pregnant
-                    ) || "0"
-                  }
+                  value={formatNumber(getTotalDt1?.data?.total) || "0"}
+                  percent={getTotalDt1?.data?.pct || "0"}
+                  target={formatNumber(getTotalDt1?.data?.target) || "0"}
                   subtitle={"%  dari "}
                 />
-                <ChildSummaryImmunization
+                {/* <ChildSummaryImmunization
                   className="px-4 border rounded-lg"
                   titleIcon={
                     <Image
@@ -358,8 +352,8 @@ const Bias = () => {
                     ) || "0"
                   }
                   subtitle={"%  dari "}
-                />
-                <ChildSummaryImmunization
+                /> */}
+                {/* <ChildSummaryImmunization
                   className="px-4 border rounded-lg"
                   titleIcon={
                     <Image
@@ -387,8 +381,8 @@ const Bias = () => {
                     ) || "0"
                   }
                   subtitle={"%  dari "}
-                />
-                <ChildSummaryImmunization
+                /> */}
+                {/* <ChildSummaryImmunization
                   className="px-4 border rounded-lg"
                   titleIcon={
                     <Image
@@ -416,8 +410,8 @@ const Bias = () => {
                     ) || "0"
                   }
                   subtitle={"%  dari "}
-                />
-                <ChildSummaryImmunization
+                /> */}
+                {/* <ChildSummaryImmunization
                   className="px-4 border rounded-lg"
                   titleIcon={
                     <Image
@@ -445,8 +439,8 @@ const Bias = () => {
                     ) || "0"
                   }
                   subtitle={"%  dari "}
-                />
-                <ChildSummaryImmunization
+                /> */}
+                {/* <ChildSummaryImmunization
                   className="px-4 border rounded-lg"
                   titleIcon={
                     <Image
@@ -474,7 +468,7 @@ const Bias = () => {
                     ) || "0"
                   }
                   subtitle={"%  dari "}
-                />
+                /> */}
               </div>
             </div>
 
