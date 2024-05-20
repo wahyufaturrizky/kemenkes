@@ -11,8 +11,8 @@ export const reducers = {
   auth: authSlice,
   region: regionSlice,
   badutaImmunization: badutaImmunizationSlice,
-  babyImmunization: babyImmunizationSlice,
-  wus: wusSlice,
+  // babyImmunization: babyImmunizationSlice,
+  // wus: wusSlice,
 };
 
 const reducer = combineReducers(reducers);

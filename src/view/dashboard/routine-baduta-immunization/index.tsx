@@ -7,7 +7,7 @@ import VaccinateNudge from "@/assets/icons/vaccinate-nudge.png"
 import { Banner, BannerHighlightFooter, BannerText, GraphEcharts, Navbar, Sidebar, Spin, Tabs } from "@/components"
 import { ChildSummaryImmunization, FilterSummaryImmunization, GraphAddOn, GraphRoutineImmunizationCoverageTrend, RoutineImmunizationCoverageTrendGraph, SummaryImmunization, TotalSummaryImmunization } from "@/view/home";
 import { Filter1, Filter2, Filter3, Filter4, Filter5 } from "@/view/dashboard/routine-baduta-immunization/Filter";
-import { graphOptions1, graphOptions2, graphOptions3, graphOptions4, graphOptions5 } from "@/view/dashboard/routine-baduta-immunization//graphOptions";
+import { graphOptions1, graphOptions2, graphOptions3, graphOptions4, graphOptions5 } from "@/view/dashboard/routine-baduta-immunization/graphOptions";
 import { useGetAverageImmunizationByGenderQuery, useGetDoPercentageCampakRubelaQuery, useGetDoPercentageDPHTHBHIBQuery, useGetExceedTargetPerVaccineQuery, useGetHighestImmunizationByAgeQuery, useGetImmunizationWithHighetFemaleRecivientQuery, useGetImmunizationWithHighetMaleRecivientQuery, useGetInExceedTargetPerVaccineQuery, useGetMaxImmunizationByAgeQuery, useGetPercentageTotalImmunizationQuery, useGetScopePercentagePerMonthQuery, useGetSummaryImmunizationByAgeQuery, useGetSummaryImmunizationPerGenderQuery, useGetSummaryImmunizationPerVaccineQuery, useGetSummaryScopePercentageQuery, useGetTotalHighestScopeByVaccineTypeQuery, useGetTotalHighestScopeQuery, useGetTotalImmunizationByVaccineTypeQuery, useGetTotalImmunizationQuery, useGetTotalLowestScopeByVaccineTypeQuery, useGetTotalLowestScopeQuery, useGetTotalScopeByVaccineTypeQuery, useGetTotalScopeQuery } from "@/lib/services/baduta-immunization";
 import { dataMonth, dataTabBaduta, vaccineTypeOptions } from "@/utils/constants";
 import { formatNumber } from "@/helpers";
@@ -711,7 +711,7 @@ const RoutineBadutaImmunization = () => {
                       subTitle="Grafik menampilkan cakupan imunisasi pada baduta berdasarkan jenis kelamin."
                       addOn={
                         <div className="flex gap-4 text-sm">
-                          <div className="relative flex flex-1 flex-1 justify-center items-center">
+                          <div className="relative flex flex-1 justify-center items-center">
                             {isLoadingAverageImmunizationByGenderQuery && <Spin />}
                             <div className='px-4 py-3 rounded-xl w-full h-full' style={{ boxShadow: '0px 2px 12px 0px #00000014' }}>
                               <div className="font-bold text-lg">
@@ -721,7 +721,7 @@ const RoutineBadutaImmunization = () => {
                             </div>
                           </div>
                           {dataGraphRegionalRoutineImmunizationCoverageTrend4.map((r, i) => (
-                            <div key={`gender-score-${i}`} className="relative flex flex-1 flex-1 justify-center items-center">
+                            <div key={`gender-score-${i}`} className="relative flex flex-1 justify-center items-center">
                               {r?.isLoading && <Spin />}
                               <div className='flex-1 px-4 py-3 rounded-xl w-full h-full' style={{ boxShadow: '0px 2px 12px 0px #00000014' }}>
                                 <div className="font-bold text-lg">

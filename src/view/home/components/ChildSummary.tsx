@@ -43,9 +43,9 @@ const ChildSummaryImmunization: React.FC<ChildSummaryImmunizationProps> = ({
         borderColor: percent ? "#F6D0FE" : "",
       }}
     >
-      <div className="group-hover:block bottom-full left-1/2 absolute hidden bg-gray-700 shadow-lg mb-2 p-2 rounded text-sm text-white transform -translate-x-1/2">
+      {contentTooltip && <div className="group-hover:block bottom-full left-1/2 absolute hidden bg-gray-700 shadow-lg mb-2 p-2 rounded text-sm text-white transform -translate-x-1/2">
         {contentTooltip}
-      </div>
+      </div>}
       <div>
         <div
           className={cn(
