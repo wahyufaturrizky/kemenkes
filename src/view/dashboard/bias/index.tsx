@@ -40,6 +40,12 @@ import {
   useGetTotalDt1Query,
   useGetTotalFullBiasQuery,
   useGetTotalRecipientsQuery,
+  useGetTotalTd1Query,
+  useGetTotalTd2Query,
+  useGetTotalTd3Query,
+  useGetTotalHpv1Query,
+  useGetTotalHpv2Query,
+  useGetTotalQuery,
 } from "@/lib/services/bias";
 import { Filter1, Filter2 } from "../routine-baduta-immunization/Filter";
 import {
@@ -67,35 +73,35 @@ const Bias = () => {
     region_type: filter.faskes
       ? "faskes"
       : filter.kecamatan
-        ? "district"
-        : filter.kabkota
-          ? "city"
-          : filter.provinsi
-            ? "province"
-            : "All",
+      ? "district"
+      : filter.kabkota
+      ? "city"
+      : filter.provinsi
+      ? "province"
+      : "All",
     faskes_parent_id:
       filter.provinsi !== "" &&
-        filter.kabkota !== "" &&
-        filter.kecamatan === undefined
+      filter.kabkota !== "" &&
+      filter.kecamatan === undefined
         ? filter.provinsi
         : filter.provinsi !== "" &&
           filter.kabkota !== "" &&
           filter.kecamatan !== ""
-          ? filter.kabkota
-          : filter.provinsi !== "" && filter.kabkota !== ""
-            ? filter.provinsi
-            : filter.provinsi !== ""
-              ? filter.provinsi
-              : "All",
+        ? filter.kabkota
+        : filter.provinsi !== "" && filter.kabkota !== ""
+        ? filter.provinsi
+        : filter.provinsi !== ""
+        ? filter.provinsi
+        : "All",
     faskes_id: filter.faskes
       ? filter.faskes
       : filter.kecamatan
-        ? filter.kecamatan
-        : filter.kabkota
-          ? filter.kabkota
-          : filter.provinsi
-            ? filter.provinsi
-            : "All",
+      ? filter.kecamatan
+      : filter.kabkota
+      ? filter.kabkota
+      : filter.provinsi
+      ? filter.provinsi
+      : "All",
   };
   const optionQuery = {
     refetchOnMountOrArgChange: true,
@@ -156,22 +162,28 @@ const Bias = () => {
     filterFullBias,
     optionQuery
   );
-
-  const { data: getTotalImmunizationQuery } = useGetTotalImmunizationQuery(
-    filterQuery,
+  const { data: getTotalTd1 } = useGetTotalTd1Query(
+    filterFullBias,
     optionQuery
   );
+  const { data: getTotalTd2 } = useGetTotalTd2Query(
+    filterFullBias,
+    optionQuery
+  );
+  const { data: getTotalTd3 } = useGetTotalTd3Query(
+    filterFullBias,
+    optionQuery
+  );
+  const { data: getTotalHpv1 } = useGetTotalHpv1Query(
+    filterFullBias,
+    optionQuery
+  );
+  const { data: getTotalHpv2 } = useGetTotalHpv2Query(
+    filterFullBias,
+    optionQuery
+  );
+  const { data: getTotal } = useGetTotalQuery(filterFullBias, optionQuery);
 
-  const { data: getTotalImmunizationPregnantQuery } =
-    useGetTotalImmunizationPregnantQuery(filterQuery, optionQuery);
-  const { data: getTotalImmunizationFertileQuery } =
-    useGetTotalImmunizationFertileQuery(filterQuery, optionQuery);
-  const { data: getTotalImmunizationTdWusQuery } =
-    useGetTotalImmunizationTdWusQuery(filterQuery, optionQuery);
-  const { data: getTotalImmunizationTdWusPregnantQuery } =
-    useGetTotalImmunizationTdWusPregnantQuery(filterQuery, optionQuery);
-  const { data: getTotalImmunizationTdWusFertileQuery } =
-    useGetTotalImmunizationTdWusFertileQuery(filterQuery, optionQuery);
   const { data: getTotalImmunizationTotalCoverageQuery } =
     useGetTotalImmunizationTotalCoverageQuery(filterQueryTotalCoverage);
   const { data: getTotalImmunizationTotalCoverageHighestQuery } =
@@ -190,23 +202,18 @@ const Bias = () => {
     useGetTotalImmunizationTotalCumulativeCoverageRecipientsQuery(
       filterCumulativeCoverageRecipients
     );
-  const { data: getDistributionStatusChartQuery } =
-    useGetDistributionStatusChartQuery(filterQueryTotal);
-  const { data: getDistributionStatusPregnantChartQuery } =
-    useGetDistributionStatusPregnantChartQuery(filterQueryTotal);
 
   const dataGraphRegionalRoutineImmunizationCoverageTrend = [
     {
       title: "Total Cakupan T2+  Nasioanl Tahun 2024",
-      value:
-        getTotalImmunizationTotalCoverageQuery?.data.ytd_pct_total_t1 + "%",
+      value: getTotal?.data.pct || "0",
       regional: "",
     },
     {
       title: "Cakupan Tertinggi Tahun 2024",
       value:
-        getTotalImmunizationTotalCoverageHighestQuery?.data?.ytd_pct_total_t1 +
-        "%",
+        getTotalImmunizationTotalCoverageHighestQuery?.data?.ytd_pct_total_t1 ||
+        "0",
 
       regional:
         getTotalImmunizationTotalCoverageHighestQuery?.data?.faskes_desc,
@@ -316,13 +323,13 @@ const Bias = () => {
                       height={24}
                     />
                   }
-                  title={"DT1 - Kelas 1"}
+                  title={"DT 1 - Kelas 1"}
                   value={formatNumber(getTotalDt1?.data?.total) || "0"}
                   percent={getTotalDt1?.data?.pct || "0"}
                   target={formatNumber(getTotalDt1?.data?.target) || "0"}
-                  subtitle={"%  dari "}
+                  subtitle={"dari "}
                 />
-                {/* <ChildSummaryImmunization
+                <ChildSummaryImmunization
                   className="px-4 border rounded-lg"
                   titleIcon={
                     <Image
@@ -332,26 +339,13 @@ const Bias = () => {
                       height={24}
                     />
                   }
-                  title={"Td1 - Kelas 2"}
-                  value={
-                    formatNumber(
-                      getTotalImmunizationFertileQuery?.data
-                        ?.ytd_total_t2plus_fertile
-                    ) || "0"
-                  }
-                  percent={
-                    getTotalImmunizationFertileQuery?.data
-                      ?.ytd_pct_t2plus_fertile || "0"
-                  }
-                  target={
-                    formatNumber(
-                      getTotalImmunizationFertileQuery?.data
-                        ?.immunization_target_cnt_fertile
-                    ) || "0"
-                  }
-                  subtitle={"%  dari "}
-                /> */}
-                {/* <ChildSummaryImmunization
+                  title={"Td 1 - Kelas 2"}
+                  value={formatNumber(getTotalTd1?.data?.total) || "0"}
+                  percent={getTotalTd1?.data?.pct || "0"}
+                  target={formatNumber(getTotalTd1?.data?.target) || "0"}
+                  subtitle={"dari "}
+                />
+                <ChildSummaryImmunization
                   className="px-4 border rounded-lg"
                   titleIcon={
                     <Image
@@ -361,26 +355,13 @@ const Bias = () => {
                       height={24}
                     />
                   }
-                  title={"Td2 - Kelas 5"}
-                  value={
-                    formatNumber(
-                      getTotalImmunizationFertileQuery?.data
-                        ?.ytd_total_t2plus_fertile
-                    ) || "0"
-                  }
-                  percent={
-                    getTotalImmunizationFertileQuery?.data
-                      ?.ytd_pct_t2plus_fertile || "0"
-                  }
-                  target={
-                    formatNumber(
-                      getTotalImmunizationFertileQuery?.data
-                        ?.immunization_target_cnt_fertile
-                    ) || "0"
-                  }
-                  subtitle={"%  dari "}
-                /> */}
-                {/* <ChildSummaryImmunization
+                  title={"Td 2 - Kelas 5"}
+                  value={formatNumber(getTotalTd2?.data?.total) || "0"}
+                  percent={getTotalTd2?.data?.pct || "0"}
+                  target={formatNumber(getTotalTd2?.data?.target) || "0"}
+                  subtitle={"dari "}
+                />
+                <ChildSummaryImmunization
                   className="px-4 border rounded-lg"
                   titleIcon={
                     <Image
@@ -390,26 +371,10 @@ const Bias = () => {
                       height={24}
                     />
                   }
-                  title={"Td3"}
-                  value={
-                    formatNumber(
-                      getTotalImmunizationFertileQuery?.data
-                        ?.ytd_total_t2plus_fertile
-                    ) || "0"
-                  }
-                  percent={
-                    getTotalImmunizationFertileQuery?.data
-                      ?.ytd_pct_t2plus_fertile || "0"
-                  }
-                  target={
-                    formatNumber(
-                      getTotalImmunizationFertileQuery?.data
-                        ?.immunization_target_cnt_fertile
-                    ) || "0"
-                  }
-                  subtitle={"%  dari "}
-                /> */}
-                {/* <ChildSummaryImmunization
+                  title={"Td 3"}
+                  value={formatNumber(getTotalTd3?.data?.total) || "0"}
+                />
+                <ChildSummaryImmunization
                   className="px-4 border rounded-lg"
                   titleIcon={
                     <Image
@@ -419,26 +384,13 @@ const Bias = () => {
                       height={24}
                     />
                   }
-                  title={"HPV1 - Kelas 5"}
-                  value={
-                    formatNumber(
-                      getTotalImmunizationFertileQuery?.data
-                        ?.ytd_total_t2plus_fertile
-                    ) || "0"
-                  }
-                  percent={
-                    getTotalImmunizationFertileQuery?.data
-                      ?.ytd_pct_t2plus_fertile || "0"
-                  }
-                  target={
-                    formatNumber(
-                      getTotalImmunizationFertileQuery?.data
-                        ?.immunization_target_cnt_fertile
-                    ) || "0"
-                  }
-                  subtitle={"%  dari "}
-                /> */}
-                {/* <ChildSummaryImmunization
+                  title={"HPV 1 - Kelas 5"}
+                  value={formatNumber(getTotalHpv1?.data?.total) || "0"}
+                  percent={getTotalHpv1?.data?.pct || "0"}
+                  target={formatNumber(getTotalHpv1?.data?.target) || "0"}
+                  subtitle={"dari "}
+                />
+                <ChildSummaryImmunization
                   className="px-4 border rounded-lg"
                   titleIcon={
                     <Image
@@ -448,25 +400,12 @@ const Bias = () => {
                       height={24}
                     />
                   }
-                  title={"HPV2 - Kelas 6"}
-                  value={
-                    formatNumber(
-                      getTotalImmunizationFertileQuery?.data
-                        ?.ytd_total_t2plus_fertile
-                    ) || "0"
-                  }
-                  percent={
-                    getTotalImmunizationFertileQuery?.data
-                      ?.ytd_pct_t2plus_fertile || "0"
-                  }
-                  target={
-                    formatNumber(
-                      getTotalImmunizationFertileQuery?.data
-                        ?.immunization_target_cnt_fertile
-                    ) || "0"
-                  }
-                  subtitle={"%  dari "}
-                /> */}
+                  title={"HPV 2 - Kelas 6"}
+                  value={formatNumber(getTotalHpv2?.data?.total) || "0"}
+                  percent={getTotalHpv2?.data?.pct || "0"}
+                  target={formatNumber(getTotalHpv2?.data?.target) || "0"}
+                  subtitle={"dari "}
+                />
               </div>
             </div>
 

@@ -39,6 +39,7 @@ import {
   useGetTotalImmunizationTotalCumulativeCoverageRecipientsQuery,
   useGetDistributionStatusChartQuery,
   useGetDistributionStatusPregnantChartQuery,
+  useGetTotalCumulativeCoverageRecipientsQuery,
 } from "@/lib/services/wus";
 import VaccinateNudge from "@/assets/icons/vaccinate-nudge.png";
 import {
@@ -142,6 +143,15 @@ const Wus = () => {
 
   const [filterDistributionStatusPregnant] =
     filterStateDistributionStatusPregnant;
+
+  const filterStateGetTotalCumulativeCoverageRecipients = useState({
+    year: 2024,
+    tren_type: "kumulatif",
+    status_type: "t1",
+    women_category: "All",
+  });
+  const [filterGetTotalCumulativeCoverageRecipients] =
+    filterStateGetTotalCumulativeCoverageRecipients;
 
   const filterQueryTotal = {
     ...dateQuery,
@@ -250,6 +260,12 @@ const Wus = () => {
     useGetDistributionStatusPregnantChartQuery(
       filterDistributionStatusPregnant
     );
+  const { data: getTotalCumulativeCoverageRecipientsQuery } =
+    useGetTotalCumulativeCoverageRecipientsQuery(
+      filterGetTotalCumulativeCoverageRecipients
+    );
+
+  console.log(getTotalCumulativeCoverageRecipientsQuery, "isi data");
 
   const dataGraphRegionalRoutineImmunizationCoverageTrend = [
     {
@@ -529,6 +545,23 @@ const Wus = () => {
                         <Filter2
                           filterState={filterCumulativeCoverageRecipients}
                         />
+                      }
+                      threshold={
+                        <div className="relative flex justify-center items-center">
+                          {/* {isLoadingSetSummaryScopePercentageQuery && <Spin />} */}
+                          <div className="p-2 sm:w-32 md:w-64 h-fit">
+                            <div className="text-sm">
+                              Total cakupan kumulatif pada tahun {filter.tahun}
+                            </div>
+                            <div className="py-2 font-bold text-3xl text-primary">
+                              {formatNumber(100 || 0)}%
+                            </div>
+                            <div>
+                              Jumlah Imunisasi Baduta Lengkap:{" "}
+                              {formatNumber(1000 || 0)}
+                            </div>
+                          </div>
+                        </div>
                       }
                       graphOptions={graphOptions2([
                         {

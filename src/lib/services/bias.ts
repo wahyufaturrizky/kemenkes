@@ -8,6 +8,7 @@ const apiWithTag = baseApi.enhanceEndpoints({
 export const biasImmunizationApi = apiWithTag.injectEndpoints({
   overrideExisting: true,
   endpoints: (build) => ({
+    // scorecard start
     getTotalRecipients: build.query({
       query: (options = {}) => ({
         url: `${API_URL}/v1/bias-immunization/total-immunization/total-recepients`,
@@ -36,12 +37,65 @@ export const biasImmunizationApi = apiWithTag.injectEndpoints({
       }),
       providesTags: ["bias-immunization"],
     }),
+    getTotalTd1: build.query({
+      query: (options = {}) => ({
+        url: `${API_URL}/v1/bias-immunization/total-immunization/total-td-1`,
+        params: options,
+      }),
+      providesTags: ["bias-immunization"],
+    }),
+    getTotalTd2: build.query({
+      query: (options = {}) => ({
+        url: `${API_URL}/v1/bias-immunization/total-immunization/total-td-2`,
+        params: options,
+      }),
+      providesTags: ["bias-immunization"],
+    }),
+    getTotalTd3: build.query({
+      query: (options = {}) => ({
+        url: `${API_URL}/v1/bias-immunization/total-immunization/total-td-3`,
+        params: options,
+      }),
+      providesTags: ["bias-immunization"],
+    }),
+    getTotalHpv1: build.query({
+      query: (options = {}) => ({
+        url: `${API_URL}/v1/bias-immunization/total-immunization/total-hpv-1`,
+        params: options,
+      }),
+      providesTags: ["bias-immunization"],
+    }),
+    getTotalHpv2: build.query({
+      query: (options = {}) => ({
+        url: `${API_URL}/v1/bias-immunization/total-immunization/total-hpv-2`,
+        params: options,
+      }),
+      providesTags: ["bias-immunization"],
+    }),
+    // scorecard end
+    // setion grafik 1
+    getTotal: build.query({
+      query: (options = {}) => ({
+        url: `${API_URL}/v1/bias-immunization/regional-coverage-trend-graph/get-total`,
+        params: options,
+      }),
+      providesTags: ["bias-immunization"],
+    }),
+    // setion grafik 1
   }),
 });
 
 export const {
-  useGetTotalFullBiasQuery,
+  // scorecard start
   useGetTotalRecipientsQuery,
+  useGetTotalFullBiasQuery,
   useGetTotalCampakRubelaQuery,
   useGetTotalDt1Query,
+  useGetTotalTd1Query,
+  useGetTotalTd2Query,
+  useGetTotalTd3Query,
+  useGetTotalHpv1Query,
+  useGetTotalHpv2Query,
+  useGetTotalQuery,
+  // scorecard end
 } = biasImmunizationApi;

@@ -99,6 +99,13 @@ export const wusImmunizationApi = apiWithTag.injectEndpoints({
       }),
       providesTags: ["wus-immunization"],
     }),
+    getTotalCumulativeCoverageRecipients: build.query({
+      query: (options = {}) => ({
+        url: `${API_URL}/v1/wus-immunization/get-total-cumulative-coverage-recipients`,
+        params: options,
+      }),
+      providesTags: ["wus-immunization"],
+    }),
   }),
 });
 
@@ -116,4 +123,5 @@ export const {
   useGetTotalImmunizationTotalCumulativeCoverageRecipientsQuery,
   useGetDistributionStatusChartQuery,
   useGetDistributionStatusPregnantChartQuery,
+  useGetTotalCumulativeCoverageRecipientsQuery,
 } = wusImmunizationApi;
