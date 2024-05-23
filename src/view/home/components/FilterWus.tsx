@@ -3,12 +3,11 @@
 import { useState } from "react";
 import { DatePicker, Select } from "@/components";
 import {
-  useGetFacilityOfTypeQuery,
-  useGetMedicalFacilityQuery,
   useGetProvinceQuery,
   useGetRegencyQuery,
   useGetSubDistrictQuery,
 } from "@/lib/services/region";
+import { useGetVillagesQuery } from "@/lib/services/wus";
 import { dataMonth, filterLocationOptions } from "@/utils/constants";
 import {
   generateYearsArray,
@@ -40,19 +39,21 @@ const FilterSummaryImmunizationWus: React.FC<FilterProps> = ({
       refetchOnMountOrArgChange: true,
     }
   );
-  //   const { data: getFacilityOfType } = useGetFacilityOfTypeQuery({});
-  //   const { data: getMedicalFacility } = useGetMedicalFacilityQuery(
-  //     {
-  //       provinsi: filter.provinsi,
-  //       kabkota: filter.kabkota,
-  //       kecamatan: filter.kecamatan,
-  //       jenis_sarana: filter.jenis_sarana,
-  //     },
-  //     {
-  //       skip: !filter.provinsi && !filter.kabkota,
-  //       refetchOnMountOrArgChange: true,
-  //     }
-  //   );
+  const { data: getVillage } = useGetVillagesQuery(
+    {
+      kewilayahan_type: filter.kewilayahan_type,
+      year: filter.tahun,
+      month: filter.bulan,
+      faskes_parent_id: filter.kecamatan,
+    },
+
+    {
+      skip: !filter.provinsi && !filter.kabkota && !filter.kecamatan,
+      refetchOnMountOrArgChange: true,
+    }
+  );
+
+  // console.log(getVillage, "data desa");
 
   return (
     <div className="flex flex-col gap-2">
@@ -111,7 +112,7 @@ const FilterSummaryImmunizationWus: React.FC<FilterProps> = ({
                 provinsi: e?.value,
                 kabkota: "",
                 kecamatan: "",
-                jenis_sarana: "",
+                // jenis_sarana: "",
                 faskes: "",
               });
             }}
@@ -140,7 +141,7 @@ const FilterSummaryImmunizationWus: React.FC<FilterProps> = ({
                 ...filter,
                 kabkota: e?.value,
                 kecamatan: "",
-                jenis_sarana: "",
+                // jenis_sarana: "",
                 faskes: "",
               });
             }}
@@ -168,7 +169,7 @@ const FilterSummaryImmunizationWus: React.FC<FilterProps> = ({
               setFilter({
                 ...filter,
                 kecamatan: e?.value,
-                jenis_sarana: "",
+                // jenis_sarana: "",
                 faskes: "",
               });
             }}
@@ -182,6 +183,32 @@ const FilterSummaryImmunizationWus: React.FC<FilterProps> = ({
                 : filter.kecamatan
             }
             isDisabled={!filter.kabkota}
+          />
+        </div>
+        <div>
+          <Select
+            placeholder="Desa/Kelurahan"
+            options={standardOptions(
+              getVillage?.data || [],
+              "faskesName",
+              "faskesId"
+            )}
+            onChange={(e: any) => {
+              setFilter({
+                ...filter,
+                faskes: e?.value,
+              });
+            }}
+            value={
+              filter.faskes
+                ? standardOptions(
+                    getVillage?.data || [],
+                    "faskesName",
+                    "faskesId"
+                  )?.find((f) => f.value === filter.faskes)
+                : filter.faskes
+            }
+            isDisabled={!filter.kecamatan}
           />
         </div>
         {/* {filter.lokasi === filterLocationOptions[1].value && */}
