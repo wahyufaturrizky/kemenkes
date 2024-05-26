@@ -81,6 +81,13 @@ export const biasImmunizationApi = apiWithTag.injectEndpoints({
       }),
       providesTags: ["bias-immunization"],
     }),
+    getTotalHighest: build.query({
+      query: (options = {}) => ({
+        url: `${API_URL}/v1/bias-immunization/regional-coverage-trend-graph/get-total-highest`,
+        params: options,
+      }),
+      providesTags: ["bias-immunization"],
+    }),
     // setion grafik 1
   }),
 });
@@ -97,5 +104,6 @@ export const {
   useGetTotalHpv1Query,
   useGetTotalHpv2Query,
   useGetTotalQuery,
+  useGetTotalHighestQuery,
   // scorecard end
 } = biasImmunizationApi;
