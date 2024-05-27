@@ -88,6 +88,13 @@ export const biasImmunizationApi = apiWithTag.injectEndpoints({
       }),
       providesTags: ["bias-immunization"],
     }),
+    getListFaskes: build.query({
+      query: (options = {}) => ({
+        url: `${API_URL}/v1/bias-immunization/get-list-faskes`,
+        params: options,
+      }),
+      providesTags: ["bias-immunization"],
+    }),
     // setion grafik 1
   }),
 });
@@ -105,5 +112,6 @@ export const {
   useGetTotalHpv2Query,
   useGetTotalQuery,
   useGetTotalHighestQuery,
+  useGetListFaskesQuery,
   // scorecard end
 } = biasImmunizationApi;
