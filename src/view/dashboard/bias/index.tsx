@@ -51,6 +51,14 @@ import {
   useGetTotalHpv2Query,
   useGetTotalQuery,
   useGetTotalHighestQuery,
+  useGetTotalLowestQuery,
+  useGetAllRegionQuery,
+  useGetChartQuery,
+  useGetPctQuery,
+  useGetFullBiasScopeQuery,
+  useGetHighestScopeQuery,
+  useGetLowestScopeQuery,
+  useGetExceedTargetScopeQuery,
 } from "@/lib/services/bias";
 import {
   Filter1,
@@ -151,23 +159,28 @@ const Bias = () => {
   };
   const filterQueryTotal = {
     ...dateQuery,
-    region_type: "province",
-    faskes_parent_id: 11,
+    region_type: "PROVINSI",
+    // faskes_parent_id: 11,
     faskes_id: 11,
-    women_category: "All",
+    vaccine_type: "bias",
   };
-  const filterQueryTotalCoverage = {
-    ...filterQueryTotal,
-    faskes_desc: "NASIONAL",
+  const filterQueryTotalHighest = {
+    ...dateQuery,
+    region_type: "PROVINSI",
+    vaccine_type: "bias",
   };
-  const filterQueryTotalCoverageHighest = {
-    ...filterQueryTotalCoverage,
-    faskes_desc: "JAWA TIMUR",
+  const filterQueryTotalChart = {
+    // ...dateQuery,
+    year: 2022,
+    month: 1,
+    region_type: "PROVINSI",
+    vaccine_type: "bias",
+    faskes_id: 11,
   };
-  const filterQueryTotalCoverageLowest = {
-    ...filterQueryTotalCoverage,
-    faskes_desc: "PAPUA PEGUNUNGAN",
-  };
+  // const filterQueryTotalLowest = {
+  //   ...filterQueryTotalCoverage,
+  //   faskes_desc: "PAPUA PEGUNUNGAN",
+  // };
   const filterCumulativeCoverage = {
     ...dateQuery,
     region_type: filter?.wilayah,
@@ -224,22 +237,46 @@ const Bias = () => {
   const { data: getTotalHpv2 } = useGetTotalHpv2Query(filterQuery, optionQuery);
 
   // console.log(getTotalHpv2, "isi bias");
-  const { data: getTotal } = useGetTotalQuery(filterQuery, optionQuery);
+  const { data: getTotal } = useGetTotalQuery(filterQueryTotal, optionQuery);
   const { data: getTotalHighest } = useGetTotalHighestQuery(
-    filterQuery,
+    filterQueryTotalHighest,
     optionQuery
   );
+  const { data: getTotalLowest } = useGetTotalLowestQuery(
+    filterQueryTotalHighest,
+    optionQuery
+  );
+  const { data: getAllRegion } = useGetAllRegionQuery(
+    filterQueryTotalHighest,
+    optionQuery
+  );
+  const { data: getChart } = useGetChartQuery(filterQueryTotalChart);
+  const { data: getPct } = useGetPctQuery(filterQueryTotalChart);
+  const { data: getFullBiasScope } = useGetFullBiasScopeQuery(
+    filterQueryTotalChart
+  );
+  const { data: getHighestScope } = useGetHighestScopeQuery(
+    filterQueryTotalChart
+  );
+  const { data: getLowestScope } = useGetLowestScopeQuery(
+    filterQueryTotalChart
+  );
+  const { data: getExceedTargetScope } = useGetExceedTargetScopeQuery(
+    filterQueryTotalChart
+  );
+  // filterQueryTotalHighest,
+  // optionQuery
 
-  const { data: getTotalImmunizationTotalCoverageQuery } =
-    useGetTotalImmunizationTotalCoverageQuery(filterQueryTotalCoverage);
-  const { data: getTotalImmunizationTotalCoverageHighestQuery } =
-    useGetTotalImmunizationTotalCoverageHighestQuery(
-      filterQueryTotalCoverageHighest
-    );
-  const { data: getTotalImmunizationTotalCoverageLowestQuery } =
-    useGetTotalImmunizationTotalCoverageLowestQuery(
-      filterQueryTotalCoverageLowest
-    );
+  console.log(getExceedTargetScope, "total ");
+
+  // const { data: getTotalImmunizationTotalCoverageQuery } =
+  //   useGetTotalImmunizationTotalCoverageQuery(filterQueryTotalCoverage);
+  // const { data: getTotalImmunizationTotalCoverageHighestQuery } =
+  //   useGetTotalImmunizationTotalCoverageHighestQuery(filterQueryTotalHighest);
+  // const { data: getTotalImmunizationTotalCoverageLowestQuery } =
+  //   useGetTotalImmunizationTotalCoverageLowestQuery(
+  //     filterQueryTotalCoverageLowest
+  //   );
   const { data: getTotalImmunizationTotalCumulativeCoverageQuery } =
     useGetTotalImmunizationTotalCumulativeCoverageQuery(
       filterCumulativeCoverage
@@ -321,7 +358,7 @@ const Bias = () => {
 
   const dataGraphRegionalRoutineImmunizationCoverageTrend = [
     {
-      title: "Total Cakupan T2+  Nasioanl Tahun 2024",
+      title: `Total Cakupan BIAS Lengkap  Nasioanl Tahun ${filter.tahun}`,
       value: <div>{formatNumber(getTotal?.data.pct || 0)}%</div>,
       regional: "",
     },
@@ -332,47 +369,32 @@ const Bias = () => {
     },
     {
       title: "Cakupan Terendah Tahun 2024",
-      value:
-        getTotalImmunizationTotalCoverageLowestQuery?.data?.ytd_pct_total_t1,
+      value: getTotalLowest?.data?.pct,
 
-      regional: getTotalImmunizationTotalCoverageLowestQuery?.data?.faskes_desc,
+      regional: getTotalLowest?.data?.provinsi,
     },
   ];
   const dataGraphRegionalRoutineImmunizationCoverageTrend2 = [
     {
-      title: `Cakupan Imunisasi Baduta Lengkap`,
-      value: (
-        <div>
-          {formatNumber(getTotalScopeByVaccineTypeQuery?.data?.pct || 0)}%
-        </div>
-      ),
+      title: `Cakupan Imunisasi BIAS Lengkap (ISL)`,
+      value: <div>{formatNumber(getFullBiasScope?.data?.pct || 0)}%</div>,
       regional: (
         <div>
-          Jumlah Cakupan:{" "}
-          {formatNumber(getTotalScopeByVaccineTypeQuery?.data?.total || 0)}
+          Jumlah Cakupan: {formatNumber(getFullBiasScope?.data?.ytd || 0)}
         </div>
       ),
       isLoading: isLoadingTotalScopeByVaccineTypeQuery,
     },
     {
       title: `Cakupan Imunisasi Tertinggi`,
-      value: (
-        <div>{getTotalHighestScopeByVaccineTypeQuery?.data?.vaccine || ""}</div>
-      ),
+      value: <div>{getHighestScope?.data?.vaksin || ""}</div>,
       regional: (
         <div>
-          Jumlah Cakupan:{" "}
-          {formatNumber(
-            getTotalHighestScopeByVaccineTypeQuery?.data?.total || 0
-          )}
+          Jumlah Cakupan: {formatNumber(getHighestScope?.data?.total || 0)}
         </div>
       ),
       threshold: (
-        <div>
-          % Cakupan:{" "}
-          {formatNumber(getTotalHighestScopeByVaccineTypeQuery?.data?.pct || 0)}
-          %
-        </div>
+        <div>% Cakupan: {formatNumber(getHighestScope?.data?.pct || 0)}%</div>
       ),
       isLoading: isLoadingTotalHighestScopeByVaccineTypeQuery,
     },
@@ -380,24 +402,18 @@ const Bias = () => {
       title: `Cakupan Imunisasi Terendah`,
       value: (
         <div>
-          {getTotalLowestScopeByVaccineTypeQuery?.data?.vaccine === "ALL"
+          {getLowestScope?.data?.vaksin === "ALL"
             ? "Baduta Lengkap"
-            : getTotalLowestScopeByVaccineTypeQuery?.data?.vaccine}
+            : getLowestScope?.data?.vaksin}
         </div>
       ),
       regional: (
         <div>
-          Jumlah Cakupan:{" "}
-          {formatNumber(
-            getTotalLowestScopeByVaccineTypeQuery?.data?.total || 0
-          )}
+          Jumlah Cakupan: {formatNumber(getLowestScope?.data?.total || 0)}
         </div>
       ),
       threshold: (
-        <div>
-          % Cakupan:{" "}
-          {formatNumber(getTotalLowestScopeByVaccineTypeQuery?.data?.pct || 0)}%
-        </div>
+        <div>% Cakupan: {formatNumber(getLowestScope?.data?.pct || 0)}%</div>
       ),
       isLoading: isLoadingTotalLowestScopeByVaccineTypeQuery,
     },
@@ -727,24 +743,20 @@ const Bias = () => {
                       filterState={filterState}
                       filterComp={<Filter1 filterState={filterState} />}
                       graphOptions={graphOptions1(
-                        (
-                          getTotalImmunizationTotalCumulativeCoverageQuery?.data ||
-                          []
-                        )?.map((r: any) => {
+                        (getAllRegion?.data || [])?.map((r: any) => {
                           return {
-                            name: r.faskes_desc,
+                            name: r.faskes,
                             data:
-                              (
-                                getTotalImmunizationTotalCumulativeCoverageQuery?.data ||
-                                []
-                              )?.map((r: any) => r?.ytd_pct_total_t1) || [],
+                              (getAllRegion?.data || [])?.map(
+                                (r: any) => r?.pct
+                              ) || [],
                             type: "bar",
                             label: {
                               show: true,
                               precision: 1,
                               position: "right",
                               formatter: (params: any) =>
-                                `${params.value}% (${r?.ytd_total_t1})`,
+                                `${params.value}% (${r?.ytd})`,
                             },
                           };
                         })
@@ -782,11 +794,11 @@ const Bias = () => {
                               Total cakupan kumulatif pada tahun {filter.tahun}
                             </div>
                             <div className="py-2 font-bold text-3xl text-primary">
-                              {formatNumber(0.41 || 0)}%
+                              {formatNumber(getPct?.data?.pct || 0)}%
                             </div>
                             <div>
-                              Jumlah Imunisasi Baduta Lengkap:{" "}
-                              {formatNumber(18242 || 0)}
+                              Jumlah BIAS Lengkap:{" "}
+                              {formatNumber(getPct?.data?.ytd || 0)}
                             </div>
                           </div>
                         </div>
@@ -795,29 +807,25 @@ const Bias = () => {
                         {
                           name: "% Target Cakupan",
                           data:
-                            (
-                              getTotalImmunizationTotalCumulativeCoverageRecipientsQuery?.data ||
-                              []
-                            )?.map((r: any) => r?.pct_target_threshold_t1) ||
-                            [],
+                            (getChart?.data || [])?.map(
+                              (r: any) => r?.target_cakupan
+                            ) || [],
                           type: "line",
                         },
                         {
                           name: "Jumlah Penerima Imunisasi",
                           data:
-                            (
-                              getTotalImmunizationTotalCumulativeCoverageRecipientsQuery?.data ||
-                              []
-                            )?.map((r: any) => r?.ytd_total_t1) || [],
+                            (getChart?.data || [])?.map(
+                              (r: any) => r?.jumlah_penerima
+                            ) || [],
                           type: "bar",
                         },
                         {
                           name: "% Cakupan",
                           data:
-                            (
-                              getTotalImmunizationTotalCumulativeCoverageRecipientsQuery?.data ||
-                              []
-                            )?.map((r: any) => r?.ytd_pct_total_t1) || [],
+                            (getChart?.data || [])?.map(
+                              (r: any) => r?.cakupan
+                            ) || [],
                           type: "line",
                         },
                       ])}

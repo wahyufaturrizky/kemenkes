@@ -629,7 +629,7 @@ const Wus = () => {
                         <div className="font-bold md:text-2xl">
                           Data <b className="text-primary-2">Kumulatif</b>{" "}
                           Jumlah Penerima, Cakupan, dan Target Cakupan{" "}
-                          <b className="text-primary-2">T2+</b> pada Wanita Uaia
+                          <b className="text-primary-2">T2+</b> pada Wanita Usia
                           Subur atau Ibu Hamil Selama Tahun{" "}
                           <b className="text-primary-2">{filter.tahun}</b>
                         </div>

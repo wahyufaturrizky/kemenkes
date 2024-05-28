@@ -88,9 +88,65 @@ export const biasImmunizationApi = apiWithTag.injectEndpoints({
       }),
       providesTags: ["bias-immunization"],
     }),
+    getTotalLowest: build.query({
+      query: (options = {}) => ({
+        url: `${API_URL}/v1/bias-immunization/regional-coverage-trend-graph/get-total-lowest`,
+        params: options,
+      }),
+      providesTags: ["bias-immunization"],
+    }),
+    getAllRegion: build.query({
+      query: (options = {}) => ({
+        url: `${API_URL}/v1/bias-immunization/regional-coverage-trend-graph/get-all-region`,
+        params: options,
+      }),
+      providesTags: ["bias-immunization"],
+    }),
     getListFaskes: build.query({
       query: (options = {}) => ({
         url: `${API_URL}/v1/bias-immunization/get-list-faskes`,
+        params: options,
+      }),
+      providesTags: ["bias-immunization"],
+    }),
+    getChart: build.query({
+      query: (options = {}) => ({
+        url: `${API_URL}/v1/bias-immunization/cumulative-coverage-recipients/get-chart`,
+        params: options,
+      }),
+      providesTags: ["bias-immunization"],
+    }),
+    getPct: build.query({
+      query: (options = {}) => ({
+        url: `${API_URL}/v1/bias-immunization/cumulative-coverage-recipients/get-pct`,
+        params: options,
+      }),
+      providesTags: ["bias-immunization"],
+    }),
+    getFullBiasScope: build.query({
+      query: (options = {}) => ({
+        url: `${API_URL}/v1/bias-immunization/immunization-chart-by-type/full-bias-scope`,
+        params: options,
+      }),
+      providesTags: ["bias-immunization"],
+    }),
+    getHighestScope: build.query({
+      query: (options = {}) => ({
+        url: `${API_URL}/v1/bias-immunization/immunization-chart-by-type/highest-scope`,
+        params: options,
+      }),
+      providesTags: ["bias-immunization"],
+    }),
+    getLowestScope: build.query({
+      query: (options = {}) => ({
+        url: `${API_URL}/v1/bias-immunization/immunization-chart-by-type/lowest-scope`,
+        params: options,
+      }),
+      providesTags: ["bias-immunization"],
+    }),
+    getExceedTargetScope: build.query({
+      query: (options = {}) => ({
+        url: `${API_URL}/v1/bias-immunization/immunization-chart-by-type/exceed-target-scope`,
         params: options,
       }),
       providesTags: ["bias-immunization"],
@@ -110,8 +166,17 @@ export const {
   useGetTotalTd3Query,
   useGetTotalHpv1Query,
   useGetTotalHpv2Query,
+  // scorecard end
+
   useGetTotalQuery,
   useGetTotalHighestQuery,
+  useGetTotalLowestQuery,
+  useGetAllRegionQuery,
   useGetListFaskesQuery,
-  // scorecard end
+  useGetChartQuery,
+  useGetPctQuery,
+  useGetFullBiasScopeQuery,
+  useGetHighestScopeQuery,
+  useGetLowestScopeQuery,
+  useGetExceedTargetScopeQuery,
 } = biasImmunizationApi;
