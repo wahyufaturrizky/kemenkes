@@ -188,7 +188,11 @@ const FilterSummaryImmunizationBias: React.FC<FilterProps> = ({
         </div>
         <div>
           <Select
-            placeholder="Faskes"
+            placeholder={
+              filter.kewilayahan_type === 0
+                ? "Pilih Faskes"
+                : "Pilih  Desa/Kelurahan"
+            }
             options={standardOptions(
               getListFaskes?.data || [],
               "faskes_name",

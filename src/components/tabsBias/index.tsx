@@ -3,6 +3,7 @@
 import { Tab } from "@/components";
 import { TabProps } from "../tabs/Tab";
 import { useState } from "react";
+import { dataMonth } from "@/utils/constants";
 
 interface TabsProps {
   data: TabProps[];
@@ -34,8 +35,7 @@ const TabsBias: React.FC<TabsProps> = ({
               setFilter({
                 ...filter,
                 kewilayahan_type: r?.value,
-                kecamatan: undefined,
-                faskes: undefined,
+                faskes: "",
               });
             }}
           />

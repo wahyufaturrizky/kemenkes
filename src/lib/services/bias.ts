@@ -109,6 +109,13 @@ export const biasImmunizationApi = apiWithTag.injectEndpoints({
       }),
       providesTags: ["bias-immunization"],
     }),
+    getListVaccine: build.query({
+      query: (options = {}) => ({
+        url: `${API_URL}/v1/bias-immunization/get-list-vaccine-type`,
+        params: options,
+      }),
+      providesTags: ["bias-immunization"],
+    }),
     getChart: build.query({
       query: (options = {}) => ({
         url: `${API_URL}/v1/bias-immunization/cumulative-coverage-recipients/get-chart`,
@@ -173,6 +180,7 @@ export const {
   useGetTotalLowestQuery,
   useGetAllRegionQuery,
   useGetListFaskesQuery,
+  useGetListVaccineQuery,
   useGetChartQuery,
   useGetPctQuery,
   useGetFullBiasScopeQuery,

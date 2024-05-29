@@ -106,7 +106,7 @@ export const wusImmunizationApi = apiWithTag.injectEndpoints({
       }),
       providesTags: ["wus-immunization"],
     }),
-    getVillages: build.query({
+    getFaskesWus: build.query({
       query: (options = {}) => ({
         url: `${API_URL}/v1/wus-immunization/faskes-wus-list`,
         params: options,
@@ -131,5 +131,5 @@ export const {
   useGetDistributionStatusChartQuery,
   useGetDistributionStatusPregnantChartQuery,
   useGetTotalCumulativeCoverageRecipientsQuery,
-  useGetVillagesQuery,
+  useGetFaskesWusQuery,
 } = wusImmunizationApi;

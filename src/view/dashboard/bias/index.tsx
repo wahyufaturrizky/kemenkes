@@ -25,19 +25,8 @@ import styles from "@/assets/css/styles.module.css";
 import { formatNumber } from "@/helpers";
 
 import {
-  useGetTotalImmunizationQuery,
-  useGetTotalImmunizationPregnantQuery,
-  useGetTotalImmunizationFertileQuery,
-  useGetTotalImmunizationTdWusQuery,
-  useGetTotalImmunizationTdWusPregnantQuery,
-  useGetTotalImmunizationTdWusFertileQuery,
-  useGetTotalImmunizationTotalCoverageQuery,
-  useGetTotalImmunizationTotalCoverageHighestQuery,
-  useGetTotalImmunizationTotalCoverageLowestQuery,
   useGetTotalImmunizationTotalCumulativeCoverageQuery,
   useGetTotalImmunizationTotalCumulativeCoverageRecipientsQuery,
-  useGetDistributionStatusChartQuery,
-  useGetDistributionStatusPregnantChartQuery,
 } from "@/lib/services/wus";
 import {
   useGetTotalCampakRubelaQuery,
@@ -61,12 +50,11 @@ import {
   useGetExceedTargetScopeQuery,
 } from "@/lib/services/bias";
 import {
-  Filter1,
-  Filter2,
   Filter3,
   Filter4,
   Filter5,
 } from "../routine-baduta-immunization/Filter";
+import { Filter1, Filter2 } from "./FilterBias";
 import {
   graphOptions1,
   graphOptions2,
@@ -100,11 +88,11 @@ const Bias = () => {
     kabkota: "",
     kecamatan: "",
     faskes: "",
-    wilayah: "All",
+    wilayah: "PROVINSI",
     kewilayahan_type: 0,
-
-    // contoh
-    tipe_vaksin3: "1",
+    tipe_vaksin: "bias",
+    tipe_vaksin2: "bias",
+    tren_type: "kumulatif",
   });
   const [filter] = filterState;
   const dateQuery = {
@@ -166,16 +154,27 @@ const Bias = () => {
   };
   const filterQueryTotalHighest = {
     ...dateQuery,
-    region_type: "PROVINSI",
-    vaccine_type: "bias",
+    region_type: filter.wilayah,
+    vaccine_type: filter.tipe_vaksin,
+    kewilayahan_type: filter.kewilayahan_type,
   };
   const filterQueryTotalChart = {
     // ...dateQuery,
     year: 2022,
     month: 1,
-    region_type: "PROVINSI",
-    vaccine_type: "bias",
-    faskes_id: 11,
+    region_type: filter.wilayah,
+    vaccine_type: filter.tipe_vaksin2,
+    faskes_id: filter.faskes
+      ? filter.faskes
+      : filter.kecamatan
+      ? filter.kecamatan
+      : filter.kabkota
+      ? filter.kabkota
+      : filter.provinsi
+      ? filter.provinsi
+      : "ALL",
+    tren_type: filter.tren_type,
+    kewilayahan_type: filter.kewilayahan_type,
   };
   // const filterQueryTotalLowest = {
   //   ...filterQueryTotalCoverage,
@@ -267,7 +266,7 @@ const Bias = () => {
   // filterQueryTotalHighest,
   // optionQuery
 
-  console.log(getExceedTargetScope, "total ");
+  // console.log(getExceedTargetScope, "total ");
 
   // const { data: getTotalImmunizationTotalCoverageQuery } =
   //   useGetTotalImmunizationTotalCoverageQuery(filterQueryTotalCoverage);
@@ -321,7 +320,7 @@ const Bias = () => {
     data: getTotalScopeByVaccineTypeQuery,
     isLoading: isLoadingTotalScopeByVaccineTypeQuery,
   } = useGetTotalScopeByVaccineTypeQuery(
-    { ...filterQueryGraph, vaccine_type: filter.tipe_vaksin3 },
+    { ...filterQueryGraph, vaccine_type: filter.tipe_vaksin },
     optionQuery
   );
   const {

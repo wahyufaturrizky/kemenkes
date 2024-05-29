@@ -63,6 +63,7 @@ import {
   Filter3,
   Filter4,
 } from "@/view/dashboard/wus/FilterWus";
+import TabsBias from "@/components/tabsBias";
 
 const Wus = () => {
   const filterState = useState({
@@ -398,7 +399,7 @@ const Wus = () => {
         <div className="flex gap-6">
           <Sidebar />
           <div>
-            <Tabs
+            <TabsBias
               data={dataTabBaduta}
               variant="private"
               value={filter.kewilayahan_type}
