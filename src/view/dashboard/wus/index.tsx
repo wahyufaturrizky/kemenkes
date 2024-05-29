@@ -99,39 +99,39 @@ const Wus = () => {
       filter.faskes && filter.kewilayahan_type == 0
         ? "faskes"
         : filter.faskes && filter.kewilayahan_type == 1
-        ? "subdistrict"
-        : filter.kecamatan
-        ? "district"
-        : filter.kabkota
-        ? "city"
-        : filter.provinsi
-        ? "province"
-        : "All",
+          ? "subdistrict"
+          : filter.kecamatan
+            ? "district"
+            : filter.kabkota
+              ? "city"
+              : filter.provinsi
+                ? "province"
+                : "All",
     faskes_parent_id:
       filter.faskes !== ""
         ? filter.kecamatan
         : filter.provinsi !== "" &&
           filter.kabkota !== "" &&
           filter.kecamatan === undefined
-        ? filter.provinsi
-        : filter.provinsi !== "" &&
-          filter.kabkota !== "" &&
-          filter.kecamatan !== ""
-        ? filter.kabkota
-        : filter.provinsi !== "" && filter.kabkota !== ""
-        ? filter.provinsi
-        : filter.provinsi !== ""
-        ? filter.provinsi
-        : "All",
+          ? filter.provinsi
+          : filter.provinsi !== "" &&
+            filter.kabkota !== "" &&
+            filter.kecamatan !== ""
+            ? filter.kabkota
+            : filter.provinsi !== "" && filter.kabkota !== ""
+              ? filter.provinsi
+              : filter.provinsi !== ""
+                ? filter.provinsi
+                : "All",
     faskes_id: filter.faskes
       ? filter.faskes
       : filter.kecamatan
-      ? filter.kecamatan
-      : filter.kabkota
-      ? filter.kabkota
-      : filter.provinsi
-      ? filter.provinsi
-      : "All",
+        ? filter.kecamatan
+        : filter.kabkota
+          ? filter.kabkota
+          : filter.provinsi
+            ? filter.provinsi
+            : "All",
     kewilayahan_type: filter.kewilayahan_type,
   };
 
@@ -150,39 +150,39 @@ const Wus = () => {
       filter.faskes && filter.kewilayahan_type == 0
         ? "faskes"
         : filter.faskes && filter.kewilayahan_type == 1
-        ? "subdistrict"
-        : filter.kecamatan
-        ? "district"
-        : filter.kabkota
-        ? "city"
-        : filter.provinsi
-        ? "province"
-        : "All",
+          ? "subdistrict"
+          : filter.kecamatan
+            ? "district"
+            : filter.kabkota
+              ? "city"
+              : filter.provinsi
+                ? "province"
+                : "All",
     faskes_parent_id:
       filter.faskes !== ""
         ? filter.kecamatan
         : filter.provinsi !== "" &&
           filter.kabkota !== "" &&
           filter.kecamatan === undefined
-        ? filter.provinsi
-        : filter.provinsi !== "" &&
-          filter.kabkota !== "" &&
-          filter.kecamatan !== ""
-        ? filter.kabkota
-        : filter.provinsi !== "" && filter.kabkota !== ""
-        ? filter.provinsi
-        : filter.provinsi !== ""
-        ? filter.provinsi
-        : "All",
+          ? filter.provinsi
+          : filter.provinsi !== "" &&
+            filter.kabkota !== "" &&
+            filter.kecamatan !== ""
+            ? filter.kabkota
+            : filter.provinsi !== "" && filter.kabkota !== ""
+              ? filter.provinsi
+              : filter.provinsi !== ""
+                ? filter.provinsi
+                : "All",
     faskes_id: filter.faskes
       ? filter.faskes
       : filter.kecamatan
-      ? filter.kecamatan
-      : filter.kabkota
-      ? filter.kabkota
-      : filter.provinsi
-      ? filter.provinsi
-      : "All",
+        ? filter.kecamatan
+        : filter.kabkota
+          ? filter.kabkota
+          : filter.provinsi
+            ? filter.provinsi
+            : "All",
     kewilayahan_type: filter.kewilayahan_type,
     status_type: filter.status_type_kumulatif,
     tren_type: filter.tren_type,
@@ -207,14 +207,14 @@ const Wus = () => {
       filter.faskes && filter.kewilayahan_type == 0
         ? "faskes"
         : filter.faskes && filter.kewilayahan_type == 1
-        ? "subdistrict"
-        : filter.kecamatan
-        ? "district"
-        : filter.kabkota
-        ? "city"
-        : filter.provinsi
-        ? "province"
-        : "All",
+          ? "subdistrict"
+          : filter.kecamatan
+            ? "district"
+            : filter.kabkota
+              ? "city"
+              : filter.provinsi
+                ? "province"
+                : "All",
     kewilayahan_type: filter.kewilayahan_type,
   };
 
@@ -226,14 +226,14 @@ const Wus = () => {
       filter.faskes && filter.kewilayahan_type == 0
         ? "faskes"
         : filter.faskes && filter.kewilayahan_type == 1
-        ? "subdistrict"
-        : filter.kecamatan
-        ? "district"
-        : filter.kabkota
-        ? "city"
-        : filter.provinsi
-        ? "province"
-        : "All",
+          ? "subdistrict"
+          : filter.kecamatan
+            ? "district"
+            : filter.kabkota
+              ? "city"
+              : filter.provinsi
+                ? "province"
+                : "All",
     kewilayahan_type: filter.kewilayahan_type,
   };
 
@@ -363,7 +363,7 @@ const Wus = () => {
         <div>
           {formatNumber(
             getTotalImmunizationTotalCoverageLowestQuery?.data?.ytd_pct_total ||
-              0
+            0
           )}
           %
         </div>
@@ -590,28 +590,41 @@ const Wus = () => {
                       variant="private"
                       filterState={filterState}
                       filterComp={<Filter1 filterState={filterState} />}
-                      graphOptions={graphOptions1(
-                        (
+                      opts={{
+                        height: 900
+                      }}
+                      graphOptions={graphOptions1([{
+                        // @ts-ignore
+                        name: "Target Cakupan per Daerah = 100%",
+                        data:
+                          (
+                            getTotalImmunizationTotalCumulativeCoverageQuery?.data ||
+                            []
+                          )?.map((r: any) => r?.ytd_pct_total) || [],
+                        type: "bar",
+                        label: {
+                          show: true,
+                          precision: 1,
+                          position: "right",
+                          formatter: (params: any) =>
+                            `${params.value}%`,
+                        },
+                      },
+                      {
+                        name: "Target",
+                        type: "line",
+                        color: "#CD4243",
+                        data: (
                           getTotalImmunizationTotalCumulativeCoverageQuery?.data ||
                           []
-                        )?.map((r: any) => {
-                          return {
-                            name: r.faskes_desc,
-                            data:
-                              (
-                                getTotalImmunizationTotalCumulativeCoverageQuery?.data ||
-                                []
-                              )?.map((r: any) => r?.ytd_pct_total) || [],
-                            type: "bar",
-                            label: {
-                              show: true,
-                              precision: 1,
-                              position: "right",
-                              formatter: (params: any) =>
-                                `${params.value}% (${r?.ytd_total})`,
-                            },
-                          };
-                        })
+                        )?.map((r: any) => r?.pct_target_threshold) || [],
+                      }
+                      ]
+                        , (
+                          getTotalImmunizationTotalCumulativeCoverageQuery?.data ||
+                          []
+                        )
+                          ?.map((r: any) => r.faskes_desc)
                       )}
                     />
                   </div>

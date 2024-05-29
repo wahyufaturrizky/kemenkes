@@ -5,6 +5,7 @@ import styles from '../home.module.css'
 import { Button, GraphComposed, GraphEcharts, Select, Spin } from "@/components"
 import { useState } from 'react'
 import { openSans } from '@/assets/fonts'
+import { Opts } from 'echarts-for-react/lib/types'
 
 const options = [
   { value: 'chocolate', label: 'Chocolate' },
@@ -20,13 +21,14 @@ interface GraphRoutineImmunizationCoverageTrendProps {
   variant?: 'public' | 'private'
   threshold?: JSX.Element
   graphOptions?: any
+  opts?: Opts
   filterState?: any
   filterComp?: JSX.Element
   isLoading?: boolean
 }
 
 const GraphRoutineImmunizationCoverageTrend: React.FC<GraphRoutineImmunizationCoverageTrendProps> = ({
-  title, subTitle, addOn, variant = 'public', graphOptions, filterState, threshold, filterComp, isLoading
+  title, subTitle, addOn, variant = 'public', graphOptions, opts, filterState, threshold, filterComp, isLoading
 }) => {
   const [filter, setFilter] = filterState || useState({})
   return (
@@ -63,9 +65,9 @@ const GraphRoutineImmunizationCoverageTrend: React.FC<GraphRoutineImmunizationCo
             <div>
               <Button text="Unduh" variant="outlined" />
             </div>
-            <div>
+            {/* <div>
               <Button text="Laporkan" variant="outlined" />
-            </div>
+            </div> */}
           </div>
         </div>
       }
@@ -77,8 +79,8 @@ const GraphRoutineImmunizationCoverageTrend: React.FC<GraphRoutineImmunizationCo
             <div className="relative flex justify-center items-center">
               {isLoading && <Spin />}
               {graphOptions ?
-                <div className='w-full h-full'>
-                  <GraphEcharts graphOptions={graphOptions} />
+                <div className='w-full h-full overflow-scroll' id="graphhhh">
+                  <GraphEcharts graphOptions={graphOptions} opts={opts || {}} />
                 </div>
                 :
                 <GraphComposed />
@@ -112,9 +114,9 @@ const GraphRoutineImmunizationCoverageTrend: React.FC<GraphRoutineImmunizationCo
               <div>
                 <Button text="Unduh" variant="outlined" />
               </div>
-              <div>
+              {/* <div>
                 <Button text="Laporkan" variant="outlined" />
-              </div>
+              </div> */}
             </div>
           </div>
         }

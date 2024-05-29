@@ -37,9 +37,9 @@ export const Filter1: React.FC<FilterProps> = ({ filterState }) => {
         <div>
           <Button text="Unduh" variant="outlined" />
         </div>
-        <div>
+        {/* <div>
           <Button text="Laporkan" variant="outlined" />
-        </div>
+        </div> */}
       </div>
     </div>
   )
@@ -76,9 +76,9 @@ export const Filter2: React.FC<FilterProps> = ({ filterState }) => {
         <div>
           <Button text="Unduh" variant="outlined" />
         </div>
-        <div>
+        {/* <div>
           <Button text="Laporkan" variant="outlined" />
-        </div>
+        </div> */}
       </div>
     </div>
   )
@@ -103,9 +103,9 @@ export const Filter3: React.FC<FilterProps> = ({ filterState }) => {
         <div>
           <Button text="Unduh" variant="outlined" />
         </div>
-        <div>
+        {/* <div>
           <Button text="Laporkan" variant="outlined" />
-        </div>
+        </div> */}
       </div>
     </div>
   )
@@ -140,9 +140,9 @@ export const Filter4: React.FC<FilterProps> = ({ filterState }) => {
         <div>
           <Button text="Unduh" variant="outlined" />
         </div>
-        <div>
+        {/* <div>
           <Button text="Laporkan" variant="outlined" />
-        </div>
+        </div> */}
       </div>
     </div>
   )
@@ -177,9 +177,9 @@ export const Filter5: React.FC<FilterProps> = ({ filterState }) => {
         <div>
           <Button text="Unduh" variant="outlined" />
         </div>
-        <div>
+        {/* <div>
           <Button text="Laporkan" variant="outlined" />
-        </div>
+        </div> */}
       </div>
     </div>
   )

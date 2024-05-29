@@ -2,7 +2,7 @@ import { openSans } from "@/assets/fonts"
 import { Spin } from "@/components"
 
 interface DataCard {
-  title: string
+  title: string | JSX.Element
   value: JSX.Element
   regional?: JSX.Element
   threshold?: JSX.Element
@@ -18,10 +18,10 @@ const GraphAddOn: React.FC<GraphAddOnProps> = ({
 }) => {
   return (
     <div className={`flex gap-4 ${openSans.className}`}>
-      {dataCard.map((r) => (
+      {dataCard.map((r, i) => (
         <div className="relative flex flex-1 justify-center items-center">
           {r?.isLoading && <Spin />}
-          <div key={r.title} className='flex flex-col flex-1 gap-4 px-4 py-3 rounded-xl w-full h-full' style={{ boxShadow: '0px 2px 12px 0px #00000014' }}>
+          <div key={`${r?.title || "addOn"}-${i}`} className='flex flex-col flex-1 gap-4 px-4 py-3 rounded-xl w-full h-full' style={{ boxShadow: '0px 2px 12px 0px #00000014' }}>
             <div>{r.title}</div>
             <div className='font-bold text-4xl text-primary-3'>
               {r.value}

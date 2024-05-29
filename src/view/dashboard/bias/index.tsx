@@ -105,14 +105,14 @@ const Bias = () => {
       filter.faskes && filter.kewilayahan_type == 0
         ? "FASKES"
         : filter.faskes && filter.kewilayahan_type == 1
-        ? "KELURAHAN"
-        : filter.kecamatan
-        ? "KECAMATAN"
-        : filter.kabkota
-        ? "KABKO"
-        : filter.provinsi
-        ? "PROVINSI"
-        : "ALL",
+          ? "KELURAHAN"
+          : filter.kecamatan
+            ? "KECAMATAN"
+            : filter.kabkota
+              ? "KABKO"
+              : filter.provinsi
+                ? "PROVINSI"
+                : "ALL",
     // faskes_parent_id:
     //   filter.provinsi !== "" &&
     //   filter.kabkota !== "" &&
@@ -130,12 +130,12 @@ const Bias = () => {
     faskes_id: filter.faskes
       ? filter.faskes
       : filter.kecamatan
-      ? filter.kecamatan
-      : filter.kabkota
-      ? filter.kabkota
-      : filter.provinsi
-      ? filter.provinsi
-      : "ALL",
+        ? filter.kecamatan
+        : filter.kabkota
+          ? filter.kabkota
+          : filter.provinsi
+            ? filter.provinsi
+            : "ALL",
     kewilayahan_type: filter.kewilayahan_type,
   };
   const optionQuery = {
@@ -201,12 +201,12 @@ const Bias = () => {
     filter.wilayah === "faskes"
       ? filter.faskes
       : filter.wilayah === "district"
-      ? filter.kecamatan
-      : filter.wilayah === "city"
-      ? filter.kabkota
-      : filter.wilayah === "province"
-      ? filter.provinsi
-      : "All";
+        ? filter.kecamatan
+        : filter.wilayah === "city"
+          ? filter.kabkota
+          : filter.wilayah === "province"
+            ? filter.provinsi
+            : "All";
   const filterQueryGraph = {
     ...dateQuery,
     region_type: filter.wilayah,
@@ -490,10 +490,9 @@ const Bias = () => {
           show: true,
           position: "inner",
           formatter: (params: any, i: number) =>
-            `${
-              params.name === "Laki-laki"
-                ? getAverageImmunizationByGenderQuery?.data?.pct_female
-                : getAverageImmunizationByGenderQuery?.data?.pct_male
+            `${params.name === "Laki-laki"
+              ? getAverageImmunizationByGenderQuery?.data?.pct_female
+              : getAverageImmunizationByGenderQuery?.data?.pct_male
             }%`,
         },
         labelLine: {
@@ -741,24 +740,31 @@ const Bias = () => {
                       variant="private"
                       filterState={filterState}
                       filterComp={<Filter1 filterState={filterState} />}
-                      graphOptions={graphOptions1(
-                        (getAllRegion?.data || [])?.map((r: any) => {
-                          return {
-                            name: r.faskes,
-                            data:
-                              (getAllRegion?.data || [])?.map(
-                                (r: any) => r?.pct
-                              ) || [],
-                            type: "bar",
-                            label: {
-                              show: true,
-                              precision: 1,
-                              position: "right",
-                              formatter: (params: any) =>
-                                `${params.value}% (${r?.ytd})`,
-                            },
-                          };
-                        })
+                      opts={{
+                        height: 900
+                      }}
+                      graphOptions={graphOptions1({
+                        // @ts-ignore
+                        name: "Target Cakupan per Daerah = 100%",
+                        data:
+                          (
+                            getTotalImmunizationTotalCumulativeCoverageQuery?.data ||
+                            []
+                          )?.map((r: any) => r?.ytd_pct_total) || [],
+                        type: "bar",
+                        label: {
+                          show: true,
+                          precision: 1,
+                          position: "right",
+                          formatter: (params: any) =>
+                            `${params.value}%`,
+                        },
+                      }
+                        , (
+                          getTotalImmunizationTotalCumulativeCoverageQuery?.data ||
+                          []
+                        )
+                          ?.map((r: any) => r.faskes_desc)
                       )}
                     />
                   </div>
@@ -912,66 +918,66 @@ const Bias = () => {
                           </div>
                         </div>
                       }
-                      // graphOptions={graphOptions3(
-                      //   [
-                      //     {
-                      //       name: "% Cakupan",
-                      //       data:
-                      //         // getSummaryImmunizationPerVaccineQuery?.data ||
-                      //         []?.map(
-                      //           (r: any) =>
-                      //             ((r?.pct || 0) / 100) * (r?.total || 0)
-                      //         ) || [],
-                      //       type: "line",
-                      //       label: {
-                      //         show: true,
-                      //         precision: 1,
-                      //         formatter: (params: any) =>
-                      //           `${formatNumber(
-                      //             ((params.value || 0) /
-                      //               (getTotalHpv2?.data || [])[params.dataIndex]
-                      //                 ?.total) *
-                      //               100
-                      //           )}%`,
-                      //       },
-                      //     },
-                      //     {
-                      //       name: "% Target Cakupan",
-                      //       data:
-                      //         (getTotalHpv2?.data || [])?.map(
-                      //           (r: any) =>
-                      //             ((r?.pct || 0) / 100) * (r?.total || 0)
-                      //         ) || [],
-                      //       type: "line",
-                      //       label: {
-                      //         show: true,
-                      //         precision: 1,
-                      //         formatter: (params: any) =>
-                      //           `${formatNumber(
-                      //             ((params.value || 0) /
-                      //               (getTotalHpv2?.data || [])[params.dataIndex]
-                      //                 ?.total) *
-                      //               100
-                      //           )}%`,
-                      //       },
-                      //     },
-                      //     {
-                      //       name: "Cakupan",
-                      //       data:
-                      //         (getTotalHpv2?.data || [])?.map(
-                      //           (r: any) => r?.total
-                      //         ) || [],
-                      //       type: "bar",
-                      //       label: {
-                      //         show: true,
-                      //         precision: 1,
-                      //         formatter: (params: any) =>
-                      //           `${formatNumber(params.value || 0)}`,
-                      //       },
-                      //     },
-                      //   ],
-                      //   getTotalHpv2?.data?.map((r: any) => r?.vaccine)
-                      // )}
+                    // graphOptions={graphOptions3(
+                    //   [
+                    //     {
+                    //       name: "% Cakupan",
+                    //       data:
+                    //         // getSummaryImmunizationPerVaccineQuery?.data ||
+                    //         []?.map(
+                    //           (r: any) =>
+                    //             ((r?.pct || 0) / 100) * (r?.total || 0)
+                    //         ) || [],
+                    //       type: "line",
+                    //       label: {
+                    //         show: true,
+                    //         precision: 1,
+                    //         formatter: (params: any) =>
+                    //           `${formatNumber(
+                    //             ((params.value || 0) /
+                    //               (getTotalHpv2?.data || [])[params.dataIndex]
+                    //                 ?.total) *
+                    //               100
+                    //           )}%`,
+                    //       },
+                    //     },
+                    //     {
+                    //       name: "% Target Cakupan",
+                    //       data:
+                    //         (getTotalHpv2?.data || [])?.map(
+                    //           (r: any) =>
+                    //             ((r?.pct || 0) / 100) * (r?.total || 0)
+                    //         ) || [],
+                    //       type: "line",
+                    //       label: {
+                    //         show: true,
+                    //         precision: 1,
+                    //         formatter: (params: any) =>
+                    //           `${formatNumber(
+                    //             ((params.value || 0) /
+                    //               (getTotalHpv2?.data || [])[params.dataIndex]
+                    //                 ?.total) *
+                    //               100
+                    //           )}%`,
+                    //       },
+                    //     },
+                    //     {
+                    //       name: "Cakupan",
+                    //       data:
+                    //         (getTotalHpv2?.data || [])?.map(
+                    //           (r: any) => r?.total
+                    //         ) || [],
+                    //       type: "bar",
+                    //       label: {
+                    //         show: true,
+                    //         precision: 1,
+                    //         formatter: (params: any) =>
+                    //           `${formatNumber(params.value || 0)}`,
+                    //       },
+                    //     },
+                    //   ],
+                    //   getTotalHpv2?.data?.map((r: any) => r?.vaccine)
+                    // )}
                     />
                   </div>
                 }
