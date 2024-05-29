@@ -423,7 +423,7 @@ const RoutineBabyImmunization = () => {
                       opts={{
                         height: 900
                       }}
-                      graphOptions={graphOptions1({
+                      graphOptions={graphOptions1([{
                         // @ts-ignore
                         name: "Target Cakupan per Daerah = 100%",
                         data:
@@ -439,12 +439,20 @@ const RoutineBabyImmunization = () => {
                           formatter: (params: any) =>
                             `${params.value}%`,
                         },
+                      }, {
+                        name: "Target",
+                        type: "line",
+                        color: "#CD4243",
+                        data: (
+                          getPercentageTotalImmunizationQuery?.data ||
+                          []
+                        )?.map((r: any) => r?.pct_target_threshold) || [],
                       }
+                      ]
                         , (
                           getPercentageTotalImmunizationQuery?.data ||
                           []
                         )
-                          ?.sort((a: any, b: any) => a.r.faskes - b.r.faskes)
                           ?.map((r: any) => r.r.faskes)
                       )}
                     />

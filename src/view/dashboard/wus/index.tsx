@@ -8,6 +8,7 @@ import {
   BannerText,
   Navbar,
   Sidebar,
+  Tabs,
 } from "@/components";
 import {
   ChildSummaryImmunization,
@@ -22,6 +23,7 @@ import FilterSummaryImmunizationWus from "@/view/home/components/FilterWus";
 import {
   // dataGraphRegionalRoutineImmunizationCoverageTrend,
   dataMonth,
+  dataTabBaduta,
   dataTotalSummaryImmunization,
   vaccineTypeOptions,
 } from "@/utils/constants";
@@ -39,8 +41,11 @@ import {
   useGetTotalImmunizationTotalCumulativeCoverageRecipientsQuery,
   useGetDistributionStatusChartQuery,
   useGetDistributionStatusPregnantChartQuery,
+  useGetTotalCumulativeCoverageRecipientsQuery,
 } from "@/lib/services/wus";
 import VaccinateNudge from "@/assets/icons/vaccinate-nudge.png";
+import styles from "@/assets/css/styles.module.css";
+
 import {
   graphOptions1,
   graphOptions2,
@@ -50,16 +55,14 @@ import {
 } from "../routine-baduta-immunization/graphOptions";
 
 import { formatNumber } from "@/helpers";
+import { openSans } from "@/assets/fonts";
+
 import {
-  useGetPercentageTotalImmunizationQuery,
-  useGetScopePercentagePerMonthQuery,
-  useGetSummaryScopePercentageQuery,
-} from "@/lib/services/baduta-immunization";
-import {
+  Filter1,
+  Filter2,
+  Filter3,
   Filter4,
-  Filter5,
-} from "@/view/dashboard/routine-baduta-immunization/Filter";
-import { Filter1, Filter2, Filter3 } from "@/view/dashboard/wus/FilterWus";
+} from "@/view/dashboard/wus/FilterWus";
 
 const Wus = () => {
   const filterState = useState({
@@ -69,7 +72,17 @@ const Wus = () => {
     kabkota: "",
     kecamatan: "",
     faskes: "",
-    wilayah: "All",
+    wilayah: "province",
+    kewilayahan_type: 0,
+    tren_type: "kumulatif",
+
+    //
+    status_type_daerah: "t1",
+    status_type_kumulatif: "t1",
+    women_category_daerah: "All",
+    women_category_kumulatif: "All",
+    women_category_status_T: "All",
+    women_category_status_T_Pregnant: "All",
   });
 
   const [filter] = filterState;
@@ -81,29 +94,34 @@ const Wus = () => {
 
   const filterQuery = {
     ...dateQuery,
-    region_type: filter.faskes
-      ? "faskes"
-      : filter.kecamatan
-        ? "district"
-        : filter.kabkota
-          ? "city"
-          : filter.provinsi
-            ? "province"
-            : "All",
+    region_type:
+      filter.faskes && filter.kewilayahan_type == 0
+        ? "faskes"
+        : filter.faskes && filter.kewilayahan_type == 1
+          ? "subdistrict"
+          : filter.kecamatan
+            ? "district"
+            : filter.kabkota
+              ? "city"
+              : filter.provinsi
+                ? "province"
+                : "All",
     faskes_parent_id:
-      filter.provinsi !== "" &&
-        filter.kabkota !== "" &&
-        filter.kecamatan === undefined
-        ? filter.provinsi
+      filter.faskes !== ""
+        ? filter.kecamatan
         : filter.provinsi !== "" &&
           filter.kabkota !== "" &&
-          filter.kecamatan !== ""
-          ? filter.kabkota
-          : filter.provinsi !== "" && filter.kabkota !== ""
-            ? filter.provinsi
-            : filter.provinsi !== ""
+          filter.kecamatan === undefined
+          ? filter.provinsi
+          : filter.provinsi !== "" &&
+            filter.kabkota !== "" &&
+            filter.kecamatan !== ""
+            ? filter.kabkota
+            : filter.provinsi !== "" && filter.kabkota !== ""
               ? filter.provinsi
-              : "All",
+              : filter.provinsi !== ""
+                ? filter.provinsi
+                : "All",
     faskes_id: filter.faskes
       ? filter.faskes
       : filter.kecamatan
@@ -113,82 +131,139 @@ const Wus = () => {
           : filter.provinsi
             ? filter.provinsi
             : "All",
+    kewilayahan_type: filter.kewilayahan_type,
   };
 
-  const filterStateCoverage = useState({
+  const filterCoverage = {
     ...dateQuery,
-    status_type: "t1",
-    women_category: "All",
-    region_type: "province",
-  });
-
-  const [filterCoverage] = filterStateCoverage;
-
-  const filterStateDistributionStatus = useState({
-    ...dateQuery,
-    status_type: "t1",
-    women_category: "All",
-    region_type: "province",
-  });
-
-  const [filterDistributionStatus] = filterStateDistributionStatus;
-
-  const filterStateDistributionStatusPregnant = useState({
-    ...dateQuery,
-    status_type: "t1",
-    women_category: "All",
-    region_type: "province",
-  });
-
-  const [filterDistributionStatusPregnant] =
-    filterStateDistributionStatusPregnant;
-
-  const filterQueryTotal = {
-    ...dateQuery,
-    region_type: filterQuery.region_type,
-    faskes_parent_id: 11,
-    faskes_id: 11,
-    women_category: "All",
+    status_type: filter.status_type_daerah,
+    women_category: filter.women_category_daerah,
+    region_type: filter.wilayah,
+    kewilayahan_type: filter.kewilayahan_type,
   };
 
-  const filterCumulativeCoverageRecipients = useState({
+  const filterCumulativeCoverageRecipients = {
     ...dateQuery,
 
-    // region_type: "All",
-    // women_category: "All",
-    region_type: "province",
-    faskes_parent_id: 11,
-    faskes_id: 11,
-    status_type: "t1",
-    tren_type: "bulanan",
-    women_category: "All",
-  });
+    region_type:
+      filter.faskes && filter.kewilayahan_type == 0
+        ? "faskes"
+        : filter.faskes && filter.kewilayahan_type == 1
+          ? "subdistrict"
+          : filter.kecamatan
+            ? "district"
+            : filter.kabkota
+              ? "city"
+              : filter.provinsi
+                ? "province"
+                : "All",
+    faskes_parent_id:
+      filter.faskes !== ""
+        ? filter.kecamatan
+        : filter.provinsi !== "" &&
+          filter.kabkota !== "" &&
+          filter.kecamatan === undefined
+          ? filter.provinsi
+          : filter.provinsi !== "" &&
+            filter.kabkota !== "" &&
+            filter.kecamatan !== ""
+            ? filter.kabkota
+            : filter.provinsi !== "" && filter.kabkota !== ""
+              ? filter.provinsi
+              : filter.provinsi !== ""
+                ? filter.provinsi
+                : "All",
+    faskes_id: filter.faskes
+      ? filter.faskes
+      : filter.kecamatan
+        ? filter.kecamatan
+        : filter.kabkota
+          ? filter.kabkota
+          : filter.provinsi
+            ? filter.provinsi
+            : "All",
+    kewilayahan_type: filter.kewilayahan_type,
+    status_type: filter.status_type_kumulatif,
+    tren_type: filter.tren_type,
+    women_category: filter.women_category_kumulatif,
+  };
 
-  const [filterCoverageRecipients] = filterCumulativeCoverageRecipients;
+  const filterGetTotalCumulativeCoverageRecipients = {
+    year: filter.tahun,
+    status_type: filter.status_type_kumulatif,
+    tren_type: filter.tren_type,
+    women_category: filter.women_category_kumulatif,
+    kewilayahan_type: filter.kewilayahan_type,
+  };
 
-  const filterQueryTotalCoverage = {
+  // const [filterCoverage] = filterStateCoverage;
+
+  const filterDistributionStatus = {
     ...dateQuery,
-    status_type: "t1",
+    status_type: filter.status_type_daerah,
+    women_category: filter.women_category_status_T,
+    region_type:
+      filter.faskes && filter.kewilayahan_type == 0
+        ? "faskes"
+        : filter.faskes && filter.kewilayahan_type == 1
+          ? "subdistrict"
+          : filter.kecamatan
+            ? "district"
+            : filter.kabkota
+              ? "city"
+              : filter.provinsi
+                ? "province"
+                : "All",
+    kewilayahan_type: filter.kewilayahan_type,
   };
 
-  const filterCumulativeCoverage = {
+  const filterDistributionStatusPregnant = {
     ...dateQuery,
-    // region_type: "province",
-    // women_category: "All",
-    // status_type: filterCoverage.status_type,
+    status_type: filter.status_type_daerah,
+    women_category: filter.women_category_status_T_Pregnant,
+    region_type:
+      filter.faskes && filter.kewilayahan_type == 0
+        ? "faskes"
+        : filter.faskes && filter.kewilayahan_type == 1
+          ? "subdistrict"
+          : filter.kecamatan
+            ? "district"
+            : filter.kabkota
+              ? "city"
+              : filter.provinsi
+                ? "province"
+                : "All",
+    kewilayahan_type: filter.kewilayahan_type,
   };
-  const filterQueryTotalCoverageHighest = {
-    ...filterQueryTotalCoverage,
-    women_category: "All",
-    region_type: "province",
-    // faskes_desc: "JAWA TIMUR",
-  };
-  const filterQueryTotalCoverageLowest = {
-    ...filterQueryTotalCoverage,
-    women_category: "All",
-    region_type: "province",
-    // faskes_desc: "PAPUA PEGUNUNGAN",
-  };
+
+  // const filterStateGetTotalCumulativeCoverageRecipients = useState({
+  //   year: 2024,
+  //   tren_type: "kumulatif",
+  //   status_type: "t1",
+  //   women_category: "All",
+  // });
+  // const [filterGetTotalCumulativeCoverageRecipients] =
+  //   filterStateGetTotalCumulativeCoverageRecipients;
+
+  // const filterQueryTotal = {
+  //   ...dateQuery,
+  //   region_type: filterQuery.region_type,
+  //   faskes_parent_id: 11,
+  //   faskes_id: 11,
+  //   women_category: "All",
+  // };
+
+  // const filterCumulativeCoverageRecipients = useState({
+  //   ...dateQuery,
+  //   region_type: "province",
+  //   faskes_parent_id: 11,
+  //   faskes_id: 11,
+  //   status_type: "t1",
+  //   tren_type: "bulanan",
+  //   women_category: "All",
+  // });
+
+  // const [filterCoverageRecipients] = filterCumulativeCoverageRecipients;
 
   const optionQuery = {
     refetchOnMountOrArgChange: true,
@@ -196,22 +271,6 @@ const Wus = () => {
       !filter.tahun ||
       (!filter.bulan &&
         (!filter.provinsi || !filter.kabkota || !filter.kecamatan)),
-  };
-
-  // sample
-  const filterQueryGraph = {
-    ...dateQuery,
-    region_type: filter.wilayah,
-    region_id:
-      filter.wilayah === "faskes"
-        ? filter.faskes
-        : filter.wilayah === "district"
-          ? filter.kecamatan
-          : filter.wilayah === "city"
-            ? filter.kabkota
-            : filter.wilayah === "provinsi"
-              ? filter.provinsi
-              : "All",
   };
 
   const { data: getTotalImmunizationQuery } = useGetTotalImmunizationQuery(
@@ -229,50 +288,90 @@ const Wus = () => {
   const { data: getTotalImmunizationTdWusFertileQuery } =
     useGetTotalImmunizationTdWusFertileQuery(filterQuery, optionQuery);
 
-  // new
+  // grafik1
   const { data: getTotalImmunizationTotalCoverageQuery } =
-    useGetTotalImmunizationTotalCoverageQuery(filterCoverage);
-  // new
+    useGetTotalImmunizationTotalCoverageQuery(filterCoverage, optionQuery);
 
   const { data: getTotalImmunizationTotalCoverageHighestQuery } =
-    useGetTotalImmunizationTotalCoverageHighestQuery(filterCoverage);
+    useGetTotalImmunizationTotalCoverageHighestQuery(
+      filterCoverage,
+      optionQuery
+    );
   const { data: getTotalImmunizationTotalCoverageLowestQuery } =
-    useGetTotalImmunizationTotalCoverageLowestQuery(filterCoverage);
+    useGetTotalImmunizationTotalCoverageLowestQuery(
+      filterCoverage,
+      optionQuery
+    );
   const { data: getTotalImmunizationTotalCumulativeCoverageQuery } =
-    useGetTotalImmunizationTotalCumulativeCoverageQuery(filterCoverage);
+    useGetTotalImmunizationTotalCumulativeCoverageQuery(
+      filterCoverage,
+      optionQuery
+    );
+
+  // grafik1
+
   const { data: getTotalImmunizationTotalCumulativeCoverageRecipientsQuery } =
     useGetTotalImmunizationTotalCumulativeCoverageRecipientsQuery(
-      filterCoverageRecipients
+      filterCumulativeCoverageRecipients,
+      optionQuery
     );
   const { data: getDistributionStatusChartQuery } =
-    useGetDistributionStatusChartQuery(filterDistributionStatus);
+    useGetDistributionStatusChartQuery(filterDistributionStatus, optionQuery);
   const { data: getDistributionStatusPregnantChartQuery } =
     useGetDistributionStatusPregnantChartQuery(
       filterDistributionStatusPregnant
     );
+  const { data: getTotalCumulativeCoverageRecipientsQuery } =
+    useGetTotalCumulativeCoverageRecipientsQuery(
+      filterGetTotalCumulativeCoverageRecipients
+    );
+
+  // console.log(filterDistributionStatus, "isi data");
 
   const dataGraphRegionalRoutineImmunizationCoverageTrend = [
     {
-      title: "Total Cakupan T2+  Nasioanl Tahun 2024",
-      value: getTotalImmunizationTotalCoverageQuery?.data?.ytd_pct_total + "%",
+      title: `Total Cakupan T2+  Nasioanl Tahun ${filter.tahun}`,
+      value: (
+        <div>
+          {formatNumber(
+            getTotalImmunizationTotalCoverageQuery?.data?.ytd_pct_total || 0
+          )}
+          %
+        </div>
+      ),
       regional: "",
     },
     {
-      title: "Cakupan Tertinggi Tahun 2024",
-      value:
-        getTotalImmunizationTotalCoverageHighestQuery?.data?.ytd_pct_total +
-        "%",
+      title: `Cakupan Tertinggi Tahun ${filter.tahun}`,
+      value: (
+        <div>
+          {formatNumber(
+            getTotalImmunizationTotalCoverageHighestQuery?.data
+              ?.ytd_pct_total || 0
+          )}
+          %
+        </div>
+      ),
 
       regional:
         getTotalImmunizationTotalCoverageHighestQuery?.data?.faskes_desc,
     },
     {
-      title: "Cakupan Terendah Tahun 2024",
-      value: getTotalImmunizationTotalCoverageLowestQuery?.data?.ytd_pct_total,
-
+      title: `Cakupan Terendah Tahun ${filter.tahun}`,
+      value: (
+        <div>
+          {formatNumber(
+            getTotalImmunizationTotalCoverageLowestQuery?.data?.ytd_pct_total ||
+            0
+          )}
+          %
+        </div>
+      ),
       regional: getTotalImmunizationTotalCoverageLowestQuery?.data?.faskes_desc,
     },
   ];
+
+  // console.log(getDistributionStatusChartQuery?.data?.ytd_total_t1, "isi data");
 
   return (
     <div className="flex flex-col items-center">
@@ -299,12 +398,20 @@ const Wus = () => {
         <div className="flex gap-6">
           <Sidebar />
           <div>
+            <Tabs
+              data={dataTabBaduta}
+              variant="private"
+              value={filter.kewilayahan_type}
+              filterState={filterState}
+            />
             <div className="flex flex-col gap-4 text-sm">
-              <div className="pt-8">UPDATE TERAKHIR: 23 SEPTEMBER 2023</div>
+              <div className={`${openSans.className}`}>
+                UPDATE TERAKHIR: 23 SEPTEMBER 2023
+              </div>
               <div className="font-bold text-primary-1 text-xl md:text-3xl">
                 Imunisasi Rutin WUS
               </div>
-              <div>
+              <div className={`${openSans.className}`}>
                 Menampilkan data cakupan imunisasi rutin wanita usia subur atau
                 ibu hamil berdasarkan jenis imunisasi dan daerah cakupan
               </div>
@@ -408,11 +515,12 @@ const Wus = () => {
                   subtitle={"  dari "}
                 />
                 <ChildSummaryImmunization
-                  className="px-4 border rounded-lg"
+                  className={`px-4 border rounded-lg ${styles.scoreCardPurple}`}
                   background="#9F1AB1"
                   classNameTitle="text-white"
                   classNameValue="text-4xl text-white"
                   title="Total Penerima Imunisasi Td WUS"
+                  contentTooltip={<>Total Penerima Imunisasi Td WUS</>}
                   value={
                     formatNumber(
                       getTotalImmunizationTdWusQuery?.data?.ytd_total_td_wus
@@ -420,11 +528,14 @@ const Wus = () => {
                   }
                 />
                 <ChildSummaryImmunization
-                  className="px-4 border rounded-lg"
+                  className={`px-4 border rounded-lg ${styles.scoreCardPurple}`}
                   background="#9F1AB1"
                   classNameTitle="text-white"
                   classNameValue="text-4xl text-white"
                   title="Total Penerima Imunisasi Td WUS Ibu Hamil"
+                  contentTooltip={
+                    <>Total Penerima Imunisasi Td WUS Ibu Hamil</>
+                  }
                   value={
                     formatNumber(
                       getTotalImmunizationTdWusPregnantQuery?.data
@@ -433,11 +544,14 @@ const Wus = () => {
                   }
                 />
                 <ChildSummaryImmunization
-                  className="px-4 border rounded-lg"
+                  className={`px-4 border rounded-lg ${styles.scoreCardPurple}`}
                   background="#9F1AB1"
                   classNameTitle="text-white"
                   classNameValue="text-4xl text-white"
                   title="Total Penerima Imunisasi Td WUS Ibu Tidak Hamil"
+                  contentTooltip={
+                    <>Total Penerima Imunisasi Td WUS Ibu Tidak Hamil</>
+                  }
                   value={
                     formatNumber(
                       getTotalImmunizationTdWusFertileQuery?.data
@@ -461,7 +575,7 @@ const Wus = () => {
                           Data Cakupan Status{" "}
                           <b className="text-primary-2">T2+</b> pada Provinsi di{" "}
                           <b className="text-primary-2">Indonesia</b> Selama
-                          Tahun <b className="text-primary-2">2024</b>
+                          Tahun <b className="text-primary-2">{filter.tahun}</b>
                         </div>
                       }
                       subTitle="Grafik menampilkan hasil cakupan imunisasi dasar lengkap dari 38 provinsi di Indonesia"
@@ -473,12 +587,12 @@ const Wus = () => {
                         />
                       }
                       variant="private"
-                      filterState={filterStateCoverage}
-                      filterComp={<Filter1 filterState={filterStateCoverage} />}
+                      filterState={filterState}
+                      filterComp={<Filter1 filterState={filterState} />}
                       opts={{
                         height: 900
                       }}
-                      graphOptions={graphOptions1({
+                      graphOptions={graphOptions1([{
                         // @ts-ignore
                         name: "Target Cakupan per Daerah = 100%",
                         data:
@@ -494,12 +608,21 @@ const Wus = () => {
                           formatter: (params: any) =>
                             `${params.value}%`,
                         },
+                      },
+                      {
+                        name: "Target",
+                        type: "line",
+                        color: "#CD4243",
+                        data: (
+                          getTotalImmunizationTotalCumulativeCoverageQuery?.data ||
+                          []
+                        )?.map((r: any) => r?.pct_target_threshold) || [],
                       }
+                      ]
                         , (
                           getTotalImmunizationTotalCumulativeCoverageQuery?.data ||
                           []
                         )
-                          ?.sort((a: any, b: any) => a.faskes_desc - b.faskes_desc)
                           ?.map((r: any) => r.faskes_desc)
                       )}
                     />
@@ -519,18 +642,38 @@ const Wus = () => {
                         <div className="font-bold md:text-2xl">
                           Data <b className="text-primary-2">Kumulatif</b>{" "}
                           Jumlah Penerima, Cakupan, dan Target Cakupan{" "}
-                          <b className="text-primary-2">T2+</b> pada Wanita Uaia
+                          <b className="text-primary-2">T2+</b> pada Wanita Usia
                           Subur atau Ibu Hamil Selama Tahun{" "}
-                          <b className="text-primary-2">{"2024"}</b>
+                          <b className="text-primary-2">{filter.tahun}</b>
                         </div>
                       }
                       subTitle={`Grafik menampilkan tren cakupan kumulatif penerima imunisasi WUS`}
                       variant="private"
-                      filterState={filterCumulativeCoverageRecipients}
-                      filterComp={
-                        <Filter2
-                          filterState={filterCumulativeCoverageRecipients}
-                        />
+                      filterState={filterState}
+                      filterComp={<Filter2 filterState={filterState} />}
+                      threshold={
+                        <div className="relative flex justify-center items-center">
+                          {/* {isLoadingSetSummaryScopePercentageQuery && <Spin />} */}
+                          <div className="p-2 sm:w-32 md:w-64 h-fit">
+                            <div className="text-sm">
+                              Total cakupan kumulatif pada tahun {filter.tahun}
+                            </div>
+                            <div className="py-2 font-bold text-3xl text-primary">
+                              {formatNumber(
+                                getTotalCumulativeCoverageRecipientsQuery?.data
+                                  ?.pct_total || 0
+                              )}
+                              %
+                            </div>
+                            <div>
+                              Jumlah Imunisasi Baduta Lengkap:{" "}
+                              {formatNumber(
+                                getTotalCumulativeCoverageRecipientsQuery?.data
+                                  ?.total || 0
+                              )}
+                            </div>
+                          </div>
+                        </div>
                       }
                       graphOptions={graphOptions2([
                         {
@@ -586,10 +729,8 @@ const Wus = () => {
                       }
                       subTitle={``}
                       variant="private"
-                      filterState={filterStateDistributionStatus}
-                      filterComp={
-                        <Filter3 filterState={filterStateDistributionStatus} />
-                      }
+                      filterState={filterState}
+                      filterComp={<Filter3 filterState={filterState} />}
                       graphOptions={graphOptions7([
                         {
                           name: "Total",
@@ -635,12 +776,8 @@ const Wus = () => {
                       }
                       subTitle={``}
                       variant="private"
-                      filterState={filterStateDistributionStatusPregnant}
-                      filterComp={
-                        <Filter3
-                          filterState={filterStateDistributionStatusPregnant}
-                        />
-                      }
+                      filterState={filterState}
+                      filterComp={<Filter4 filterState={filterState} />}
                       graphOptions={graphOptions7([
                         {
                           name: "Total",

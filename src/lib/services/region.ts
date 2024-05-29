@@ -49,5 +49,5 @@ export const {
   useGetRegencyQuery,
   useGetSubDistrictQuery,
   useGetFacilityOfTypeQuery,
-  useGetMedicalFacilityQuery
+  useGetMedicalFacilityQuery,
 } = regionApi;

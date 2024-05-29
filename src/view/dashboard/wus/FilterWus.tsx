@@ -31,12 +31,12 @@ export const Filter1: React.FC<FilterProps> = ({ filterState }) => {
             placeholder="Kewilayahan"
             options={regionOptions}
             onChange={(e: any) => {
-              setFilter({ ...filter, region_type: e ? e.value : "province" });
+              setFilter({ ...filter, wilayah: e ? e.value : "All" });
             }}
             value={
-              filter.region_type
-                ? regionOptions?.find((f) => f.value === filter.region_type)
-                : filter.region_type
+              filter.wilayah
+                ? regionOptions?.find((f) => f.value === filter.wilayah)
+                : filter.wilayah
             }
           />
         </div>
@@ -51,17 +51,17 @@ export const Filter1: React.FC<FilterProps> = ({ filterState }) => {
             onChange={(e: any) => {
               setFilter({
                 ...filter,
-                status_type: e?.value ?? "t1",
+                status_type_daerah: e?.value ?? "t1",
               });
             }}
             value={
-              filter.status_type
+              filter.status_type_daerah
                 ? standardOptions(
                     getjenisStatusList?.data || [],
                     "jenisStatusName",
                     "jenisStatusId"
-                  )?.find((f) => f.value === filter.status_type)
-                : filter.status_type
+                  )?.find((f) => f.value === filter.status_type_daerah)
+                : filter.status_type_daerah
             }
             // isDisabled={!filter.bulan}
           />
@@ -77,17 +77,17 @@ export const Filter1: React.FC<FilterProps> = ({ filterState }) => {
             onChange={(e: any) => {
               setFilter({
                 ...filter,
-                women_category: e?.value ?? "All",
+                women_category_daerah: e?.value ?? "All",
               });
             }}
             value={
-              filter.women_category
+              filter.women_category_daerah
                 ? standardOptions(
                     getWomenCategory?.data || [],
                     "womenCategoryName",
                     "womenCategoryId"
-                  )?.find((f) => f.value === filter.women_category)
-                : filter.women_category
+                  )?.find((f) => f.value === filter.women_category_daerah)
+                : filter.women_category_daerah
             }
             // isDisabled={!filter.bulan}
           />
@@ -117,7 +117,7 @@ export const Filter2: React.FC<FilterProps> = ({ filterState }) => {
             placeholder="Jenis Tren"
             options={trendTypeOptions}
             onChange={(e: any) => {
-              setFilter({ ...filter, tren_type: e ? e.value : "bulanan" });
+              setFilter({ ...filter, tren_type: e?.value ?? "kumulatif" });
             }}
             value={
               filter.tren_type
@@ -137,17 +137,17 @@ export const Filter2: React.FC<FilterProps> = ({ filterState }) => {
             onChange={(e: any) => {
               setFilter({
                 ...filter,
-                status_type: e?.value ?? "t1",
+                status_type_kumulatif: e?.value ?? "t1",
               });
             }}
             value={
-              filter.status_type
+              filter.status_type_kumulatif
                 ? standardOptions(
                     getjenisStatusList?.data || [],
                     "jenisStatusName",
                     "jenisStatusId"
-                  )?.find((f) => f.value === filter.status_type)
-                : filter.status_type
+                  )?.find((f) => f.value === filter.status_type_kumulatif)
+                : filter.status_type_kumulatif
             }
             // isDisabled={!filter.bulan}
           />
@@ -163,17 +163,17 @@ export const Filter2: React.FC<FilterProps> = ({ filterState }) => {
             onChange={(e: any) => {
               setFilter({
                 ...filter,
-                women_category: e?.value ?? "All",
+                women_category_kumulatif: e?.value ?? "All",
               });
             }}
             value={
-              filter.women_category
+              filter.women_category_kumulatif
                 ? standardOptions(
                     getWomenCategory?.data || [],
                     "womenCategoryName",
                     "womenCategoryId"
-                  )?.find((f) => f.value === filter.women_category)
-                : filter.women_category
+                  )?.find((f) => f.value === filter.women_category_kumulatif)
+                : filter.women_category_kumulatif
             }
             // isDisabled={!filter.bulan}
           />
@@ -215,17 +215,63 @@ export const Filter3: React.FC<FilterProps> = ({ filterState }) => {
             onChange={(e: any) => {
               setFilter({
                 ...filter,
-                women_category: e?.value ?? "All",
+                women_category_status_T: e?.value ?? "All",
               });
             }}
             value={
-              filter.women_category
+              filter.women_category_status_T
                 ? standardOptions(
                     getWomenCategory?.data || [],
                     "womenCategoryName",
                     "womenCategoryId"
-                  )?.find((f) => f.value === filter.women_category)
-                : filter.women_category
+                  )?.find((f) => f.value === filter.women_category_status_T)
+                : filter.women_category_status_T
+            }
+            // isDisabled={!filter.bulan}
+          />
+        </div>
+      </div>
+    </div>
+  );
+};
+export const Filter4: React.FC<FilterProps> = ({ filterState }) => {
+  const [filter, setFilter] = filterState || useState({});
+  const { data: getWomenCategory } = useGetWomencategoryQuery({});
+
+  return (
+    <div className="flex flex-wrap justify-between items-center gap-4 sm:mt-20 md:mt-0 mb-8">
+      <div className={`flex gap-4 ${openSans.className}`}></div>
+      <div className="flex gap-4">
+        {/* <div>
+          <Button text="Unduh" variant="outlined" />
+        </div>
+        <div>
+          <Button text="Laporkan" variant="outlined" />
+        </div> */}
+        <div>
+          <Select
+            placeholder="Status Kehamilan"
+            options={standardOptions(
+              getWomenCategory?.data || [],
+              "womenCategoryName",
+              "womenCategoryId"
+            )}
+            onChange={(e: any) => {
+              setFilter({
+                ...filter,
+                women_category_status_T_Pregnant: e?.value ?? "All",
+              });
+            }}
+            value={
+              filter.women_category_status_T_Pregnant
+                ? standardOptions(
+                    getWomenCategory?.data || [],
+                    "womenCategoryName",
+                    "womenCategoryId"
+                  )?.find(
+                    (f) => f.value === filter.women_category_status_T_Pregnant
+                  )
+                : filter.women_category_status_T_Pregnant
             }
             // isDisabled={!filter.bulan}
           />

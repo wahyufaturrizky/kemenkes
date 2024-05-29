@@ -7,7 +7,8 @@ import {
   useGetRegencyQuery,
   useGetSubDistrictQuery,
 } from "@/lib/services/region";
-import { useGetVillagesQuery } from "@/lib/services/wus";
+import { useGetListFaskesQuery } from "@/lib/services/bias";
+// import { usegetListFaskessQuery } from "@/lib/services/wus";
 import { dataMonth, filterLocationOptions } from "@/utils/constants";
 import {
   generateYearsArray,
@@ -19,7 +20,7 @@ interface FilterProps {
   filterState?: any;
 }
 
-const FilterSummaryImmunizationWus: React.FC<FilterProps> = ({
+const FilterSummaryImmunizationBias: React.FC<FilterProps> = ({
   filterState,
 }) => {
   const [filter, setFilter] = filterState || useState({});
@@ -39,7 +40,7 @@ const FilterSummaryImmunizationWus: React.FC<FilterProps> = ({
       refetchOnMountOrArgChange: true,
     }
   );
-  const { data: getVillage } = useGetVillagesQuery(
+  const { data: getListFaskes } = useGetListFaskesQuery(
     {
       kewilayahan_type: filter.kewilayahan_type,
       year: filter.tahun,
@@ -53,7 +54,7 @@ const FilterSummaryImmunizationWus: React.FC<FilterProps> = ({
     }
   );
 
-  // console.log(getVillage, "data desa");
+  // console.log(getListFaskes, "data desa");
 
   return (
     <div className="flex flex-col gap-2">
@@ -187,11 +188,11 @@ const FilterSummaryImmunizationWus: React.FC<FilterProps> = ({
         </div>
         <div>
           <Select
-            placeholder="Desa/Kelurahan"
+            placeholder="Faskes"
             options={standardOptions(
-              getVillage?.data || [],
-              "faskesName",
-              "faskesId"
+              getListFaskes?.data || [],
+              "faskes_name",
+              "faskes_id"
             )}
             onChange={(e: any) => {
               setFilter({
@@ -202,9 +203,9 @@ const FilterSummaryImmunizationWus: React.FC<FilterProps> = ({
             value={
               filter.faskes
                 ? standardOptions(
-                    getVillage?.data || [],
-                    "faskesName",
-                    "faskesId"
+                    getListFaskes?.data || [],
+                    "faskes_name",
+                    "faskes_id"
                   )?.find((f) => f.value === filter.faskes)
                 : filter.faskes
             }
@@ -271,4 +272,4 @@ const FilterSummaryImmunizationWus: React.FC<FilterProps> = ({
   );
 };
 
-export default FilterSummaryImmunizationWus;
+export default FilterSummaryImmunizationBias;

@@ -99,6 +99,20 @@ export const wusImmunizationApi = apiWithTag.injectEndpoints({
       }),
       providesTags: ["wus-immunization"],
     }),
+    getTotalCumulativeCoverageRecipients: build.query({
+      query: (options = {}) => ({
+        url: `${API_URL}/v1/wus-immunization/total-immunization/get-total-cumulative-coverage-recipients`,
+        params: options,
+      }),
+      providesTags: ["wus-immunization"],
+    }),
+    getVillages: build.query({
+      query: (options = {}) => ({
+        url: `${API_URL}/v1/wus-immunization/faskes-wus-list`,
+        params: options,
+      }),
+      providesTags: ["wus-immunization"],
+    }),
   }),
 });
 
@@ -116,4 +130,6 @@ export const {
   useGetTotalImmunizationTotalCumulativeCoverageRecipientsQuery,
   useGetDistributionStatusChartQuery,
   useGetDistributionStatusPregnantChartQuery,
+  useGetTotalCumulativeCoverageRecipientsQuery,
+  useGetVillagesQuery,
 } = wusImmunizationApi;
