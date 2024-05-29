@@ -1,7 +1,7 @@
 import { EChartsOptionProps } from "@/components/graph-echarts";
 import { dataMonth } from "@/utils/constants";
 
-export const graphOptions1 = (series: any[]) => {
+export const graphOptions1 = (series: any[], legend: any[]) => {
   const option: EChartsOptionProps = {
     grid: { containLabel: true },
     tooltip: {
@@ -12,7 +12,7 @@ export const graphOptions1 = (series: any[]) => {
     },
     yAxis: {
       type: "category",
-      data: series.map((r) => r.name),
+      data: legend,
     },
     xAxis: {
       type: "value",

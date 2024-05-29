@@ -498,28 +498,32 @@ const Bias = () => {
                       variant="private"
                       filterState={filterState}
                       filterComp={<Filter1 filterState={filterState} />}
-                      graphOptions={graphOptions1(
-                        (
+                      opts={{
+                        height: 900
+                      }}
+                      graphOptions={graphOptions1({
+                        // @ts-ignore
+                        name: "Target Cakupan per Daerah = 100%",
+                        data:
+                          (
+                            getTotalImmunizationTotalCumulativeCoverageQuery?.data ||
+                            []
+                          )?.map((r: any) => r?.ytd_pct_total) || [],
+                        type: "bar",
+                        label: {
+                          show: true,
+                          precision: 1,
+                          position: "right",
+                          formatter: (params: any) =>
+                            `${params.value}%`,
+                        },
+                      }
+                        , (
                           getTotalImmunizationTotalCumulativeCoverageQuery?.data ||
                           []
-                        )?.map((r: any) => {
-                          return {
-                            name: r.faskes_desc,
-                            data:
-                              (
-                                getTotalImmunizationTotalCumulativeCoverageQuery?.data ||
-                                []
-                              )?.map((r: any) => r?.ytd_pct_total_t1) || [],
-                            type: "bar",
-                            label: {
-                              show: true,
-                              precision: 1,
-                              position: "right",
-                              formatter: (params: any) =>
-                                `${params.value}% (${r?.ytd_total_t1})`,
-                            },
-                          };
-                        })
+                        )
+                          ?.sort((a: any, b: any) => a.faskes_desc - b.faskes_desc)
+                          ?.map((r: any) => r.faskes_desc)
                       )}
                     />
                   </div>

@@ -9,7 +9,7 @@ import { ChildSummaryImmunization, FilterSummaryImmunization, GraphAddOn, GraphR
 import { Filter1, Filter2, Filter3, Filter4, Filter5 } from "@/view/dashboard/routine-baduta-immunization/Filter";
 import { graphOptions1, graphOptions2, graphOptions3, graphOptions4, graphOptions5 } from "@/view/dashboard/routine-baduta-immunization/graphOptions";
 import { useGetAverageImmunizationByGenderQuery, useGetDoPercentageCampakRubelaQuery, useGetDoPercentageDPHTHBHIBQuery, useGetExceedTargetPerVaccineQuery, useGetHighestImmunizationByAgeQuery, useGetImmunizationWithHighetFemaleRecivientQuery, useGetImmunizationWithHighetMaleRecivientQuery, useGetInExceedTargetPerVaccineQuery, useGetMaxImmunizationByAgeQuery, useGetPercentageTotalImmunizationQuery, useGetScopePercentagePerMonthQuery, useGetSummaryImmunizationByAgeQuery, useGetSummaryImmunizationPerGenderQuery, useGetSummaryImmunizationPerVaccineQuery, useGetSummaryScopePercentageQuery, useGetTotalHighestScopeByVaccineTypeQuery, useGetTotalHighestScopeQuery, useGetTotalImmunizationByVaccineTypeQuery, useGetTotalImmunizationQuery, useGetTotalLowestScopeByVaccineTypeQuery, useGetTotalLowestScopeQuery, useGetTotalScopeByVaccineTypeQuery, useGetTotalScopeQuery } from "@/lib/services/baduta-immunization";
-import { dataMonth, dataTabBaduta, vaccineTypeOptions } from "@/utils/constants";
+import { dataMonth, dataTabBaduta, trendTypeOptions, vaccineTypeOptions } from "@/utils/constants";
 import { formatNumber } from "@/helpers";
 import { openSans } from "@/assets/fonts";
 
@@ -390,7 +390,7 @@ const RoutineBadutaImmunization = () => {
                   {isLoadingTotalImmunizationByVaccineTypeQuery1 && <Spin />}
                   <ChildSummaryImmunization
                     className={`px-4 border rounded-lg ${openSans.className}`}
-                    contentTooltip={<div></div>}
+                    contentTooltip={<div>{vaccineTypeOptions[0].label}</div>}
                     title={vaccineTypeOptions[0].label}
                     value={
                       formatNumber(getTotalImmunizationByVaccineTypeQuery1?.data?.total || 0)
@@ -488,25 +488,39 @@ const RoutineBadutaImmunization = () => {
                 graph={
                   <div className="my-4 p-4 md:p-8 border rounded-lg">
                     <GraphRoutineImmunizationCoverageTrend
-                      title={<div className="font-bold md:text-2xl">Grafik Cakupan <b className="text-primary-2">Imunisasi Baduta Lengkap</b> pada Provinsi di <b className="text-primary-2">Indonesia</b> Selama Tahun <b className="text-primary-2">2023</b></div>}
-                      subTitle="Grafik menampilkan hasil cakupan imunisasi baduta lengkap dari 34 provinsi di Indonesia"
+                      title={<div className="font-bold md:text-2xl">Grafik Cakupan <b className="text-primary-2">{vaccineTypeOptions.find((r) => r.value === filter.tipe_vaksin1)?.label}</b> pada Provinsi di <b className="text-primary-2">Indonesia</b> Selama Tahun <b className="text-primary-2">{filter.tahun}</b></div>}
+                      subTitle={`Grafik menampilkan hasil cakupan ${vaccineTypeOptions.find((r) => r.value === filter.tipe_vaksin1)?.label} dari 34 provinsi di Indonesia`}
                       addOn={<GraphAddOn dataCard={dataGraphRegionalRoutineImmunizationCoverageTrend1} />} variant="private"
                       filterState={filterState}
                       filterComp={<Filter1 filterState={filterState} />}
                       isLoading={isLoadingPercentageTotalImmunizationQuery}
-                      graphOptions={graphOptions1((getPercentageTotalImmunizationQuery?.data || [])?.map((r: any) => {
-                        return {
-                          name: r.faskes,
-                          data: (getPercentageTotalImmunizationQuery?.data || [])?.map((r: any) => formatNumber(r?.pct_immunization || 0)) || [],
-                          type: 'bar',
-                          label: {
-                            show: true,
-                            precision: 1,
-                            position: 'right',
-                            formatter: (params: any) => `${params.value}% ${formatNumber(r?.total_immunization || 0)}`
-                          }
-                        }
-                      }))}
+                      opts={{
+                        height: 900
+                      }}
+                      graphOptions={graphOptions1({
+                        // @ts-ignore
+                        name: "Target Cakupan per Daerah = 100%",
+                        data:
+                          (
+                            getPercentageTotalImmunizationQuery?.data ||
+                            []
+                          )?.map((r: any) => r?.pct_immunization) || [],
+                        type: "bar",
+                        label: {
+                          show: true,
+                          precision: 1,
+                          position: "right",
+                          formatter: (params: any) =>
+                            `${params.value}%`,
+                        },
+                      }
+                        , (
+                          getPercentageTotalImmunizationQuery?.data ||
+                          []
+                        )
+                          ?.sort((a: any, b: any) => a.r.faskes - b.r.faskes)
+                          ?.map((r: any) => r.r.faskes)
+                      )}
                     />
                   </div>
                 }
@@ -519,8 +533,8 @@ const RoutineBadutaImmunization = () => {
                 graph={
                   <div className="my-4 p-4 md:p-8 border rounded-lg">
                     <GraphRoutineImmunizationCoverageTrend
-                      title={<div className="font-bold md:text-2xl">Data Kumulatif Jumlah Penerima, Cakupan, dan Target Cakupan <b className="text-primary-2">Imunisasi Baduta Lengkap</b> pada Baduta Selama Tahun <b className="text-primary-2">2023</b></div>}
-                      subTitle={`Grafik menampilkan tren cakupan kumulatif penerima imunisasi baduta lengkap pada baduta selama tahun ${filter.tahun}`}
+                      title={<div className="font-bold md:text-2xl">Data {trendTypeOptions.find((r) => r.value === filter.jenis_tren)?.label} Jumlah Penerima, Cakupan, dan Target Cakupan <b className="text-primary-2">{vaccineTypeOptions.find((r) => r.value === filter.tipe_vaksin2)?.label}</b> pada Baduta Selama Tahun <b className="text-primary-2">{filter.tahun}</b></div>}
+                      subTitle={`Grafik menampilkan tren cakupan ${trendTypeOptions.find((r) => r.value === filter.jenis_tren)?.label} penerima ${vaccineTypeOptions.find((r) => r.value === filter.tipe_vaksin2)?.label} pada baduta selama tahun ${filter.tahun}`}
                       variant="private"
                       filterState={filterState}
                       filterComp={<Filter2 filterState={filterState} />}
@@ -528,7 +542,7 @@ const RoutineBadutaImmunization = () => {
                         <div className="relative flex justify-center items-center">
                           {isLoadingSetSummaryScopePercentageQuery && <Spin />}
                           <div className="p-2 sm:w-32 md:w-64 h-fit">
-                            <div className="text-sm">Total cakupan kumulatif pada tahun {filter.tahun}</div>
+                            <div className="text-sm">Total cakupan {trendTypeOptions.find((r) => r.value === filter.jenis_tren)?.label} pada tahun {filter.tahun}</div>
                             <div className="py-2 font-bold text-3xl text-primary">{formatNumber(getSetSummaryScopePercentageQuery?.data?.pct || 0)}%</div>
                             <div>Jumlah Imunisasi Baduta Lengkap: {formatNumber(getSetSummaryScopePercentageQuery?.data?.total || 0)}</div>
                           </div>

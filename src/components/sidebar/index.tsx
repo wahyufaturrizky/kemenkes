@@ -27,7 +27,7 @@ const Sidebar: React.FC = () => {
               </div>
               <MdAlignHorizontalLeft color="#FFFFFF" className="text-xl cursor-pointer" onClick={() => setSidebarActive(!isSidebarActive)} />
             </div>
-            {sidebarNavigation.slice(0, 5).map((r) => (
+            {sidebarNavigation.slice(0, 6).map((r) => (
               <div key={r.title} className={`flex flex-col gap-4 py-4 px-2 rounded-lg cursor-pointer hover:bg-primary-3
                 ${pathname.includes(r.path) ? "bg-primary-3" : ""}`}
                 onClick={() => push(r.path)}>
@@ -35,7 +35,7 @@ const Sidebar: React.FC = () => {
               </div>
             ))}
             <hr />
-            {sidebarNavigation.slice(5, 7).map((r) => (
+            {sidebarNavigation.slice(6, 9).map((r) => (
               <div key={r.title} className={`flex flex-col gap-4 py-4 px-2 rounded-lg cursor-pointer hover:bg-primary-3
               ${pathname.includes(r.path) ? "bg-primary-3" : ""}`}
                 onClick={() => push(r.path)}>

@@ -12,6 +12,14 @@ export const sidebarNavigation = [
     path: "/dashboard/routine-baduta-immunization",
   },
   {
+    title: "Imunisasi Rutin WUS",
+    path: "/dashboard/wus",
+  },
+  {
+    title: "Imunisasi Rutin BIAS",
+    path: "/dashboard/bias",
+  },
+  {
     title: "Imunisasi Kejar Bayi & Baduta",
     path: "/dashboard/baby-chase-immunization-baduta",
   },
@@ -26,13 +34,5 @@ export const sidebarNavigation = [
   {
     title: "Komentar",
     path: "/dashboard/comment",
-  },
-  {
-    title: "Bias",
-    path: "/dashboard/bias",
-  },
-  {
-    title: "WUS",
-    path: "/dashboard/wus",
   },
 ];

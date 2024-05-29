@@ -84,35 +84,35 @@ const Wus = () => {
     region_type: filter.faskes
       ? "faskes"
       : filter.kecamatan
-      ? "district"
-      : filter.kabkota
-      ? "city"
-      : filter.provinsi
-      ? "province"
-      : "All",
+        ? "district"
+        : filter.kabkota
+          ? "city"
+          : filter.provinsi
+            ? "province"
+            : "All",
     faskes_parent_id:
       filter.provinsi !== "" &&
-      filter.kabkota !== "" &&
-      filter.kecamatan === undefined
+        filter.kabkota !== "" &&
+        filter.kecamatan === undefined
         ? filter.provinsi
         : filter.provinsi !== "" &&
           filter.kabkota !== "" &&
           filter.kecamatan !== ""
-        ? filter.kabkota
-        : filter.provinsi !== "" && filter.kabkota !== ""
-        ? filter.provinsi
-        : filter.provinsi !== ""
-        ? filter.provinsi
-        : "All",
+          ? filter.kabkota
+          : filter.provinsi !== "" && filter.kabkota !== ""
+            ? filter.provinsi
+            : filter.provinsi !== ""
+              ? filter.provinsi
+              : "All",
     faskes_id: filter.faskes
       ? filter.faskes
       : filter.kecamatan
-      ? filter.kecamatan
-      : filter.kabkota
-      ? filter.kabkota
-      : filter.provinsi
-      ? filter.provinsi
-      : "All",
+        ? filter.kecamatan
+        : filter.kabkota
+          ? filter.kabkota
+          : filter.provinsi
+            ? filter.provinsi
+            : "All",
   };
 
   const filterStateCoverage = useState({
@@ -206,12 +206,12 @@ const Wus = () => {
       filter.wilayah === "faskes"
         ? filter.faskes
         : filter.wilayah === "district"
-        ? filter.kecamatan
-        : filter.wilayah === "city"
-        ? filter.kabkota
-        : filter.wilayah === "provinsi"
-        ? filter.provinsi
-        : "All",
+          ? filter.kecamatan
+          : filter.wilayah === "city"
+            ? filter.kabkota
+            : filter.wilayah === "provinsi"
+              ? filter.provinsi
+              : "All",
   };
 
   const { data: getTotalImmunizationQuery } = useGetTotalImmunizationQuery(
@@ -273,8 +273,6 @@ const Wus = () => {
       regional: getTotalImmunizationTotalCoverageLowestQuery?.data?.faskes_desc,
     },
   ];
-
-  console.log(getDistributionStatusChartQuery?.data?.ytd_total_t1, "isi data");
 
   return (
     <div className="flex flex-col items-center">
@@ -477,28 +475,32 @@ const Wus = () => {
                       variant="private"
                       filterState={filterStateCoverage}
                       filterComp={<Filter1 filterState={filterStateCoverage} />}
-                      graphOptions={graphOptions1(
-                        (
+                      opts={{
+                        height: 900
+                      }}
+                      graphOptions={graphOptions1({
+                        // @ts-ignore
+                        name: "Target Cakupan per Daerah = 100%",
+                        data:
+                          (
+                            getTotalImmunizationTotalCumulativeCoverageQuery?.data ||
+                            []
+                          )?.map((r: any) => r?.ytd_pct_total) || [],
+                        type: "bar",
+                        label: {
+                          show: true,
+                          precision: 1,
+                          position: "right",
+                          formatter: (params: any) =>
+                            `${params.value}%`,
+                        },
+                      }
+                        , (
                           getTotalImmunizationTotalCumulativeCoverageQuery?.data ||
                           []
-                        )?.map((r: any) => {
-                          return {
-                            name: r.faskes_desc,
-                            data:
-                              (
-                                getTotalImmunizationTotalCumulativeCoverageQuery?.data ||
-                                []
-                              )?.map((r: any) => r?.ytd_pct_total) || [],
-                            type: "bar",
-                            label: {
-                              show: true,
-                              precision: 1,
-                              position: "right",
-                              formatter: (params: any) =>
-                                `${params.value}% (${r?.ytd_total})`,
-                            },
-                          };
-                        })
+                        )
+                          ?.sort((a: any, b: any) => a.faskes_desc - b.faskes_desc)
+                          ?.map((r: any) => r.faskes_desc)
                       )}
                     />
                   </div>
