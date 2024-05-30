@@ -48,20 +48,18 @@ import {
   useGetHighestScopeQuery,
   useGetLowestScopeQuery,
   useGetExceedTargetScopeQuery,
+  useGetChartScopeQuery,
 } from "@/lib/services/bias";
-import {
-  Filter3,
-  Filter4,
-  Filter5,
-} from "../routine-baduta-immunization/Filter";
-import { Filter1, Filter2 } from "./FilterBias";
+import { Filter4, Filter5 } from "../routine-baduta-immunization/Filter";
+import { Filter1, Filter2, Filter3 } from "./FilterBias";
 import {
   graphOptions1,
   graphOptions2,
-  graphOptions3,
   graphOptions4,
   graphOptions5,
 } from "../routine-baduta-immunization/graphOptions";
+import { graphOptions3 } from "./graphOptionts";
+
 import { openSans } from "@/assets/fonts";
 import {
   useGetAverageImmunizationByGenderQuery,
@@ -79,6 +77,7 @@ import {
 } from "@/lib/services/baduta-immunization";
 import FilterSummaryImmunizationBias from "@/view/home/components/FilterBias";
 import TabsBias from "@/components/tabsBias";
+import GraphRoutineImmunizationCoverageTrendBias from "@/view/home/components/GraphBias";
 
 const Bias = () => {
   const filterState = useState({
@@ -89,9 +88,12 @@ const Bias = () => {
     kecamatan: "",
     faskes: "",
     wilayah: "PROVINSI",
+    wilayah_name: "Provinsi",
     kewilayahan_type: 0,
     tipe_vaksin: "bias",
+    nama_vaksin: "BIAS  Lengkap",
     tipe_vaksin2: "bias",
+    tipe_vaksin3: "bias",
     tren_type: "kumulatif",
   });
   const [filter] = filterState;
@@ -105,14 +107,14 @@ const Bias = () => {
       filter.faskes && filter.kewilayahan_type == 0
         ? "FASKES"
         : filter.faskes && filter.kewilayahan_type == 1
-          ? "KELURAHAN"
-          : filter.kecamatan
-            ? "KECAMATAN"
-            : filter.kabkota
-              ? "KABKO"
-              : filter.provinsi
-                ? "PROVINSI"
-                : "ALL",
+        ? "KELURAHAN"
+        : filter.kecamatan
+        ? "KECAMATAN"
+        : filter.kabkota
+        ? "KABKO"
+        : filter.provinsi
+        ? "PROVINSI"
+        : "ALL",
     // faskes_parent_id:
     //   filter.provinsi !== "" &&
     //   filter.kabkota !== "" &&
@@ -130,12 +132,12 @@ const Bias = () => {
     faskes_id: filter.faskes
       ? filter.faskes
       : filter.kecamatan
-        ? filter.kecamatan
-        : filter.kabkota
-          ? filter.kabkota
-          : filter.provinsi
-            ? filter.provinsi
-            : "ALL",
+      ? filter.kecamatan
+      : filter.kabkota
+      ? filter.kabkota
+      : filter.provinsi
+      ? filter.provinsi
+      : "ALL",
     kewilayahan_type: filter.kewilayahan_type,
   };
   const optionQuery = {
@@ -159,9 +161,9 @@ const Bias = () => {
     kewilayahan_type: filter.kewilayahan_type,
   };
   const filterQueryTotalChart = {
-    // ...dateQuery,
-    year: 2022,
-    month: 1,
+    ...dateQuery,
+    // year: 2022,
+    // month: 1,
     region_type: filter.wilayah,
     vaccine_type: filter.tipe_vaksin2,
     faskes_id: filter.faskes
@@ -176,6 +178,23 @@ const Bias = () => {
     tren_type: filter.tren_type,
     kewilayahan_type: filter.kewilayahan_type,
   };
+  // const filterQueryHighestScope = {
+  //   ...dateQuery,
+  //   // year: 2022,
+  //   // month: 1,
+  //   region_type: filter.wilayah,
+  //   vaccine_type: filter.tipe_vaksin2,
+  //   faskes_id: filter.faskes
+  //     ? filter.faskes
+  //     : filter.kecamatan
+  //     ? filter.kecamatan
+  //     : filter.kabkota
+  //     ? filter.kabkota
+  //     : filter.provinsi
+  //     ? filter.provinsi
+  //     : "ALL",
+  //   kewilayahan_type: filter.kewilayahan_type,
+  // };
   // const filterQueryTotalLowest = {
   //   ...filterQueryTotalCoverage,
   //   faskes_desc: "PAPUA PEGUNUNGAN",
@@ -201,17 +220,32 @@ const Bias = () => {
     filter.wilayah === "faskes"
       ? filter.faskes
       : filter.wilayah === "district"
-        ? filter.kecamatan
-        : filter.wilayah === "city"
-          ? filter.kabkota
-          : filter.wilayah === "province"
-            ? filter.provinsi
-            : "All";
+      ? filter.kecamatan
+      : filter.wilayah === "city"
+      ? filter.kabkota
+      : filter.wilayah === "province"
+      ? filter.provinsi
+      : "All";
   const filterQueryGraph = {
     ...dateQuery,
     region_type: filter.wilayah,
     region_id: regionIdQuery,
     kewilayahan_type: filter.kewilayahan_type,
+  };
+  const filterFullBiasScope = {
+    ...dateQuery,
+    region_type: filter.wilayah,
+    faskes_id: filter.faskes
+      ? filter.faskes
+      : filter.kecamatan
+      ? filter.kecamatan
+      : filter.kabkota
+      ? filter.kabkota
+      : filter.provinsi
+      ? filter.provinsi
+      : "ALL",
+    kewilayahan_type: filter.kewilayahan_type,
+    vaccine_type: filter.tipe_vaksin3,
   };
   // sample
 
@@ -242,31 +276,34 @@ const Bias = () => {
     optionQuery
   );
   const { data: getTotalLowest } = useGetTotalLowestQuery(
-    filterQueryTotalHighest,
+    filterQueryTotal,
     optionQuery
   );
   const { data: getAllRegion } = useGetAllRegionQuery(
-    filterQueryTotalHighest,
+    filterQueryTotal,
     optionQuery
   );
+
+  // console.log(getAllRegion, "grafik");
   const { data: getChart } = useGetChartQuery(filterQueryTotalChart);
   const { data: getPct } = useGetPctQuery(filterQueryTotalChart);
   const { data: getFullBiasScope } = useGetFullBiasScopeQuery(
-    filterQueryTotalChart
+    filterFullBiasScope,
+    optionQuery
   );
   const { data: getHighestScope } = useGetHighestScopeQuery(
-    filterQueryTotalChart
+    // filterQueryHighestScope
+    filterFullBiasScope
   );
-  const { data: getLowestScope } = useGetLowestScopeQuery(
-    filterQueryTotalChart
-  );
+  const { data: getLowestScope } = useGetLowestScopeQuery(filterFullBiasScope);
   const { data: getExceedTargetScope } = useGetExceedTargetScopeQuery(
     filterQueryTotalChart
   );
+  const { data: getChartScope } = useGetChartScopeQuery(filterFullBiasScope);
   // filterQueryTotalHighest,
   // optionQuery
 
-  // console.log(getExceedTargetScope, "total ");
+  console.log(getChartScope, "total ");
 
   // const { data: getTotalImmunizationTotalCoverageQuery } =
   //   useGetTotalImmunizationTotalCoverageQuery(filterQueryTotalCoverage);
@@ -362,12 +399,12 @@ const Bias = () => {
       regional: "",
     },
     {
-      title: "Cakupan Tertinggi Tahun 2024",
+      title: `Cakupan Tertinggi Tahun ${filter.tahun}`,
       value: <div>{formatNumber(getTotalHighest?.data?.pct || 0)}%</div>,
       regional: getTotalHighest?.data?.provinsi,
     },
     {
-      title: "Cakupan Terendah Tahun 2024",
+      title: `Cakupan Terendah Tahun ${filter.tahun}`,
       value: getTotalLowest?.data?.pct,
 
       regional: getTotalLowest?.data?.provinsi,
@@ -379,7 +416,8 @@ const Bias = () => {
       value: <div>{formatNumber(getFullBiasScope?.data?.pct || 0)}%</div>,
       regional: (
         <div>
-          Jumlah Cakupan: {formatNumber(getFullBiasScope?.data?.ytd || 0)}
+          Jumlah Cakupan:{" "}
+          {formatNumber(getFullBiasScope?.data?.target_6_sd || 0)}
         </div>
       ),
       isLoading: isLoadingTotalScopeByVaccineTypeQuery,
@@ -490,9 +528,10 @@ const Bias = () => {
           show: true,
           position: "inner",
           formatter: (params: any, i: number) =>
-            `${params.name === "Laki-laki"
-              ? getAverageImmunizationByGenderQuery?.data?.pct_female
-              : getAverageImmunizationByGenderQuery?.data?.pct_male
+            `${
+              params.name === "Laki-laki"
+                ? getAverageImmunizationByGenderQuery?.data?.pct_female
+                : getAverageImmunizationByGenderQuery?.data?.pct_male
             }%`,
         },
         labelLine: {
@@ -723,10 +762,10 @@ const Bias = () => {
                       title={
                         <div className="font-bold md:text-2xl">
                           Data Cakupan{" "}
-                          <b className="text-primary-2">BIAS Lengkap</b> pada
-                          Provinsi di{" "}
+                          <b className="text-primary-2">{filter.nama_vaksin}</b>{" "}
+                          pada {filter.wilayah_name} di{" "}
                           <b className="text-primary-2">Indonesia</b> Selama
-                          Tahun <b className="text-primary-2">2024</b>
+                          Tahun <b className="text-primary-2">{filter.tahun}</b>
                         </div>
                       }
                       subTitle="Grafik menampilkan hasil cakupan imunisasi dasar lengkap dari 38 provinsi di Indonesia"
@@ -741,30 +780,36 @@ const Bias = () => {
                       filterState={filterState}
                       filterComp={<Filter1 filterState={filterState} />}
                       opts={{
-                        height: 900
+                        height: 900,
                       }}
-                      graphOptions={graphOptions1({
-                        // @ts-ignore
-                        name: "Target Cakupan per Daerah = 100%",
-                        data:
-                          (
-                            getTotalImmunizationTotalCumulativeCoverageQuery?.data ||
-                            []
-                          )?.map((r: any) => r?.ytd_pct_total) || [],
-                        type: "bar",
-                        label: {
-                          show: true,
-                          precision: 1,
-                          position: "right",
-                          formatter: (params: any) =>
-                            `${params.value}%`,
-                        },
-                      }
-                        , (
-                          getTotalImmunizationTotalCumulativeCoverageQuery?.data ||
-                          []
-                        )
-                          ?.map((r: any) => r.faskes_desc)
+                      graphOptions={graphOptions1(
+                        [
+                          {
+                            // @ts-ignore
+                            name: "Target Cakupan per Daerah = 100%",
+                            data:
+                              (getAllRegion?.data || [])?.map(
+                                (r: any) => r?.pct
+                              ) || [],
+                            type: "bar",
+                            label: {
+                              show: true,
+                              precision: 1,
+                              position: "right",
+                              formatter: (params: any) => `${params.value}%`,
+                            },
+                          },
+                          {
+                            name: "Target",
+                            type: "line",
+                            color: "#CD4243",
+                            data:
+                              (getAllRegion?.data || [])?.map(
+                                (r: any) => r?.threshold
+                              ) || [],
+                          },
+                        ],
+                        (getAllRegion?.data || [])?.map((r: any) => r.faskes)
                       )}
                     />
                   </div>
@@ -781,8 +826,15 @@ const Bias = () => {
                     <GraphRoutineImmunizationCoverageTrend
                       title={
                         <div className="font-bold md:text-2xl">
-                          Data Kumulatif Jumlah Penerima, Cakupan, dan Target
-                          Cakupan <b className="text-primary-2">BIAS Lengkap</b>{" "}
+                          Data{" "}
+                          {filter.tren_type
+                            .toLowerCase()
+                            .replace(
+                              /^./,
+                              filter.tren_type[0].toUpperCase()
+                            )}{" "}
+                          Jumlah Penerima, Cakupan, dan Target Cakupan{" "}
+                          <b className="text-primary-2">{filter.nama_vaksin}</b>{" "}
                           pada Anak Usia Sekolah Selama Tahun{" "}
                           <b className="text-primary-2">{filter.tahun}</b>
                         </div>
@@ -845,17 +897,17 @@ const Bias = () => {
                 subTitle=""
                 graph={
                   <div className="my-4 p-4 md:p-8 border rounded-lg">
-                    <GraphRoutineImmunizationCoverageTrend
+                    <GraphRoutineImmunizationCoverageTrendBias
                       layout="vertical"
                       title={
                         <div className="font-bold md:text-2xl">
                           <b className="text-primary-2">
-                            Grafik Cakupan Imunisasi pada Baduta Berdasarkan
-                            Jenis Imunisasi
+                            Grafik Cakupan Imunisasi pada Anak Usia Sekolah
+                            Berdasarkan Jenis Imunisasi
                           </b>
                         </div>
                       }
-                      subTitle="Grafik menampilkan tren cakupan imunisasi berdasarkan jenis imunisasi pada baduta."
+                      subTitle="Grafik menampilkan tren cakupan imunisasi berdasarkan jenis imunisasi pada anak sekolah."
                       addOn={
                         <GraphAddOn
                           dataCard={
@@ -867,11 +919,11 @@ const Bias = () => {
                       filterState={filterState}
                       filterComp={<Filter3 filterState={filterState} />}
                       threshold={
-                        <div className="sm:w-32 md:w-64 text-sm">
-                          <div className="relative flex justify-center items-center">
+                        <div className="text-sm">
+                          <div className="relative">
                             {isLoadingExceedTargetPerVaccineQuery && <Spin />}
                             <div
-                              className="relative px-4 py-3 rounded-xl"
+                              className="relative px-4 py-3 rounded-xl h-32 mt-5"
                               style={{
                                 boxShadow: "0px 2px 12px 0px #00000014",
                               }}
@@ -879,23 +931,27 @@ const Bias = () => {
                               <div className="font-bold">
                                 Imunisasi yang Melampaui Target Cakupan
                               </div>
-                              <div>
-                                <ul>
-                                  {getExceedTargetPerVaccineQuery?.data?.map(
-                                    (r: any, i: number) => (
-                                      <li key={i + "exceed"}>
-                                        {i + 1}. {r.vaccine}
-                                      </li>
-                                    )
-                                  )}
-                                </ul>
+                              <div style={{ display: "flex" }}>
+                                {/* <ul> */}
+                                {getExceedTargetScope?.data?.map(
+                                  (r: any, i: number) => (
+                                    // <li key={i + "exceed"}>
+                                    //   {i + 1}. {r.name}
+                                    // </li>
+                                    <p key={i + "exceed"}>
+                                      {r.name}
+                                      {", "}
+                                    </p>
+                                  )
+                                )}
+                                {/* </ul> */}
                               </div>
                             </div>
                           </div>
-                          <div className="relative flex justify-center items-center">
+                          <div className="relative">
                             {isLoadingInExceedTargetPerVaccineQuery && <Spin />}
                             <div
-                              className="px-4 py-3 rounded-xl"
+                              className="px-4 py-3 rounded-xl h-32 my-5"
                               style={{
                                 boxShadow: "0px 2px 12px 0px #00000014",
                               }}
@@ -918,66 +974,67 @@ const Bias = () => {
                           </div>
                         </div>
                       }
-                    // graphOptions={graphOptions3(
-                    //   [
-                    //     {
-                    //       name: "% Cakupan",
-                    //       data:
-                    //         // getSummaryImmunizationPerVaccineQuery?.data ||
-                    //         []?.map(
-                    //           (r: any) =>
-                    //             ((r?.pct || 0) / 100) * (r?.total || 0)
-                    //         ) || [],
-                    //       type: "line",
-                    //       label: {
-                    //         show: true,
-                    //         precision: 1,
-                    //         formatter: (params: any) =>
-                    //           `${formatNumber(
-                    //             ((params.value || 0) /
-                    //               (getTotalHpv2?.data || [])[params.dataIndex]
-                    //                 ?.total) *
-                    //               100
-                    //           )}%`,
-                    //       },
-                    //     },
-                    //     {
-                    //       name: "% Target Cakupan",
-                    //       data:
-                    //         (getTotalHpv2?.data || [])?.map(
-                    //           (r: any) =>
-                    //             ((r?.pct || 0) / 100) * (r?.total || 0)
-                    //         ) || [],
-                    //       type: "line",
-                    //       label: {
-                    //         show: true,
-                    //         precision: 1,
-                    //         formatter: (params: any) =>
-                    //           `${formatNumber(
-                    //             ((params.value || 0) /
-                    //               (getTotalHpv2?.data || [])[params.dataIndex]
-                    //                 ?.total) *
-                    //               100
-                    //           )}%`,
-                    //       },
-                    //     },
-                    //     {
-                    //       name: "Cakupan",
-                    //       data:
-                    //         (getTotalHpv2?.data || [])?.map(
-                    //           (r: any) => r?.total
-                    //         ) || [],
-                    //       type: "bar",
-                    //       label: {
-                    //         show: true,
-                    //         precision: 1,
-                    //         formatter: (params: any) =>
-                    //           `${formatNumber(params.value || 0)}`,
-                    //       },
-                    //     },
-                    //   ],
-                    //   getTotalHpv2?.data?.map((r: any) => r?.vaccine)
-                    // )}
+                      graphOptions={graphOptions3(
+                        [
+                          {
+                            name: "Cakupan",
+                            data:
+                              (getChartScope?.data || [])?.map(
+                                (r: any) => r?.ytd
+                              ) || [],
+                            type: "bar",
+                            label: {
+                              show: true,
+                              precision: 1,
+                              formatter: (params: any) =>
+                                `${formatNumber(params.value || 0)}`,
+                            },
+                          },
+                          {
+                            name: "% Cakupan",
+                            data:
+                              (getChartScope?.data || [])?.map(
+                                (r: any) =>
+                                  ((r?.pct || 0) / 100) * (r?.ytd || 0)
+                              ) || [],
+                            type: "line",
+                            label: {
+                              show: true,
+                              precision: 1,
+                              formatter: (params: any) =>
+                                `${formatNumber(
+                                  ((params.value || 0) /
+                                    (getChartScope?.data || [])[
+                                      params.dataIndex
+                                    ]?.ytd) *
+                                    100
+                                )}%`,
+                            },
+                          },
+                          {
+                            name: "% Target Cakupan",
+                            data:
+                              (getChartScope?.data || [])?.map(
+                                (r: any) =>
+                                  ((r?.thrs || 0) / 100) * (r?.ytd || 0)
+                              ) || [],
+                            type: "line",
+                            label: {
+                              show: true,
+                              precision: 1,
+                              formatter: (params: any) =>
+                                `${formatNumber(
+                                  ((params.value || 0) /
+                                    (getChartScope?.data || [])[
+                                      params.dataIndex
+                                    ]?.ytd) *
+                                    100
+                                )}%`,
+                            },
+                          },
+                        ],
+                        getChartScope?.data?.map((r: any) => r?.vaccine)
+                      )}
                     />
                   </div>
                 }

@@ -6,6 +6,7 @@ import {
   regionOptions,
   trendTypeOptions,
   vaccineTypeOptions,
+  regionOptionsBias,
 } from "@/utils/constants";
 import { openSans } from "@/assets/fonts";
 import { standardOptions } from "@/helpers";
@@ -40,6 +41,7 @@ export const Filter1: React.FC<FilterProps> = ({ filterState }) => {
               setFilter({
                 ...filter,
                 tipe_vaksin: e?.value ?? "bias",
+                nama_vaksin: e?.label ?? "BIAS  Lengkap",
               });
             }}
             value={
@@ -57,16 +59,17 @@ export const Filter1: React.FC<FilterProps> = ({ filterState }) => {
         <div>
           <Select
             placeholder="Kewilayahan"
-            options={regionOptions}
+            options={regionOptionsBias}
             onChange={(e: any) => {
               setFilter({
                 ...filter,
                 wilayah: e ? e.value.toUpperCase() : "PROVINSI",
+                wilayah_name: e ? e.label : "PROVINSI",
               });
             }}
             value={
               filter.wilayah
-                ? regionOptions?.find((f) => f.value === filter.wilayah)
+                ? regionOptionsBias?.find((f) => f.value === filter.wilayah)
                 : filter.wilayah
             }
           />
@@ -115,6 +118,7 @@ export const Filter2: React.FC<FilterProps> = ({ filterState }) => {
               setFilter({
                 ...filter,
                 tipe_vaksin2: e?.value ?? "bias",
+                nama_vaksin: e?.label ?? "BIAS  Lengkap",
               });
             }}
             value={
@@ -125,6 +129,51 @@ export const Filter2: React.FC<FilterProps> = ({ filterState }) => {
                     "vaccine_id"
                   )?.find((f) => f.value === filter.tipe_vaksin2)
                 : filter.tipe_vaksin2
+            }
+            // isDisabled={!filter.bulan}
+          />
+        </div>
+      </div>
+      <div className="flex gap-4">
+        <div>
+          <Button text="Unduh" variant="outlined" />
+        </div>
+        {/* <div>
+          <Button text="Laporkan" variant="outlined" />
+        </div> */}
+      </div>
+    </div>
+  );
+};
+export const Filter3: React.FC<FilterProps> = ({ filterState }) => {
+  const [filter, setFilter] = filterState || useState({});
+  const { data: getjenisVaksin } = useGetListVaccineQuery({});
+
+  return (
+    <div className="flex flex-wrap justify-between items-center gap-4 sm:mt-20 md:mt-0 mb-8">
+      <div className="flex gap-4">
+        <div>
+          <Select
+            placeholder="Jenis Vaksin"
+            options={standardOptions(
+              getjenisVaksin?.data || [],
+              "vaccine_name",
+              "vaccine_id"
+            )}
+            onChange={(e: any) => {
+              setFilter({
+                ...filter,
+                tipe_vaksin3: e?.value ?? "bias",
+              });
+            }}
+            value={
+              filter.tipe_vaksin3
+                ? standardOptions(
+                    getjenisVaksin?.data || [],
+                    "vaccine_name",
+                    "vaccine_id"
+                  )?.find((f) => f.value === filter.tipe_vaksin3)
+                : filter.tipe_vaksin3
             }
             // isDisabled={!filter.bulan}
           />

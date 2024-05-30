@@ -158,6 +158,13 @@ export const biasImmunizationApi = apiWithTag.injectEndpoints({
       }),
       providesTags: ["bias-immunization"],
     }),
+    getChartScope: build.query({
+      query: (options = {}) => ({
+        url: `${API_URL}/v1/bias-immunization/immunization-chart-by-type/chart-scope`,
+        params: options,
+      }),
+      providesTags: ["bias-immunization"],
+    }),
     // setion grafik 1
   }),
 });
@@ -187,4 +194,5 @@ export const {
   useGetHighestScopeQuery,
   useGetLowestScopeQuery,
   useGetExceedTargetScopeQuery,
+  useGetChartScopeQuery,
 } = biasImmunizationApi;
