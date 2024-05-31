@@ -48,17 +48,20 @@ import {
   useGetHighestScopeQuery,
   useGetLowestScopeQuery,
   useGetExceedTargetScopeQuery,
+  // useGetNotExceedTargetScopeQuery,
   useGetChartScopeQuery,
+  useGetNonIdealAgeQuery,
+  useGetIdealAgeQuery,
+  useGetChartbyAgeQuery,
 } from "@/lib/services/bias";
-import { Filter4, Filter5 } from "../routine-baduta-immunization/Filter";
-import { Filter1, Filter2, Filter3 } from "./FilterBias";
+import { Filter5 } from "../routine-baduta-immunization/Filter";
+import { Filter1, Filter2, Filter3, Filter4 } from "./FilterBias";
 import {
   graphOptions1,
   graphOptions2,
-  graphOptions4,
   graphOptions5,
 } from "../routine-baduta-immunization/graphOptions";
-import { graphOptions3 } from "./graphOptionts";
+import { graphOptions3, graphOptions4 } from "./graphOptionts";
 
 import { openSans } from "@/assets/fonts";
 import {
@@ -94,6 +97,7 @@ const Bias = () => {
     nama_vaksin: "BIAS  Lengkap",
     tipe_vaksin2: "bias",
     tipe_vaksin3: "bias",
+    tipe_vaksin4: "bias",
     tren_type: "kumulatif",
   });
   const [filter] = filterState;
@@ -178,42 +182,6 @@ const Bias = () => {
     tren_type: filter.tren_type,
     kewilayahan_type: filter.kewilayahan_type,
   };
-  // const filterQueryHighestScope = {
-  //   ...dateQuery,
-  //   // year: 2022,
-  //   // month: 1,
-  //   region_type: filter.wilayah,
-  //   vaccine_type: filter.tipe_vaksin2,
-  //   faskes_id: filter.faskes
-  //     ? filter.faskes
-  //     : filter.kecamatan
-  //     ? filter.kecamatan
-  //     : filter.kabkota
-  //     ? filter.kabkota
-  //     : filter.provinsi
-  //     ? filter.provinsi
-  //     : "ALL",
-  //   kewilayahan_type: filter.kewilayahan_type,
-  // };
-  // const filterQueryTotalLowest = {
-  //   ...filterQueryTotalCoverage,
-  //   faskes_desc: "PAPUA PEGUNUNGAN",
-  // };
-  const filterCumulativeCoverage = {
-    ...dateQuery,
-    region_type: filter?.wilayah,
-    women_category: "All",
-  };
-  const filterCumulativeCoverageRecipients = {
-    ...dateQuery,
-    region_type: "All",
-    women_category: "All",
-  };
-  // const filterQuery = {
-  //   ...dateQuery,
-  //   region_type: "PROVINSI",
-  //   faskes_id: 11,
-  // };
 
   // sample
   const regionIdQuery =
@@ -246,6 +214,21 @@ const Bias = () => {
       : "ALL",
     kewilayahan_type: filter.kewilayahan_type,
     vaccine_type: filter.tipe_vaksin3,
+  };
+  const filterIdealAge = {
+    ...dateQuery,
+    region_type: filter.wilayah,
+    faskes_id: filter.faskes
+      ? filter.faskes
+      : filter.kecamatan
+      ? filter.kecamatan
+      : filter.kabkota
+      ? filter.kabkota
+      : filter.provinsi
+      ? filter.provinsi
+      : "ALL",
+    kewilayahan_type: filter.kewilayahan_type,
+    vaccine_type: filter.tipe_vaksin4,
   };
   // sample
 
@@ -285,25 +268,50 @@ const Bias = () => {
   );
 
   // console.log(getAllRegion, "grafik");
-  const { data: getChart } = useGetChartQuery(filterQueryTotalChart);
-  const { data: getPct } = useGetPctQuery(filterQueryTotalChart);
+  const { data: getChart } = useGetChartQuery(
+    filterQueryTotalChart,
+    optionQuery
+  );
+  const { data: getPct } = useGetPctQuery(filterQueryTotalChart, optionQuery);
   const { data: getFullBiasScope } = useGetFullBiasScopeQuery(
     filterFullBiasScope,
     optionQuery
   );
   const { data: getHighestScope } = useGetHighestScopeQuery(
     // filterQueryHighestScope
-    filterFullBiasScope
+    filterFullBiasScope,
+    optionQuery
   );
-  const { data: getLowestScope } = useGetLowestScopeQuery(filterFullBiasScope);
+  const { data: getLowestScope } = useGetLowestScopeQuery(
+    filterFullBiasScope,
+    optionQuery
+  );
   const { data: getExceedTargetScope } = useGetExceedTargetScopeQuery(
-    filterQueryTotalChart
+    filterFullBiasScope,
+    optionQuery
   );
-  const { data: getChartScope } = useGetChartScopeQuery(filterFullBiasScope);
+  // const { data: getNotExceedTargetScope } =
+  //   useGetNotExceedTargetScopeQuery(filterFullBiasScope, optionQuery);
+  const { data: getChartScope } = useGetChartScopeQuery(
+    filterFullBiasScope,
+    optionQuery
+  );
+  const { data: getNonIdealAge } = useGetNonIdealAgeQuery(
+    filterIdealAge,
+    optionQuery
+  );
+  const { data: getIdealAge } = useGetIdealAgeQuery(
+    filterIdealAge,
+    optionQuery
+  );
+  const { data: getChartByAge } = useGetChartbyAgeQuery(
+    filterIdealAge,
+    optionQuery
+  );
   // filterQueryTotalHighest,
   // optionQuery
 
-  console.log(getChartScope, "total ");
+  // console.log(getChartByAge, "total ");
 
   // const { data: getTotalImmunizationTotalCoverageQuery } =
   //   useGetTotalImmunizationTotalCoverageQuery(filterQueryTotalCoverage);
@@ -313,14 +321,6 @@ const Bias = () => {
   //   useGetTotalImmunizationTotalCoverageLowestQuery(
   //     filterQueryTotalCoverageLowest
   //   );
-  const { data: getTotalImmunizationTotalCumulativeCoverageQuery } =
-    useGetTotalImmunizationTotalCumulativeCoverageQuery(
-      filterCumulativeCoverage
-    );
-  const { data: getTotalImmunizationTotalCumulativeCoverageRecipientsQuery } =
-    useGetTotalImmunizationTotalCumulativeCoverageRecipientsQuery(
-      filterCumulativeCoverageRecipients
-    );
 
   // sample
   const {
@@ -395,7 +395,7 @@ const Bias = () => {
   const dataGraphRegionalRoutineImmunizationCoverageTrend = [
     {
       title: `Total Cakupan BIAS Lengkap  Nasioanl Tahun ${filter.tahun}`,
-      value: <div>{formatNumber(getTotal?.data.pct || 0)}%</div>,
+      value: <div>{formatNumber(getTotal?.data?.pct || 0)}%</div>,
       regional: "",
     },
     {
@@ -460,12 +460,12 @@ const Bias = () => {
       title: (
         <div className="font-bold text-xl">
           3 Imunisasi dengan Penerima{" "}
-          <b style={{ color: "#83E0DB" }}>Usia Ideal</b> Terbanyak
+          <b style={{ color: "#EBB220" }}>Usia Non-Ideal</b> Terbanyak
         </div>
       ),
-      value: getMaxImmunizationByAgeQuery2?.data?.map((r: any, i: number) => (
+      value: getNonIdealAge?.data?.map((r: any, i: number) => (
         <li key={i + "max"}>
-          {i + 1}. {r.vaccine}
+          {i + 1}. {r.name}
         </li>
       )),
       isLoading: isLoadingMaxImmunizationByAgeQuery2,
@@ -474,12 +474,12 @@ const Bias = () => {
       title: (
         <div className="font-bold text-xl">
           3 Imunisasi dengan Penerima{" "}
-          <b style={{ color: "#00B1A9" }}>Usia Non Ideal</b> Terbanyak
+          <b style={{ color: "#00B1A9" }}>Usia Ideal</b> Terbanyak
         </div>
       ),
-      value: getMaxImmunizationByAgeQuery3?.data?.map((r: any, i: number) => (
+      value: getIdealAge?.data?.map((r: any, i: number) => (
         <li key={i + "max"}>
-          {i + 1}. {r.vaccine}
+          {i + 1}. {r.name}
         </li>
       )),
       isLoading: isLoadingMaxImmunizationByAgeQuery3,
@@ -932,19 +932,14 @@ const Bias = () => {
                                 Imunisasi yang Melampaui Target Cakupan
                               </div>
                               <div style={{ display: "flex" }}>
-                                {/* <ul> */}
-                                {getExceedTargetScope?.data?.map(
-                                  (r: any, i: number) => (
-                                    // <li key={i + "exceed"}>
-                                    //   {i + 1}. {r.name}
-                                    // </li>
+                                {getExceedTargetScope?.data
+                                  ?.filter((item: any) => item.value === 1)
+                                  .map((r: any, i: number) => (
                                     <p key={i + "exceed"}>
                                       {r.name}
                                       {", "}
                                     </p>
-                                  )
-                                )}
-                                {/* </ul> */}
+                                  ))}
                               </div>
                             </div>
                           </div>
@@ -959,16 +954,15 @@ const Bias = () => {
                               <div className="font-bold">
                                 Imunisasi yang Belum Melampaui Target Cakupan
                               </div>
-                              <div>
-                                <ul>
-                                  {getInExceedTargetPerVaccineQuery?.data?.map(
-                                    (r: any, i: number) => (
-                                      <li key={i + "inexceed"}>
-                                        {i + 1}. {r.vaccine}
-                                      </li>
-                                    )
-                                  )}
-                                </ul>
+                              <div style={{ display: "flex" }}>
+                                {getExceedTargetScope?.data
+                                  ?.filter((item: any) => item.value === 0)
+                                  .map((r: any, i: number) => (
+                                    <p key={i + "exceed"}>
+                                      {r.name}
+                                      {", "}
+                                    </p>
+                                  ))}
                               </div>
                             </div>
                           </div>
@@ -1051,12 +1045,12 @@ const Bias = () => {
                       title={
                         <div className="font-bold md:text-2xl">
                           <b className="text-primary-2">
-                            Grafik Cakupan Imunisasi pada Baduta Berdasarkan
-                            Usia Pemberian Imunisasi
+                            Grafik Cakupan Imunisasi Berdasarkan Usia Pemberian
+                            Imunisasi
                           </b>
                         </div>
                       }
-                      subTitle="Grafik menampilkan tren cakupan imunisasi pada baduta berdasarkan usia pemberian imunisasi."
+                      subTitle="Grafik menampilkan tren cakupan imunisasi pada anak usia sekolah berdasarkan usia pemberian imunisasi."
                       addOn={
                         <div
                           className={`gap-4 grid grid-cols-2 text-sm ${openSans.className}`}
@@ -1087,23 +1081,21 @@ const Bias = () => {
                           {
                             name: "Usia Ideal",
                             data:
-                              (
-                                getSummaryImmunizationByAgeQuery?.data || []
-                              )?.map((r: any) => r?.total_ideal) || [],
+                              (getChartByAge?.data || [])?.map((r: any) => {
+                                r?.ideal;
+                              }) || [],
                             type: "bar",
                           },
                           {
                             name: "Usia Non Ideal",
                             data:
-                              (
-                                getSummaryImmunizationByAgeQuery?.data || []
-                              )?.map((r: any) => r?.total_non_ideal) || [],
+                              (getChartByAge?.data || [])?.map(
+                                (r: any) => r?.non_ideal
+                              ) || [],
                             type: "bar",
                           },
                         ],
-                        getSummaryImmunizationPerVaccineQuery?.data?.map(
-                          (r: any) => r?.vaccine
-                        )
+                        getChartByAge?.data?.map((r: any) => r?.name)
                       )}
                     />
                   </div>

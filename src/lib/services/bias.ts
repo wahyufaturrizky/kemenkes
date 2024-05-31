@@ -158,9 +158,37 @@ export const biasImmunizationApi = apiWithTag.injectEndpoints({
       }),
       providesTags: ["bias-immunization"],
     }),
+    // getNotExceedTargetScope: build.query({
+    //   query: (options = {}) => ({
+    //     url: `${API_URL}/v1/bias-immunization/immunization-chart-by-type/not-reached-target`,
+    //     params: options,
+    //   }),
+    //   providesTags: ["bias-immunization"],
+    // }),
     getChartScope: build.query({
       query: (options = {}) => ({
         url: `${API_URL}/v1/bias-immunization/immunization-chart-by-type/chart-scope`,
+        params: options,
+      }),
+      providesTags: ["bias-immunization"],
+    }),
+    getNonIdealAge: build.query({
+      query: (options = {}) => ({
+        url: `${API_URL}/v1/bias-immunization/immunization-chart-by-age/non-ideal-age`,
+        params: options,
+      }),
+      providesTags: ["bias-immunization"],
+    }),
+    getIdealAge: build.query({
+      query: (options = {}) => ({
+        url: `${API_URL}/v1/bias-immunization/immunization-chart-by-age/ideal-age`,
+        params: options,
+      }),
+      providesTags: ["bias-immunization"],
+    }),
+    getChartbyAge: build.query({
+      query: (options = {}) => ({
+        url: `${API_URL}/v1/bias-immunization/immunization-chart-by-age/get-chart`,
         params: options,
       }),
       providesTags: ["bias-immunization"],
@@ -194,5 +222,11 @@ export const {
   useGetHighestScopeQuery,
   useGetLowestScopeQuery,
   useGetExceedTargetScopeQuery,
+  // useGetNotExceedTargetScopeQuery,
   useGetChartScopeQuery,
+  // by age
+  useGetNonIdealAgeQuery,
+  useGetIdealAgeQuery,
+  useGetChartbyAgeQuery,
+  // by age
 } = biasImmunizationApi;

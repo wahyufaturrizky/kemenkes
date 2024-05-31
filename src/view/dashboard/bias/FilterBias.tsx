@@ -190,3 +190,48 @@ export const Filter3: React.FC<FilterProps> = ({ filterState }) => {
     </div>
   );
 };
+export const Filter4: React.FC<FilterProps> = ({ filterState }) => {
+  const [filter, setFilter] = filterState || useState({});
+  const { data: getjenisVaksin } = useGetListVaccineQuery({});
+
+  return (
+    <div className="flex flex-wrap justify-between items-center gap-4 sm:mt-20 md:mt-0 mb-8">
+      <div className="flex gap-4">
+        <div>
+          <Select
+            placeholder="Jenis Vaksin"
+            options={standardOptions(
+              getjenisVaksin?.data || [],
+              "vaccine_name",
+              "vaccine_id"
+            )}
+            onChange={(e: any) => {
+              setFilter({
+                ...filter,
+                tipe_vaksin4: e?.value ?? "bias",
+              });
+            }}
+            value={
+              filter.tipe_vaksin4
+                ? standardOptions(
+                    getjenisVaksin?.data || [],
+                    "vaccine_name",
+                    "vaccine_id"
+                  )?.find((f) => f.value === filter.tipe_vaksin4)
+                : filter.tipe_vaksin4
+            }
+            // isDisabled={!filter.bulan}
+          />
+        </div>
+      </div>
+      <div className="flex gap-4">
+        <div>
+          <Button text="Unduh" variant="outlined" />
+        </div>
+        {/* <div>
+          <Button text="Laporkan" variant="outlined" />
+        </div> */}
+      </div>
+    </div>
+  );
+};
