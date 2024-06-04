@@ -591,7 +591,14 @@ const Wus = () => {
                       }
                       variant="private"
                       filterState={filterState}
-                      filterComp={<Filter1 filterState={filterState} />}
+                      filterComp={
+                        <Filter1
+                          filterState={filterState}
+                          dataWus={
+                            getTotalImmunizationTotalCumulativeCoverageQuery?.data
+                          }
+                        />
+                      }
                       opts={{
                         height: 900,
                       }}
@@ -654,7 +661,14 @@ const Wus = () => {
                       subTitle={`Grafik menampilkan tren cakupan kumulatif penerima imunisasi WUS`}
                       variant="private"
                       filterState={filterState}
-                      filterComp={<Filter2 filterState={filterState} />}
+                      filterComp={
+                        <Filter2
+                          filterState={filterState}
+                          dataWus={
+                            getTotalImmunizationTotalCumulativeCoverageRecipientsQuery?.data
+                          }
+                        />
+                      }
                       threshold={
                         <div className="relative flex justify-center items-center">
                           {/* {isLoadingSetSummaryScopePercentageQuery && <Spin />} */}
@@ -735,7 +749,12 @@ const Wus = () => {
                       subTitle={``}
                       variant="private"
                       filterState={filterState}
-                      filterComp={<Filter3 filterState={filterState} />}
+                      filterComp={
+                        <Filter3
+                          filterState={filterState}
+                          dataWus={getDistributionStatusChartQuery?.data}
+                        />
+                      }
                       graphOptions={graphOptions7([
                         {
                           name: "Total",
