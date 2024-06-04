@@ -36,6 +36,7 @@ const TabsBias: React.FC<TabsProps> = ({
                 ...filter,
                 kewilayahan_type: r?.value,
                 faskes: "",
+                jenis_sarana: "",
               });
             }}
           />

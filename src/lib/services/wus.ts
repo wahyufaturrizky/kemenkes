@@ -113,6 +113,15 @@ export const wusImmunizationApi = apiWithTag.injectEndpoints({
       }),
       providesTags: ["wus-immunization"],
     }),
+    downloadImmunizationExcel: build.mutation({
+      query: (body) => ({
+        url: `${API_URL}/v1/csv/download`,
+        method: "POST",
+        body,
+        responseType: "blob", // Agar response diinterpretasikan sebagai Blob
+      }),
+      invalidatesTags: ["wus-immunization"],
+    }),
   }),
 });
 
@@ -132,4 +141,5 @@ export const {
   useGetDistributionStatusPregnantChartQuery,
   useGetTotalCumulativeCoverageRecipientsQuery,
   useGetFaskesWusQuery,
+  useDownloadImmunizationExcelMutation,
 } = wusImmunizationApi;

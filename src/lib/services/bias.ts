@@ -193,7 +193,38 @@ export const biasImmunizationApi = apiWithTag.injectEndpoints({
       }),
       providesTags: ["bias-immunization"],
     }),
-    // setion grafik 1
+    // byGender
+
+    getAverageGender: build.query({
+      query: (options = {}) => ({
+        url: `${API_URL}/v1/bias-immunization/immunization-chart-by-gender/get-average-gender`,
+        params: options,
+      }),
+      providesTags: ["bias-immunization"],
+    }),
+    getMostMale: build.query({
+      query: (options = {}) => ({
+        url: `${API_URL}/v1/bias-immunization/immunization-chart-by-gender/get-most-male-immunization`,
+        params: options,
+      }),
+      providesTags: ["bias-immunization"],
+    }),
+    getMostFemale: build.query({
+      query: (options = {}) => ({
+        url: `${API_URL}/v1/bias-immunization/immunization-chart-by-gender/get-most-female-immunization`,
+        params: options,
+      }),
+      providesTags: ["bias-immunization"],
+    }),
+    getChartByGender: build.query({
+      query: (options = {}) => ({
+        url: `${API_URL}/v1/bias-immunization/immunization-chart-by-gender/get-chart`,
+        params: options,
+      }),
+      providesTags: ["bias-immunization"],
+    }),
+
+    // byGender
   }),
 });
 
@@ -229,4 +260,10 @@ export const {
   useGetIdealAgeQuery,
   useGetChartbyAgeQuery,
   // by age
+  // by gender
+  useGetAverageGenderQuery,
+  useGetMostMaleQuery,
+  useGetMostFemaleQuery,
+  useGetChartByGenderQuery,
+  // by gender
 } = biasImmunizationApi;

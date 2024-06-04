@@ -63,14 +63,14 @@ export const Filter1: React.FC<FilterProps> = ({ filterState }) => {
             onChange={(e: any) => {
               setFilter({
                 ...filter,
-                wilayah: e ? e.value.toUpperCase() : "PROVINSI",
+                wilayah2: e ? e.value.toUpperCase() : "PROVINSI",
                 wilayah_name: e ? e.label : "PROVINSI",
               });
             }}
             value={
-              filter.wilayah
-                ? regionOptionsBias?.find((f) => f.value === filter.wilayah)
-                : filter.wilayah
+              filter.wilayah2
+                ? regionOptionsBias?.find((f) => f.value === filter.wilayah2)
+                : filter.wilayah2
             }
           />
         </div>
@@ -219,6 +219,51 @@ export const Filter4: React.FC<FilterProps> = ({ filterState }) => {
                     "vaccine_id"
                   )?.find((f) => f.value === filter.tipe_vaksin4)
                 : filter.tipe_vaksin4
+            }
+            // isDisabled={!filter.bulan}
+          />
+        </div>
+      </div>
+      <div className="flex gap-4">
+        <div>
+          <Button text="Unduh" variant="outlined" />
+        </div>
+        {/* <div>
+          <Button text="Laporkan" variant="outlined" />
+        </div> */}
+      </div>
+    </div>
+  );
+};
+export const Filter5: React.FC<FilterProps> = ({ filterState }) => {
+  const [filter, setFilter] = filterState || useState({});
+  const { data: getjenisVaksin } = useGetListVaccineQuery({});
+
+  return (
+    <div className="flex flex-wrap justify-between items-center gap-4 sm:mt-20 md:mt-0 mb-8">
+      <div className="flex gap-4">
+        <div>
+          <Select
+            placeholder="Jenis Vaksin"
+            options={standardOptions(
+              getjenisVaksin?.data || [],
+              "vaccine_name",
+              "vaccine_id"
+            )}
+            onChange={(e: any) => {
+              setFilter({
+                ...filter,
+                tipe_vaksin5: e?.value ?? "bias",
+              });
+            }}
+            value={
+              filter.tipe_vaksin5
+                ? standardOptions(
+                    getjenisVaksin?.data || [],
+                    "vaccine_name",
+                    "vaccine_id"
+                  )?.find((f) => f.value === filter.tipe_vaksin5)
+                : filter.tipe_vaksin5
             }
             // isDisabled={!filter.bulan}
           />

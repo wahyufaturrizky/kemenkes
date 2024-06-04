@@ -29,10 +29,17 @@ export const graphOptions3 = (series: any[], xData: any[]) => {
 
 export const graphOptions4 = (series: any[], xData: any[]) => {
   const option: EChartsOptionProps = {
-    color: ["#FAC515", "#00B1A9"],
+    color: ["#00B1A9", "#FAC515"],
     grid: { containLabel: true },
     tooltip: {
       trigger: "axis",
+      formatter: function (params: any) {
+        let result = params[0].name + "<br/>";
+        params.forEach(function (item: any) {
+          result += item.seriesName + ": " + item.data + "%" + "<br/>";
+        });
+        return result;
+      },
     },
     legend: {
       show: true,
@@ -47,6 +54,9 @@ export const graphOptions4 = (series: any[], xData: any[]) => {
     },
     yAxis: {
       type: "value",
+      axisLabel: {
+        formatter: "{value} %",
+      },
     },
     series: series,
   };
