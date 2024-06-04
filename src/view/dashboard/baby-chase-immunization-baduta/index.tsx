@@ -8,7 +8,7 @@ import { Banner, BannerHighlightFooter, BannerText, GraphEcharts, Navbar, Sideba
 import { ChildSummaryImmunization, FilterSummaryImmunization, GraphAddOn, GraphRoutineImmunizationCoverageTrend, RoutineImmunizationCoverageTrendGraph, SummaryImmunization, TotalSummaryImmunization } from "@/view/home";
 import { Filter1, Filter2, Filter3, Filter4, Filter5 } from "@/view/dashboard/baby-chase-immunization-baduta/Filter";
 import { graphOptions1, graphOptions2, graphOptions3, graphOptions4, graphOptions5 } from "@/view/dashboard/baby-chase-immunization-baduta/graphOptions";
-import { useGetAverageImmunizationByGenderQuery, useGetDoPercentageCampakRubelaQuery, useGetDoPercentageDPHTHBHIBQuery, useGetExceedTargetPerVaccineQuery, useGetHighestImmunizationByAgeQuery, useGetImmunizationWithHighetFemaleRecivientQuery, useGetImmunizationWithHighetMaleRecivientQuery, useGetInExceedTargetPerVaccineQuery, useGetMaxImmunizationByAgeQuery, useGetPercentageTotalImmunizationQuery, useGetScopePercentagePerMonthQuery, useGetSummaryImmunizationByAgeQuery, useGetSummaryImmunizationPerGenderQuery, useGetSummaryImmunizationPerVaccineQuery, useGetSummaryScopePercentageQuery, useGetTotalHighestScopeByVaccineTypeQuery, useGetTotalHighestScopeQuery, useGetTotalImmunizationByVaccineTypeQuery, useGetTotalImmunizationQuery, useGetTotalLowestScopeByVaccineTypeQuery, useGetTotalLowestScopeQuery, useGetTotalScopeByVaccineTypeQuery, useGetTotalScopeQuery } from "@/lib/services/babyxbaduta-immunization";
+import { useGetAverageImmunizationByGenderQuery, useGetDistributionGraphTimeQuery, useGetImmunizationWithHighetFemaleRecivientQuery, useGetImmunizationWithHighetMaleRecivientQuery, useGetMaxImmunizationByAgeQuery, useGetPercentageTotalImmunizationQuery, useGetScopePercentagePerMonthQuery, useGetSummaryImmunizationByAgeQuery, useGetSummaryImmunizationPerGenderQuery, useGetSummaryImmunizationPerVaccineQuery, useGetTotalHighestScopeByVaccineTypeQuery, useGetTotalHighestScopeQuery, useGetTotalImmunizationScopeQuery, useGetTotalLowestScopeByVaccineTypeQuery, useGetTotalLowestScopeQuery, useGetTotalScopeQuery } from "@/lib/services/babyxbaduta-immunization";
 import { dataMonth, dataTabBaduta, vaccineTypeOptions } from "@/utils/constants";
 import { formatNumber } from "@/helpers";
 import { openSans } from "@/assets/fonts";
@@ -101,27 +101,7 @@ const BabyChaseImmunizationBaduta = () => {
     refetchOnMountOrArgChange: true,
     skip: !filter.wilayah || (!filter.tipe_vaksin1 || !filter.tipe_vaksin2 || !filter.tipe_vaksin3)
   }
-  const { data: getTotalImmunizationQuery,
-    isLoading: isLoadingTotalImmunizationQuery
-  } = useGetTotalImmunizationQuery(filterQuery, optionQuery)
-  const { data: getDoPercentageDPHTHBHIBQuery,
-    isLoading: isLoadingDoPercentageDPHTHBHIBQuery,
-  } = useGetDoPercentageDPHTHBHIBQuery(filterQuery, optionQuery)
-  const { data: getDoPercentageCampakRubelaQuery,
-    isLoading: isLoadingDoPercentageCampakRubelaQuery,
-  } = useGetDoPercentageCampakRubelaQuery(filterQuery, optionQuery)
-  const { data: getTotalImmunizationByVaccineTypeQuery1,
-    isLoading: isLoadingTotalImmunizationByVaccineTypeQuery1,
-  } = useGetTotalImmunizationByVaccineTypeQuery({ ...filterQuery, vaccine_type: 1 }, optionQuery)
-  const { data: getTotalImmunizationByVaccineTypeQuery2,
-    isLoading: isLoadingTotalImmunizationByVaccineTypeQuery2,
-  } = useGetTotalImmunizationByVaccineTypeQuery({ ...filterQuery, vaccine_type: 2 }, optionQuery)
-  const { data: getTotalImmunizationByVaccineTypeQuery3,
-    isLoading: isLoadingTotalImmunizationByVaccineTypeQuery3,
-  } = useGetTotalImmunizationByVaccineTypeQuery({ ...filterQuery, vaccine_type: 3 }, optionQuery)
-  const { data: getTotalImmunizationByVaccineTypeQuery4,
-    isLoading: isLoadingTotalImmunizationByVaccineTypeQuery4,
-  } = useGetTotalImmunizationByVaccineTypeQuery({ ...filterQuery, vaccine_type: 4 }, optionQuery)
+
   const { data: getTotalScopeQuery,
     isLoading: isLoadingTotalScopeQuery,
   } = useGetTotalScopeQuery({ ...filterQuery, vaccine_type: filter.tipe_vaksin1 }, optionQueryTotal)
@@ -137,33 +117,15 @@ const BabyChaseImmunizationBaduta = () => {
   const { data: getSetScopePercentagePerMonthQuery,
     isLoading: isLoadingSetScopePercentagePerMonthQuery,
   } = useGetScopePercentagePerMonthQuery({ ...filterQueryGraph, vaccine_type: filter.tipe_vaksin2, is_kumulatif: filter.jenis_tren === "kumulatif" ? true : false }, optionQuery)
-  const { data: getSetSummaryScopePercentageQuery,
-    isLoading: isLoadingSetSummaryScopePercentageQuery,
-  } = useGetSummaryScopePercentageQuery({ ...filterQueryGraph, vaccine_type: filter.tipe_vaksin2, is_kumulatif: filter.jenis_tren === "kumulatif" ? true : false }, optionQuery)
-  const { data: getTotalScopeByVaccineTypeQuery,
-    isLoading: isLoadingTotalScopeByVaccineTypeQuery,
-  } = useGetTotalScopeByVaccineTypeQuery({ ...filterQueryGraph, vaccine_type: filter.tipe_vaksin3 }, optionQuery)
+
   const { data: getTotalHighestScopeByVaccineTypeQuery,
     isLoading: isLoadingTotalHighestScopeByVaccineTypeQuery,
   } = useGetTotalHighestScopeByVaccineTypeQuery(filterQueryGraph, optionQuery)
   const { data: getTotalLowestScopeByVaccineTypeQuery,
     isLoading: isLoadingTotalLowestScopeByVaccineTypeQuery,
   } = useGetTotalLowestScopeByVaccineTypeQuery(filterQueryGraph, optionQuery)
-  const { data: getExceedTargetPerVaccineQuery,
-    isLoading: isLoadingExceedTargetPerVaccineQuery,
-  } = useGetExceedTargetPerVaccineQuery(filterQueryGraph, optionQuery)
-  const { data: getInExceedTargetPerVaccineQuery,
-    isLoading: isLoadingInExceedTargetPerVaccineQuery,
-  } = useGetInExceedTargetPerVaccineQuery(filterQueryGraph, optionQuery)
+
   const { data: getSummaryImmunizationPerVaccineQuery } = useGetSummaryImmunizationPerVaccineQuery(filterQueryGraph, optionQuery)
-  // const { data: getMaxImmunizationByAgeQuery1 } = useGetMaxImmunizationByAgeQuery({ ...filterQueryGraph, age_type: 1 }, optionQuery)
-  const { data: getMaxImmunizationByAgeQuery2,
-    isLoading: isLoadingMaxImmunizationByAgeQuery2,
-  } = useGetMaxImmunizationByAgeQuery({ ...filterQueryGraph, age_type: 2 }, optionQuery)
-  const { data: getMaxImmunizationByAgeQuery3,
-    isLoading: isLoadingMaxImmunizationByAgeQuery3,
-  } = useGetMaxImmunizationByAgeQuery({ ...filterQueryGraph, age_type: 3 }, optionQuery)
-  // const { data: getHighestImmunizationByAgeQuery } = useGetHighestImmunizationByAgeQuery({ ...filterQueryGraph, age_type: filter.tipe_umur }, optionQuery)
   const { data: getSummaryImmunizationByAgeQuery,
     isLoading: isLoadingSummaryImmunizationByAgeQuery,
   } = useGetSummaryImmunizationByAgeQuery(filterQueryGraph, optionQuery)
@@ -179,6 +141,12 @@ const BabyChaseImmunizationBaduta = () => {
   const { data: getSummaryImmunizationPerGenderQuery,
     isLoading: isLoadingSummaryImmunizationPerGenderQuery,
   } = useGetSummaryImmunizationPerGenderQuery(filterQueryGraph, optionQuery)
+  const { data: getGetDistributionGraphTimeQuery,
+    isLoading: isLoadingGetDistributionGraphTimeQuery,
+  } = useGetDistributionGraphTimeQuery({ ...filterQueryGraph }, optionQuery)
+  const { data: getGetTotalImmunizationScopeQuery,
+    isLoading: isLoadingGetTotalImmunizationScopeQuery,
+  } = useGetTotalImmunizationScopeQuery({ ...filterQueryGraph }, optionQuery)
 
   const dataGraphRegionalRoutineImmunizationCoverageTrend1 = [
     {
@@ -223,8 +191,8 @@ const BabyChaseImmunizationBaduta = () => {
   const dataGraphRegionalRoutineImmunizationCoverageTrend3 = [
     {
       title: <div className="font-bold">Total Cakupan Imunisasi Tahun {filter.tahun}</div>,
-      value: (getMaxImmunizationByAgeQuery2?.data?.map((r: any, i: number) => <li key={i + 'max'}>{i + 1}. {r.vaccine}</li>)),
-      isLoading: isLoadingMaxImmunizationByAgeQuery2
+      value: (getGetTotalImmunizationScopeQuery?.data?.map((r: any, i: number) => <li key={i + 'max'}>{i + 1}. {r.vaccine}</li>)),
+      isLoading: isLoadingGetTotalImmunizationScopeQuery
     },
   ]
   const dataGraphRegionalRoutineImmunizationCoverageTrend4 = [
@@ -594,23 +562,23 @@ const BabyChaseImmunizationBaduta = () => {
                       addOn={<GraphAddOn dataCard={dataGraphRegionalRoutineImmunizationCoverageTrend3} />}
                       filterState={filterState}
                       filterComp={<Filter2 filterState={filterState} />}
-                      isLoading={isLoadingSetScopePercentagePerMonthQuery}
+                      isLoading={isLoadingGetDistributionGraphTimeQuery}
                       graphOptions={graphOptions2([
                         {
                           name: "% Target Cakupan",
-                          data: (getSetScopePercentagePerMonthQuery?.data || [])?.map((r: any) => (((r?.target || 0) / 100) * (r?.total || 0))) || [],
+                          data: (getGetDistributionGraphTimeQuery?.data || [])?.map((r: any) => (((r?.target || 0) / 100) * (r?.total || 0))) || [],
                           type: 'line',
                           label: {
                             show: true,
                             precision: 1,
-                            formatter: (params: any) => `${formatNumber(((params.value || 0) / (getSetScopePercentagePerMonthQuery?.data || [])[params.dataIndex]?.total) * 100)}%`
+                            formatter: (params: any) => `${formatNumber(((params.value || 0) / (getGetDistributionGraphTimeQuery?.data || [])[params.dataIndex]?.total) * 100)}%`
                           }
                         },
                         {
                           name: "Jumlah Penerima Imunisasi",
                           data:
                             (
-                              getSetScopePercentagePerMonthQuery?.data || []
+                              getGetDistributionGraphTimeQuery?.data || []
                             )?.map((r: any) => (r?.total || 0)) || [],
                           type: "bar",
                           label: {
@@ -621,12 +589,12 @@ const BabyChaseImmunizationBaduta = () => {
                         },
                         {
                           name: "% Cakupan",
-                          data: (getSetScopePercentagePerMonthQuery?.data || [])?.map((r: any) => (((r?.pct || 0) / 100) * (r?.total || 0))) || [],
+                          data: (getGetDistributionGraphTimeQuery?.data || [])?.map((r: any) => (((r?.pct || 0) / 100) * (r?.total || 0))) || [],
                           type: 'line',
                           label: {
                             show: true,
                             precision: 1,
-                            formatter: (params: any) => `${formatNumber(((params.value || 0) / (getSetScopePercentagePerMonthQuery?.data || [])[params.dataIndex]?.total) * 100)}%`
+                            formatter: (params: any) => `${formatNumber(((params.value || 0) / (getGetDistributionGraphTimeQuery?.data || [])[params.dataIndex]?.total) * 100)}%`
                           }
                         },
                       ])}

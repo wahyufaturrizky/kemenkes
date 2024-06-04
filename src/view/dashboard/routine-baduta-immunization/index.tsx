@@ -553,7 +553,7 @@ const RoutineBadutaImmunization = () => {
                           <div className="p-2 sm:w-32 md:w-64 h-fit">
                             <div className="text-sm">Total cakupan {trendTypeOptions.find((r) => r.value === filter.jenis_tren)?.label} pada tahun {filter.tahun}</div>
                             <div className="py-2 font-bold text-3xl text-primary">{formatNumber(getSetSummaryScopePercentageQuery?.data?.pct || 0)}%</div>
-                            <div>Jumlah Imunisasi Baduta Lengkap: {formatNumber(getSetSummaryScopePercentageQuery?.data?.total || 0)}</div>
+                            <div>Jumlah {vaccineTypeOptions.find((r) => r.value === filter.tipe_vaksin2)?.label}: {formatNumber(getSetSummaryScopePercentageQuery?.data?.total || 0)}</div>
                           </div>
                         </div>
                       }
