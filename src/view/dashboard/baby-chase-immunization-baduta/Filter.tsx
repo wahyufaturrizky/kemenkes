@@ -5,7 +5,7 @@ import {
   genderOptions,
   regionOptions,
   trendTypeOptions,
-  vaccineTypeOptions,
+  vaccineTypeKejarOptions,
 } from "@/utils/constants";
 import { openSans } from "@/assets/fonts";
 
@@ -19,13 +19,13 @@ export const Filter1: React.FC<FilterProps> = ({ filterState }) => {
       <div className={`flex gap-4 ${openSans.className}`}>
         <div>
           <Select
-            options={vaccineTypeOptions}
+            options={vaccineTypeKejarOptions}
             onChange={(e: any) => {
               setFilter({ ...filter, tipe_vaksin1: e ? e.value : "All" });
             }}
             value={
               filter.tipe_vaksin1
-                ? vaccineTypeOptions?.find(
+                ? vaccineTypeKejarOptions?.find(
                   (f) => f.value === filter.tipe_vaksin1
                 )
                 : filter.tipe_vaksin1
@@ -77,13 +77,13 @@ export const Filter2: React.FC<FilterProps> = ({ filterState }) => {
         </div>
         <div>
           <Select
-            options={vaccineTypeOptions}
+            options={vaccineTypeKejarOptions}
             onChange={(e: any) => {
               setFilter({ ...filter, tipe_vaksin2: e ? e.value : "All" });
             }}
             value={
               filter.tipe_vaksin2
-                ? vaccineTypeOptions?.find(
+                ? vaccineTypeKejarOptions?.find(
                   (f) => f.value === filter.tipe_vaksin2
                 )
                 : filter.tipe_vaksin2
@@ -110,13 +110,13 @@ export const Filter3: React.FC<FilterProps> = ({ filterState }) => {
       <div className="flex gap-4">
         <div>
           <Select
-            options={vaccineTypeOptions}
+            options={vaccineTypeKejarOptions}
             onChange={(e: any) => {
               setFilter({ ...filter, tipe_vaksin3: e ? e.value : "All" });
             }}
             value={
               filter.tipe_vaksin3
-                ? vaccineTypeOptions?.find(
+                ? vaccineTypeKejarOptions?.find(
                   (f) => f.value === filter.tipe_vaksin3
                 )
                 : filter.tipe_vaksin3
@@ -142,13 +142,13 @@ export const Filter4: React.FC<FilterProps> = ({ filterState }) => {
       <div className="flex gap-4">
         <div>
           <Select
-            options={vaccineTypeOptions}
+            options={vaccineTypeKejarOptions}
             onChange={(e: any) => {
               setFilter({ ...filter, tipe_vaksin3: e ? e.value : "All" });
             }}
             value={
               filter.tipe_vaksin3
-                ? vaccineTypeOptions?.find(
+                ? vaccineTypeKejarOptions?.find(
                   (f) => f.value === filter.tipe_vaksin3
                 )
                 : filter.tipe_vaksin3
@@ -187,13 +187,13 @@ export const Filter5: React.FC<FilterProps> = ({ filterState }) => {
       <div className="flex gap-4">
         <div>
           <Select
-            options={vaccineTypeOptions}
+            options={vaccineTypeKejarOptions}
             onChange={(e: any) => {
               setFilter({ ...filter, tipe_vaksin5: e ? e.value : "All" });
             }}
             value={
               filter.tipe_vaksin5
-                ? vaccineTypeOptions?.find(
+                ? vaccineTypeKejarOptions?.find(
                   (f) => f.value === filter.tipe_vaksin5
                 )
                 : filter.tipe_vaksin5

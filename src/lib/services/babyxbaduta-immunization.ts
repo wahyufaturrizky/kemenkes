@@ -7,28 +7,28 @@ export const badutaImmunizationApi = apiWithTag.injectEndpoints({
   overrideExisting: true,
   endpoints: (build) => ({
     // ---
-    getTotalScope: build.query({
+    getImmunizationScopeKejar: build.query({
       query: (options = {}) => ({
         url: `${API_URL}/v1/immunization-bayi-baduta/immunization-scope-of-kejar`,
         params: options,
       }),
       providesTags: ["babyxbaduta-immunization"],
     }),
-    getTotalHighestScope: build.query({
+    getHighestScopeKejar: build.query({
       query: (options = {}) => ({
         url: `${API_URL}/v1/immunization-bayi-baduta/highest-scope-of-kejar`,
         params: options,
       }),
       providesTags: ["babyxbaduta-immunization"],
     }),
-    getTotalLowestScope: build.query({
+    getLowestScopeKejar: build.query({
       query: (options = {}) => ({
         url: `${API_URL}/v1/immunization-bayi-baduta/lowest-scope-of-kejar`,
         params: options,
       }),
       providesTags: ["babyxbaduta-immunization"],
     }),
-    getPercentageTotalImmunization: build.query({
+    getGraphTotal: build.query({
       query: (options = {}) => ({
         url: `${API_URL}/v1/immunization-bayi-baduta/graph`,
         params: options,
@@ -43,14 +43,14 @@ export const badutaImmunizationApi = apiWithTag.injectEndpoints({
       }),
       providesTags: ["babyxbaduta-immunization"],
     }),
-    getTotalHighestScopeByVaccineType: build.query({
+    getHighestScopeKejarImmunization: build.query({
       query: (options = {}) => ({
         url: `${API_URL}/v1/immunization-bayi-baduta/highest-scope-of-kejar-immunization`,
         params: options,
       }),
       providesTags: ["babyxbaduta-immunization"],
     }),
-    getTotalLowestScopeByVaccineType: build.query({
+    getLowestScopeKejarImmunization: build.query({
       query: (options = {}) => ({
         url: `${API_URL}/v1/immunization-bayi-baduta/lowest-scope-of-kejar-immunization`,
         params: options,
@@ -58,14 +58,7 @@ export const badutaImmunizationApi = apiWithTag.injectEndpoints({
       providesTags: ["babyxbaduta-immunization"],
     }),
     // ---
-    getScopePercentagePerMonth: build.query({
-      query: (options = {}) => ({
-        url: `${API_URL}/v1/immunization-bayi-baduta/immunization-graph-kejar-status`,
-        params: options,
-      }),
-      providesTags: ["babyxbaduta-immunization"],
-    }),
-    getSummaryImmunizationPerVaccine: build.query({
+    getImmunizationGraphKejarStatus: build.query({
       query: (options = {}) => ({
         url: `${API_URL}/v1/immunization-bayi-baduta/immunization-graph-kejar-status`,
         params: options,
@@ -141,21 +134,20 @@ export const badutaImmunizationApi = apiWithTag.injectEndpoints({
 });
 
 export const {
-  useGetTotalScopeQuery,
-  useGetTotalHighestScopeQuery,
-  useGetTotalLowestScopeQuery,
-  useGetPercentageTotalImmunizationQuery,
+  useGetGraphTotalQuery,
+  useGetHighestScopeKejarImmunizationQuery,
+  useGetLowestScopeKejarImmunizationQuery,
+  useGetHighestScopeKejarQuery,
+  useGetImmunizationGraphKejarStatusQuery,
+  useGetImmunizationScopeKejarQuery,
+  useGetLowestScopeKejarQuery,
   useGetAverageImmunizationByGenderQuery,
   useGetHighestImmunizationByAgeQuery,
   useGetImmunizationWithHighetFemaleRecivientQuery,
   useGetImmunizationWithHighetMaleRecivientQuery,
   useGetMaxImmunizationByAgeQuery,
-  useGetScopePercentagePerMonthQuery,
   useGetSummaryImmunizationByAgeQuery,
   useGetSummaryImmunizationPerGenderQuery,
-  useGetSummaryImmunizationPerVaccineQuery,
-  useGetTotalHighestScopeByVaccineTypeQuery,
-  useGetTotalLowestScopeByVaccineTypeQuery,
   useGetTotalScopeByVaccineTypeQuery,
   useGetDistributionGraphTimeQuery,
   useGetTotalImmunizationScopeQuery
