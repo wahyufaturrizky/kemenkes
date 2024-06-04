@@ -106,12 +106,21 @@ export const wusImmunizationApi = apiWithTag.injectEndpoints({
       }),
       providesTags: ["wus-immunization"],
     }),
-    getVillages: build.query({
+    getFaskesWus: build.query({
       query: (options = {}) => ({
         url: `${API_URL}/v1/wus-immunization/faskes-wus-list`,
         params: options,
       }),
       providesTags: ["wus-immunization"],
+    }),
+    downloadImmunizationExcel: build.mutation({
+      query: (body) => ({
+        url: `${API_URL}/v1/csv/download`,
+        method: "POST",
+        body,
+        responseType: "blob", // Agar response diinterpretasikan sebagai Blob
+      }),
+      invalidatesTags: ["wus-immunization"],
     }),
   }),
 });
@@ -131,5 +140,6 @@ export const {
   useGetDistributionStatusChartQuery,
   useGetDistributionStatusPregnantChartQuery,
   useGetTotalCumulativeCoverageRecipientsQuery,
-  useGetVillagesQuery,
+  useGetFaskesWusQuery,
+  useDownloadImmunizationExcelMutation,
 } = wusImmunizationApi;

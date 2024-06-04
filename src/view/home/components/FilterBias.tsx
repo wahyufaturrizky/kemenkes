@@ -3,6 +3,8 @@
 import { useState } from "react";
 import { DatePicker, Select } from "@/components";
 import {
+  useGetFacilityOfTypeQuery,
+  useGetMedicalFacilityQuery,
   useGetProvinceQuery,
   useGetRegencyQuery,
   useGetSubDistrictQuery,
@@ -50,6 +52,20 @@ const FilterSummaryImmunizationBias: React.FC<FilterProps> = ({
 
     {
       skip: !filter.provinsi && !filter.kabkota && !filter.kecamatan,
+      refetchOnMountOrArgChange: true,
+    }
+  );
+
+  const { data: getFacilityOfType } = useGetFacilityOfTypeQuery({});
+  const { data: getMedicalFacility } = useGetMedicalFacilityQuery(
+    {
+      provinsi: filter.provinsi,
+      kabkota: filter.kabkota,
+      kecamatan: filter.kecamatan,
+      jenis_sarana: filter.jenis_sarana,
+    },
+    {
+      skip: !filter.provinsi && !filter.kabkota,
       refetchOnMountOrArgChange: true,
     }
   );
@@ -186,88 +202,93 @@ const FilterSummaryImmunizationBias: React.FC<FilterProps> = ({
             isDisabled={!filter.kabkota}
           />
         </div>
-        <div>
-          <Select
-            placeholder="Faskes"
-            options={standardOptions(
-              getListFaskes?.data || [],
-              "faskes_name",
-              "faskes_id"
-            )}
-            onChange={(e: any) => {
-              setFilter({
-                ...filter,
-                faskes: e?.value,
-              });
-            }}
-            value={
-              filter.faskes
-                ? standardOptions(
-                    getListFaskes?.data || [],
-                    "faskes_name",
-                    "faskes_id"
-                  )?.find((f) => f.value === filter.faskes)
-                : filter.faskes
-            }
-            isDisabled={!filter.kecamatan}
-          />
-        </div>
-        {/* {filter.lokasi === filterLocationOptions[1].value && */}
-        {/* <>
+        {!filter.kewilayahan_type ? (
+          <>
+            <div>
+              <Select
+                placeholder="Pilih Jenis Faskes"
+                options={standardOptions(
+                  getFacilityOfType?.data || [],
+                  "jenis_sarana_name",
+                  "jenis_sarana"
+                )}
+                onChange={(e: any) => {
+                  setFilter({
+                    ...filter,
+                    jenis_sarana: e?.value,
+                    faskes: "",
+                  });
+                }}
+                value={
+                  filter.jenis_sarana
+                    ? standardOptions(
+                        getFacilityOfType?.data || [],
+                        "jenis_sarana_name",
+                        "jenis_sarana"
+                      )?.find((f) => f.value === filter.jenis_sarana)
+                    : filter.jenis_sarana
+                }
+                isDisabled={!filter.kecamatan}
+              />
+            </div>
+            <div>
+              <Select
+                placeholder="Pilih Faskes"
+                options={standardOptions(
+                  getMedicalFacility?.data || [],
+                  "faskes_name",
+                  "faskes"
+                )}
+                onChange={(e: any) => {
+                  setFilter({ ...filter, faskes: e?.value });
+                }}
+                value={
+                  filter.faskes
+                    ? standardOptions(
+                        getMedicalFacility?.data || [],
+                        "faskes_name",
+                        "faskes"
+                      )?.find((f) => f.value === filter.faskes)
+                    : filter.faskes
+                }
+                isDisabled={!filter.jenis_sarana}
+              />
+            </div>
+          </>
+        ) : (
           <div>
             <Select
-              placeholder="Pilih Jenis Faskes"
+              placeholder={
+                // filter.kewilayahan_type === 0
+                //   ? "Pilih Faskes"
+                //   :
+                "Pilih  Desa/Kelurahan"
+              }
               options={standardOptions(
-                getFacilityOfType?.data || [],
-                "jenis_sarana_name",
-                "jenis_sarana"
+                getListFaskes?.data || [],
+                "faskes_name",
+                "faskes_id"
               )}
               onChange={(e: any) => {
                 setFilter({
                   ...filter,
-                  jenis_sarana: e?.value,
-                  faskes: "",
+                  faskes: e?.value,
                 });
-              }}
-              value={
-                filter.jenis_sarana
-                  ? standardOptions(
-                      getFacilityOfType?.data || [],
-                      "jenis_sarana_name",
-                      "jenis_sarana"
-                    )?.find((f) => f.value === filter.jenis_sarana)
-                  : filter.jenis_sarana
-              }
-              isDisabled={!filter.kecamatan}
-            />
-          </div>
-          <div>
-            <Select
-              placeholder="Pilih Faskes"
-              options={standardOptions(
-                getMedicalFacility?.data || [],
-                "faskes_name",
-                "faskes"
-              )}
-              onChange={(e: any) => {
-                setFilter({ ...filter, faskes: e?.value });
               }}
               value={
                 filter.faskes
                   ? standardOptions(
-                      getMedicalFacility?.data || [],
+                      getListFaskes?.data || [],
                       "faskes_name",
-                      "faskes"
+                      "faskes_id"
                     )?.find((f) => f.value === filter.faskes)
                   : filter.faskes
               }
-              isDisabled={!filter.jenis_sarana}
+              isDisabled={!filter.kecamatan}
             />
           </div>
-        </> */}
-        {/* } */}
+        )}
       </div>
-      {/* } */}
     </div>
   );
 };
