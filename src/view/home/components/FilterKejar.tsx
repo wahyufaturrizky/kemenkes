@@ -5,7 +5,7 @@ import { DatePicker, Select } from "@/components"
 import { useGetFacilityOfTypeQuery, useGetMedicalFacilityQuery, useGetProvinceQuery, useGetRegencyQuery, useGetSubDistrictQuery } from "@/lib/services/region"
 import { dataMonth, filterLocationOptions } from "@/utils/constants"
 import { generateYearsArray, standardOptionSameLabel, standardOptions } from "@/helpers"
-import { useGetVillagesQuery } from "@/lib/services/wus"
+// import { useGetVillagesQuery } from "@/lib/services/wus"
 
 interface FilterProps {
   filterState?: any
@@ -40,19 +40,19 @@ const FilterSummaryImmunization: React.FC<FilterProps> = ({ filterState }) => {
       refetchOnMountOrArgChange: true
     }
   );
-  const { data: getVillage } = useGetVillagesQuery(
-    {
-      kewilayahan_type: filter.kewilayahan_type,
-      year: filter.tahun,
-      month: filter.bulan,
-      faskes_parent_id: filter.kecamatan,
-    },
+  // const { data: getVillage } = useGetVillagesQuery(
+  //   {
+  //     kewilayahan_type: filter.kewilayahan_type,
+  //     year: filter.tahun,
+  //     month: filter.bulan,
+  //     faskes_parent_id: filter.kecamatan,
+  //   },
 
-    {
-      skip: !filter.provinsi && !filter.kabkota && !filter.kecamatan,
-      refetchOnMountOrArgChange: true,
-    }
-  );
+  //   {
+  //     skip: !filter.provinsi && !filter.kabkota && !filter.kecamatan,
+  //     refetchOnMountOrArgChange: true,
+  //   }
+  // );
   const { data: getFacilityOfType } = useGetFacilityOfTypeQuery({});
   const { data: getMedicalFacility } = useGetMedicalFacilityQuery(
     { provinsi: filter.provinsi, kabkota: filter.kabkota, kecamatan: filter.kecamatan, jenis_sarana: filter.jenis_sarana },
@@ -264,7 +264,7 @@ const FilterSummaryImmunization: React.FC<FilterProps> = ({ filterState }) => {
           </>
           :
           <div>
-            <Select
+            {/* <Select
               placeholder="Desa/Kelurahan"
               options={standardOptions(
                 getVillage?.data || [],
@@ -287,7 +287,7 @@ const FilterSummaryImmunization: React.FC<FilterProps> = ({ filterState }) => {
                   : filter.faskes
               }
               isDisabled={!filter.kecamatan}
-            />
+            /> */}
           </div>
         }
       </div>
