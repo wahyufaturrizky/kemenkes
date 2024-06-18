@@ -347,7 +347,7 @@ const Bias = () => {
 
   const dataGraphRegionalRoutineImmunizationCoverageTrend = [
     {
-      title: `Total Cakupan BIAS Lengkap  Nasioanl Tahun ${filter.tahun}`,
+      title: `Total Cakupan BIAS Lengkap  Nasional Tahun ${filter.tahun}`,
       value: <div>{formatNumber(getTotal?.data?.pct || 0)}%</div>,
       regional: <></>,
       isLoading: isLoadingGetTotal,
@@ -482,7 +482,11 @@ const Bias = () => {
             `${
               params.name === "Laki-laki"
                 ? getAverageGender?.data?.[0]?.pct_unique
+                    ?.toFixed(2)
+                    .replace(".", ",")
                 : getAverageGender?.data?.[1]?.pct_unique
+                    ?.toFixed(2)
+                    .replace(".", ",")
             }%`,
         },
         labelLine: {
@@ -542,9 +546,9 @@ const Bias = () => {
               filterState={filterState}
             />
             <div className="flex flex-col gap-4 text-sm">
-              <div className={`${openSans.className}`}>
+              {/* <div className={`${openSans.className}`}>
                 UPDATE TERAKHIR: 23 SEPTEMBER 2023
-              </div>
+              </div> */}
               <div className="font-bold text-primary-1 text-xl md:text-3xl">
                 Imunisasi Rutin BIAS
               </div>
@@ -584,7 +588,7 @@ const Bias = () => {
                   {isLoadingTotalFullBias && <Spin />}
                   <ChildSummaryImmunization
                     className="px-4 border rounded-lg"
-                    title="Bias Lengkap"
+                    title="BIAS Lengkap"
                     contentTooltip={<>Bias Lengkap</>}
                     value={formatNumber(getTotalFullBias?.data?.total) || "0"}
                     percent={getTotalFullBias?.data?.pct || "0"}
@@ -757,7 +761,12 @@ const Bias = () => {
                       }
                       variant="private"
                       filterState={filterState}
-                      filterComp={<Filter1 filterState={filterState} />}
+                      filterComp={
+                        <Filter1
+                          filterState={filterState}
+                          dataBias={getAllRegion?.data}
+                        />
+                      }
                       isLoading={isLoadingGetAllRegion}
                       opts={{
                         height: 900,
@@ -766,27 +775,54 @@ const Bias = () => {
                         [
                           {
                             // @ts-ignore
-                            name: "Target Cakupan per Daerah = 100%",
+                            name: "Persentase",
                             data:
-                              (getAllRegion?.data || [])?.map(
-                                (r: any) => r?.pct
+                              (getAllRegion?.data || [])?.map((r: any) =>
+                                r?.pct?.toFixed(2)
                               ) || [],
                             type: "bar",
                             label: {
                               show: true,
                               precision: 1,
                               position: "right",
-                              formatter: (params: any) => `${params.value}%`,
+                              formatter: (params: any) => {
+                                const reversedData = (getAllRegion?.data || [])
+                                  .slice()
+                                  .reverse(); // Membuat salinan dan membalik urutan
+                                const totalData =
+                                  reversedData[params.dataIndex]?.ytd;
+                                const valueWithComma = params.value.replace(
+                                  ".",
+                                  ","
+                                );
+                                return `${valueWithComma} % (${totalData})`;
+                              },
                             },
                           },
                           {
-                            name: "Target",
+                            name: "Target Cakupan per Daerah = 100%",
                             type: "line",
                             color: "#CD4243",
                             data:
                               (getAllRegion?.data || [])?.map(
                                 (r: any) => r?.threshold
                               ) || [],
+                          },
+                          {
+                            name: "Total Penerima",
+                            type: "line",
+                            color: "#FAC515",
+                            data:
+                              (getAllRegion?.data || [])?.map(
+                                (r: any) => r?.ytd
+                              ) || [],
+                            show: false, // Menyembunyikan seri secara default
+                            itemStyle: {
+                              opacity: 0, // Mengatur opacity item menjadi 0 untuk menyembunyikan item
+                            },
+                            lineStyle: {
+                              opacity: 0, // Mengatur opacity garis menjadi 0 untuk menyembunyikan garis
+                            },
                           },
                         ],
                         (getAllRegion?.data || [])?.map((r: any) => r.faskes)
@@ -822,7 +858,12 @@ const Bias = () => {
                       subTitle={`Grafik menampilkan tren cakupan kumulatif penerima imunisasi dasar lengkap pada anak sekolah selama tahun ${filter.tahun}`}
                       variant="private"
                       filterState={filterState}
-                      filterComp={<Filter2 filterState={filterState} />}
+                      filterComp={
+                        <Filter2
+                          filterState={filterState}
+                          dataBias={getChart?.data}
+                        />
+                      }
                       threshold={
                         <div className="relative flex justify-center items-center">
                           {isLoadingPct && <Spin />}
@@ -898,7 +939,12 @@ const Bias = () => {
                       }
                       variant="private"
                       filterState={filterState}
-                      filterComp={<Filter3 filterState={filterState} />}
+                      filterComp={
+                        <Filter3
+                          filterState={filterState}
+                          dataBias={getChartScope?.data}
+                        />
+                      }
                       threshold={
                         <div className="text-sm">
                           <div className="relative">
@@ -917,7 +963,7 @@ const Bias = () => {
                                   ?.filter((item: any) => item.value === 1)
                                   .map((r: any, i: number) => (
                                     <p key={i + "exceed"}>
-                                      {r.name}
+                                      {r.name.toUpperCase()}
                                       {", "}
                                     </p>
                                   ))}
@@ -940,7 +986,7 @@ const Bias = () => {
                                   ?.filter((item: any) => item.value === 0)
                                   .map((r: any, i: number) => (
                                     <p key={i + "exceed"}>
-                                      {r.name}
+                                      {r.name.toUpperCase()}
                                       {", "}
                                     </p>
                                   ))}
@@ -1009,7 +1055,9 @@ const Bias = () => {
                             },
                           },
                         ],
-                        getChartScope?.data?.map((r: any) => r?.vaccine)
+                        getChartScope?.data?.map((r: any) =>
+                          r?.vaccine?.toUpperCase()
+                        )
                       )}
                     />
                   </div>
@@ -1056,7 +1104,12 @@ const Bias = () => {
                       }
                       variant="private"
                       filterState={filterState}
-                      filterComp={<Filter4 filterState={filterState} />}
+                      filterComp={
+                        <Filter4
+                          filterState={filterState}
+                          dataBias={getChartByAge?.data}
+                        />
+                      }
                       isLoading={isLoadingChartByAge}
                       graphOptions={graphOptions4(
                         [
@@ -1147,7 +1200,12 @@ const Bias = () => {
                       }
                       variant="private"
                       filterState={filterState}
-                      filterComp={<Filter5 filterState={filterState} />}
+                      filterComp={
+                        <Filter5
+                          filterState={filterState}
+                          dataBias={getChartByGender?.data}
+                        />
+                      }
                       isLoading={isLoadingChartByGender}
                       graphOptions={graphOptions5(
                         [

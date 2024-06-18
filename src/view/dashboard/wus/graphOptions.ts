@@ -13,8 +13,20 @@ export const graphOptions1 = (series: any[], legend: any[]) => {
     grid: { containLabel: true },
     tooltip: {
       trigger: "axis",
-      axisLabel: {
-        formatter: "{value}%",
+      // axisLabel: {
+      //   formatter: "{value}%",
+      // },
+      formatter: function (params: any) {
+        let tooltipContent = `<div style="min-width: 350px;">${params[0].axisValueLabel}<br/>`;
+        params.forEach((item: any) => {
+          if (item.seriesName === "Total Penerima") {
+            tooltipContent += `${item.marker} ${item.seriesName} <span style="float: right;"><strong>${item.value}</strong></span><br/>`;
+          } else {
+            tooltipContent += `${item.marker} ${item.seriesName} <span style="float: right;"><strong>${item.value}%</strong></span><br/>`;
+          }
+        });
+        tooltipContent += `</div>`;
+        return tooltipContent;
       },
     },
     yAxis: {

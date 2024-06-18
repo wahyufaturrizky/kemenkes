@@ -19,6 +19,7 @@ import {
   SummaryImmunization,
   TotalSummaryImmunization,
 } from "@/view/home";
+import GraphRoutineImmunizationCoverageTrendWus from "@/view/home/components/GraphWus";
 import FilterSummaryImmunizationWus from "@/view/home/components/FilterWus";
 import {
   // dataGraphRegionalRoutineImmunizationCoverageTrend,
@@ -333,7 +334,7 @@ const Wus = () => {
 
   const dataGraphRegionalRoutineImmunizationCoverageTrend = [
     {
-      title: `Total Cakupan T2+  Nasioanl Tahun ${filter.tahun}`,
+      title: `Total Cakupan T2+  Nasional Tahun ${filter.tahun}`,
       value: (
         <div>
           {formatNumber(
@@ -408,9 +409,9 @@ const Wus = () => {
               filterState={filterState}
             />
             <div className="flex flex-col gap-4 text-sm">
-              <div className={`${openSans.className}`}>
+              {/* <div className={`${openSans.className}`}>
                 UPDATE TERAKHIR: 23 SEPTEMBER 2023
-              </div>
+              </div> */}
               <div className="font-bold text-primary-1 text-xl md:text-3xl">
                 Imunisasi Rutin WUS
               </div>
@@ -571,12 +572,15 @@ const Wus = () => {
                 subTitle=""
                 graph={
                   <div className="my-4 p-4 md:p-8 border rounded-lg">
-                    <GraphRoutineImmunizationCoverageTrend
+                    <GraphRoutineImmunizationCoverageTrendWus
                       layout="vertical"
                       title={
                         <div className="font-bold md:text-2xl">
                           Data Cakupan Status{" "}
-                          <b className="text-primary-2">T2+</b> pada Provinsi di{" "}
+                          <b className="text-primary-2">
+                            {filter.status_type_daerah.toUpperCase()}
+                          </b>{" "}
+                          pada Provinsi di{" "}
                           <b className="text-primary-2">Indonesia</b> Selama
                           Tahun <b className="text-primary-2">{filter.tahun}</b>
                         </div>

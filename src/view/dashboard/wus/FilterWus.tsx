@@ -33,6 +33,9 @@ export const Filter1: React.FC<FilterProps2> = ({ filterState, dataWus }) => {
 
   const pctTotal = dataWus?.map((r: any) => r.ytd_pct_total.toString());
   const target = dataWus?.map((r: any) => r.pct_target_threshold.toString());
+  const total = dataWus?.map((r: any) => r.ytd_total.toString());
+  // const pctTarget = truncateStringToNumber(target);
+  // console.log(target, "isi target");
   // const total = dataWus?.map((r: any) => r.total.toString());
   // console.log(total, "isi bulan");
 
@@ -41,9 +44,14 @@ export const Filter1: React.FC<FilterProps2> = ({ filterState, dataWus }) => {
 
     const data = {
       header: dataWus?.map((r: any) => r.faskes_desc),
-      body: [pctTotal, target],
-      verticalHeader: ["% Target Cakupan", "Jumlah Penerima Imunisasi"],
-      fileName: "Tren  Cakupan daerah imunisasi WUS",
+      body: [pctTotal, target, total],
+      verticalHeader: [
+        "% Target Cakupan",
+        "% Jumlah Penerima Imunisasi",
+        "Total Penerima",
+      ],
+      fileName: "Tren Cakupan daerah imunisasi WUS",
+      title: "Tren Cakupan daerah imunisasi WUS",
     };
     try {
       const response = await fetch(url, {
@@ -167,7 +175,7 @@ export const Filter2: React.FC<FilterProps2> = ({ filterState, dataWus }) => {
 
   const downloadFile = async () => {
     const url = `${API_URL}/v1/csv/download`;
-
+    let fileName = "Cakupan Kumulatif atau Bulanan penerima imunisasi WUS";
     const data = {
       header: dataMonth?.map((r) => r.label),
       body: [pctTarget, total, pctTotal],
@@ -176,7 +184,8 @@ export const Filter2: React.FC<FilterProps2> = ({ filterState, dataWus }) => {
         "Jumlah Penerima Imunisasi",
         "% Cakupan",
       ],
-      fileName: "Cakupan Kumulatif atau Bulanan penerima imunisasi WUS",
+      fileName,
+      title: fileName,
     };
     try {
       const response = await fetch(url, {
@@ -293,6 +302,7 @@ export const Filter3: React.FC<FilterProps2> = ({ filterState, dataWus }) => {
   const { data: getWomenCategory } = useGetWomencategoryQuery({});
   const downloadFile = async () => {
     const url = `${API_URL}/v1/csv/download`;
+    let fileName = "Sebaran Status T";
 
     const data = {
       header: ["T1", "T2", "T3", "T4", "T5", "T2+"],
@@ -306,7 +316,8 @@ export const Filter3: React.FC<FilterProps2> = ({ filterState, dataWus }) => {
           `${dataWus?.ytd_total_t2plus}`,
         ],
       ],
-      fileName: "Sebaran Status T",
+      fileName,
+      title: fileName,
     };
     try {
       const response = await fetch(url, {
@@ -386,7 +397,7 @@ export const Filter4: React.FC<FilterProps2> = ({ filterState, dataWus }) => {
   const { data: getWomenCategory } = useGetWomencategoryQuery({});
   const downloadFile = async () => {
     const url = `${API_URL}/v1/csv/download`; // Your endpoint URL
-
+    let fileName = "Sebaran Status Kehamilan Terhadap Status T";
     const data = {
       // Your data here (if required)
       header: ["T1", "T2", "T3", "T4", "T5", "T2+"],
@@ -403,7 +414,8 @@ export const Filter4: React.FC<FilterProps2> = ({ filterState, dataWus }) => {
         // ["BODY5", "BODY6", "BODY9"],
       ],
       // verticalHeader: ["VH1", "VH2", "VH3"],
-      fileName: "Sebaran Status Kehamilan Terhadap Status T",
+      fileName,
+      title: fileName,
     };
     try {
       const response = await fetch(url, {

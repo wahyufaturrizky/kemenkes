@@ -13,7 +13,7 @@ export const dataTabs: TabProps[] = [
 
 export const dataTabBaduta: TabProps[] = [
   {
-    text: "Health Centre",
+    text: "Fasilitas Kesehatan",
     active: true,
     value: 0,
   },
@@ -145,95 +145,95 @@ export const filterLocationOptions = [
 export const vaccineTypeKejarOptions = [
   {
     label: "Polio 1",
-    value: "1"
+    value: "1",
   },
   {
     label: "Polio 2",
-    value: "2"
+    value: "2",
   },
   {
     label: "Polio 3",
-    value: "3"
+    value: "3",
   },
   {
     label: "Polio 4",
-    value: "4"
+    value: "4",
   },
   {
     label: "Imunisasi Dasar Lengkap",
-    value: "5"
+    value: "5",
   },
   {
     label: "HB 0",
-    value: "6"
+    value: "6",
   },
   {
     label: "BCG",
-    value: "7"
+    value: "7",
   },
   {
     label: "DPT-HB-Hib 1",
-    value: "8"
+    value: "8",
   },
   {
     label: "DPT-HB-Hib 2",
-    value: "9"
+    value: "9",
   },
   {
     label: "DPT-HB-Hib 3",
-    value: "10"
+    value: "10",
   },
   {
     label: "Campak Rubela 1",
-    value: "11"
+    value: "11",
   },
   {
     label: "PCV 1",
-    value: "12"
+    value: "12",
   },
   {
     label: "PCV 2",
-    value: "13"
+    value: "13",
   },
   {
     label: "IPV 1",
-    value: "14"
+    value: "14",
   },
   {
     label: "IPV 2",
-    value: "15"
+    value: "15",
   },
   {
     label: "Rotavirus 1",
-    value: "16"
+    value: "16",
   },
   {
     label: "Rotavirus 2",
-    value: "17"
+    value: "17",
   },
   {
     label: "Rotavirus 3",
-    value: "18"
+    value: "18",
   },
   {
     label: "JE",
-    value: "19"
+    value: "19",
   },
   {
     label: "Campak Rubela 2",
-    value: "20"
+    value: "20",
   },
   {
     label: "DPT-HB-Hib 4",
-    value: "21"
+    value: "21",
   },
   {
     label: "PCV 3",
-    value: "22"
+    value: "22",
   },
   {
     label: "Imunisasi Baduta Lengkap",
-    value: "23"
+    value: "23",
   },
 ];
 export const vaccineTypeBabyOptions = [
