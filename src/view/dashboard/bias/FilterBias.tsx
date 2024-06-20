@@ -315,12 +315,13 @@ export const Filter4: React.FC<FilterProps> = ({ filterState, dataBias }) => {
   const header = dataBias?.map((r: any) => r.name.toUpperCase());
   const ideal = dataBias?.map((r: any) => `${r.ideal} %`);
   const non_ideal = dataBias?.map((r: any) => `${r.non_ideal} %`);
+  const total = dataBias?.map((r: any) => r.total.toString());
 
   const handleDownload = () => {
     downloadFile(
       header,
-      [ideal, non_ideal],
-      ["Usia Ideal", "Usia Non Ideal"],
+      [ideal, non_ideal, total],
+      ["Usia Ideal", "Usia Non Ideal", "Jumlah Penerima"],
       "Cakupan Imunisasi berdasarkan Usia Pemberian Imunisasi"
     );
   };
@@ -377,12 +378,13 @@ export const Filter5: React.FC<FilterProps> = ({ filterState, dataBias }) => {
   const female = dataBias?.map(
     (r: any) => `${r.female?.toFixed(2).replace(".", ",")} %`
   );
+  const total = dataBias?.map((r: any) => r.total.toString());
 
   const handleDownload = () => {
     downloadFile(
       header,
-      [male, female],
-      ["Laki-laki", "Perempuan"],
+      [male, female, total],
+      ["Laki-laki", "Perempuan", "Jumlah Penerima"],
       "Distribusi Imunisasi pada Anak Usia Sekolah berdasarkan Jenis Kelamin"
     );
   };

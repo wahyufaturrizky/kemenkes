@@ -48,12 +48,10 @@ import VaccinateNudge from "@/assets/icons/vaccinate-nudge.png";
 import styles from "@/assets/css/styles.module.css";
 
 import {
-  graphOptions2,
-  graphOptions5,
+  // graphOptions2,
   graphOptions6,
-  graphOptions7,
 } from "../routine-baduta-immunization/graphOptions";
-import { graphOptions1 } from "./graphOptions";
+import { graphOptions1, graphOptions2, graphOptions7 } from "./graphOptions";
 
 import { formatNumber } from "@/helpers";
 import { openSans } from "@/assets/fonts";
@@ -608,24 +606,68 @@ const Wus = () => {
                       }}
                       graphOptions={graphOptions1(
                         [
+                          // {
+                          //   // @ts-ignore
+                          //   name: "Target Cakupan per Daerah = 100%",
+                          //   data:
+                          //     (
+                          //       getTotalImmunizationTotalCumulativeCoverageQuery?.data ||
+                          //       []
+                          //     )?.map((r: any) => r?.ytd_pct_total) || [],
+                          //   type: "bar",
+                          //   label: {
+                          //     show: true,
+                          //     precision: 1,
+                          //     position: "right",
+                          //     formatter: (params: any) => `${params.value}%`,
+                          //   },
+                          // },
                           {
                             // @ts-ignore
-                            name: "Target Cakupan per Daerah = 100%",
+                            name: "Persentase",
                             data:
                               (
                                 getTotalImmunizationTotalCumulativeCoverageQuery?.data ||
                                 []
-                              )?.map((r: any) => r?.ytd_pct_total) || [],
+                              )?.map((r: any) =>
+                                formatNumber(r?.ytd_pct_total)
+                              ) || [],
                             type: "bar",
                             label: {
                               show: true,
                               precision: 1,
                               position: "right",
-                              formatter: (params: any) => `${params.value}%`,
+                              formatter: (params: any) => {
+                                const reversedData = (
+                                  getTotalImmunizationTotalCumulativeCoverageQuery?.data ||
+                                  []
+                                )
+                                  .slice()
+                                  .reverse(); // Membuat salinan dan membalik urutan
+                                const totalData =
+                                  reversedData[params.dataIndex]?.ytd_total;
+                                const valueWithComma = params.value.replace(
+                                  ".",
+                                  ","
+                                );
+                                return `${valueWithComma}% (${formatNumber(
+                                  totalData
+                                )})`;
+                              },
                             },
                           },
+                          // {
+                          //   name: "Target",
+                          //   type: "line",
+                          //   color: "#CD4243",
+                          //   data:
+                          //     (
+                          //       getTotalImmunizationTotalCumulativeCoverageQuery?.data ||
+                          //       []
+                          //     )?.map((r: any) => r?.pct_target_threshold) || [],
+                          // },
                           {
-                            name: "Target",
+                            name: "Target Cakupan per Daerah",
                             type: "line",
                             color: "#CD4243",
                             data:
@@ -633,6 +675,23 @@ const Wus = () => {
                                 getTotalImmunizationTotalCumulativeCoverageQuery?.data ||
                                 []
                               )?.map((r: any) => r?.pct_target_threshold) || [],
+                          },
+                          {
+                            name: "Total Penerima",
+                            type: "line",
+                            color: "#FAC515",
+                            data:
+                              (
+                                getTotalImmunizationTotalCumulativeCoverageQuery?.data ||
+                                []
+                              )?.map((r: any) => r?.ytd_total) || [],
+                            show: false, // Menyembunyikan seri secara default
+                            itemStyle: {
+                              opacity: 0, // Mengatur opacity item menjadi 0 untuk menyembunyikan item
+                            },
+                            lineStyle: {
+                              opacity: 0, // Mengatur opacity garis menjadi 0 untuk menyembunyikan garis
+                            },
                           },
                         ],
                         (
@@ -704,8 +763,16 @@ const Wus = () => {
                             (
                               getTotalImmunizationTotalCumulativeCoverageRecipientsQuery?.data ||
                               []
-                            )?.map((r: any) => r?.pct_target_threshold) || [],
+                            )?.map((r: any) =>
+                              formatNumber(r?.pct_target_threshold)
+                            ) || [],
                           type: "line",
+                          label: {
+                            show: true,
+                            precision: 1,
+                            formatter: (params: any) =>
+                              `${formatNumber(params.value || 0)} %`,
+                          },
                         },
                         {
                           name: "Jumlah Penerima Imunisasi",
@@ -713,8 +780,13 @@ const Wus = () => {
                             (
                               getTotalImmunizationTotalCumulativeCoverageRecipientsQuery?.data ||
                               []
-                            )?.map((r: any) => r?.total) || [],
-                          type: "bar",
+                            )?.map((r: any) => formatNumber(r?.total)) || [],
+                          type: "line",
+                          label: {
+                            show: true,
+                            precision: 1,
+                            formatter: (params: any) => params.value || 0,
+                          },
                         },
                         {
                           name: "% Cakupan",
@@ -722,8 +794,15 @@ const Wus = () => {
                             (
                               getTotalImmunizationTotalCumulativeCoverageRecipientsQuery?.data ||
                               []
-                            )?.map((r: any) => r?.pct_total) || [],
-                          type: "line",
+                            )?.map((r: any) => formatNumber(r?.pct_total)) ||
+                            [],
+                          type: "bar",
+                          label: {
+                            show: true,
+                            precision: 1,
+                            formatter: (params: any) =>
+                              `${formatNumber(params.value || 0)} %`,
+                          },
                         },
                       ])}
                     />

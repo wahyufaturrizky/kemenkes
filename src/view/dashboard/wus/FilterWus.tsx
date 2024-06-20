@@ -18,6 +18,7 @@ import {
 
 import { useDownloadImmunizationExcelMutation } from "@/lib/services/wus";
 import { dataMonth } from "@/utils/constants";
+import { formatNumber } from "@/helpers";
 
 interface FilterProps {
   filterState: any;
@@ -31,9 +32,13 @@ export const Filter1: React.FC<FilterProps2> = ({ filterState, dataWus }) => {
   const { data: getjenisStatusList } = useGetJenisStatusListQuery({});
   const { data: getWomenCategory } = useGetWomencategoryQuery({});
 
-  const pctTotal = dataWus?.map((r: any) => r.ytd_pct_total.toString());
-  const target = dataWus?.map((r: any) => r.pct_target_threshold.toString());
-  const total = dataWus?.map((r: any) => r.ytd_total.toString());
+  const pctTotal = dataWus?.map(
+    (r: any) => `${formatNumber(r.ytd_pct_total)} %`
+  );
+  const target = dataWus?.map(
+    (r: any) => `${formatNumber(r.pct_target_threshold)} %`
+  );
+  const total = dataWus?.map((r: any) => formatNumber(r.ytd_total));
   // const pctTarget = truncateStringToNumber(target);
   // console.log(target, "isi target");
   // const total = dataWus?.map((r: any) => r.total.toString());
@@ -168,9 +173,11 @@ export const Filter2: React.FC<FilterProps2> = ({ filterState, dataWus }) => {
   const { data: getjenisStatusList } = useGetJenisStatusListQuery({});
   const { data: getWomenCategory } = useGetWomencategoryQuery({});
 
-  const pctTarget = dataWus?.map((r: any) => r.pct_target_threshold);
-  const total = dataWus?.map((r: any) => r.total.toString());
-  const pctTotal = dataWus?.map((r: any) => r.pct_total.toString());
+  const pctTarget = dataWus?.map(
+    (r: any) => `${formatNumber(r.pct_target_threshold)} %`
+  );
+  const total = dataWus?.map((r: any) => formatNumber(r.total));
+  const pctTotal = dataWus?.map((r: any) => `${formatNumber(r.pct_total)} %`);
   // console.log(total, "isi bulan");
 
   const downloadFile = async () => {
@@ -308,14 +315,15 @@ export const Filter3: React.FC<FilterProps2> = ({ filterState, dataWus }) => {
       header: ["T1", "T2", "T3", "T4", "T5", "T2+"],
       body: [
         [
-          `${dataWus?.ytd_total_t1}`,
-          `${dataWus?.ytd_total_t2}`,
-          `${dataWus?.ytd_total_t3}`,
-          `${dataWus?.ytd_total_t4}`,
-          `${dataWus?.ytd_total_t5}`,
-          `${dataWus?.ytd_total_t2plus}`,
+          `${formatNumber(dataWus?.ytd_total_t1)}`,
+          `${formatNumber(dataWus?.ytd_total_t2)}`,
+          `${formatNumber(dataWus?.ytd_total_t3)}`,
+          `${formatNumber(dataWus?.ytd_total_t4)}`,
+          `${formatNumber(dataWus?.ytd_total_t5)}`,
+          `${formatNumber(dataWus?.ytd_total_t2plus)}`,
         ],
       ],
+      verticalHeader: ["Total Penerima"],
       fileName,
       title: fileName,
     };
@@ -403,17 +411,15 @@ export const Filter4: React.FC<FilterProps2> = ({ filterState, dataWus }) => {
       header: ["T1", "T2", "T3", "T4", "T5", "T2+"],
       body: [
         [
-          `${dataWus?.ytd_total_t1}`,
-          `${dataWus?.ytd_total_t2}`,
-          `${dataWus?.ytd_total_t3}`,
-          `${dataWus?.ytd_total_t4}`,
-          `${dataWus?.ytd_total_t5}`,
-          `${dataWus?.ytd_total_t2plus}`,
+          `${formatNumber(dataWus?.ytd_total_t1)}`,
+          `${formatNumber(dataWus?.ytd_total_t2)}`,
+          `${formatNumber(dataWus?.ytd_total_t3)}`,
+          `${formatNumber(dataWus?.ytd_total_t4)}`,
+          `${formatNumber(dataWus?.ytd_total_t5)}`,
+          `${formatNumber(dataWus?.ytd_total_t2plus)}`,
         ],
-        // ["BODY4", "BODY7", "BODY8"],
-        // ["BODY5", "BODY6", "BODY9"],
       ],
-      // verticalHeader: ["VH1", "VH2", "VH3"],
+      verticalHeader: ["Total Penerima"],
       fileName,
       title: fileName,
     };

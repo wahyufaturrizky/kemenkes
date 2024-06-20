@@ -91,11 +91,11 @@ const GraphRoutineImmunizationCoverageTrendBias: React.FC<
       <div className="font-bold md:text-2xl">{title}</div>
       <div className={`${openSans.className}`}>{subTitle}</div>
       <div>
-        <div className="mt-4">{addOn}</div>
+        <div className="mt-4 mb-4">{addOn}</div>
         <div>
           {threshold}
-          <div className="flex-grow">
-            <div className="relative flex justify-center items-center">
+          <div className="flex-grow ">
+            <div className="relative flex justify-center items-center  h-full">
               {isLoading && <Spin />}
               {graphOptions ? (
                 <div className="w-full h-full overflow-scroll" id="graphhhh">

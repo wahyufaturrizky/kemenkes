@@ -91,11 +91,13 @@ const GraphRoutineImmunizationCoverageTrendWus: React.FC<
       <div className="font-bold md:text-2xl">{title}</div>
       <div className={`${openSans.className}`}>{subTitle}</div>
       <div>
-        <div className="mt-4">{addOn}</div>
+        <div className="mt-4 mb-4">{addOn}</div>
 
-        <div className={`flex flex-wrap sm:flex-nowrap gap-4 relative`}>
-          <div className="flex-grow">
-            <div className="relative flex justify-center items-center">
+        <div
+          className={`flex flex-wrap sm:flex-nowrap gap-4 relative  h-[600px]`}
+        >
+          <div className="flex-grow ">
+            <div className="relative flex justify-center items-center  h-full">
               {isLoading && <Spin />}
               {graphOptions ? (
                 <div className="w-full h-full overflow-scroll" id="graphhhh">
