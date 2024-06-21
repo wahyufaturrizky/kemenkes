@@ -74,6 +74,9 @@ const GraphRoutineImmunizationCoverageTrend: React.FC<GraphRoutineImmunizationCo
       <div className="font-bold md:text-2xl">{title}</div>
       <div className={`${openSans.className}`}>{subTitle}</div>
       <div>
+        <div className='mb-4'>
+          {addOn}
+        </div>
         <div className={`flex flex-wrap sm:flex-nowrap gap-4 relative`}>
           <div className="flex-grow">
             <div className="relative flex justify-center items-center">
@@ -89,9 +92,7 @@ const GraphRoutineImmunizationCoverageTrend: React.FC<GraphRoutineImmunizationCo
           </div>
           {threshold}
         </div>
-        <div className='mt-4'>
-          {addOn}
-        </div>
+
         {variant === 'public' &&
           <div className="flex flex-wrap justify-between items-center gap-4 mt-8 sm:mt-20 md:mt-0">
             <div className="flex gap-4">

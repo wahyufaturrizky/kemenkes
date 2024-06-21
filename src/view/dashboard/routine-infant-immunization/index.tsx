@@ -9,7 +9,7 @@ import { ChildSummaryImmunization, FilterSummaryImmunization, GraphAddOn, GraphR
 import { Filter1, Filter2, Filter3, Filter4, Filter5 } from "@/view/dashboard/routine-infant-immunization/Filter";
 import { graphOptions1, graphOptions2, graphOptions3, graphOptions4, graphOptions5 } from "@/view/dashboard/routine-infant-immunization/graphOptions";
 import { useGetAverageImmunizationByGenderQuery, useGetDoPercentageCampakRubelaQuery, useGetDoPercentageDPHTHBHIBQuery, useGetExceedTargetPerVaccineQuery, useGetHighestImmunizationByAgeQuery, useGetImmunizationWithHighetFemaleRecivientQuery, useGetImmunizationWithHighetMaleRecivientQuery, useGetInExceedTargetPerVaccineQuery, useGetMaxImmunizationByAgeQuery, useGetPercentageTotalImmunizationQuery, useGetScopePercentagePerMonthQuery, useGetSummaryImmunizationByAgeQuery, useGetSummaryImmunizationPerGenderQuery, useGetSummaryImmunizationPerVaccineQuery, useGetSummaryScopePercentageQuery, useGetTotalHighestScopeByVaccineTypeQuery, useGetTotalHighestScopeQuery, useGetTotalImmunizationByVaccineTypeQuery, useGetTotalImmunizationQuery, useGetTotalLowestScopeByVaccineTypeQuery, useGetTotalLowestScopeQuery, useGetTotalScopeByVaccineTypeQuery, useGetTotalScopeQuery } from "@/lib/services/baby-immunization";
-import { dataMonth, dataTabBaduta, trendTypeOptions, vaccineTypeBabyOptions, vaccineTypeOptions } from "@/utils/constants";
+import { dataMonth, dataMonths, dataTabBaduta, trendTypeOptions, vaccineTypeBabyOptions, vaccineTypeOptions } from "@/utils/constants";
 import { formatNumber } from "@/helpers";
 import { openSans } from "@/assets/fonts";
 
@@ -17,7 +17,7 @@ const RoutineBabyImmunization = () => {
   const filterState = useState({
     // tahun: new Date().getFullYear(),
     tahun: 2023,
-    bulan: dataMonth.find((r, i) => i === new Date().getMonth())?.value,
+    bulan: dataMonths.find((r, i) => i === new Date().getMonth())?.value,
     provinsi: '',
     kabkota: '',
     kecamatan: '',
@@ -309,9 +309,6 @@ const RoutineBabyImmunization = () => {
           <div>
             <Tabs data={dataTabBaduta} variant="private" value={filter.kewilayahan_type} filterState={filterState} />
             <div className="flex flex-col gap-4 text-sm">
-              <div className="pt-8">
-                UPDATE TERAKHIR: 23 SEPTEMBER 2023
-              </div>
               <div className="font-bold text-primary-1 text-xl md:text-3xl">
                 Imunisasi Rutin Bayi
               </div>

@@ -8,8 +8,8 @@ import { Banner, BannerHighlightFooter, BannerText, GraphEcharts, Navbar, Sideba
 import { ChildSummaryImmunization, FilterSummaryImmunization, GraphAddOn, GraphRoutineImmunizationCoverageTrend, RoutineImmunizationCoverageTrendGraph, SummaryImmunization, TotalSummaryImmunization } from "@/view/home";
 import { Filter1, Filter2, Filter3, Filter4, Filter5 } from "@/view/dashboard/routine-baduta-immunization/Filter";
 import { graphOptions1, graphOptions2, graphOptions3, graphOptions4, graphOptions5 } from "@/view/dashboard/routine-baduta-immunization/graphOptions";
-import { useGetAverageImmunizationByGenderQuery, useGetDoPercentageCampakRubelaQuery, useGetDoPercentageDPHTHBHIBQuery, useGetExceedTargetPerVaccineQuery, useGetHighestImmunizationByAgeQuery, useGetImmunizationWithHighetFemaleRecivientQuery, useGetImmunizationWithHighetMaleRecivientQuery, useGetInExceedTargetPerVaccineQuery, useGetMaxImmunizationByAgeQuery, useGetPercentageTotalImmunizationQuery, useGetScopePercentagePerMonthQuery, useGetSummaryImmunizationByAgeQuery, useGetSummaryImmunizationPerGenderQuery, useGetSummaryImmunizationPerVaccineQuery, useGetSummaryScopePercentageQuery, useGetTotalHighestScopeByVaccineTypeQuery, useGetTotalHighestScopeQuery, useGetTotalImmunizationByVaccineTypeQuery, useGetTotalImmunizationQuery, useGetTotalLowestScopeByVaccineTypeQuery, useGetTotalLowestScopeQuery, useGetTotalScopeByVaccineTypeQuery, useGetTotalScopeQuery } from "@/lib/services/baduta-immunization";
-import { dataMonth, dataTabBaduta, trendTypeOptions, vaccineTypeOptions } from "@/utils/constants";
+import { useGetAverageImmunizationByGenderQuery, useGetDoPercentageCampakRubelaQuery, useGetDoPercentageDPHTHBHIBQuery, useGetHighestImmunizationByAgeQuery, useGetImmunizationWithHighetFemaleRecivientQuery, useGetImmunizationWithHighetMaleRecivientQuery, useGetMaxImmunizationByAgeQuery, useGetPercentageTotalImmunizationQuery, useGetScopePercentagePerMonthQuery, useGetSummaryImmunizationByAgeQuery, useGetSummaryImmunizationPerGenderQuery, useGetSummaryImmunizationPerVaccineQuery, useGetSummaryScopePercentageQuery, useGetSurpaseTargetPerVaccineQuery, useGetTotalHighestScopeByVaccineTypeQuery, useGetTotalHighestScopeQuery, useGetTotalImmunizationByVaccineTypeQuery, useGetTotalImmunizationQuery, useGetTotalLowestScopeByVaccineTypeQuery, useGetTotalLowestScopeQuery, useGetTotalScopeByVaccineTypeQuery, useGetTotalScopeQuery } from "@/lib/services/baduta-immunization";
+import { dataMonths, dataTabBaduta, trendTypeOptions, vaccineTypeOptions } from "@/utils/constants";
 import { formatNumber } from "@/helpers";
 import { openSans } from "@/assets/fonts";
 
@@ -17,7 +17,7 @@ const RoutineBadutaImmunization = () => {
   const filterState = useState({
     // tahun: new Date().getFullYear(),
     tahun: 2023,
-    bulan: dataMonth.find((r, i) => i === new Date().getMonth())?.value,
+    bulan: dataMonths.find((r, i) => i === new Date().getMonth())?.value,
     provinsi: '',
     kabkota: '',
     kecamatan: '',
@@ -62,7 +62,8 @@ const RoutineBadutaImmunization = () => {
           : filter.provinsi
             ? filter.provinsi
             : "All",
-    kewilayahan_type: filter.kewilayahan_type
+    kewilayahan_type: filter.kewilayahan_type,
+    faskes_id: 16
   };
   const regionIdQuery = filter.wilayah === "faskes"
     ? filter.faskes
@@ -77,13 +78,15 @@ const RoutineBadutaImmunization = () => {
     ...dateQuery,
     region_type: filter.wilayah1,
     region_id: regionIdQuery,
-    kewilayahan_type: filter.kewilayahan_type
+    kewilayahan_type: filter.kewilayahan_type,
+    faskes_id: 16
   };
   const filterQueryGraph = {
     ...dateQuery,
     region_type: filter.wilayah,
     region_id: regionIdQuery,
-    kewilayahan_type: filter.kewilayahan_type
+    kewilayahan_type: filter.kewilayahan_type,
+    faskes_id: 16
   };
   const optionQuery = {
     refetchOnMountOrArgChange: true,
@@ -103,7 +106,7 @@ const RoutineBadutaImmunization = () => {
   }
   const { data: getTotalImmunizationQuery,
     isLoading: isLoadingTotalImmunizationQuery
-  } = useGetTotalImmunizationQuery(filterQuery, optionQuery)
+  } = useGetTotalImmunizationQuery(filterQueryGraphPercentage, optionQuery)
   const { data: getDoPercentageDPHTHBHIBQuery,
     isLoading: isLoadingDoPercentageDPHTHBHIBQuery,
   } = useGetDoPercentageDPHTHBHIBQuery(filterQuery, optionQuery)
@@ -149,24 +152,22 @@ const RoutineBadutaImmunization = () => {
   const { data: getTotalLowestScopeByVaccineTypeQuery,
     isLoading: isLoadingTotalLowestScopeByVaccineTypeQuery,
   } = useGetTotalLowestScopeByVaccineTypeQuery(filterQueryGraph, optionQuery)
-  const { data: getExceedTargetPerVaccineQuery,
-    isLoading: isLoadingExceedTargetPerVaccineQuery,
-  } = useGetExceedTargetPerVaccineQuery(filterQueryGraph, optionQuery)
-  const { data: getInExceedTargetPerVaccineQuery,
-    isLoading: isLoadingInExceedTargetPerVaccineQuery,
-  } = useGetInExceedTargetPerVaccineQuery(filterQueryGraph, optionQuery)
+  const { data: getSurpaseTargetPerVaccineQuery,
+    isLoading: isLoadingSurpaseTargetPerVaccineQuery,
+  } = useGetSurpaseTargetPerVaccineQuery(filterQueryGraph, optionQuery)
   const { data: getSummaryImmunizationPerVaccineQuery } = useGetSummaryImmunizationPerVaccineQuery(filterQueryGraph, optionQuery)
+  const aliasSummaryImmunizationPerVaccineQuery = Object.entries(getSummaryImmunizationPerVaccineQuery?.data || []).map(([key, value]) => ({ label: key, value: value }));
   // const { data: getMaxImmunizationByAgeQuery1 } = useGetMaxImmunizationByAgeQuery({ ...filterQueryGraph, age_type: 1 }, optionQuery)
   const { data: getMaxImmunizationByAgeQuery2,
     isLoading: isLoadingMaxImmunizationByAgeQuery2,
-  } = useGetMaxImmunizationByAgeQuery({ ...filterQueryGraph, age_type: 2 }, optionQuery)
-  const { data: getMaxImmunizationByAgeQuery3,
-    isLoading: isLoadingMaxImmunizationByAgeQuery3,
-  } = useGetMaxImmunizationByAgeQuery({ ...filterQueryGraph, age_type: 3 }, optionQuery)
-  // const { data: getHighestImmunizationByAgeQuery } = useGetHighestImmunizationByAgeQuery({ ...filterQueryGraph, age_type: filter.tipe_umur }, optionQuery)
+  } = useGetMaxImmunizationByAgeQuery({ ...filterQueryGraph, age_type: filter.tipe_umur }, optionQuery)
+  const { data: getHighestImmunizationByAgeQuery,
+    isLoading: isLoadingHighestImmunizationByAgeQuery,
+  } = useGetHighestImmunizationByAgeQuery({ ...filterQueryGraph, age_type: filter.tipe_umur }, optionQuery)
   const { data: getSummaryImmunizationByAgeQuery,
     isLoading: isLoadingSummaryImmunizationByAgeQuery,
   } = useGetSummaryImmunizationByAgeQuery(filterQueryGraph, optionQuery)
+  const aliasSummaryImmunizationByAgeQuery = Object.entries(getSummaryImmunizationByAgeQuery?.data || []).map(([key, value]) => ({ label: key, value: value }));
   const { data: getAverageImmunizationByGenderQuery,
     isLoading: isLoadingAverageImmunizationByGenderQuery,
   } = useGetAverageImmunizationByGenderQuery(filterQueryGraph, optionQuery)
@@ -179,6 +180,7 @@ const RoutineBadutaImmunization = () => {
   const { data: getSummaryImmunizationPerGenderQuery,
     isLoading: isLoadingSummaryImmunizationPerGenderQuery,
   } = useGetSummaryImmunizationPerGenderQuery(filterQueryGraph, optionQuery)
+  const aliasSummaryImmunizationPerGenderQuery = Object.entries(getSummaryImmunizationPerGenderQuery?.data || []).map(([key, value]) => ({ label: key, value: value }));
 
   const dataGraphRegionalRoutineImmunizationCoverageTrend1 = [
     {
@@ -189,13 +191,13 @@ const RoutineBadutaImmunization = () => {
     },
     {
       title: `Cakupan Tertinggi Tahun ${getTotalHighestScopeQuery?.data?.year || filter.tahun}`,
-      value: (<div className="font-bold">{formatNumber(getTotalHighestScopeQuery?.data?.pct || 0)}%</div>),
+      value: (<div className="font-bold">{formatNumber(getTotalHighestScopeQuery?.data?.percentage || 0)}%</div>),
       regional: <div>{getTotalHighestScopeQuery?.data?.provinsi !== "All" ? getTotalHighestScopeQuery?.data?.provinsi : ''}</div>,
       isLoading: isLoadingTotalHighestScopeQuery
     },
     {
       title: `Cakupan Terendah Tahun ${getTotalHighestScopeQuery?.data?.year || filter.tahun}`,
-      value: (<div className="font-bold">{formatNumber(getTotalLowestScopeQuery?.data?.pct || 0)}%</div>),
+      value: (<div className="font-bold">{formatNumber(getTotalLowestScopeQuery?.data?.percentage || 0)}%</div>),
       regional: <div>{getTotalLowestScopeQuery?.data?.provinsi !== "All" ? getTotalLowestScopeQuery?.data?.provinsi : ''}</div>,
       isLoading: isLoadingTotalLowestScopeQuery
     },
@@ -209,40 +211,40 @@ const RoutineBadutaImmunization = () => {
     },
     {
       title: `Cakupan Imunisasi Tertinggi`,
-      value: (<div>{getTotalHighestScopeByVaccineTypeQuery?.data?.vaccine || ""}</div>),
+      value: (<div>{getTotalHighestScopeByVaccineTypeQuery?.data?.vaksin || ""}</div>),
       regional: (<div>Jumlah Cakupan: {formatNumber(getTotalHighestScopeByVaccineTypeQuery?.data?.total || 0)}</div>),
-      threshold: (<div>% Cakupan: {formatNumber(getTotalHighestScopeByVaccineTypeQuery?.data?.pct || 0)}%</div>),
+      threshold: (<div>% Cakupan: {formatNumber(getTotalHighestScopeByVaccineTypeQuery?.data?.percentage || 0)}%</div>),
       isLoading: isLoadingTotalHighestScopeByVaccineTypeQuery
     },
     {
       title: `Cakupan Imunisasi Terendah`,
-      value: (<div>{getTotalLowestScopeByVaccineTypeQuery?.data?.vaccine === "ALL" ? "Baduta Lengkap" : getTotalLowestScopeByVaccineTypeQuery?.data?.vaccine}</div>),
+      value: (<div>{getTotalLowestScopeByVaccineTypeQuery?.data?.vaksin === "ALL" ? "Baduta Lengkap" : getTotalLowestScopeByVaccineTypeQuery?.data?.vaksin}</div>),
       regional: (<div>Jumlah Cakupan: {formatNumber(getTotalLowestScopeByVaccineTypeQuery?.data?.total || 0)}</div>),
-      threshold: (<div>% Cakupan: {formatNumber(getTotalLowestScopeByVaccineTypeQuery?.data?.pct || 0)}%</div>),
+      threshold: (<div>% Cakupan: {formatNumber(getTotalLowestScopeByVaccineTypeQuery?.data?.percentage || 0)}%</div>),
       isLoading: isLoadingTotalLowestScopeByVaccineTypeQuery
     },
   ]
   const dataGraphRegionalRoutineImmunizationCoverageTrend3 = [
     {
-      title: <div className="font-bold text-xl">3 Imunisasi dengan Penerima <b style={{ color: "#83E0DB" }}>Usia Ideal</b> Terbanyak</div>,
-      value: (getMaxImmunizationByAgeQuery2?.data?.map((r: any, i: number) => <li key={i + 'max'}>{i + 1}. {r.vaccine}</li>)),
-      isLoading: isLoadingMaxImmunizationByAgeQuery2
+      title: <div className="font-bold text-xl">3 Imunisasi dengan Penerima <b style={{ color: "#00B1A9" }}>Usia Ideal</b> Terbanyak</div>,
+      value: (getHighestImmunizationByAgeQuery?.data?.map((r: any, i: number) => <li key={i + 'max'}>{i + 1}. {r.vaksin}</li>)),
+      isLoading: isLoadingHighestImmunizationByAgeQuery
     },
     {
-      title: <div className="font-bold text-xl">3 Imunisasi dengan Penerima <b style={{ color: "#00B1A9" }}>Usia Non Ideal</b> Terbanyak</div>,
-      value: (getMaxImmunizationByAgeQuery3?.data?.map((r: any, i: number) => <li key={i + 'max'}>{i + 1}. {r.vaccine}</li>)),
-      isLoading: isLoadingMaxImmunizationByAgeQuery3
+      title: <div className="font-bold text-xl">3 Imunisasi dengan Penerima <b style={{ color: "#83E0DB" }}>Usia Non Ideal</b> Terbanyak</div>,
+      value: (getMaxImmunizationByAgeQuery2?.data?.map((r: any, i: number) => <li key={i + 'max'}>{i + 1}. {r.vaksin}</li>)),
+      isLoading: isLoadingMaxImmunizationByAgeQuery2
     },
   ]
   const dataGraphRegionalRoutineImmunizationCoverageTrend4 = [
     {
       title: `3 Imunisasi dengan Penerima Usia Perempuan Terbanyak`,
-      value: (getImmunizationWithHighetMaleRecivientQuery?.data?.map((r: any, i: number) => <li key={i + 'max'}>{i + 1}. {r.vaccine}</li>)),
+      value: (getImmunizationWithHighetMaleRecivientQuery?.data?.map((r: any, i: number) => <li key={i + 'max'}>{i + 1}. {r.vaksin}</li>)),
       isLoading: isLoadingImmunizationWithHighetMaleRecivientQuery
     },
     {
       title: `3 Imunisasi dengan Penerima Usia Susulan Terbanyak`,
-      value: (getImmunizationWithHighetFemaleRecivientQuery?.data?.map((r: any, i: number) => <li key={i + 'max'}>{i + 1}. {r.vaccine}</li>)),
+      value: (getImmunizationWithHighetFemaleRecivientQuery?.data?.map((r: any, i: number) => <li key={i + 'max'}>{i + 1}. {r.vaksin}</li>)),
       isLoading: isLoadingImmunizationWithHighetFemaleRecivientQuery
     },
   ]
@@ -272,8 +274,8 @@ const RoutineBadutaImmunization = () => {
           show: false
         },
         data: [
-          { value: getAverageImmunizationByGenderQuery?.data?.total_male, name: 'Laki-laki' },
-          { value: getAverageImmunizationByGenderQuery?.data?.total_female, name: 'Perempuan' },
+          { value: getAverageImmunizationByGenderQuery?.data?.ytd_male_all, name: 'Laki-laki' },
+          { value: getAverageImmunizationByGenderQuery?.data?.ytd_female_all, name: 'Perempuan' },
         ],
         emphasis: {
           itemStyle: {
@@ -316,7 +318,6 @@ const RoutineBadutaImmunization = () => {
           <div>
             <Tabs data={dataTabBaduta} variant="private" value={filter.kewilayahan_type} filterState={filterState} />
             <div className="flex flex-col gap-4 text-sm">
-              <div className={`${openSans.className}`}>UPDATE TERAKHIR: 23 SEPTEMBER 2023</div>
               <div className="font-bold text-primary-1 text-xl md:text-3xl">
                 Imunisasi Rutin Baduta
               </div>
@@ -349,7 +350,8 @@ const RoutineBadutaImmunization = () => {
                     classNameValue="text-4xl text-white"
                     title="Total Penerima Imunisasi Baduta"
                     contentTooltip={<>Total Penerima Imunisasi Baduta</>}
-                    value={formatNumber(getTotalImmunizationQuery?.data?.total || 0)}
+                    value={getTotalImmunizationQuery?.data ?
+                      formatNumber(getTotalImmunizationQuery?.data[0]?.total || 0) : "0"}
                   />
                 </div>
                 <div className="relative flex justify-center items-center">
@@ -360,9 +362,12 @@ const RoutineBadutaImmunization = () => {
                     classNameTitle="text-white"
                     classNameValue="text-4xl text-white"
                     title={"Persentase Drop Out \nDPT-HB-Hib"}
-                    value={`${formatNumber(getDoPercentageDPHTHBHIBQuery?.data?.pct || 0)}%`}
-                    percent={getDoPercentageDPHTHBHIBQuery?.data?.pct || 0}
-                    target={formatNumber(getDoPercentageDPHTHBHIBQuery?.data?.target || 0)}
+                    value={getDoPercentageDPHTHBHIBQuery?.data ?
+                      `${formatNumber(getDoPercentageDPHTHBHIBQuery?.data[0]?.percentage || 0)}%` : '0%'}
+                    percent={getDoPercentageDPHTHBHIBQuery?.data ?
+                      getDoPercentageDPHTHBHIBQuery?.data[0]?.percentage : 0}
+                    target={getDoPercentageDPHTHBHIBQuery?.data ?
+                      formatNumber(getDoPercentageDPHTHBHIBQuery?.data[0]?.target || 0) : 0}
                     subtitle={" dari "}
                     contentTooltip={<>Persentase Drop Out DPT-HB-Hib</>}
                     showLine={false}
@@ -376,9 +381,12 @@ const RoutineBadutaImmunization = () => {
                     classNameTitle="text-white"
                     classNameValue="text-4xl text-white"
                     title={"Persentase Drop Out \nCampak Rubela"}
-                    value={`${formatNumber(getDoPercentageCampakRubelaQuery?.data?.pct || 0)}%`}
-                    percent={getDoPercentageCampakRubelaQuery?.data?.pct || 0}
-                    target={formatNumber(getDoPercentageCampakRubelaQuery?.data?.target || 0)}
+                    value={getDoPercentageCampakRubelaQuery?.data ?
+                      `${formatNumber(getDoPercentageCampakRubelaQuery?.data[0]?.percentage || 0)}%` : "0%"}
+                    percent={getDoPercentageCampakRubelaQuery?.data ?
+                      getDoPercentageCampakRubelaQuery?.data[0]?.percentage : 0}
+                    target={getDoPercentageCampakRubelaQuery?.data ?
+                      formatNumber(getDoPercentageCampakRubelaQuery?.data[0]?.target || 0) : 0}
                     subtitle={" dari "}
                     contentTooltip={<>Persentase Drop Out Campak Rubela</>}
                     showLine={false}
@@ -392,14 +400,14 @@ const RoutineBadutaImmunization = () => {
                     className={`px-4 border rounded-lg ${openSans.className}`}
                     contentTooltip={<div>{vaccineTypeOptions[0].label}</div>}
                     title={vaccineTypeOptions[0].label}
-                    value={
-                      formatNumber(getTotalImmunizationByVaccineTypeQuery1?.data?.total || 0)
+                    value={getTotalImmunizationByVaccineTypeQuery1?.data ?
+                      formatNumber(getTotalImmunizationByVaccineTypeQuery1?.data[0]?.total || 0) : '0'
                     }
-                    percent={
-                      getTotalImmunizationByVaccineTypeQuery1?.data?.pct || 0
+                    percent={getTotalImmunizationByVaccineTypeQuery1?.data ?
+                      getTotalImmunizationByVaccineTypeQuery1?.data[0]?.percentage : 0
                     }
-                    target={
-                      formatNumber(getTotalImmunizationByVaccineTypeQuery1?.data?.target || 0)
+                    target={getTotalImmunizationByVaccineTypeQuery1?.data ?
+                      formatNumber(getTotalImmunizationByVaccineTypeQuery1?.data[0]?.target || 0) : 0
                     }
                     subtitle={" dari "}
                   />
@@ -417,14 +425,14 @@ const RoutineBadutaImmunization = () => {
                       />
                     }
                     title={vaccineTypeOptions[1].label}
-                    value={
-                      formatNumber(getTotalImmunizationByVaccineTypeQuery2?.data?.total || 0)
+                    value={getTotalImmunizationByVaccineTypeQuery2?.data ?
+                      formatNumber(getTotalImmunizationByVaccineTypeQuery2?.data[0]?.total || 0) : '0'
                     }
-                    percent={
-                      getTotalImmunizationByVaccineTypeQuery2?.data?.pct || 0
+                    percent={getTotalImmunizationByVaccineTypeQuery2?.data ?
+                      getTotalImmunizationByVaccineTypeQuery2?.data[0]?.percentage : 0
                     }
-                    target={
-                      formatNumber(getTotalImmunizationByVaccineTypeQuery2?.data?.target || 0)
+                    target={getTotalImmunizationByVaccineTypeQuery2?.data ?
+                      formatNumber(getTotalImmunizationByVaccineTypeQuery2?.data[0]?.target || 0) : 0
                     }
                     subtitle={" dari "}
                   />
@@ -442,14 +450,14 @@ const RoutineBadutaImmunization = () => {
                       />
                     }
                     title={vaccineTypeOptions[2].label}
-                    value={
-                      formatNumber(getTotalImmunizationByVaccineTypeQuery3?.data?.total || 0)
+                    value={getTotalImmunizationByVaccineTypeQuery3?.data ?
+                      formatNumber(getTotalImmunizationByVaccineTypeQuery3?.data[0]?.total || 0) : '0'
                     }
-                    percent={
-                      getTotalImmunizationByVaccineTypeQuery3?.data?.pct || 0
+                    percent={getTotalImmunizationByVaccineTypeQuery3?.data ?
+                      getTotalImmunizationByVaccineTypeQuery3?.data[0]?.percentage : 0
                     }
-                    target={
-                      formatNumber(getTotalImmunizationByVaccineTypeQuery3?.data?.target || 0)
+                    target={getTotalImmunizationByVaccineTypeQuery3?.data ?
+                      formatNumber(getTotalImmunizationByVaccineTypeQuery3?.data[0]?.target || 0) : 0
                     }
                     subtitle={" dari "}
                   />
@@ -467,14 +475,14 @@ const RoutineBadutaImmunization = () => {
                       />
                     }
                     title={vaccineTypeOptions[3].label}
-                    value={
-                      formatNumber(getTotalImmunizationByVaccineTypeQuery4?.data?.total || 0)
+                    value={getTotalImmunizationByVaccineTypeQuery4?.data ?
+                      formatNumber(getTotalImmunizationByVaccineTypeQuery4?.data[0]?.total || 0) : '0'
                     }
-                    percent={
-                      getTotalImmunizationByVaccineTypeQuery4?.data?.pct || 0
+                    percent={getTotalImmunizationByVaccineTypeQuery4?.data ?
+                      getTotalImmunizationByVaccineTypeQuery4?.data[0]?.percentage : 0
                     }
-                    target={
-                      formatNumber(getTotalImmunizationByVaccineTypeQuery4?.data?.target || 0)
+                    target={getTotalImmunizationByVaccineTypeQuery4?.data ?
+                      formatNumber(getTotalImmunizationByVaccineTypeQuery4?.data[0]?.target || 0) : 0
                     }
                     subtitle={" dari "}
                   />
@@ -492,7 +500,8 @@ const RoutineBadutaImmunization = () => {
                       subTitle={`Grafik menampilkan hasil cakupan ${vaccineTypeOptions.find((r) => r.value === filter.tipe_vaksin1)?.label} dari 34 provinsi di Indonesia`}
                       addOn={<GraphAddOn dataCard={dataGraphRegionalRoutineImmunizationCoverageTrend1} />} variant="private"
                       filterState={filterState}
-                      filterComp={<Filter1 filterState={filterState} />}
+                      filterComp={<Filter1 filterState={filterState}
+                        data={getPercentageTotalImmunizationQuery?.data || []} />}
                       isLoading={isLoadingPercentageTotalImmunizationQuery}
                       opts={{
                         height: 900
@@ -504,7 +513,7 @@ const RoutineBadutaImmunization = () => {
                           (
                             getPercentageTotalImmunizationQuery?.data ||
                             []
-                          )?.map((r: any) => r?.pct_immunization) || [],
+                          )?.map((r: any) => r?.percentage) || [],
                         type: "bar",
                         label: {
                           show: true,
@@ -521,14 +530,14 @@ const RoutineBadutaImmunization = () => {
                         data: (
                           getPercentageTotalImmunizationQuery?.data ||
                           []
-                        )?.map((r: any) => r?.pct_target_threshold) || [],
+                        )?.map((r: any) => r?.threshold) || [],
                       }
                       ]
                         , (
                           getPercentageTotalImmunizationQuery?.data ||
                           []
                         )
-                          ?.map((r: any) => r.r.faskes)
+                          ?.map((r: any) => r.faskes_desc || "")
                       )}
                     />
                   </div>
@@ -546,13 +555,14 @@ const RoutineBadutaImmunization = () => {
                       subTitle={`Grafik menampilkan tren cakupan ${trendTypeOptions.find((r) => r.value === filter.jenis_tren)?.label} penerima ${vaccineTypeOptions.find((r) => r.value === filter.tipe_vaksin2)?.label} pada baduta selama tahun ${filter.tahun}`}
                       variant="private"
                       filterState={filterState}
-                      filterComp={<Filter2 filterState={filterState} />}
+                      filterComp={<Filter2 filterState={filterState}
+                        data={getSetScopePercentagePerMonthQuery?.data || []} />}
                       threshold={
                         <div className="relative flex justify-center items-center">
                           {isLoadingSetSummaryScopePercentageQuery && <Spin />}
                           <div className="p-2 sm:w-32 md:w-64 h-fit">
                             <div className="text-sm">Total cakupan {trendTypeOptions.find((r) => r.value === filter.jenis_tren)?.label} pada tahun {filter.tahun}</div>
-                            <div className="py-2 font-bold text-3xl text-primary">{formatNumber(getSetSummaryScopePercentageQuery?.data?.pct || 0)}%</div>
+                            <div className="py-2 font-bold text-3xl text-primary">{formatNumber(getSetSummaryScopePercentageQuery?.data?.percentage || 0)}%</div>
                             <div>Jumlah {vaccineTypeOptions.find((r) => r.value === filter.tipe_vaksin2)?.label}: {formatNumber(getSetSummaryScopePercentageQuery?.data?.total || 0)}</div>
                           </div>
                         </div>
@@ -561,7 +571,7 @@ const RoutineBadutaImmunization = () => {
                       graphOptions={graphOptions2([
                         {
                           name: "% Target Cakupan",
-                          data: (getSetScopePercentagePerMonthQuery?.data || [])?.map((r: any) => (((r?.target || 0) / 100) * (r?.total || 0))) || [],
+                          data: (getSetScopePercentagePerMonthQuery?.data || [])?.map((r: any) => (((r?.threshold || 0) / 100) * (r?.total || 0))) || [],
                           type: 'line',
                           label: {
                             show: true,
@@ -584,7 +594,7 @@ const RoutineBadutaImmunization = () => {
                         },
                         {
                           name: "% Cakupan",
-                          data: (getSetScopePercentagePerMonthQuery?.data || [])?.map((r: any) => (((r?.pct || 0) / 100) * (r?.total || 0))) || [],
+                          data: (getSetScopePercentagePerMonthQuery?.data || [])?.map((r: any) => (((r?.percentage || 0) / 100) * (r?.total || 0))) || [],
                           type: 'line',
                           label: {
                             show: true,
@@ -610,37 +620,39 @@ const RoutineBadutaImmunization = () => {
                       subTitle="Grafik menampilkan tren cakupan imunisasi berdasarkan jenis imunisasi pada baduta."
                       addOn={<GraphAddOn dataCard={dataGraphRegionalRoutineImmunizationCoverageTrend2} />} variant="private"
                       filterState={filterState}
-                      filterComp={<Filter3 filterState={filterState} />}
-                      threshold={
-                        <div className="sm:w-32 md:w-64 text-sm">
-                          <div className="relative flex justify-center items-center">
-                            {isLoadingExceedTargetPerVaccineQuery && <Spin />}
-                            <div className='relative px-4 py-3 rounded-xl' style={{ boxShadow: '0px 2px 12px 0px #00000014' }}>
-                              <div className="font-bold">Imunisasi yang Melampaui Target Cakupan</div>
-                              <div>
-                                <ul>
-                                  {getExceedTargetPerVaccineQuery?.data?.map((r: any, i: number) => <li key={i + 'exceed'}>{i + 1}. {r.vaccine}</li>)}
-                                </ul>
-                              </div>
-                            </div>
-                          </div>
-                          <div className="relative flex justify-center items-center">
-                            {isLoadingInExceedTargetPerVaccineQuery && <Spin />}
-                            <div className='px-4 py-3 rounded-xl' style={{ boxShadow: '0px 2px 12px 0px #00000014' }}>
-                              <div className="font-bold">Imunisasi yang Belum Melampaui Target Cakupan</div>
-                              <div>
-                                <ul>
-                                  {getInExceedTargetPerVaccineQuery?.data?.map((r: any, i: number) => <li key={i + 'inexceed'}>{i + 1}. {r.vaccine}</li>)}
-                                </ul>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      }
+                      filterComp={<Filter3 filterState={filterState}
+                        data={aliasSummaryImmunizationPerVaccineQuery || []} />}
+                      // threshold={
+                      //   <div className="sm:w-32 md:w-64 text-sm">
+                      //     <div className="relative flex justify-center items-center">
+                      //       {isLoadingExceedTargetPerVaccineQuery && <Spin />}
+                      //       <div className='relative px-4 py-3 rounded-xl' style={{ boxShadow: '0px 2px 12px 0px #00000014' }}>
+                      //         <div className="font-bold">Imunisasi yang Melampaui Target Cakupan</div>
+                      //         <div>
+                      //           <ul>
+                      //             {getExceedTargetPerVaccineQuery?.data?.map((r: any, i: number) => <li key={i + 'exceed'}>{i + 1}. {r.vaccine}</li>)}
+                      //           </ul>
+                      //         </div>
+                      //       </div>
+                      //     </div>
+                      //     <div className="relative flex justify-center items-center">
+                      //       {isLoadingInExceedTargetPerVaccineQuery && <Spin />}
+                      //       <div className='px-4 py-3 rounded-xl' style={{ boxShadow: '0px 2px 12px 0px #00000014' }}>
+                      //         <div className="font-bold">Imunisasi yang Belum Melampaui Target Cakupan</div>
+                      //         <div>
+                      //           <ul>
+                      //             {getInExceedTargetPerVaccineQuery?.data?.map((r: any, i: number) => <li key={i + 'inexceed'}>{i + 1}. {r.vaccine}</li>)}
+                      //           </ul>
+                      //         </div>
+                      //       </div>
+                      //     </div>
+                      //   </div>
+                      // }
                       graphOptions={graphOptions3([
                         {
                           name: "% Cakupan",
-                          data: (getSummaryImmunizationPerVaccineQuery?.data || [])?.map((r: any) => (((r?.pct || 0) / 100) * (r?.total || 0))) || [],
+                          data: aliasSummaryImmunizationPerVaccineQuery?.filter((f) => f.label.includes("pct_")) || [],
+                          // data: (getSummaryImmunizationPerVaccineQuery?.data || [])?.map((r: any) => (((r?.pct || 0) / 100) * (r?.total || 0))) || [],
                           type: 'line',
                           label: {
                             show: true,
@@ -650,7 +662,8 @@ const RoutineBadutaImmunization = () => {
                         },
                         {
                           name: "% Target Cakupan",
-                          data: (getSummaryImmunizationPerVaccineQuery?.data || [])?.map((r: any) => (((r?.pct_treshold || 0) / 100) * (r?.total || 0))) || [],
+                          data: aliasSummaryImmunizationPerVaccineQuery?.filter((f) => f.label.includes("threshold_")) || [],
+                          // data: (getSummaryImmunizationPerVaccineQuery?.data || [])?.map((r: any) => (((r?.pct_treshold || 0) / 100) * (r?.total || 0))) || [],
                           type: 'line',
                           label: {
                             show: true,
@@ -660,7 +673,8 @@ const RoutineBadutaImmunization = () => {
                         },
                         {
                           name: "Cakupan",
-                          data: (getSummaryImmunizationPerVaccineQuery?.data || [])?.map((r: any) => r?.total) || [],
+                          data: aliasSummaryImmunizationPerVaccineQuery?.filter((f) => f.label.includes("ytd_total_")) || [],
+                          // data: (getSummaryImmunizationPerVaccineQuery?.data || [])?.map((r: any) => r?.total) || [],
                           type: 'bar',
                           label: {
                             show: true,
@@ -668,7 +682,7 @@ const RoutineBadutaImmunization = () => {
                             formatter: (params: any) => `${formatNumber(params.value || 0)}`
                           }
                         },
-                      ], getSummaryImmunizationPerVaccineQuery?.data?.map((r: any) => r?.vaccine)
+                      ], aliasSummaryImmunizationPerVaccineQuery?.filter((f) => f.label.includes("ytd_total_"))?.map((r: any) => r?.label)
                       )}
                     />
                   </div>
@@ -702,20 +716,25 @@ const RoutineBadutaImmunization = () => {
                         </div>
                       } variant="private"
                       filterState={filterState}
-                      filterComp={<Filter4 filterState={filterState} />}
+                      filterComp={<Filter4 filterState={filterState}
+                        data={aliasSummaryImmunizationByAgeQuery || []} />}
                       isLoading={isLoadingSummaryImmunizationByAgeQuery}
                       graphOptions={graphOptions4([
                         {
                           name: "Usia Ideal",
-                          data: (getSummaryImmunizationByAgeQuery?.data || [])?.map((r: any) => r?.total_ideal) || [],
+                          data: aliasSummaryImmunizationByAgeQuery?.filter((f) => f.label.includes("ytd_ideal_")) || [],
+
+                          // data: (getSummaryImmunizationByAgeQuery?.data || [])?.map((r: any) => r?.total_ideal) || [],
                           type: 'bar',
                         },
                         {
                           name: "Usia Non Ideal",
-                          data: (getSummaryImmunizationByAgeQuery?.data || [])?.map((r: any) => r?.total_non_ideal) || [],
+                          data: aliasSummaryImmunizationByAgeQuery?.filter((f) => f.label.includes("ytd_non_ideal_")) || [],
+
+                          // data: (getSummaryImmunizationByAgeQuery?.data || [])?.map((r: any) => r?.total_non_ideal) || [],
                           type: 'bar',
                         },
-                      ], getSummaryImmunizationPerVaccineQuery?.data?.map((r: any) => r?.vaccine)
+                      ], aliasSummaryImmunizationByAgeQuery?.filter((f) => f.label.includes("ytd_non_ideal_"))?.map((r: any) => r?.label)
                       )}
                     />
                   </div>
@@ -761,30 +780,35 @@ const RoutineBadutaImmunization = () => {
                         </div>
                       } variant="private"
                       filterState={filterState}
-                      filterComp={<Filter5 filterState={filterState} />}
+                      filterComp={<Filter5 filterState={filterState}
+                        data={aliasSummaryImmunizationPerGenderQuery || []} />}
                       isLoading={isLoadingSummaryImmunizationPerGenderQuery}
                       graphOptions={graphOptions5([
                         {
                           name: "Laki-laki",
-                          data: (getSummaryImmunizationPerGenderQuery?.data || [])?.map((r: any) => r?.total_male) || [],
+                          data: aliasSummaryImmunizationPerGenderQuery?.filter((f) => f.label.includes("ytd_male_")) || [],
+
+                          // data: (getSummaryImmunizationPerGenderQuery?.data || [])?.map((r: any) => r?.total_male) || [],
                           type: 'bar',
                           label: {
                             show: true,
                             precision: 1,
-                            formatter: (params: any) => `${formatNumber(((getSummaryImmunizationPerGenderQuery?.data || [])[params.dataIndex]?.pct_male))}%`
+                            // formatter: (params: any) => `${formatNumber(((getSummaryImmunizationPerGenderQuery?.data || [])[params.dataIndex]?.pct_male))}%`
                           }
                         },
                         {
                           name: "Perempuan",
-                          data: (getSummaryImmunizationPerGenderQuery?.data || [])?.map((r: any) => r?.total_female) || [],
+                          data: aliasSummaryImmunizationPerGenderQuery?.filter((f) => f.label.includes("ytd_female_")) || [],
+
+                          // data: (getSummaryImmunizationPerGenderQuery?.data || [])?.map((r: any) => r?.total_female) || [],
                           type: 'bar',
                           label: {
                             show: true,
                             precision: 1,
-                            formatter: (params: any) => `${formatNumber((getSummaryImmunizationPerGenderQuery?.data || [])[params.dataIndex]?.pct_female)}%`
+                            // formatter: (params: any) => `${formatNumber((getSummaryImmunizationPerGenderQuery?.data || [])[params.dataIndex]?.pct_female)}%`
                           }
                         },
-                      ], getSummaryImmunizationPerGenderQuery?.data?.map((r: any) => r?.vaccine)
+                      ], aliasSummaryImmunizationPerGenderQuery?.filter((f) => f.label.includes("ytd_female_"))?.map((r: any) => r?.label)
                       )}
                     />
                   </div>

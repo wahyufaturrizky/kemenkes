@@ -26,7 +26,7 @@ export const graphOptions1 = (series: any[], legend: any[]) => {
 };
 export const graphOptions2 = (series: any[]) => {
   const option: EChartsOptionProps = {
-    color: ["#EAAA08", "#8ECCFF", "#00B1A9"],
+    color: ["#8ECCFF", "#8ECCFF", "#00B1A9"],
     grid: { containLabel: true },
     tooltip: {
       trigger: "axis",
@@ -50,7 +50,7 @@ export const graphOptions2 = (series: any[]) => {
 };
 export const graphOptions3 = (series: any[], xData: any[]) => {
   const option: EChartsOptionProps = {
-    color: ["#EAAA08", "#FF4405", "#2E90FA"],
+    color: ["#8ECCFF", "#EAAA08", "#FF4405", "#2E90FA"],
     grid: { containLabel: true },
     tooltip: {
       trigger: "axis",

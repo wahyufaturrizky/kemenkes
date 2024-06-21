@@ -29,9 +29,6 @@ const CompleteRoutineImmunization = () => {
           <div>
             <Tabs data={dataTabs} variant="private" />
             <div className="flex flex-col gap-4 text-sm">
-              <div>
-                UPDATE TERAKHIR: 23 SEPTEMBER 2023
-              </div>
               <div className="font-bold text-primary-1 text-xl md:text-3xl">
                 Imunisasi Rutin Lengkap
               </div>

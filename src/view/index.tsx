@@ -8,7 +8,7 @@ import { Banner, BannerHighlightFooter, BannerText, GraphEcharts, Navbar, Sideba
 import { ChildSummaryImmunization, FilterSummaryImmunization, GraphAddOn, GraphRoutineImmunizationCoverageTrend, RoutineImmunizationCoverageTrendGraph, SummaryImmunization, TotalSummaryImmunization } from "@/view/home";
 import { Filter1, Filter2, Filter3, Filter4, Filter5 } from "@/view/dashboard/routine-baduta-immunization/Filter";
 import { graphOptions1, graphOptions2, graphOptions3, graphOptions4, graphOptions5 } from "@/view/dashboard/routine-baduta-immunization/graphOptions";
-import { useGetAverageImmunizationByGenderQuery, useGetDoPercentageCampakRubelaQuery, useGetDoPercentageDPHTHBHIBQuery, useGetExceedTargetPerVaccineQuery, useGetHighestImmunizationByAgeQuery, useGetImmunizationWithHighetFemaleRecivientQuery, useGetImmunizationWithHighetMaleRecivientQuery, useGetInExceedTargetPerVaccineQuery, useGetMaxImmunizationByAgeQuery, useGetPercentageTotalImmunizationQuery, useGetScopePercentagePerMonthQuery, useGetSummaryImmunizationByAgeQuery, useGetSummaryImmunizationPerGenderQuery, useGetSummaryImmunizationPerVaccineQuery, useGetSummaryScopePercentageQuery, useGetTotalHighestScopeByVaccineTypeQuery, useGetTotalHighestScopeQuery, useGetTotalImmunizationByVaccineTypeQuery, useGetTotalImmunizationQuery, useGetTotalLowestScopeByVaccineTypeQuery, useGetTotalLowestScopeQuery, useGetTotalScopeByVaccineTypeQuery, useGetTotalScopeQuery } from "@/lib/services/baduta-immunization";
+import { useGetAverageImmunizationByGenderQuery, useGetDoPercentageCampakRubelaQuery, useGetDoPercentageDPHTHBHIBQuery, useGetHighestImmunizationByAgeQuery, useGetImmunizationWithHighetFemaleRecivientQuery, useGetImmunizationWithHighetMaleRecivientQuery, useGetMaxImmunizationByAgeQuery, useGetPercentageTotalImmunizationQuery, useGetScopePercentagePerMonthQuery, useGetSummaryImmunizationByAgeQuery, useGetSummaryImmunizationPerGenderQuery, useGetSummaryImmunizationPerVaccineQuery, useGetSummaryScopePercentageQuery, useGetTotalHighestScopeByVaccineTypeQuery, useGetTotalHighestScopeQuery, useGetTotalImmunizationByVaccineTypeQuery, useGetTotalImmunizationQuery, useGetTotalLowestScopeByVaccineTypeQuery, useGetTotalLowestScopeQuery, useGetTotalScopeByVaccineTypeQuery, useGetTotalScopeQuery } from "@/lib/services/baduta-immunization";
 import { dataMonth, dataTabBaduta, trendTypeOptions, vaccineTypeOptions } from "@/utils/constants";
 import { formatNumber } from "@/helpers";
 import { openSans } from "@/assets/fonts";
@@ -154,12 +154,6 @@ const HomeView = () => {
   const { data: getTotalLowestScopeByVaccineTypeQuery,
     isLoading: isLoadingTotalLowestScopeByVaccineTypeQuery,
   } = useGetTotalLowestScopeByVaccineTypeQuery(filterQueryGraph, optionQuery)
-  const { data: getExceedTargetPerVaccineQuery,
-    isLoading: isLoadingExceedTargetPerVaccineQuery,
-  } = useGetExceedTargetPerVaccineQuery(filterQueryGraph, optionQuery)
-  const { data: getInExceedTargetPerVaccineQuery,
-    isLoading: isLoadingInExceedTargetPerVaccineQuery,
-  } = useGetInExceedTargetPerVaccineQuery(filterQueryGraph, optionQuery)
   const { data: getSummaryImmunizationPerVaccineQuery } = useGetSummaryImmunizationPerVaccineQuery(filterQueryGraph, optionQuery)
   // const { data: getMaxImmunizationByAgeQuery1 } = useGetMaxImmunizationByAgeQuery({ ...filterQueryGraph, age_type: 1 }, optionQuery)
   const { data: getMaxImmunizationByAgeQuery2,

@@ -36,9 +36,9 @@ export const badutaImmunizationApi = apiWithTag.injectEndpoints({
       providesTags: ["babyxbaduta-immunization"],
     }),
     // ---
-    getTotalScopeByVaccineType: build.query({
+    getGraphScopeKejarImmunization: build.query({
       query: (options = {}) => ({
-        url: `${API_URL}/v1/immunization-bayi-baduta/total-scope-by-vaccine-type`,
+        url: `${API_URL}/v1/immunization-bayi-baduta/graph-scope-of-kejar-immunization`,
         params: options,
       }),
       providesTags: ["babyxbaduta-immunization"],
@@ -137,6 +137,7 @@ export const {
   useGetGraphTotalQuery,
   useGetHighestScopeKejarImmunizationQuery,
   useGetLowestScopeKejarImmunizationQuery,
+  useGetGraphScopeKejarImmunizationQuery,
   useGetHighestScopeKejarQuery,
   useGetImmunizationGraphKejarStatusQuery,
   useGetImmunizationScopeKejarQuery,
@@ -148,7 +149,6 @@ export const {
   useGetMaxImmunizationByAgeQuery,
   useGetSummaryImmunizationByAgeQuery,
   useGetSummaryImmunizationPerGenderQuery,
-  useGetTotalScopeByVaccineTypeQuery,
   useGetDistributionGraphTimeQuery,
   useGetTotalImmunizationScopeQuery
 } = badutaImmunizationApi;

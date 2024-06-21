@@ -8,11 +8,13 @@ import {
   vaccineTypeKejarOptions,
 } from "@/utils/constants";
 import { openSans } from "@/assets/fonts";
+import { downloadFile } from "@/helpers/hook";
 
 interface FilterProps {
   filterState: any;
+  data: any;
 }
-export const Filter1: React.FC<FilterProps> = ({ filterState }) => {
+export const Filter1: React.FC<FilterProps> = ({ filterState, data }) => {
   const [filter, setFilter] = filterState || useState({});
   return (
     <div className="flex flex-wrap justify-between items-center gap-4 sm:mt-20 md:mt-0 mb-8">
@@ -47,7 +49,16 @@ export const Filter1: React.FC<FilterProps> = ({ filterState }) => {
         </div>
       </div>
       <div className="flex gap-4">
-        <div>
+        <div onClick={async () => {
+          // const pct = data?.map((r: any) => r.percentage.toString());
+          // const target = data?.map((r: any) => r.threshold.toString());
+          const total = data?.map((r: any) => r.total.toString());
+          const header = data?.map((r: any) => r.faskes_desc);
+          const body = [total];
+          const verticalHeader = ["Total"];
+          const fileName = "Grafik Cakupan";
+          await downloadFile({ header, body, verticalHeader, fileName });
+        }} >
           <Button text="Unduh" variant="outlined" />
         </div>
         {/* <div>

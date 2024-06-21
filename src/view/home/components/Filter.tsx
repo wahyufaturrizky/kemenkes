@@ -3,7 +3,7 @@
 import { useState } from "react"
 import { DatePicker, Select } from "@/components"
 import { useGetFacilityOfTypeQuery, useGetMedicalFacilityQuery, useGetProvinceQuery, useGetRegencyQuery, useGetSubDistrictQuery } from "@/lib/services/region"
-import { dataMonth, filterLocationOptions } from "@/utils/constants"
+import { dataMonth, dataMonths, filterLocationOptions } from "@/utils/constants"
 import { generateYearsArray, standardOptionSameLabel, standardOptions } from "@/helpers"
 // import { useGetVillagesQuery } from "@/lib/services/wus"
 
@@ -154,7 +154,7 @@ const FilterSummaryImmunization: React.FC<FilterProps> = ({ filterState }) => {
         <div>
           <Select
             placeholder="Pilih Bulan"
-            options={dataMonth}
+            options={dataMonths}
             onChange={(e: any) => {
               setFilter({
                 ...filter,
@@ -162,7 +162,7 @@ const FilterSummaryImmunization: React.FC<FilterProps> = ({ filterState }) => {
               })
             }}
             value={filter.bulan ?
-              dataMonth
+              dataMonths
                 ?.find((f) => f.value === filter.bulan)
               : filter.bulan}
             isDisabled={!filter.tahun}

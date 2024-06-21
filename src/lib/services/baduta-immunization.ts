@@ -9,28 +9,49 @@ export const badutaImmunizationApi = apiWithTag.injectEndpoints({
     // ---
     getTotalImmunization: build.query({
       query: (options = {}) => ({
-        url: `${API_URL}/v1/baduta-immunization/total-immunization`,
+        url: `${API_URL}/v2/immunization-bayi-baduta/total-baduta-immunization-recipients`,
         params: options,
       }),
       providesTags: ["baduta-immunization"],
     }),
     getTotalImmunizationByVaccineType: build.query({
       query: (options = {}) => ({
-        url: `${API_URL}/v1/baduta-immunization/total-immunization/by-vaccine-type`,
+        url: `${API_URL}/v2/immunization-bayi-baduta/scope-baduta-immunization`,
         params: options,
       }),
       providesTags: ["baduta-immunization"],
     }),
     getDoPercentageDPHTHBHIB: build.query({
       query: (options = {}) => ({
-        url: `${API_URL}/v1/baduta-immunization/do-percentage-dpht-hb-hib`,
+        url: `${API_URL}/v2/immunization-bayi-baduta/scope-dpt-immunization`,
         params: options,
       }),
       providesTags: ["baduta-immunization"],
     }),
     getDoPercentageCampakRubela: build.query({
       query: (options = {}) => ({
-        url: `${API_URL}/v1/baduta-immunization/do-percentage-campak-rubela`,
+        url: `${API_URL}/v2/immunization-bayi-baduta/scope-rubela-immunization`,
+        params: options,
+      }),
+      providesTags: ["baduta-immunization"],
+    }),
+    getDoPercentagePCV: build.query({
+      query: (options = {}) => ({
+        url: `${API_URL}/v2/immunization-bayi-baduta/scope-rubela-immunization`,
+        params: options,
+      }),
+      providesTags: ["baduta-immunization"],
+    }),
+    getDoPercentageDPT: build.query({
+      query: (options = {}) => ({
+        url: `${API_URL}/v2/immunization-bayi-baduta/dropout-dpt-percentage`,
+        params: options,
+      }),
+      providesTags: ["baduta-immunization"],
+    }),
+    getDoPercentageRubela: build.query({
+      query: (options = {}) => ({
+        url: `${API_URL}/v2/immunization-bayi-baduta/dropout-rubela-percentage`,
         params: options,
       }),
       providesTags: ["baduta-immunization"],
@@ -38,28 +59,28 @@ export const badutaImmunizationApi = apiWithTag.injectEndpoints({
     // ---
     getTotalScope: build.query({
       query: (options = {}) => ({
-        url: `${API_URL}/v1/baduta-immunization/total-scope`,
+        url: `${API_URL}/v2/immunization-bayi-baduta/total-baduta-immunization-scope`,
         params: options,
       }),
       providesTags: ["baduta-immunization"],
     }),
     getTotalHighestScope: build.query({
       query: (options = {}) => ({
-        url: `${API_URL}/v1/baduta-immunization/total-highest-scope`,
+        url: `${API_URL}/v2/immunization-bayi-baduta/highest-scope-immunization`,
         params: options,
       }),
       providesTags: ["baduta-immunization"],
     }),
     getTotalLowestScope: build.query({
       query: (options = {}) => ({
-        url: `${API_URL}/v1/baduta-immunization/total-lowest-scope`,
+        url: `${API_URL}/v2/immunization-bayi-baduta/lowest-scope-immunization`,
         params: options,
       }),
       providesTags: ["baduta-immunization"],
     }),
     getPercentageTotalImmunization: build.query({
       query: (options = {}) => ({
-        url: `${API_URL}/v1/baduta-immunization/percentage-total-immunization`,
+        url: `${API_URL}/v2/immunization-bayi-baduta/graph-immunization-scope`,
         params: options,
       }),
       providesTags: ["baduta-immunization"],
@@ -67,14 +88,14 @@ export const badutaImmunizationApi = apiWithTag.injectEndpoints({
     // ---
     getScopePercentagePerMonth: build.query({
       query: (options = {}) => ({
-        url: `${API_URL}/v1/baduta-immunization/scope-percentage-per-month`,
+        url: `${API_URL}/v2/immunization-bayi-baduta/cumulative-scope-immunization`,
         params: options,
       }),
       providesTags: ["baduta-immunization"],
     }),
     getSummaryScopePercentage: build.query({
       query: (options = {}) => ({
-        url: `${API_URL}/v1/baduta-immunization/summary-scope-percentage`,
+        url: `${API_URL}/v2/immunization-bayi-baduta/total-cumulative-scope-immunization`,
         params: options,
       }),
       providesTags: ["baduta-immunization"],
@@ -82,42 +103,35 @@ export const badutaImmunizationApi = apiWithTag.injectEndpoints({
     // ---
     getTotalScopeByVaccineType: build.query({
       query: (options = {}) => ({
-        url: `${API_URL}/v1/baduta-immunization/total-scope-by-vaccine-type`,
+        url: `${API_URL}/v2/immunization-bayi-baduta/scope-complete-baduta-immunization`,
         params: options,
       }),
       providesTags: ["baduta-immunization"],
     }),
     getTotalHighestScopeByVaccineType: build.query({
       query: (options = {}) => ({
-        url: `${API_URL}/v1/baduta-immunization/total-highest-scope-by-vaccine-type`,
+        url: `${API_URL}/v2/immunization-bayi-baduta/highest-scope-immunization-type`,
         params: options,
       }),
       providesTags: ["baduta-immunization"],
     }),
     getTotalLowestScopeByVaccineType: build.query({
       query: (options = {}) => ({
-        url: `${API_URL}/v1/baduta-immunization/total-lowest-scope-by-vaccine-type`,
+        url: `${API_URL}/v2/immunization-bayi-baduta/lowest-scope-immunization-type`,
         params: options,
       }),
       providesTags: ["baduta-immunization"],
     }),
-    getExceedTargetPerVaccine: build.query({
+    getSurpaseTargetPerVaccine: build.query({
       query: (options = {}) => ({
-        url: `${API_URL}/v1/baduta-immunization/exceed-target-per-vaccine`,
-        params: options,
-      }),
-      providesTags: ["baduta-immunization"],
-    }),
-    getInExceedTargetPerVaccine: build.query({
-      query: (options = {}) => ({
-        url: `${API_URL}/v1/baduta-immunization/in-exceed-target-per-vaccine`,
+        url: `${API_URL}/v2/immunization-bayi-baduta/immunization-type-surpase-target-scope`,
         params: options,
       }),
       providesTags: ["baduta-immunization"],
     }),
     getSummaryImmunizationPerVaccine: build.query({
       query: (options = {}) => ({
-        url: `${API_URL}/v1/baduta-immunization/summary-immunization-per-vaccine`,
+        url: `${API_URL}/v2/immunization-bayi-baduta/graph-scope-immunization-type`,
         params: options,
       }),
       providesTags: ["baduta-immunization"],
@@ -125,21 +139,21 @@ export const badutaImmunizationApi = apiWithTag.injectEndpoints({
     // ---
     getMaxImmunizationByAge: build.query({
       query: (options = {}) => ({
-        url: `${API_URL}/v1/baduta-immunization/max-immunization-by-age`,
+        url: `${API_URL}/v2/immunization-bayi-baduta/highest-immunization-non-ideal-age`,
         params: options,
       }),
       providesTags: ["baduta-immunization"],
     }),
     getHighestImmunizationByAge: build.query({
       query: (options = {}) => ({
-        url: `${API_URL}/v1/baduta-immunization/highest-immunization-by-age`,
+        url: `${API_URL}/v2/immunization-bayi-baduta/highest-immunization-ideal-age`,
         params: options,
       }),
       providesTags: ["baduta-immunization"],
     }),
     getSummaryImmunizationByAge: build.query({
       query: (options = {}) => ({
-        url: `${API_URL}/v1/baduta-immunization/summary-immunization-by-age`,
+        url: `${API_URL}/v2/immunization-bayi-baduta/graph-immunization-age`,
         params: options,
       }),
       providesTags: ["baduta-immunization"],
@@ -147,28 +161,28 @@ export const badutaImmunizationApi = apiWithTag.injectEndpoints({
     // ---
     getAverageImmunizationByGender: build.query({
       query: (options = {}) => ({
-        url: `${API_URL}/v1/baduta-immunization/average-immunization-by-gender`,
+        url: `${API_URL}/v2/immunization-bayi-baduta/average-immunization-gender`,
         params: options,
       }),
       providesTags: ["baduta-immunization"],
     }),
     getImmunizationWithHighetMaleRecivient: build.query({
       query: (options = {}) => ({
-        url: `${API_URL}/v1/baduta-immunization/immunization-with-highet-male-recivient`,
+        url: `${API_URL}/v2/immunization-bayi-baduta/most-immunization-type-male`,
         params: options,
       }),
       providesTags: ["baduta-immunization"],
     }),
     getImmunizationWithHighetFemaleRecivient: build.query({
       query: (options = {}) => ({
-        url: `${API_URL}/v1/baduta-immunization/immunization-with-highet-female-recivient`,
+        url: `${API_URL}/v2/immunization-bayi-baduta/most-immunization-type-female`,
         params: options,
       }),
       providesTags: ["baduta-immunization"],
     }),
     getSummaryImmunizationPerGender: build.query({
       query: (options = {}) => ({
-        url: `${API_URL}/v1/baduta-immunization/summary-immunization-per-gender`,
+        url: `${API_URL}/v2/immunization-bayi-baduta/graph-immunization-gender`,
         params: options,
       }),
       providesTags: ["baduta-immunization"],
@@ -181,16 +195,18 @@ export const {
   useGetTotalImmunizationByVaccineTypeQuery,
   useGetDoPercentageDPHTHBHIBQuery,
   useGetDoPercentageCampakRubelaQuery,
+  useGetDoPercentageDPTQuery,
+  useGetDoPercentagePCVQuery,
+  useGetDoPercentageRubelaQuery,
   useGetTotalScopeQuery,
   useGetTotalHighestScopeQuery,
   useGetTotalLowestScopeQuery,
   useGetPercentageTotalImmunizationQuery,
   useGetAverageImmunizationByGenderQuery,
-  useGetExceedTargetPerVaccineQuery,
+  useGetSurpaseTargetPerVaccineQuery,
   useGetHighestImmunizationByAgeQuery,
   useGetImmunizationWithHighetFemaleRecivientQuery,
   useGetImmunizationWithHighetMaleRecivientQuery,
-  useGetInExceedTargetPerVaccineQuery,
   useGetMaxImmunizationByAgeQuery,
   useGetScopePercentagePerMonthQuery,
   useGetSummaryImmunizationByAgeQuery,

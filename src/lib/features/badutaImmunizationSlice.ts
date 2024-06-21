@@ -15,8 +15,7 @@ export interface BadutaImmunizationState {
   getTotalScopeByVaccineType?: any;
   getTotalHighestScopeByVaccineType?: any;
   getTotalLowestScopeByVaccineType?: any;
-  getExceedTargetPerVaccine?: any;
-  getInExceedTargetPerVaccine?: any;
+  getSurpaseTargetPerVaccine?: any;
   getSummaryImmunizationPerVaccine?: any;
   getMaxImmunizationByAge?: any;
   getHighestImmunizationByAge?: any;
@@ -85,11 +84,8 @@ export const BadutaImmunizationSlice = createSlice({
       .addMatcher(badutaImmunizationApi.endpoints.getTotalLowestScopeByVaccineType.matchFulfilled, (state, { payload }) => {
         state.getTotalLowestScopeByVaccineType = payload
       })
-      .addMatcher(badutaImmunizationApi.endpoints.getExceedTargetPerVaccine.matchFulfilled, (state, { payload }) => {
-        state.getExceedTargetPerVaccine = payload
-      })
-      .addMatcher(badutaImmunizationApi.endpoints.getInExceedTargetPerVaccine.matchFulfilled, (state, { payload }) => {
-        state.getInExceedTargetPerVaccine = payload
+      .addMatcher(badutaImmunizationApi.endpoints.getSurpaseTargetPerVaccine.matchFulfilled, (state, { payload }) => {
+        state.getSurpaseTargetPerVaccine = payload
       })
       .addMatcher(badutaImmunizationApi.endpoints.getSummaryImmunizationPerVaccine.matchFulfilled, (state, { payload }) => {
         state.getSummaryImmunizationPerVaccine = payload

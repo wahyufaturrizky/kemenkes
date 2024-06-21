@@ -33,8 +33,6 @@ export const Filter1: React.FC<FilterProps2> = ({ filterState, dataWus }) => {
 
   const pctTotal = dataWus?.map((r: any) => r.ytd_pct_total.toString());
   const target = dataWus?.map((r: any) => r.pct_target_threshold.toString());
-  // const total = dataWus?.map((r: any) => r.total.toString());
-  // console.log(total, "isi bulan");
 
   const downloadFile = async () => {
     const url = `${API_URL}/v1/csv/download`;
@@ -111,13 +109,13 @@ export const Filter1: React.FC<FilterProps2> = ({ filterState, dataWus }) => {
             value={
               filter.status_type_daerah
                 ? standardOptions(
-                    getjenisStatusList?.data || [],
-                    "jenisStatusName",
-                    "jenisStatusId"
-                  )?.find((f) => f.value === filter.status_type_daerah)
+                  getjenisStatusList?.data || [],
+                  "jenisStatusName",
+                  "jenisStatusId"
+                )?.find((f) => f.value === filter.status_type_daerah)
                 : filter.status_type_daerah
             }
-            // isDisabled={!filter.bulan}
+          // isDisabled={!filter.bulan}
           />
         </div>
         <div>
@@ -137,13 +135,13 @@ export const Filter1: React.FC<FilterProps2> = ({ filterState, dataWus }) => {
             value={
               filter.women_category_daerah
                 ? standardOptions(
-                    getWomenCategory?.data || [],
-                    "womenCategoryName",
-                    "womenCategoryId"
-                  )?.find((f) => f.value === filter.women_category_daerah)
+                  getWomenCategory?.data || [],
+                  "womenCategoryName",
+                  "womenCategoryId"
+                )?.find((f) => f.value === filter.women_category_daerah)
                 : filter.women_category_daerah
             }
-            // isDisabled={!filter.bulan}
+          // isDisabled={!filter.bulan}
           />
         </div>
       </div>
@@ -163,7 +161,6 @@ export const Filter2: React.FC<FilterProps2> = ({ filterState, dataWus }) => {
   const pctTarget = dataWus?.map((r: any) => r.pct_target_threshold);
   const total = dataWus?.map((r: any) => r.total.toString());
   const pctTotal = dataWus?.map((r: any) => r.pct_total.toString());
-  // console.log(total, "isi bulan");
 
   const downloadFile = async () => {
     const url = `${API_URL}/v1/csv/download`;
@@ -244,13 +241,13 @@ export const Filter2: React.FC<FilterProps2> = ({ filterState, dataWus }) => {
             value={
               filter.status_type_kumulatif
                 ? standardOptions(
-                    getjenisStatusList?.data || [],
-                    "jenisStatusName",
-                    "jenisStatusId"
-                  )?.find((f) => f.value === filter.status_type_kumulatif)
+                  getjenisStatusList?.data || [],
+                  "jenisStatusName",
+                  "jenisStatusId"
+                )?.find((f) => f.value === filter.status_type_kumulatif)
                 : filter.status_type_kumulatif
             }
-            // isDisabled={!filter.bulan}
+          // isDisabled={!filter.bulan}
           />
         </div>
         <div>
@@ -270,13 +267,13 @@ export const Filter2: React.FC<FilterProps2> = ({ filterState, dataWus }) => {
             value={
               filter.women_category_kumulatif
                 ? standardOptions(
-                    getWomenCategory?.data || [],
-                    "womenCategoryName",
-                    "womenCategoryId"
-                  )?.find((f) => f.value === filter.women_category_kumulatif)
+                  getWomenCategory?.data || [],
+                  "womenCategoryName",
+                  "womenCategoryId"
+                )?.find((f) => f.value === filter.women_category_kumulatif)
                 : filter.women_category_kumulatif
             }
-            // isDisabled={!filter.bulan}
+          // isDisabled={!filter.bulan}
           />
         </div>
       </div>
@@ -365,13 +362,13 @@ export const Filter3: React.FC<FilterProps2> = ({ filterState, dataWus }) => {
             value={
               filter.women_category_status_T
                 ? standardOptions(
-                    getWomenCategory?.data || [],
-                    "womenCategoryName",
-                    "womenCategoryId"
-                  )?.find((f) => f.value === filter.women_category_status_T)
+                  getWomenCategory?.data || [],
+                  "womenCategoryName",
+                  "womenCategoryId"
+                )?.find((f) => f.value === filter.women_category_status_T)
                 : filter.women_category_status_T
             }
-            // isDisabled={!filter.bulan}
+          // isDisabled={!filter.bulan}
           />
         </div>
         <div onClick={downloadFile}>
@@ -470,15 +467,15 @@ export const Filter4: React.FC<FilterProps2> = ({ filterState, dataWus }) => {
             value={
               filter.women_category_status_T_Pregnant
                 ? standardOptions(
-                    getWomenCategory?.data || [],
-                    "womenCategoryName",
-                    "womenCategoryId"
-                  )?.find(
-                    (f) => f.value === filter.women_category_status_T_Pregnant
-                  )
+                  getWomenCategory?.data || [],
+                  "womenCategoryName",
+                  "womenCategoryId"
+                )?.find(
+                  (f) => f.value === filter.women_category_status_T_Pregnant
+                )
                 : filter.women_category_status_T_Pregnant
             }
-            // isDisabled={!filter.bulan}
+          // isDisabled={!filter.bulan}
           />
         </div>
         <div onClick={downloadFile}>

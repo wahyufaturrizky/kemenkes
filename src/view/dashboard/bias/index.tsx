@@ -71,10 +71,8 @@ import { graphOptions3, graphOptions4 } from "./graphOptionts";
 import { openSans } from "@/assets/fonts";
 import {
   useGetAverageImmunizationByGenderQuery,
-  useGetExceedTargetPerVaccineQuery,
   useGetImmunizationWithHighetFemaleRecivientQuery,
   useGetImmunizationWithHighetMaleRecivientQuery,
-  useGetInExceedTargetPerVaccineQuery,
   useGetMaxImmunizationByAgeQuery,
   useGetSummaryImmunizationByAgeQuery,
   useGetSummaryImmunizationPerGenderQuery,
@@ -118,14 +116,14 @@ const Bias = () => {
       filter.faskes && filter.kewilayahan_type == 0
         ? "FASKES"
         : filter.faskes && filter.kewilayahan_type == 1
-        ? "KELURAHAN"
-        : filter.kecamatan
-        ? "KECAMATAN"
-        : filter.kabkota
-        ? "KABKO"
-        : filter.provinsi
-        ? "PROVINSI"
-        : "ALL",
+          ? "KELURAHAN"
+          : filter.kecamatan
+            ? "KECAMATAN"
+            : filter.kabkota
+              ? "KABKO"
+              : filter.provinsi
+                ? "PROVINSI"
+                : "ALL",
   };
   const filterQuery = {
     ...dateQuery,
@@ -133,12 +131,12 @@ const Bias = () => {
     faskes_id: filter.faskes
       ? filter.faskes
       : filter.kecamatan
-      ? filter.kecamatan
-      : filter.kabkota
-      ? filter.kabkota
-      : filter.provinsi
-      ? filter.provinsi
-      : "ALL",
+        ? filter.kecamatan
+        : filter.kabkota
+          ? filter.kabkota
+          : filter.provinsi
+            ? filter.provinsi
+            : "ALL",
     kewilayahan_type: filter.kewilayahan_type,
   };
   const optionQuery = {
@@ -197,12 +195,12 @@ const Bias = () => {
     faskes_id: filter.faskes
       ? filter.faskes
       : filter.kecamatan
-      ? filter.kecamatan
-      : filter.kabkota
-      ? filter.kabkota
-      : filter.provinsi
-      ? filter.provinsi
-      : "ALL",
+        ? filter.kecamatan
+        : filter.kabkota
+          ? filter.kabkota
+          : filter.provinsi
+            ? filter.provinsi
+            : "ALL",
     tren_type: filter.tren_type,
     kewilayahan_type: filter.kewilayahan_type,
   };
@@ -212,12 +210,12 @@ const Bias = () => {
     filter.wilayah === "faskes"
       ? filter.faskes
       : filter.wilayah === "district"
-      ? filter.kecamatan
-      : filter.wilayah === "city"
-      ? filter.kabkota
-      : filter.wilayah === "province"
-      ? filter.provinsi
-      : "All";
+        ? filter.kecamatan
+        : filter.wilayah === "city"
+          ? filter.kabkota
+          : filter.wilayah === "province"
+            ? filter.provinsi
+            : "All";
   const filterQueryGraph = {
     ...dateQuery,
     region_type: filter.wilayah,
@@ -230,12 +228,12 @@ const Bias = () => {
     faskes_id: filter.faskes
       ? filter.faskes
       : filter.kecamatan
-      ? filter.kecamatan
-      : filter.kabkota
-      ? filter.kabkota
-      : filter.provinsi
-      ? filter.provinsi
-      : "ALL",
+        ? filter.kecamatan
+        : filter.kabkota
+          ? filter.kabkota
+          : filter.provinsi
+            ? filter.provinsi
+            : "ALL",
     kewilayahan_type: filter.kewilayahan_type,
     vaccine_type: filter.tipe_vaksin3,
   };
@@ -245,12 +243,12 @@ const Bias = () => {
     faskes_id: filter.faskes
       ? filter.faskes
       : filter.kecamatan
-      ? filter.kecamatan
-      : filter.kabkota
-      ? filter.kabkota
-      : filter.provinsi
-      ? filter.provinsi
-      : "ALL",
+        ? filter.kecamatan
+        : filter.kabkota
+          ? filter.kabkota
+          : filter.provinsi
+            ? filter.provinsi
+            : "ALL",
     kewilayahan_type: filter.kewilayahan_type,
     vaccine_type: filter.tipe_vaksin4,
   };
@@ -260,12 +258,12 @@ const Bias = () => {
     faskes_id: filter.faskes
       ? filter.faskes
       : filter.kecamatan
-      ? filter.kecamatan
-      : filter.kabkota
-      ? filter.kabkota
-      : filter.provinsi
-      ? filter.provinsi
-      : "ALL",
+        ? filter.kecamatan
+        : filter.kabkota
+          ? filter.kabkota
+          : filter.provinsi
+            ? filter.provinsi
+            : "ALL",
     kewilayahan_type: filter.kewilayahan_type,
     vaccine_type: filter.tipe_vaksin5,
   };
@@ -311,7 +309,6 @@ const Bias = () => {
     optionQuery
   );
 
-  // console.log(getChart, "isi");
   const { data: getPct, isLoading: isLoadingPct } = useGetPctQuery(
     filterQueryTotalChart,
     optionQuery
@@ -479,10 +476,9 @@ const Bias = () => {
           show: true,
           position: "inner",
           formatter: (params: any, i: number) =>
-            `${
-              params.name === "Laki-laki"
-                ? getAverageGender?.data?.[0]?.pct_unique
-                : getAverageGender?.data?.[1]?.pct_unique
+            `${params.name === "Laki-laki"
+              ? getAverageGender?.data?.[0]?.pct_unique
+              : getAverageGender?.data?.[1]?.pct_unique
             }%`,
         },
         labelLine: {
@@ -542,9 +538,6 @@ const Bias = () => {
               filterState={filterState}
             />
             <div className="flex flex-col gap-4 text-sm">
-              <div className={`${openSans.className}`}>
-                UPDATE TERAKHIR: 23 SEPTEMBER 2023
-              </div>
               <div className="font-bold text-primary-1 text-xl md:text-3xl">
                 Imunisasi Rutin BIAS
               </div>
@@ -904,7 +897,7 @@ const Bias = () => {
                           <div className="relative">
                             {isLoadingExceedTargetScope && <Spin />}
                             <div
-                              className="relative px-4 py-3 rounded-xl h-32 mt-5"
+                              className="relative mt-5 px-4 py-3 rounded-xl h-32"
                               style={{
                                 boxShadow: "0px 2px 12px 0px #00000014",
                               }}
@@ -927,7 +920,7 @@ const Bias = () => {
                           <div className="relative">
                             {isLoadingExceedTargetScope && <Spin />}
                             <div
-                              className="px-4 py-3 rounded-xl h-32 my-5"
+                              className="my-5 px-4 py-3 rounded-xl h-32"
                               style={{
                                 boxShadow: "0px 2px 12px 0px #00000014",
                               }}
@@ -983,7 +976,7 @@ const Bias = () => {
                                     (getChartScope?.data || [])[
                                       params.dataIndex
                                     ]?.ytd) *
-                                    100
+                                  100
                                 )}%`,
                             },
                           },
@@ -1004,7 +997,7 @@ const Bias = () => {
                                     (getChartScope?.data || [])[
                                       params.dataIndex
                                     ]?.ytd) *
-                                    100
+                                  100
                                 )}%`,
                             },
                           },

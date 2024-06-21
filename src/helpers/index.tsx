@@ -40,3 +40,26 @@ export function formatNumber(input: number) {
   return Intl.NumberFormat("id-ID").format(formattedNumber);
   // return Intl.NumberFormat("id-ID").format(Number((number || 0)?.toFixed(2)));
 }
+
+export function ageResponseConvert(data: any) {
+  let pct_1_2: any = {};
+  let pct_2_3: any = {};
+  let pct_3_4: any = {};
+  let pct_4_5: any = {};
+
+  for (const [key, value] of Object.entries(data)) {
+    if (key.endsWith("_1_2")) {
+      pct_1_2[key] = value;
+    } else if (key.endsWith("_2_3")) {
+      pct_2_3[key] = value;
+    } else if (key.endsWith("_3_4")) {
+      pct_3_4[key] = value;
+    } else if (key.endsWith("_4_5")) {
+      pct_4_5[key] = value;
+    }
+  }
+
+  return {
+    pct_1_2, pct_2_3, pct_3_4, pct_4_5
+  }
+}

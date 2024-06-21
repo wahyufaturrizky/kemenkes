@@ -100,39 +100,39 @@ const Wus = () => {
       filter.faskes && filter.kewilayahan_type == 0
         ? "faskes"
         : filter.faskes && filter.kewilayahan_type == 1
-        ? "subdistrict"
-        : filter.kecamatan
-        ? "district"
-        : filter.kabkota
-        ? "city"
-        : filter.provinsi
-        ? "province"
-        : "All",
+          ? "subdistrict"
+          : filter.kecamatan
+            ? "district"
+            : filter.kabkota
+              ? "city"
+              : filter.provinsi
+                ? "province"
+                : "All",
     faskes_parent_id:
       filter.faskes !== ""
         ? filter.kecamatan
         : filter.provinsi !== "" &&
           filter.kabkota !== "" &&
           filter.kecamatan === undefined
-        ? filter.provinsi
-        : filter.provinsi !== "" &&
-          filter.kabkota !== "" &&
-          filter.kecamatan !== ""
-        ? filter.kabkota
-        : filter.provinsi !== "" && filter.kabkota !== ""
-        ? filter.provinsi
-        : filter.provinsi !== ""
-        ? filter.provinsi
-        : "All",
+          ? filter.provinsi
+          : filter.provinsi !== "" &&
+            filter.kabkota !== "" &&
+            filter.kecamatan !== ""
+            ? filter.kabkota
+            : filter.provinsi !== "" && filter.kabkota !== ""
+              ? filter.provinsi
+              : filter.provinsi !== ""
+                ? filter.provinsi
+                : "All",
     faskes_id: filter.faskes
       ? filter.faskes
       : filter.kecamatan
-      ? filter.kecamatan
-      : filter.kabkota
-      ? filter.kabkota
-      : filter.provinsi
-      ? filter.provinsi
-      : "All",
+        ? filter.kecamatan
+        : filter.kabkota
+          ? filter.kabkota
+          : filter.provinsi
+            ? filter.provinsi
+            : "All",
     kewilayahan_type: filter.kewilayahan_type,
   };
 
@@ -151,39 +151,39 @@ const Wus = () => {
       filter.faskes && filter.kewilayahan_type == 0
         ? "faskes"
         : filter.faskes && filter.kewilayahan_type == 1
-        ? "subdistrict"
-        : filter.kecamatan
-        ? "district"
-        : filter.kabkota
-        ? "city"
-        : filter.provinsi
-        ? "province"
-        : "All",
+          ? "subdistrict"
+          : filter.kecamatan
+            ? "district"
+            : filter.kabkota
+              ? "city"
+              : filter.provinsi
+                ? "province"
+                : "All",
     faskes_parent_id:
       filter.faskes !== ""
         ? filter.kecamatan
         : filter.provinsi !== "" &&
           filter.kabkota !== "" &&
           filter.kecamatan === undefined
-        ? filter.provinsi
-        : filter.provinsi !== "" &&
-          filter.kabkota !== "" &&
-          filter.kecamatan !== ""
-        ? filter.kabkota
-        : filter.provinsi !== "" && filter.kabkota !== ""
-        ? filter.provinsi
-        : filter.provinsi !== ""
-        ? filter.provinsi
-        : "All",
+          ? filter.provinsi
+          : filter.provinsi !== "" &&
+            filter.kabkota !== "" &&
+            filter.kecamatan !== ""
+            ? filter.kabkota
+            : filter.provinsi !== "" && filter.kabkota !== ""
+              ? filter.provinsi
+              : filter.provinsi !== ""
+                ? filter.provinsi
+                : "All",
     faskes_id: filter.faskes
       ? filter.faskes
       : filter.kecamatan
-      ? filter.kecamatan
-      : filter.kabkota
-      ? filter.kabkota
-      : filter.provinsi
-      ? filter.provinsi
-      : "All",
+        ? filter.kecamatan
+        : filter.kabkota
+          ? filter.kabkota
+          : filter.provinsi
+            ? filter.provinsi
+            : "All",
     kewilayahan_type: filter.kewilayahan_type,
     status_type: filter.status_type_kumulatif,
     tren_type: filter.tren_type,
@@ -208,14 +208,14 @@ const Wus = () => {
       filter.faskes && filter.kewilayahan_type == 0
         ? "faskes"
         : filter.faskes && filter.kewilayahan_type == 1
-        ? "subdistrict"
-        : filter.kecamatan
-        ? "district"
-        : filter.kabkota
-        ? "city"
-        : filter.provinsi
-        ? "province"
-        : "All",
+          ? "subdistrict"
+          : filter.kecamatan
+            ? "district"
+            : filter.kabkota
+              ? "city"
+              : filter.provinsi
+                ? "province"
+                : "All",
     kewilayahan_type: filter.kewilayahan_type,
   };
 
@@ -227,14 +227,14 @@ const Wus = () => {
       filter.faskes && filter.kewilayahan_type == 0
         ? "faskes"
         : filter.faskes && filter.kewilayahan_type == 1
-        ? "subdistrict"
-        : filter.kecamatan
-        ? "district"
-        : filter.kabkota
-        ? "city"
-        : filter.provinsi
-        ? "province"
-        : "All",
+          ? "subdistrict"
+          : filter.kecamatan
+            ? "district"
+            : filter.kabkota
+              ? "city"
+              : filter.provinsi
+                ? "province"
+                : "All",
     kewilayahan_type: filter.kewilayahan_type,
   };
 
@@ -329,8 +329,6 @@ const Wus = () => {
       optionQuery
     );
 
-  // console.log(filterDistributionStatus, "isi data");
-
   const dataGraphRegionalRoutineImmunizationCoverageTrend = [
     {
       title: `Total Cakupan T2+  Nasioanl Tahun ${filter.tahun}`,
@@ -365,7 +363,7 @@ const Wus = () => {
         <div>
           {formatNumber(
             getTotalImmunizationTotalCoverageLowestQuery?.data?.ytd_pct_total ||
-              0
+            0
           )}
           %
         </div>
@@ -373,8 +371,6 @@ const Wus = () => {
       regional: getTotalImmunizationTotalCoverageLowestQuery?.data?.faskes_desc,
     },
   ];
-
-  // console.log(getDistributionStatusChartQuery?.data?.ytd_total_t1, "isi data");
 
   return (
     <div className="flex flex-col items-center">
@@ -408,9 +404,6 @@ const Wus = () => {
               filterState={filterState}
             />
             <div className="flex flex-col gap-4 text-sm">
-              <div className={`${openSans.className}`}>
-                UPDATE TERAKHIR: 23 SEPTEMBER 2023
-              </div>
               <div className="font-bold text-primary-1 text-xl md:text-3xl">
                 Imunisasi Rutin WUS
               </div>
