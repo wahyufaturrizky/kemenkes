@@ -102,8 +102,8 @@ export const graphOptions3 = (series: any[], legend: any[]) => {
 };
 
 export const graphOptions4 = (series: any[], xData: any[]) => {
-  const filteredSeries = series.filter((s) => s.name !== "Total");
-  const upperCaseLegend = (xData || []).map((item) => item.toUpperCase());
+  const filteredSeries = series?.filter((s) => s.name !== "Total");
+  const upperCaseLegend = (xData || [])?.map((item) => item.toUpperCase());
 
   const option: EChartsOptionProps = {
     color: ["#00B1A9", "#FAC515"],
@@ -158,7 +158,7 @@ export const graphOptions4 = (series: any[], xData: any[]) => {
   return option;
 };
 export const graphOptions5 = (series: any[], legend: any[]) => {
-  const upperCaseLegend = (legend || []).map((item) => item.toUpperCase());
+  const upperCaseLegend = (legend || [])?.map((item) => item.toUpperCase());
 
   const option: EChartsOptionProps = {
     color: ["#2E90FA", "#E478FA"],

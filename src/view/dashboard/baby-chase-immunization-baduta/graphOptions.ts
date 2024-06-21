@@ -6,7 +6,6 @@ export const graphOptions1 = (series: any[], legend: any[]) => {
 
   // Membalik urutan series agar sesuai dengan urutan legend yang dibalik
   const reversedSeries = series.map((serie) => {
-    console.log(serie, "sier")
     if (serie.name === "Total Penerima") {
       // Mengatur data ke 0 untuk "Total Penerima"
       return {
