@@ -29,7 +29,9 @@ const Tabs: React.FC<TabsProps> = ({
   return (
     <div className="flex justify-center gap-4 py-8">
       {data.map((r: TabProps, i) => (
-        <Tab key={i} {...r} />
+        <Tab key={i} {...r} active={value === r?.value} handleClick={() => {
+          setFilter({ ...filter, kewilayahan_type: r?.value })
+        }} />
       ))}
     </div>
   )

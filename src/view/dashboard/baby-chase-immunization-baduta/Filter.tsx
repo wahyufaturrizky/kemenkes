@@ -68,7 +68,7 @@ export const Filter1: React.FC<FilterProps> = ({ filterState, data }) => {
     </div>
   );
 };
-export const Filter2: React.FC<FilterProps> = ({ filterState }) => {
+export const Filter2: React.FC<FilterProps> = ({ filterState, data }) => {
   const [filter, setFilter] = filterState || useState({});
   return (
     <div className="flex flex-wrap justify-between items-center gap-4 sm:mt-20 md:mt-0 mb-8">
@@ -104,7 +104,16 @@ export const Filter2: React.FC<FilterProps> = ({ filterState }) => {
         </div>
       </div>
       <div className="flex gap-4">
-        <div>
+        <div onClick={async () => {
+          const pct = data?.filter((f: any) => f.label.includes("pct_"))?.map((r: any) => r.value.toString());
+          const total = data?.filter((f: any) => f.label.includes("ytd_total_"))?.map((r: any) => r.value.toString());
+          const target = data?.filter((f: any) => f.label.includes("threshold_"))?.map((r: any) => r.value.toString());
+          const header = data?.filter((f: any) => f.label.includes("pct_"))?.map((r: any) => r.label?.split("_")[1]);
+          const body = [pct, target, total];
+          const verticalHeader = ["% Cakupan", "% Target Cakupan", "Cakupan"];
+          const fileName = "Grafik Cakupan Berdasarkan Jenis Imunisasi";
+          await downloadFile({ header, body, verticalHeader, fileName });
+        }} >
           <Button text="Unduh" variant="outlined" />
         </div>
         {/* <div>
@@ -114,7 +123,7 @@ export const Filter2: React.FC<FilterProps> = ({ filterState }) => {
     </div>
   );
 };
-export const Filter3: React.FC<FilterProps> = ({ filterState }) => {
+export const Filter3: React.FC<FilterProps> = ({ filterState, data }) => {
   const [filter, setFilter] = filterState || useState({});
   return (
     <div className="flex flex-wrap justify-between items-center gap-4 sm:mt-20 md:mt-0 mb-8">
@@ -136,7 +145,15 @@ export const Filter3: React.FC<FilterProps> = ({ filterState }) => {
         </div>
       </div>
       <div className="flex gap-4">
-        <div>
+        <div onClick={async () => {
+          const ideal = data?.filter((f: any) => f.label.includes("ytd_ideal_"))?.map((r: any) => r.value.toString());
+          const nonIdeal = data?.filter((f: any) => f.label.includes("ytd_non_ideal_"))?.map((r: any) => r.value.toString());
+          const header = data?.filter((f: any) => f.label.includes("ytd_ideal_"))?.map((r: any) => r.label?.split("_")[2]);
+          const body = [ideal, nonIdeal];
+          const verticalHeader = ["Ideal", "Non Ideal"];
+          const fileName = "Grafik Cakupan Berdasarkan Usia";
+          await downloadFile({ header, body, verticalHeader, fileName });
+        }} >
           <Button text="Unduh" variant="outlined" />
         </div>
         {/* <div>
@@ -146,7 +163,7 @@ export const Filter3: React.FC<FilterProps> = ({ filterState }) => {
     </div>
   );
 };
-export const Filter4: React.FC<FilterProps> = ({ filterState }) => {
+export const Filter4: React.FC<FilterProps> = ({ filterState, data }) => {
   const [filter, setFilter] = filterState || useState({});
   return (
     <div className="flex flex-wrap justify-between items-center gap-4 sm:mt-20 md:mt-0 mb-8">
@@ -181,7 +198,15 @@ export const Filter4: React.FC<FilterProps> = ({ filterState }) => {
         </div>
       </div>
       <div className="flex gap-4">
-        <div>
+        <div onClick={async () => {
+          const ideal = data?.filter((f: any) => f.label.includes("ytd_ideal_"))?.map((r: any) => r.value.toString());
+          const nonIdeal = data?.filter((f: any) => f.label.includes("ytd_non_ideal_"))?.map((r: any) => r.value.toString());
+          const header = data?.filter((f: any) => f.label.includes("ytd_ideal_"))?.map((r: any) => r.label?.split("_")[2]);
+          const body = [ideal, nonIdeal];
+          const verticalHeader = ["Ideal", "Non Ideal"];
+          const fileName = "Grafik Cakupan Berdasarkan Usia";
+          await downloadFile({ header, body, verticalHeader, fileName });
+        }} >
           <Button text="Unduh" variant="outlined" />
         </div>
         {/* <div>
@@ -191,7 +216,7 @@ export const Filter4: React.FC<FilterProps> = ({ filterState }) => {
     </div>
   );
 };
-export const Filter5: React.FC<FilterProps> = ({ filterState }) => {
+export const Filter5: React.FC<FilterProps> = ({ filterState, data }) => {
   const [filter, setFilter] = filterState || useState({});
   return (
     <div className="flex flex-wrap justify-between items-center gap-4 sm:mt-20 md:mt-0 mb-8">
@@ -226,7 +251,15 @@ export const Filter5: React.FC<FilterProps> = ({ filterState }) => {
         </div>
       </div>
       <div className="flex gap-4">
-        <div>
+        <div onClick={async () => {
+          const male = data?.filter((f: any) => f.label.includes("ytd_male_"))?.map((r: any) => r.value.toString());
+          const female = data?.filter((f: any) => f.label.includes("ytd_female_"))?.map((r: any) => r.value.toString());
+          const header = data?.filter((f: any) => f.label.includes("ytd_male_"))?.map((r: any) => r.label?.split("_")[2]);
+          const body = [male, female];
+          const verticalHeader = ["Laki-laki", "Perempuan"];
+          const fileName = "Grafik Cakupan Berdasarkan Jenis Kelamin";
+          await downloadFile({ header, body, verticalHeader, fileName });
+        }} >
           <Button text="Unduh" variant="outlined" />
         </div>
         {/* <div>

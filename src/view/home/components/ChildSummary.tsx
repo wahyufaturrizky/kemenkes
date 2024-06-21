@@ -37,7 +37,7 @@ const ChildSummaryImmunization: React.FC<ChildSummaryImmunizationProps> = ({
 }) => {
   return (
     <div
-      className={`relative group flex flex-col gap-2 py-4 ${className} h-full w-full`}
+      className={`relative group flex flex-col gap-2 py-4 ${className} ${className?.includes("public") ? "h-fit" : "h-full"} w-full`}
       style={{
         background: background ? background : "#FEFAFF",
         borderColor: percent ? "#F6D0FE" : "",

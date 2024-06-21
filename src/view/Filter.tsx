@@ -2,17 +2,20 @@ import { useState } from "react";
 import { Button, Select } from "@/components";
 import {
   ageTypeOptions,
+  dataMonths,
   genderOptions,
   regionOptions,
   trendTypeOptions,
   vaccineTypeOptions,
 } from "@/utils/constants";
 import { openSans } from "@/assets/fonts";
+import { downloadFile } from "@/helpers/hook";
 
 interface FilterProps {
   filterState: any;
+  data: any;
 }
-export const Filter1: React.FC<FilterProps> = ({ filterState }) => {
+export const Filter1: React.FC<FilterProps> = ({ filterState, data }) => {
   const [filter, setFilter] = filterState || useState({});
   return (
     <div className="flex flex-wrap justify-between items-center gap-4 sm:mt-20 md:mt-0 mb-8">
@@ -47,7 +50,16 @@ export const Filter1: React.FC<FilterProps> = ({ filterState }) => {
         </div>
       </div>
       <div className="flex gap-4">
-        <div>
+        <div onClick={async () => {
+          const total = data?.map((r: any) => r.jumlah_penerima.toString());
+          const pct = data?.map((r: any) => r.pct_cakupan.toString());
+          const target = data?.map((r: any) => r.target_cakupan.toString());
+          const header = dataMonths?.map((r) => r.label);
+          const body = [pct, total, target];
+          const verticalHeader = ["% Target Cakupan", "Jumlah Penerima Imunisasi", "Cakupan"];
+          const fileName = "Data Kumulatif";
+          await downloadFile({ header, body, verticalHeader, fileName });
+        }} >
           <Button text="Unduh" variant="outlined" />
         </div>
         {/* <div>
@@ -57,7 +69,7 @@ export const Filter1: React.FC<FilterProps> = ({ filterState }) => {
     </div>
   );
 };
-export const Filter2: React.FC<FilterProps> = ({ filterState }) => {
+export const Filter2: React.FC<FilterProps> = ({ filterState, data }) => {
   const [filter, setFilter] = filterState || useState({});
   return (
     <div className="flex flex-wrap justify-between items-center gap-4 sm:mt-20 md:mt-0 mb-8">
@@ -93,7 +105,16 @@ export const Filter2: React.FC<FilterProps> = ({ filterState }) => {
         </div>
       </div>
       <div className="flex gap-4">
-        <div>
+        <div onClick={async () => {
+          const total = data?.map((r: any) => r.total.toString());
+          const pct = data?.map((r: any) => r.pct.toString());
+          const target = data?.map((r: any) => r.threshold.toString());
+          const header = data?.map((r: any) => r.domicile);
+          const body = [pct, total, target];
+          const verticalHeader = ["% Target Cakupan", "Jumlah Imunisasi", "Target"];
+          const fileName = "Grafik Cakupan";
+          await downloadFile({ header, body, verticalHeader, fileName });
+        }} >
           <Button text="Unduh" variant="outlined" />
         </div>
         {/* <div>

@@ -537,7 +537,11 @@ const RoutineBadutaImmunization = () => {
                           getPercentageTotalImmunizationQuery?.data ||
                           []
                         )
-                          ?.map((r: any) => r.faskes_desc || "")
+                          ?.map((r: any) => {
+                            if (r.faskes_desc === "All")
+                              return "NASIONAL"
+                            return r.faskes_desc
+                          })
                       )}
                     />
                   </div>

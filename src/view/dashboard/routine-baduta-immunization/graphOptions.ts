@@ -2,6 +2,22 @@ import { EChartsOptionProps } from "@/components/graph-echarts";
 import { dataMonth } from "@/utils/constants";
 
 export const graphOptions1 = (series: any[], legend: any[]) => {
+  const reversedLegend = legend.slice().reverse();
+
+  // Membalik urutan series agar sesuai dengan urutan legend yang dibalik
+  const reversedSeries = series.map((serie) => {
+    if (serie.name === "Total Penerima") {
+      // Mengatur data ke 0 untuk "Total Penerima"
+      return {
+        ...serie,
+        data: serie.data.map(() => 0),
+      };
+    }
+    return {
+      ...serie,
+      data: serie.data.slice().reverse(),
+    };
+  });
   const option: EChartsOptionProps = {
     color: ["#00B1A9"],
     grid: { containLabel: true },
@@ -13,7 +29,7 @@ export const graphOptions1 = (series: any[], legend: any[]) => {
     },
     yAxis: {
       type: "category",
-      data: legend,
+      data: reversedLegend,
     },
     xAxis: {
       type: "value",
@@ -21,7 +37,7 @@ export const graphOptions1 = (series: any[], legend: any[]) => {
         formatter: "{value}%",
       },
     },
-    series: series,
+    series: reversedSeries,
   };
   return option;
 };
