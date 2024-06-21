@@ -33,7 +33,7 @@ interface GraphRoutineImmunizationCoverageTrendProps {
   isLoading?: boolean;
 }
 
-const GraphRoutineImmunizationCoverageTrendBias: React.FC<
+const GraphRoutineImmunizationCoverageTrendWus: React.FC<
   GraphRoutineImmunizationCoverageTrendProps
 > = ({
   title,
@@ -92,8 +92,10 @@ const GraphRoutineImmunizationCoverageTrendBias: React.FC<
       <div className={`${openSans.className}`}>{subTitle}</div>
       <div>
         <div className="mt-4 mb-4">{addOn}</div>
-        <div>
-          {threshold}
+
+        <div
+          className={`flex flex-wrap sm:flex-nowrap gap-4 relative  h-[600px]`}
+        >
           <div className="flex-grow ">
             <div className="relative flex justify-center items-center  h-full">
               {isLoading && <Spin />}
@@ -106,6 +108,7 @@ const GraphRoutineImmunizationCoverageTrendBias: React.FC<
               )}
             </div>
           </div>
+          {threshold}
         </div>
         {variant === "public" && (
           <div className="flex flex-wrap justify-between items-center gap-4 mt-8 sm:mt-20 md:mt-0">
@@ -140,4 +143,4 @@ const GraphRoutineImmunizationCoverageTrendBias: React.FC<
   );
 };
 
-export default GraphRoutineImmunizationCoverageTrendBias;
+export default GraphRoutineImmunizationCoverageTrendWus;

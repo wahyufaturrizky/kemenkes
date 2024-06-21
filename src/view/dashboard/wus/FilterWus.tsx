@@ -18,6 +18,7 @@ import {
 
 import { useDownloadImmunizationExcelMutation } from "@/lib/services/wus";
 import { dataMonth } from "@/utils/constants";
+import { formatNumber } from "@/helpers";
 
 interface FilterProps {
   filterState: any;
@@ -31,17 +32,31 @@ export const Filter1: React.FC<FilterProps2> = ({ filterState, dataWus }) => {
   const { data: getjenisStatusList } = useGetJenisStatusListQuery({});
   const { data: getWomenCategory } = useGetWomencategoryQuery({});
 
-  const pctTotal = dataWus?.map((r: any) => r.ytd_pct_total.toString());
-  const target = dataWus?.map((r: any) => r.pct_target_threshold.toString());
+  const pctTotal = dataWus?.map(
+    (r: any) => `${formatNumber(r.ytd_pct_total)} %`
+  );
+  const target = dataWus?.map(
+    (r: any) => `${formatNumber(r.pct_target_threshold)} %`
+  );
+  const total = dataWus?.map((r: any) => formatNumber(r.ytd_total));
+  // const pctTarget = truncateStringToNumber(target);
+  // console.log(target, "isi target");
+  // const total = dataWus?.map((r: any) => r.total.toString());
+  // console.log(total, "isi bulan");
 
   const downloadFile = async () => {
     const url = `${API_URL}/v1/csv/download`;
 
     const data = {
       header: dataWus?.map((r: any) => r.faskes_desc),
-      body: [pctTotal, target],
-      verticalHeader: ["% Target Cakupan", "Jumlah Penerima Imunisasi"],
-      fileName: "Tren  Cakupan daerah imunisasi WUS",
+      body: [pctTotal, target, total],
+      verticalHeader: [
+        "% Target Cakupan",
+        "% Jumlah Penerima Imunisasi",
+        "Total Penerima",
+      ],
+      fileName: "Tren Cakupan daerah imunisasi WUS",
+      title: "Tren Cakupan daerah imunisasi WUS",
     };
     try {
       const response = await fetch(url, {
@@ -158,13 +173,16 @@ export const Filter2: React.FC<FilterProps2> = ({ filterState, dataWus }) => {
   const { data: getjenisStatusList } = useGetJenisStatusListQuery({});
   const { data: getWomenCategory } = useGetWomencategoryQuery({});
 
-  const pctTarget = dataWus?.map((r: any) => r.pct_target_threshold);
-  const total = dataWus?.map((r: any) => r.total.toString());
-  const pctTotal = dataWus?.map((r: any) => r.pct_total.toString());
+  const pctTarget = dataWus?.map(
+    (r: any) => `${formatNumber(r.pct_target_threshold)} %`
+  );
+  const total = dataWus?.map((r: any) => formatNumber(r.total));
+  const pctTotal = dataWus?.map((r: any) => `${formatNumber(r.pct_total)} %`);
+  // console.log(total, "isi bulan");
 
   const downloadFile = async () => {
     const url = `${API_URL}/v1/csv/download`;
-
+    let fileName = "Cakupan Kumulatif atau Bulanan penerima imunisasi WUS";
     const data = {
       header: dataMonth?.map((r) => r.label),
       body: [pctTarget, total, pctTotal],
@@ -173,7 +191,8 @@ export const Filter2: React.FC<FilterProps2> = ({ filterState, dataWus }) => {
         "Jumlah Penerima Imunisasi",
         "% Cakupan",
       ],
-      fileName: "Cakupan Kumulatif atau Bulanan penerima imunisasi WUS",
+      fileName,
+      title: fileName,
     };
     try {
       const response = await fetch(url, {
@@ -290,20 +309,23 @@ export const Filter3: React.FC<FilterProps2> = ({ filterState, dataWus }) => {
   const { data: getWomenCategory } = useGetWomencategoryQuery({});
   const downloadFile = async () => {
     const url = `${API_URL}/v1/csv/download`;
+    let fileName = "Sebaran Status T";
 
     const data = {
       header: ["T1", "T2", "T3", "T4", "T5", "T2+"],
       body: [
         [
-          `${dataWus?.ytd_total_t1}`,
-          `${dataWus?.ytd_total_t2}`,
-          `${dataWus?.ytd_total_t3}`,
-          `${dataWus?.ytd_total_t4}`,
-          `${dataWus?.ytd_total_t5}`,
-          `${dataWus?.ytd_total_t2plus}`,
+          `${formatNumber(dataWus?.ytd_total_t1)}`,
+          `${formatNumber(dataWus?.ytd_total_t2)}`,
+          `${formatNumber(dataWus?.ytd_total_t3)}`,
+          `${formatNumber(dataWus?.ytd_total_t4)}`,
+          `${formatNumber(dataWus?.ytd_total_t5)}`,
+          `${formatNumber(dataWus?.ytd_total_t2plus)}`,
         ],
       ],
-      fileName: "Sebaran Status T",
+      verticalHeader: ["Total Penerima"],
+      fileName,
+      title: fileName,
     };
     try {
       const response = await fetch(url, {
@@ -383,24 +405,23 @@ export const Filter4: React.FC<FilterProps2> = ({ filterState, dataWus }) => {
   const { data: getWomenCategory } = useGetWomencategoryQuery({});
   const downloadFile = async () => {
     const url = `${API_URL}/v1/csv/download`; // Your endpoint URL
-
+    let fileName = "Sebaran Status Kehamilan Terhadap Status T";
     const data = {
       // Your data here (if required)
       header: ["T1", "T2", "T3", "T4", "T5", "T2+"],
       body: [
         [
-          `${dataWus?.ytd_total_t1}`,
-          `${dataWus?.ytd_total_t2}`,
-          `${dataWus?.ytd_total_t3}`,
-          `${dataWus?.ytd_total_t4}`,
-          `${dataWus?.ytd_total_t5}`,
-          `${dataWus?.ytd_total_t2plus}`,
+          `${formatNumber(dataWus?.ytd_total_t1)}`,
+          `${formatNumber(dataWus?.ytd_total_t2)}`,
+          `${formatNumber(dataWus?.ytd_total_t3)}`,
+          `${formatNumber(dataWus?.ytd_total_t4)}`,
+          `${formatNumber(dataWus?.ytd_total_t5)}`,
+          `${formatNumber(dataWus?.ytd_total_t2plus)}`,
         ],
-        // ["BODY4", "BODY7", "BODY8"],
-        // ["BODY5", "BODY6", "BODY9"],
       ],
-      // verticalHeader: ["VH1", "VH2", "VH3"],
-      fileName: "Sebaran Status Kehamilan Terhadap Status T",
+      verticalHeader: ["Total Penerima"],
+      fileName,
+      title: fileName,
     };
     try {
       const response = await fetch(url, {

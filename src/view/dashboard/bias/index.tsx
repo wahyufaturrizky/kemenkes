@@ -58,32 +58,18 @@ import {
   useGetMostFemaleQuery,
   useGetChartByGenderQuery,
 } from "@/lib/services/bias";
-// import { Filter5 } from "../routine-baduta-immunization/Filter";
 import { Filter1, Filter2, Filter3, Filter4, Filter5 } from "./FilterBias";
-import {
-  graphOptions2,
-  graphOptions5,
-} from "../routine-baduta-immunization/graphOptions";
-import { graphOptions1 } from "../wus/graphOptions";
+// import { graphOptions5 } from "../routine-baduta-immunization/graphOptions";
+import { graphOptions1, graphOptions2 } from "../wus/graphOptions";
+// import { graphOptions2 } from "./graphOptionts";
 
-import { graphOptions3, graphOptions4 } from "./graphOptionts";
+import { graphOptions3, graphOptions4, graphOptions5 } from "./graphOptionts";
 
 import { openSans } from "@/assets/fonts";
-import {
-  useGetAverageImmunizationByGenderQuery,
-  useGetImmunizationWithHighetFemaleRecivientQuery,
-  useGetImmunizationWithHighetMaleRecivientQuery,
-  useGetMaxImmunizationByAgeQuery,
-  useGetSummaryImmunizationByAgeQuery,
-  useGetSummaryImmunizationPerGenderQuery,
-  useGetSummaryImmunizationPerVaccineQuery,
-  useGetTotalHighestScopeByVaccineTypeQuery,
-  useGetTotalLowestScopeByVaccineTypeQuery,
-  useGetTotalScopeByVaccineTypeQuery,
-} from "@/lib/services/baduta-immunization";
 import FilterSummaryImmunizationBias from "@/view/home/components/FilterBias";
 import TabsBias from "@/components/tabsBias";
 import GraphRoutineImmunizationCoverageTrendBias from "@/view/home/components/GraphBias";
+import GraphRoutineImmunizationCoverageTrendWus from "@/view/home/components/GraphWus";
 
 const Bias = () => {
   const filterState = useState({
@@ -344,7 +330,7 @@ const Bias = () => {
 
   const dataGraphRegionalRoutineImmunizationCoverageTrend = [
     {
-      title: `Total Cakupan BIAS Lengkap  Nasioanl Tahun ${filter.tahun}`,
+      title: `Total Cakupan BIAS Lengkap  Nasional Tahun ${filter.tahun}`,
       value: <div>{formatNumber(getTotal?.data?.pct || 0)}%</div>,
       regional: <></>,
       isLoading: isLoadingGetTotal,
@@ -457,10 +443,16 @@ const Bias = () => {
       isLoading: isLoadingMostFemale,
     },
   ];
+
   const ageChartOptions: any = {
     color: ["#2E90FA", "#E478FA"],
     tooltip: {
       trigger: "item",
+      formatter: (params: any) => {
+        const value = params.data.value;
+        const formattedValue = value?.toFixed(2).replace(".", ",");
+        return `${params.marker} ${params.name}: <span style="float: right; margin-left: 8px;"><strong>${formattedValue}%</strong></span><br/>`;
+      },
     },
     legend: {
       orient: "vertical",
@@ -475,22 +467,24 @@ const Bias = () => {
         label: {
           show: true,
           position: "inner",
-          formatter: (params: any, i: number) =>
-            `${params.name === "Laki-laki"
-              ? getAverageGender?.data?.[0]?.pct_unique
-              : getAverageGender?.data?.[1]?.pct_unique
-            }%`,
+          formatter: (params: any) => {
+            const value =
+              params.name === "Laki-laki"
+                ? getAverageGender?.data?.[0]?.pct_unique
+                : getAverageGender?.data?.[1]?.pct_unique;
+            return `${value?.toFixed(2).replace(".", ",")}%`;
+          },
         },
         labelLine: {
           show: false,
         },
         data: [
           {
-            value: getAverageGender?.data?.[0]?.pct_unique,
+            value: getAverageGender?.data?.[0]?.pct_unique, // Keep as numeric value
             name: "Laki-laki",
           },
           {
-            value: getAverageGender?.data?.[1]?.pct_unique,
+            value: getAverageGender?.data?.[1]?.pct_unique, // Keep as numeric value
             name: "Perempuan",
           },
         ],
@@ -538,6 +532,9 @@ const Bias = () => {
               filterState={filterState}
             />
             <div className="flex flex-col gap-4 text-sm">
+              {/* <div className={`${openSans.className}`}>
+                UPDATE TERAKHIR: 23 SEPTEMBER 2023
+              </div> */}
               <div className="font-bold text-primary-1 text-xl md:text-3xl">
                 Imunisasi Rutin BIAS
               </div>
@@ -577,7 +574,7 @@ const Bias = () => {
                   {isLoadingTotalFullBias && <Spin />}
                   <ChildSummaryImmunization
                     className="px-4 border rounded-lg"
-                    title="Bias Lengkap"
+                    title="BIAS Lengkap"
                     contentTooltip={<>Bias Lengkap</>}
                     value={formatNumber(getTotalFullBias?.data?.total) || "0"}
                     percent={getTotalFullBias?.data?.pct || "0"}
@@ -729,7 +726,7 @@ const Bias = () => {
                 subTitle=""
                 graph={
                   <div className="my-4 p-4 md:p-8 border rounded-lg">
-                    <GraphRoutineImmunizationCoverageTrend
+                    <GraphRoutineImmunizationCoverageTrendWus
                       layout="vertical"
                       title={
                         <div className="font-bold md:text-2xl">
@@ -750,7 +747,12 @@ const Bias = () => {
                       }
                       variant="private"
                       filterState={filterState}
-                      filterComp={<Filter1 filterState={filterState} />}
+                      filterComp={
+                        <Filter1
+                          filterState={filterState}
+                          dataBias={getAllRegion?.data}
+                        />
+                      }
                       isLoading={isLoadingGetAllRegion}
                       opts={{
                         height: 900,
@@ -759,27 +761,56 @@ const Bias = () => {
                         [
                           {
                             // @ts-ignore
-                            name: "Target Cakupan per Daerah = 100%",
+                            name: "Persentase",
                             data:
-                              (getAllRegion?.data || [])?.map(
-                                (r: any) => r?.pct
+                              (getAllRegion?.data || [])?.map((r: any) =>
+                                formatNumber(r?.pct)
                               ) || [],
                             type: "bar",
                             label: {
                               show: true,
                               precision: 1,
                               position: "right",
-                              formatter: (params: any) => `${params.value}%`,
+                              formatter: (params: any) => {
+                                const reversedData = (getAllRegion?.data || [])
+                                  .slice()
+                                  .reverse(); // Membuat salinan dan membalik urutan
+                                const totalData =
+                                  reversedData[params.dataIndex]?.ytd;
+                                const valueWithComma = params.value.replace(
+                                  ".",
+                                  ","
+                                );
+                                return `${valueWithComma} % (${formatNumber(
+                                  totalData
+                                )})`;
+                              },
                             },
                           },
                           {
-                            name: "Target",
+                            name: "Target Cakupan per Daerah",
                             type: "line",
                             color: "#CD4243",
                             data:
                               (getAllRegion?.data || [])?.map(
                                 (r: any) => r?.threshold
                               ) || [],
+                          },
+                          {
+                            name: "Total Penerima",
+                            type: "line",
+                            color: "#FAC515",
+                            data:
+                              (getAllRegion?.data || [])?.map(
+                                (r: any) => r?.ytd
+                              ) || [],
+                            show: false, // Menyembunyikan seri secara default
+                            itemStyle: {
+                              opacity: 0, // Mengatur opacity item menjadi 0 untuk menyembunyikan item
+                            },
+                            lineStyle: {
+                              opacity: 0, // Mengatur opacity garis menjadi 0 untuk menyembunyikan garis
+                            },
                           },
                         ],
                         (getAllRegion?.data || [])?.map((r: any) => r.faskes)
@@ -815,7 +846,12 @@ const Bias = () => {
                       subTitle={`Grafik menampilkan tren cakupan kumulatif penerima imunisasi dasar lengkap pada anak sekolah selama tahun ${filter.tahun}`}
                       variant="private"
                       filterState={filterState}
-                      filterComp={<Filter2 filterState={filterState} />}
+                      filterComp={
+                        <Filter2
+                          filterState={filterState}
+                          dataBias={getChart?.data}
+                        />
+                      }
                       threshold={
                         <div className="relative flex justify-center items-center">
                           {isLoadingPct && <Spin />}
@@ -838,8 +874,8 @@ const Bias = () => {
                         {
                           name: "% Target Cakupan",
                           data:
-                            (getChart?.data || [])?.map(
-                              (r: any) => r?.target_cakupan
+                            (getChart?.data || [])?.map((r: any) =>
+                              formatNumber(r?.target_cakupan)
                             ) || [],
                           type: "line",
                         },
@@ -849,15 +885,15 @@ const Bias = () => {
                             (getChart?.data || [])?.map(
                               (r: any) => r?.jumlah_penerima
                             ) || [],
-                          type: "bar",
+                          type: "line",
                         },
                         {
                           name: "% Cakupan",
                           data:
-                            (getChart?.data || [])?.map(
-                              (r: any) => r?.cakupan
+                            (getChart?.data || [])?.map((r: any) =>
+                              formatNumber(r?.cakupan)
                             ) || [],
-                          type: "line",
+                          type: "bar",
                         },
                       ])}
                     />
@@ -891,7 +927,12 @@ const Bias = () => {
                       }
                       variant="private"
                       filterState={filterState}
-                      filterComp={<Filter3 filterState={filterState} />}
+                      filterComp={
+                        <Filter3
+                          filterState={filterState}
+                          dataBias={getChartScope?.data}
+                        />
+                      }
                       threshold={
                         <div className="text-sm">
                           <div className="relative">
@@ -910,7 +951,7 @@ const Bias = () => {
                                   ?.filter((item: any) => item.value === 1)
                                   .map((r: any, i: number) => (
                                     <p key={i + "exceed"}>
-                                      {r.name}
+                                      {r.name.toUpperCase()}
                                       {", "}
                                     </p>
                                   ))}
@@ -933,7 +974,7 @@ const Bias = () => {
                                   ?.filter((item: any) => item.value === 0)
                                   .map((r: any, i: number) => (
                                     <p key={i + "exceed"}>
-                                      {r.name}
+                                      {r.name.toUpperCase()}
                                       {", "}
                                     </p>
                                   ))}
@@ -963,46 +1004,47 @@ const Bias = () => {
                             name: "% Cakupan",
                             data:
                               (getChartScope?.data || [])?.map(
-                                (r: any) =>
-                                  ((r?.pct || 0) / 100) * (r?.ytd || 0)
+                                (r: any) => r?.pct
                               ) || [],
                             type: "line",
                             label: {
                               show: true,
                               precision: 1,
                               formatter: (params: any) =>
-                                `${formatNumber(
-                                  ((params.value || 0) /
-                                    (getChartScope?.data || [])[
-                                      params.dataIndex
-                                    ]?.ytd) *
-                                  100
-                                )}%`,
+                                `${formatNumber(params.value)}%`,
                             },
+                            // label: {
+                            //   show: true,
+                            //   precision: 1,
+                            //   formatter: (params: any) =>
+                            //     `${formatNumber(
+                            //       ((params.value || 0) /
+                            //         (getChartScope?.data || [])[
+                            //           params.dataIndex
+                            //         ]?.ytd) *
+                            //         100
+                            //     )}%`,
+                            // },
                           },
                           {
                             name: "% Target Cakupan",
                             data:
                               (getChartScope?.data || [])?.map(
-                                (r: any) =>
-                                  ((r?.thrs || 0) / 100) * (r?.ytd || 0)
+                                (r: any) => r?.thrs
                               ) || [],
                             type: "line",
                             label: {
                               show: true,
                               precision: 1,
                               formatter: (params: any) =>
-                                `${formatNumber(
-                                  ((params.value || 0) /
-                                    (getChartScope?.data || [])[
-                                      params.dataIndex
-                                    ]?.ytd) *
-                                  100
-                                )}%`,
+                                `${formatNumber(params.value)}%`,
                             },
                           },
                         ],
-                        getChartScope?.data?.map((r: any) => r?.vaccine)
+                        (getChartScope?.data || [])?.map((r: any) => r.vaccine)
+                        // getChartScope?.data?.map((r: any) =>
+                        //   r?.vaccine?.toUpperCase()
+                        // )
                       )}
                     />
                   </div>
@@ -1015,7 +1057,7 @@ const Bias = () => {
                 subTitle=""
                 graph={
                   <div className="my-4 p-4 md:p-8 border rounded-lg">
-                    <GraphRoutineImmunizationCoverageTrend
+                    <GraphRoutineImmunizationCoverageTrendBias
                       layout="vertical"
                       title={
                         <div className="font-bold md:text-2xl">
@@ -1049,7 +1091,12 @@ const Bias = () => {
                       }
                       variant="private"
                       filterState={filterState}
-                      filterComp={<Filter4 filterState={filterState} />}
+                      filterComp={
+                        <Filter4
+                          filterState={filterState}
+                          dataBias={getChartByAge?.data}
+                        />
+                      }
                       isLoading={isLoadingChartByAge}
                       graphOptions={graphOptions4(
                         [
@@ -1069,6 +1116,21 @@ const Bias = () => {
                               ) || [],
                             type: "bar",
                           },
+                          {
+                            name: "Total",
+                            data:
+                              (getChartByAge?.data || [])?.map(
+                                (r: any) => r?.total
+                              ) || [],
+                            type: "bar",
+                            show: false,
+                            itemStyle: {
+                              opacity: 0, // Mengatur opacity item menjadi 0 untuk menyembunyikan item
+                            },
+                            lineStyle: {
+                              opacity: 0, // Mengatur opacity garis menjadi 0 untuk menyembunyikan garis
+                            },
+                          },
                         ],
                         getChartByAge?.data?.map((r: any) => r?.name)
                       )}
@@ -1083,7 +1145,7 @@ const Bias = () => {
                 subTitle=""
                 graph={
                   <div className="my-4 p-4 md:p-8 border rounded-lg">
-                    <GraphRoutineImmunizationCoverageTrend
+                    <GraphRoutineImmunizationCoverageTrendBias
                       layout="vertical"
                       title={
                         <div className="font-bold md:text-2xl">
@@ -1140,7 +1202,12 @@ const Bias = () => {
                       }
                       variant="private"
                       filterState={filterState}
-                      filterComp={<Filter5 filterState={filterState} />}
+                      filterComp={
+                        <Filter5
+                          filterState={filterState}
+                          dataBias={getChartByGender?.data}
+                        />
+                      }
                       isLoading={isLoadingChartByGender}
                       graphOptions={graphOptions5(
                         [
@@ -1155,11 +1222,7 @@ const Bias = () => {
                               show: true,
                               precision: 1,
                               formatter: (params: any) =>
-                                `${formatNumber(
-                                  (getChartByGender?.data || [])[
-                                    params.dataIndex
-                                  ]?.male
-                                )}%`,
+                                `${formatNumber(params.value)}%`,
                             },
                           },
                           {
@@ -1173,11 +1236,22 @@ const Bias = () => {
                               show: true,
                               precision: 1,
                               formatter: (params: any) =>
-                                `${formatNumber(
-                                  (getChartByGender?.data || [])[
-                                    params.dataIndex
-                                  ]?.female
-                                )}%`,
+                                `${formatNumber(params.value)}%`,
+                            },
+                          },
+                          {
+                            name: "Total",
+                            data:
+                              (getChartByGender?.data || [])?.map(
+                                (r: any) => r?.total
+                              ) || [],
+                            type: "line",
+                            show: false,
+                            itemStyle: {
+                              opacity: 0, // Mengatur opacity item menjadi 0 untuk menyembunyikan item
+                            },
+                            lineStyle: {
+                              opacity: 0, // Mengatur opacity garis menjadi 0 untuk menyembunyikan garis
                             },
                           },
                         ],

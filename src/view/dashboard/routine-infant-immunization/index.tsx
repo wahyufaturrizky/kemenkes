@@ -450,7 +450,7 @@ const RoutineBabyImmunization = () => {
                           getPercentageTotalImmunizationQuery?.data ||
                           []
                         )
-                          ?.map((r: any) => r.r.faskes)
+                          ?.map((r: any) => r.faskes_desc)
                       )}
                     />
                   </div>
