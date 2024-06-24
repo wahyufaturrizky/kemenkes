@@ -1,7 +1,9 @@
 import { API_URL } from "@/helpers/config";
 import { baseApi } from "@/lib/baseQuery";
 
-const apiWithTag = baseApi.enhanceEndpoints({ addTagTypes: ["bayi-immunization"] });
+const apiWithTag = baseApi.enhanceEndpoints({
+  addTagTypes: ["bayi-immunization"],
+});
 
 export const babyImmunizationApi = apiWithTag.injectEndpoints({
   overrideExisting: true,
@@ -9,11 +11,20 @@ export const babyImmunizationApi = apiWithTag.injectEndpoints({
     // ---
     getTotalImmunization: build.query({
       query: (options = {}) => ({
-        url: `${API_URL}/v1/bayi-immunization/total-immunization`,
+        url: `${API_URL}/v1/immunization-bayi/total-bayi-immunization-recipients`,
         params: options,
       }),
       providesTags: ["bayi-immunization"],
     }),
+    getScopeCommpleteBase: build.query({
+      query: (options = {}) => ({
+        url: `${API_URL}/v1/immunization-bayi/scope-complete-base-immunization`,
+        params: options,
+      }),
+      providesTags: ["bayi-immunization"],
+    }),
+
+    //
     getTotalImmunizationByVaccineType: build.query({
       query: (options = {}) => ({
         url: `${API_URL}/v1/bayi-immunization/total-immunization/by-vaccine-type`,
@@ -178,6 +189,9 @@ export const babyImmunizationApi = apiWithTag.injectEndpoints({
 
 export const {
   useGetTotalImmunizationQuery,
+  useGetScopeCommpleteBaseQuery,
+
+  //
   useGetTotalImmunizationByVaccineTypeQuery,
   useGetDoPercentageDPHTHBHIBQuery,
   useGetDoPercentageCampakRubelaQuery,
@@ -199,5 +213,5 @@ export const {
   useGetSummaryScopePercentageQuery,
   useGetTotalHighestScopeByVaccineTypeQuery,
   useGetTotalLowestScopeByVaccineTypeQuery,
-  useGetTotalScopeByVaccineTypeQuery
+  useGetTotalScopeByVaccineTypeQuery,
 } = babyImmunizationApi;

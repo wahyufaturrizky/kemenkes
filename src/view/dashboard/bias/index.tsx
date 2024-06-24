@@ -102,14 +102,14 @@ const Bias = () => {
       filter.faskes && filter.kewilayahan_type == 0
         ? "FASKES"
         : filter.faskes && filter.kewilayahan_type == 1
-          ? "KELURAHAN"
-          : filter.kecamatan
-            ? "KECAMATAN"
-            : filter.kabkota
-              ? "KABKO"
-              : filter.provinsi
-                ? "PROVINSI"
-                : "ALL",
+        ? "KELURAHAN"
+        : filter.kecamatan
+        ? "KECAMATAN"
+        : filter.kabkota
+        ? "KABKO"
+        : filter.provinsi
+        ? "PROVINSI"
+        : "ALL",
   };
   const filterQuery = {
     ...dateQuery,
@@ -117,12 +117,12 @@ const Bias = () => {
     faskes_id: filter.faskes
       ? filter.faskes
       : filter.kecamatan
-        ? filter.kecamatan
-        : filter.kabkota
-          ? filter.kabkota
-          : filter.provinsi
-            ? filter.provinsi
-            : "ALL",
+      ? filter.kecamatan
+      : filter.kabkota
+      ? filter.kabkota
+      : filter.provinsi
+      ? filter.provinsi
+      : "ALL",
     kewilayahan_type: filter.kewilayahan_type,
   };
   const optionQuery = {
@@ -181,12 +181,12 @@ const Bias = () => {
     faskes_id: filter.faskes
       ? filter.faskes
       : filter.kecamatan
-        ? filter.kecamatan
-        : filter.kabkota
-          ? filter.kabkota
-          : filter.provinsi
-            ? filter.provinsi
-            : "ALL",
+      ? filter.kecamatan
+      : filter.kabkota
+      ? filter.kabkota
+      : filter.provinsi
+      ? filter.provinsi
+      : "ALL",
     tren_type: filter.tren_type,
     kewilayahan_type: filter.kewilayahan_type,
   };
@@ -196,12 +196,12 @@ const Bias = () => {
     filter.wilayah === "faskes"
       ? filter.faskes
       : filter.wilayah === "district"
-        ? filter.kecamatan
-        : filter.wilayah === "city"
-          ? filter.kabkota
-          : filter.wilayah === "province"
-            ? filter.provinsi
-            : "All";
+      ? filter.kecamatan
+      : filter.wilayah === "city"
+      ? filter.kabkota
+      : filter.wilayah === "province"
+      ? filter.provinsi
+      : "All";
   const filterQueryGraph = {
     ...dateQuery,
     region_type: filter.wilayah,
@@ -214,12 +214,12 @@ const Bias = () => {
     faskes_id: filter.faskes
       ? filter.faskes
       : filter.kecamatan
-        ? filter.kecamatan
-        : filter.kabkota
-          ? filter.kabkota
-          : filter.provinsi
-            ? filter.provinsi
-            : "ALL",
+      ? filter.kecamatan
+      : filter.kabkota
+      ? filter.kabkota
+      : filter.provinsi
+      ? filter.provinsi
+      : "ALL",
     kewilayahan_type: filter.kewilayahan_type,
     vaccine_type: filter.tipe_vaksin3,
   };
@@ -229,12 +229,12 @@ const Bias = () => {
     faskes_id: filter.faskes
       ? filter.faskes
       : filter.kecamatan
-        ? filter.kecamatan
-        : filter.kabkota
-          ? filter.kabkota
-          : filter.provinsi
-            ? filter.provinsi
-            : "ALL",
+      ? filter.kecamatan
+      : filter.kabkota
+      ? filter.kabkota
+      : filter.provinsi
+      ? filter.provinsi
+      : "ALL",
     kewilayahan_type: filter.kewilayahan_type,
     vaccine_type: filter.tipe_vaksin4,
   };
@@ -244,12 +244,12 @@ const Bias = () => {
     faskes_id: filter.faskes
       ? filter.faskes
       : filter.kecamatan
-        ? filter.kecamatan
-        : filter.kabkota
-          ? filter.kabkota
-          : filter.provinsi
-            ? filter.provinsi
-            : "ALL",
+      ? filter.kecamatan
+      : filter.kabkota
+      ? filter.kabkota
+      : filter.provinsi
+      ? filter.provinsi
+      : "ALL",
     kewilayahan_type: filter.kewilayahan_type,
     vaccine_type: filter.tipe_vaksin5,
   };
@@ -813,7 +813,9 @@ const Bias = () => {
                             },
                           },
                         ],
-                        (getAllRegion?.data || [])?.map((r: any) => r.faskes)
+                        (getAllRegion?.data || [])?.map((r: any) =>
+                          r.faskes === "ALL" ? "NASIONAL" : r.faskes
+                        )
                       )}
                     />
                   </div>
