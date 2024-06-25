@@ -1,5 +1,6 @@
 import { EChartsOptionProps } from "@/components/graph-echarts";
 import { dataMonth } from "@/utils/constants";
+import { formatNumber } from "@/helpers";
 
 export const graphOptions1 = (series: any[], legend: any[]) => {
   const option: EChartsOptionProps = {
@@ -24,6 +25,7 @@ export const graphOptions1 = (series: any[], legend: any[]) => {
   };
   return option;
 };
+
 export const graphOptions2 = (series: any[]) => {
   const option: EChartsOptionProps = {
     color: ["#EAAA08", "#8ECCFF", "#00B1A9"],

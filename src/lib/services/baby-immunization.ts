@@ -23,8 +23,253 @@ export const babyImmunizationApi = apiWithTag.injectEndpoints({
       }),
       providesTags: ["bayi-immunization"],
     }),
+    getScopeHb0: build.query({
+      query: (options = {}) => ({
+        url: `${API_URL}/v1/immunization-bayi/scope-hb0-immunization`,
+        params: options,
+      }),
+      providesTags: ["bayi-immunization"],
+    }),
+    getScopeBcg: build.query({
+      query: (options = {}) => ({
+        url: `${API_URL}/v1/immunization-bayi/scope-bcg-immunization`,
+        params: options,
+      }),
+      providesTags: ["bayi-immunization"],
+    }),
+    getScopePolio1: build.query({
+      query: (options = {}) => ({
+        url: `${API_URL}/v1/immunization-bayi/scope-polio1-immunization`,
+        params: options,
+      }),
+      providesTags: ["bayi-immunization"],
+    }),
+    getScopePolio2: build.query({
+      query: (options = {}) => ({
+        url: `${API_URL}/v1/immunization-bayi/scope-polio2-immunization`,
+        params: options,
+      }),
+      providesTags: ["bayi-immunization"],
+    }),
+    getScopePolio3: build.query({
+      query: (options = {}) => ({
+        url: `${API_URL}/v1/immunization-bayi/scope-polio3-immunization`,
+        params: options,
+      }),
+      providesTags: ["bayi-immunization"],
+    }),
+    getScopePolio4: build.query({
+      query: (options = {}) => ({
+        url: `${API_URL}/v1/immunization-bayi/scope-polio4-immunization`,
+        params: options,
+      }),
+      providesTags: ["bayi-immunization"],
+    }),
+    getScopeDptHbHib1: build.query({
+      query: (options = {}) => ({
+        url: `${API_URL}/v1/immunization-bayi/scope-dpt-hb-hib1-immunization`,
+        params: options,
+      }),
+      providesTags: ["bayi-immunization"],
+    }),
+    getScopeDptHbHib2: build.query({
+      query: (options = {}) => ({
+        url: `${API_URL}/v1/immunization-bayi/scope-dpt-hb-hib2-immunization`,
+        params: options,
+      }),
+      providesTags: ["bayi-immunization"],
+    }),
+    getScopeDptHbHib3: build.query({
+      query: (options = {}) => ({
+        url: `${API_URL}/v1/immunization-bayi/scope-dpt-hb-hib3-immunization`,
+        params: options,
+      }),
+      providesTags: ["bayi-immunization"],
+    }),
+    getScopeRubela: build.query({
+      query: (options = {}) => ({
+        url: `${API_URL}/v1/immunization-bayi/scope-rubela-immunization`,
+        params: options,
+      }),
+      providesTags: ["bayi-immunization"],
+    }),
+    getScopePcv1: build.query({
+      query: (options = {}) => ({
+        url: `${API_URL}/v1/immunization-bayi/scope-pcv1-immunization`,
+        params: options,
+      }),
+      providesTags: ["bayi-immunization"],
+    }),
+    getScopePcv2: build.query({
+      query: (options = {}) => ({
+        url: `${API_URL}/v1/immunization-bayi/scope-pcv2-immunization`,
+        params: options,
+      }),
+      providesTags: ["bayi-immunization"],
+    }),
+    getScopeIpv1: build.query({
+      query: (options = {}) => ({
+        url: `${API_URL}/v1/immunization-bayi/scope-ipv1-immunization`,
+        params: options,
+      }),
+      providesTags: ["bayi-immunization"],
+    }),
+    getScopeIpv2: build.query({
+      query: (options = {}) => ({
+        url: `${API_URL}/v1/immunization-bayi/scope-ipv2-immunization`,
+        params: options,
+      }),
+      providesTags: ["bayi-immunization"],
+    }),
+    getScopeIpv1Diy: build.query({
+      query: (options = {}) => ({
+        url: `${API_URL}/v1/immunization-bayi/scope-ipv1-diy-immunization`,
+        params: options,
+      }),
+      providesTags: ["bayi-immunization"],
+    }),
+    getScopeIpv2Diy: build.query({
+      query: (options = {}) => ({
+        url: `${API_URL}/v1/immunization-bayi/scope-ipv2-diy-immunization`,
+        params: options,
+      }),
+      providesTags: ["bayi-immunization"],
+    }),
+    getScopeIpv3Diy: build.query({
+      query: (options = {}) => ({
+        url: `${API_URL}/v1/immunization-bayi/scope-ipv3-diy-immunization`,
+        params: options,
+      }),
+      providesTags: ["bayi-immunization"],
+    }),
+    getScopeRotavirus1: build.query({
+      query: (options = {}) => ({
+        url: `${API_URL}/v1/immunization-bayi/scope-rotavirus1-immunization`,
+        params: options,
+      }),
+      providesTags: ["bayi-immunization"],
+    }),
+    getScopeRotavirus2: build.query({
+      query: (options = {}) => ({
+        url: `${API_URL}/v1/immunization-bayi/scope-rotavirus2-immunization`,
+        params: options,
+      }),
+      providesTags: ["bayi-immunization"],
+    }),
+    getScopeRotavirus3: build.query({
+      query: (options = {}) => ({
+        url: `${API_URL}/v1/immunization-bayi/scope-rotavirus3-immunization`,
+        params: options,
+      }),
+      providesTags: ["bayi-immunization"],
+    }),
+    getScopeJe: build.query({
+      query: (options = {}) => ({
+        url: `${API_URL}/v1/immunization-bayi/scope-je-immunization`,
+        params: options,
+      }),
+      providesTags: ["bayi-immunization"],
+    }),
+    getLeftoutPercentage: build.query({
+      query: (options = {}) => ({
+        url: `${API_URL}/v1/immunization-bayi/leftout-percentage`,
+        params: options,
+      }),
+      providesTags: ["bayi-immunization"],
+    }),
+    getDropout: build.query({
+      query: (options = {}) => ({
+        url: `${API_URL}/v1/immunization-bayi/dropout-dpt-percentage`,
+        params: options,
+      }),
+      providesTags: ["bayi-immunization"],
+    }),
+    getDropoutRubela: build.query({
+      query: (options = {}) => ({
+        url: `${API_URL}/v1/immunization-bayi/dropout-rubela-percentage`,
+        params: options,
+      }),
+      providesTags: ["bayi-immunization"],
+    }),
+    getNumberZero: build.query({
+      query: (options = {}) => ({
+        url: `${API_URL}/v1/immunization-bayi/number-zero-dose`,
+        params: options,
+      }),
+      providesTags: ["bayi-immunization"],
+    }),
+    getTotalBayiImmunizationScope: build.query({
+      query: (options = {}) => ({
+        url: `${API_URL}/v1/immunization-bayi/total-bayi-immunization-scope`,
+        params: options,
+      }),
+      providesTags: ["bayi-immunization"],
+    }),
+    getHighestScopeImmunization: build.query({
+      query: (options = {}) => ({
+        url: `${API_URL}/v1/immunization-bayi/highest-scope-immunization`,
+        params: options,
+      }),
+      providesTags: ["bayi-immunization"],
+    }),
+    getLowestScopeImmunization: build.query({
+      query: (options = {}) => ({
+        url: `${API_URL}/v1/immunization-bayi/lowest-scope-immunization`,
+        params: options,
+      }),
+      providesTags: ["bayi-immunization"],
+    }),
+    getGraphImmunizationScope: build.query({
+      query: (options = {}) => ({
+        url: `${API_URL}/v1/immunization-bayi/graph-immunization-scope`,
+        params: options,
+      }),
+      providesTags: ["bayi-immunization"],
+    }),
+    getCumulativeScopeImmunization: build.query({
+      query: (options = {}) => ({
+        url: `${API_URL}/v1/immunization-bayi/cumulative-scope-immunization`,
+        params: options,
+      }),
+      providesTags: ["bayi-immunization"],
+    }),
+    getTotalCumulativeScopeImmunization: build.query({
+      query: (options = {}) => ({
+        url: `${API_URL}/v1/immunization-bayi/total-cumulative-scope-immunization`,
+        params: options,
+      }),
+      providesTags: ["bayi-immunization"],
+    }),
+    getTotalCompleteBase: build.query({
+      query: (options = {}) => ({
+        url: `${API_URL}/v1/immunization-bayi/scope-complete-base-immunization`,
+        params: options,
+      }),
+      providesTags: ["bayi-immunization"],
+    }),
+    getHighestScope: build.query({
+      query: (options = {}) => ({
+        url: `${API_URL}/v1/immunization-bayi/highest-scope-immunization-type`,
+        params: options,
+      }),
+      providesTags: ["bayi-immunization"],
+    }),
+    getLowestScope: build.query({
+      query: (options = {}) => ({
+        url: `${API_URL}/v1/immunization-bayi/lowest-scope-immunization-type`,
+        params: options,
+      }),
+      providesTags: ["bayi-immunization"],
+    }),
+    getTypeSuspase: build.query({
+      query: (options = {}) => ({
+        url: `${API_URL}/v1/immunization-bayi/immunization-type-surpase-target-scope`,
+        params: options,
+      }),
+      providesTags: ["bayi-immunization"],
+    }),
 
-    //
+    //==============================================================================================================================
     getTotalImmunizationByVaccineType: build.query({
       query: (options = {}) => ({
         url: `${API_URL}/v1/bayi-immunization/total-immunization/by-vaccine-type`,
@@ -190,6 +435,41 @@ export const babyImmunizationApi = apiWithTag.injectEndpoints({
 export const {
   useGetTotalImmunizationQuery,
   useGetScopeCommpleteBaseQuery,
+  useGetScopeHb0Query,
+  useGetScopeBcgQuery,
+  useGetScopePolio1Query,
+  useGetScopePolio2Query,
+  useGetScopePolio3Query,
+  useGetScopePolio4Query,
+  useGetScopeDptHbHib1Query,
+  useGetScopeDptHbHib2Query,
+  useGetScopeDptHbHib3Query,
+  useGetScopeRubelaQuery,
+  useGetScopePcv1Query,
+  useGetScopePcv2Query,
+  useGetScopeIpv1Query,
+  useGetScopeIpv2Query,
+  useGetScopeIpv1DiyQuery,
+  useGetScopeIpv2DiyQuery,
+  useGetScopeIpv3DiyQuery,
+  useGetScopeRotavirus1Query,
+  useGetScopeRotavirus2Query,
+  useGetScopeRotavirus3Query,
+  useGetScopeJeQuery,
+  useGetLeftoutPercentageQuery,
+  useGetDropoutQuery,
+  useGetDropoutRubelaQuery,
+  useGetNumberZeroQuery,
+  useGetTotalBayiImmunizationScopeQuery,
+  useGetHighestScopeImmunizationQuery,
+  useGetLowestScopeImmunizationQuery,
+  useGetGraphImmunizationScopeQuery,
+  useGetCumulativeScopeImmunizationQuery,
+  useGetTotalCumulativeScopeImmunizationQuery,
+  useGetTotalCompleteBaseQuery,
+  useGetHighestScopeQuery,
+  useGetLowestScopeQuery,
+  useGetTypeSuspaseQuery,
 
   //
   useGetTotalImmunizationByVaccineTypeQuery,
