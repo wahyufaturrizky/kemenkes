@@ -6,8 +6,8 @@ import styles from "@/assets/css/styles.module.css"
 import VaccinateNudge from "@/assets/icons/vaccinate-nudge.png"
 import { Banner, BannerHighlightFooter, BannerText, GraphEcharts, Navbar, Sidebar, Spin, Tabs } from "@/components"
 import { ChildSummaryImmunization, FilterSummaryImmunization, GraphAddOn, GraphRoutineImmunizationCoverageTrend, RoutineImmunizationCoverageTrendGraph, SummaryImmunization, TotalSummaryImmunization } from "@/view/home";
-import { Filter1, Filter2, Filter3, Filter4, Filter5 } from "@/view/dashboard/routine-baduta-immunization/Filter";
-import { graphOptions1, graphOptions2, graphOptions3, graphOptions4, graphOptions5 } from "@/view/dashboard/routine-baduta-immunization/graphOptions";
+import { Filter1, Filter2 } from "@/view/Filter";
+import { graphOptions1, graphOptions2 } from "@/view/graphOptions";
 import { dataMonths, dataTabBaduta, trendTypeOptions, vaccineTypeOptions } from "@/utils/constants";
 import { formatNumber } from "@/helpers";
 import { openSans } from "@/assets/fonts";
@@ -28,17 +28,13 @@ const HomeView = () => {
     kecamatan: '',
     jenis_sarana: '',
     faskes: '',
-    tipe_vaksin1: "1",
-    tipe_vaksin2: "1",
-    tipe_vaksin3: "1",
-    tipe_vaksin4: "1",
-    tipe_vaksin5: "1",
+    tipe_vaksin1: "idl1",
+    tipe_vaksin2: "idl1",
     jenis_tren: 'kumulatif',
     tipe_umur: 1,
     jenis_kelamin: 1,
     wilayah: "All",
-    wilayah1: "province",
-    wilayah2: "province",
+    wilayah1: "All",
     kewilayahan_type: 0
   })
   const [filter] = filterState
@@ -46,20 +42,7 @@ const HomeView = () => {
   const dataQuery = {
     year: filter.tahun,
     month: filter.bulan,
-  };
-
-  const filterQuery = {
-    ...dataQuery,
-    region_type: filter.faskes
-      ? "faskes"
-      : filter.kecamatan
-        ? "district"
-        : filter.kabkota
-          ? "city"
-          : filter.provinsi
-            ? "province"
-            : "All",
-    region_id: filter.faskes
+    domicile_id: filter.faskes
       ? filter.faskes
       : filter.kecamatan
         ? filter.kecamatan
@@ -68,45 +51,8 @@ const HomeView = () => {
           : filter.provinsi
             ? filter.provinsi
             : "All",
-    kewilayahan_type: filter.kewilayahan_type
+    // kewilayahan_type: filter.kewilayahan_type
   };
-  const regionIdQuery = filter.wilayah === "faskes"
-    ? filter.faskes
-    : filter.wilayah === "district"
-      ? filter.kecamatan
-      : filter.wilayah === "city"
-        ? filter.kabkota
-        : filter.wilayah === "province"
-          ? filter.provinsi
-          : "All";
-  const filterQueryGraphPercentage = {
-    ...dataQuery,
-    region_type: filter.wilayah1,
-    region_id: regionIdQuery,
-    kewilayahan_type: filter.kewilayahan_type
-  };
-  const filterQueryGraph = {
-    ...dataQuery,
-    region_type: filter.wilayah,
-    region_id: regionIdQuery,
-    kewilayahan_type: filter.kewilayahan_type
-  };
-  const optionQuery = {
-    refetchOnMountOrArgChange: true,
-    skip:
-      !filter.tahun ||
-      (!filter.bulan &&
-        (!filter.provinsi || !filter.kabkota || !filter.kecamatan)),
-  };
-  const optionQueryGraph = {
-    refetchOnMountOrArgChange: true,
-    skip: (!filter.tahun || !filter.bulan || !filter.wilayah || (!filter.tipe_vaksin1 || !filter.tipe_vaksin2 || !filter.tipe_vaksin3)
-      && (!filter.provinsi || !filter.kabkota || !filter.kecamatan))
-  }
-  const optionQueryTotal = {
-    refetchOnMountOrArgChange: true,
-    skip: !filter.wilayah || (!filter.tipe_vaksin1 || !filter.tipe_vaksin2 || !filter.tipe_vaksin3)
-  }
 
   const filterTotalUniqueQuery = {
     ...dataQuery,
@@ -119,27 +65,24 @@ const HomeView = () => {
           : filter.provinsi
             ? "province"
             : "All",
-    faskes_id: filter.faskes,
-    kewilayahan_type: filter.kewilayahan_type
   }
   const optionTotalUniqueQuery = {
     refetchOnMountOrArgChange: true,
     skip:
       !filter.tahun ||
       (!filter.bulan &&
-        (!filter.provinsi || !filter.kabkota || !filter.kecamatan)) || !filter.faskes,
+        (!filter.provinsi || !filter.kabkota || !filter.kecamatan)),
   };
   const filterChart1Query = {
     ...dataQuery,
-    region_type: filter.wilayah1,
-    faskes_id: filter.faskes,
-    kewilayahan_type: filter.kewilayahan_type
+    jenis_tren: filter.jenis_tren,
+    region_type: filter.wilayah,
+    vaccine_type: filter.tipe_vaksin1
   }
   const filterChart2Query = {
     ...dataQuery,
-    region_type: filter.wilayah2,
-    faskes_id: filter.faskes,
-    kewilayahan_type: filter.kewilayahan_type
+    region_type: filter.wilayah1,
+    vaccine_type: filter.tipe_vaksin2
   }
   const { data: getTotalUniqueBabyQuery,
     isLoading: isLoadingTotalUniqueBabyQuery
@@ -197,16 +140,16 @@ const HomeView = () => {
   // ---
   const { data: getTotalBaseCumulativeQuery,
     isLoading: isLoadingTotalBaseCumulativeQuery
-  } = useGetTotalBaseCumulativeQuery(filterChart2Query, optionTotalUniqueQuery)
+  } = useGetTotalBaseCumulativeQuery({ ...filterChart2Query }, optionTotalUniqueQuery)
   const { data: getTotalBaseHighestScopeQuery,
     isLoading: isLoadingTotalBaseHighestScopeQuery
-  } = useGetTotalBaseHighestScopeQuery(filterChart2Query, optionTotalUniqueQuery)
+  } = useGetTotalBaseHighestScopeQuery({ ...filterChart2Query }, optionTotalUniqueQuery)
   const { data: getTotalBaseLowestScopeQuery,
     isLoading: isLoadingTotalBaseLowestScopeQuery
-  } = useGetTotalBaseLowestScopeQuery(filterChart2Query, optionTotalUniqueQuery)
+  } = useGetTotalBaseLowestScopeQuery({ ...filterChart2Query }, optionTotalUniqueQuery)
   const { data: getTotalChartProvinceQuery,
     isLoading: isLoadingTotalChartProvinceQuery
-  } = useGetTotalChartProvinceQuery(filterChart2Query, optionTotalUniqueQuery)
+  } = useGetTotalChartProvinceQuery({ ...filterChart2Query }, optionTotalUniqueQuery)
 
   const dataTotalBase = [
     {
@@ -413,7 +356,7 @@ const HomeView = () => {
                 {isLoadingTotalUniqueBiasQuery && <Spin />}
                 <TotalSummaryImmunization
                   title="Total Penerima Imunisasi BIAS"
-                  value={getTotalUniqueBabyQuery?.data?.ytd_unique_bias_all || "0"}
+                  value={getTotalUniqueBiasQuery?.data?.ytd_unique_bias_all || "0"}
                   child={dataTotalSummaryImmunizationBias}
                 />
               </div>
