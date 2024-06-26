@@ -6,28 +6,18 @@ import {
   Banner,
   BannerHighlightFooter,
   BannerText,
-  Navbar,
   Sidebar,
-  Tabs,
+  Spin,
 } from "@/components";
 import {
   ChildSummaryImmunization,
-  FilterSummaryImmunization,
   GraphAddOn,
   GraphRoutineImmunizationCoverageTrend,
   RoutineImmunizationCoverageTrendGraph,
-  SummaryImmunization,
-  TotalSummaryImmunization,
 } from "@/view/home";
 import GraphRoutineImmunizationCoverageTrendWus from "@/view/home/components/GraphWus";
 import FilterSummaryImmunizationWus from "@/view/home/components/FilterWus";
-import {
-  // dataGraphRegionalRoutineImmunizationCoverageTrend,
-  dataMonth,
-  dataTabBaduta,
-  dataTotalSummaryImmunization,
-  vaccineTypeOptions,
-} from "@/utils/constants";
+import { dataMonth, dataTabBaduta } from "@/utils/constants";
 import {
   useGetTotalImmunizationQuery,
   useGetTotalImmunizationPregnantQuery,
@@ -47,10 +37,6 @@ import {
 import VaccinateNudge from "@/assets/icons/vaccinate-nudge.png";
 import styles from "@/assets/css/styles.module.css";
 
-import {
-  // graphOptions2,
-  graphOptions6,
-} from "../routine-baduta-immunization/graphOptions";
 import { graphOptions1, graphOptions2, graphOptions7 } from "./graphOptions";
 
 import { formatNumber } from "@/helpers";
@@ -99,39 +85,39 @@ const Wus = () => {
       filter.faskes && filter.kewilayahan_type == 0
         ? "faskes"
         : filter.faskes && filter.kewilayahan_type == 1
-          ? "subdistrict"
-          : filter.kecamatan
-            ? "district"
-            : filter.kabkota
-              ? "city"
-              : filter.provinsi
-                ? "province"
-                : "All",
+        ? "subdistrict"
+        : filter.kecamatan
+        ? "district"
+        : filter.kabkota
+        ? "city"
+        : filter.provinsi
+        ? "province"
+        : "All",
     faskes_parent_id:
       filter.faskes !== ""
         ? filter.kecamatan
         : filter.provinsi !== "" &&
           filter.kabkota !== "" &&
           filter.kecamatan === undefined
-          ? filter.provinsi
-          : filter.provinsi !== "" &&
-            filter.kabkota !== "" &&
-            filter.kecamatan !== ""
-            ? filter.kabkota
-            : filter.provinsi !== "" && filter.kabkota !== ""
-              ? filter.provinsi
-              : filter.provinsi !== ""
-                ? filter.provinsi
-                : "All",
+        ? filter.provinsi
+        : filter.provinsi !== "" &&
+          filter.kabkota !== "" &&
+          filter.kecamatan !== ""
+        ? filter.kabkota
+        : filter.provinsi !== "" && filter.kabkota !== ""
+        ? filter.provinsi
+        : filter.provinsi !== ""
+        ? filter.provinsi
+        : "All",
     faskes_id: filter.faskes
       ? filter.faskes
       : filter.kecamatan
-        ? filter.kecamatan
-        : filter.kabkota
-          ? filter.kabkota
-          : filter.provinsi
-            ? filter.provinsi
-            : "All",
+      ? filter.kecamatan
+      : filter.kabkota
+      ? filter.kabkota
+      : filter.provinsi
+      ? filter.provinsi
+      : "All",
     kewilayahan_type: filter.kewilayahan_type,
   };
 
@@ -150,39 +136,39 @@ const Wus = () => {
       filter.faskes && filter.kewilayahan_type == 0
         ? "faskes"
         : filter.faskes && filter.kewilayahan_type == 1
-          ? "subdistrict"
-          : filter.kecamatan
-            ? "district"
-            : filter.kabkota
-              ? "city"
-              : filter.provinsi
-                ? "province"
-                : "All",
+        ? "subdistrict"
+        : filter.kecamatan
+        ? "district"
+        : filter.kabkota
+        ? "city"
+        : filter.provinsi
+        ? "province"
+        : "All",
     faskes_parent_id:
       filter.faskes !== ""
         ? filter.kecamatan
         : filter.provinsi !== "" &&
           filter.kabkota !== "" &&
           filter.kecamatan === undefined
-          ? filter.provinsi
-          : filter.provinsi !== "" &&
-            filter.kabkota !== "" &&
-            filter.kecamatan !== ""
-            ? filter.kabkota
-            : filter.provinsi !== "" && filter.kabkota !== ""
-              ? filter.provinsi
-              : filter.provinsi !== ""
-                ? filter.provinsi
-                : "All",
+        ? filter.provinsi
+        : filter.provinsi !== "" &&
+          filter.kabkota !== "" &&
+          filter.kecamatan !== ""
+        ? filter.kabkota
+        : filter.provinsi !== "" && filter.kabkota !== ""
+        ? filter.provinsi
+        : filter.provinsi !== ""
+        ? filter.provinsi
+        : "All",
     faskes_id: filter.faskes
       ? filter.faskes
       : filter.kecamatan
-        ? filter.kecamatan
-        : filter.kabkota
-          ? filter.kabkota
-          : filter.provinsi
-            ? filter.provinsi
-            : "All",
+      ? filter.kecamatan
+      : filter.kabkota
+      ? filter.kabkota
+      : filter.provinsi
+      ? filter.provinsi
+      : "All",
     kewilayahan_type: filter.kewilayahan_type,
     status_type: filter.status_type_kumulatif,
     tren_type: filter.tren_type,
@@ -207,14 +193,14 @@ const Wus = () => {
       filter.faskes && filter.kewilayahan_type == 0
         ? "faskes"
         : filter.faskes && filter.kewilayahan_type == 1
-          ? "subdistrict"
-          : filter.kecamatan
-            ? "district"
-            : filter.kabkota
-              ? "city"
-              : filter.provinsi
-                ? "province"
-                : "All",
+        ? "subdistrict"
+        : filter.kecamatan
+        ? "district"
+        : filter.kabkota
+        ? "city"
+        : filter.provinsi
+        ? "province"
+        : "All",
     kewilayahan_type: filter.kewilayahan_type,
   };
 
@@ -226,45 +212,16 @@ const Wus = () => {
       filter.faskes && filter.kewilayahan_type == 0
         ? "faskes"
         : filter.faskes && filter.kewilayahan_type == 1
-          ? "subdistrict"
-          : filter.kecamatan
-            ? "district"
-            : filter.kabkota
-              ? "city"
-              : filter.provinsi
-                ? "province"
-                : "All",
+        ? "subdistrict"
+        : filter.kecamatan
+        ? "district"
+        : filter.kabkota
+        ? "city"
+        : filter.provinsi
+        ? "province"
+        : "All",
     kewilayahan_type: filter.kewilayahan_type,
   };
-
-  // const filterStateGetTotalCumulativeCoverageRecipients = useState({
-  //   year: 2024,
-  //   tren_type: "kumulatif",
-  //   status_type: "t1",
-  //   women_category: "All",
-  // });
-  // const [filterGetTotalCumulativeCoverageRecipients] =
-  //   filterStateGetTotalCumulativeCoverageRecipients;
-
-  // const filterQueryTotal = {
-  //   ...dateQuery,
-  //   region_type: filterQuery.region_type,
-  //   faskes_parent_id: 11,
-  //   faskes_id: 11,
-  //   women_category: "All",
-  // };
-
-  // const filterCumulativeCoverageRecipients = useState({
-  //   ...dateQuery,
-  //   region_type: "province",
-  //   faskes_parent_id: 11,
-  //   faskes_id: 11,
-  //   status_type: "t1",
-  //   tren_type: "bulanan",
-  //   women_category: "All",
-  // });
-
-  // const [filterCoverageRecipients] = filterCumulativeCoverageRecipients;
 
   const optionQuery = {
     refetchOnMountOrArgChange: true,
@@ -274,59 +231,85 @@ const Wus = () => {
         (!filter.provinsi || !filter.kabkota || !filter.kecamatan)),
   };
 
-  const { data: getTotalImmunizationQuery } = useGetTotalImmunizationQuery(
-    filterQuery,
+  const {
+    data: getTotalImmunizationQuery,
+    isLoading: isLoadingTotalImmunizationQuery,
+  } = useGetTotalImmunizationQuery(filterQuery, optionQuery);
+  const {
+    data: getTotalImmunizationPregnantQuery,
+    isLoading: isLoadingTotalImmunizationPregnantQuery,
+  } = useGetTotalImmunizationPregnantQuery(filterQuery, optionQuery);
+  const {
+    data: getTotalImmunizationFertileQuery,
+    isLoading: isLoadingTotalImmunizationFertileQuery,
+  } = useGetTotalImmunizationFertileQuery(filterQuery, optionQuery);
+  const {
+    data: getTotalImmunizationTdWusQuery,
+    isLoading: isLoadingTotalImmunizationTdWusQuery,
+  } = useGetTotalImmunizationTdWusQuery(filterQuery, optionQuery);
+  const {
+    data: getTotalImmunizationTdWusPregnantQuery,
+    isLoading: isLoadingTotalImmunizationTdWusPregnantQuery,
+  } = useGetTotalImmunizationTdWusPregnantQuery(filterQuery, optionQuery);
+  const {
+    data: getTotalImmunizationTdWusFertileQuery,
+    isLoading: isLoadingTotalImmunizationTdWusFertileQuery,
+  } = useGetTotalImmunizationTdWusFertileQuery(filterQuery, optionQuery);
+
+  // grafik1
+  const {
+    data: getTotalImmunizationTotalCoverageQuery,
+    isLoading: isLoadingImmunizationTotalCoverageQuery,
+  } = useGetTotalImmunizationTotalCoverageQuery(filterCoverage, optionQuery);
+
+  const {
+    data: getTotalImmunizationTotalCoverageHighestQuery,
+    isLoading: isLoadingImmunizationTotalCoverageHighestQuery,
+  } = useGetTotalImmunizationTotalCoverageHighestQuery(
+    filterCoverage,
     optionQuery
   );
-  const { data: getTotalImmunizationPregnantQuery } =
-    useGetTotalImmunizationPregnantQuery(filterQuery, optionQuery);
-  const { data: getTotalImmunizationFertileQuery } =
-    useGetTotalImmunizationFertileQuery(filterQuery, optionQuery);
-  const { data: getTotalImmunizationTdWusQuery } =
-    useGetTotalImmunizationTdWusQuery(filterQuery, optionQuery);
-  const { data: getTotalImmunizationTdWusPregnantQuery } =
-    useGetTotalImmunizationTdWusPregnantQuery(filterQuery, optionQuery);
-  const { data: getTotalImmunizationTdWusFertileQuery } =
-    useGetTotalImmunizationTdWusFertileQuery(filterQuery, optionQuery);
-
-  // grafik1
-  const { data: getTotalImmunizationTotalCoverageQuery } =
-    useGetTotalImmunizationTotalCoverageQuery(filterCoverage, optionQuery);
-
-  const { data: getTotalImmunizationTotalCoverageHighestQuery } =
-    useGetTotalImmunizationTotalCoverageHighestQuery(
-      filterCoverage,
-      optionQuery
-    );
-  const { data: getTotalImmunizationTotalCoverageLowestQuery } =
-    useGetTotalImmunizationTotalCoverageLowestQuery(
-      filterCoverage,
-      optionQuery
-    );
-  const { data: getTotalImmunizationTotalCumulativeCoverageQuery } =
-    useGetTotalImmunizationTotalCumulativeCoverageQuery(
-      filterCoverage,
-      optionQuery
-    );
+  const {
+    data: getTotalImmunizationTotalCoverageLowestQuery,
+    isLoading: isLoadingImmunizationTotalCoverageLowestQuery,
+  } = useGetTotalImmunizationTotalCoverageLowestQuery(
+    filterCoverage,
+    optionQuery
+  );
+  const {
+    data: getTotalImmunizationTotalCumulativeCoverageQuery,
+    isLoading: isLoadingImmunizationTotalCumulativeCoverageQuery,
+  } = useGetTotalImmunizationTotalCumulativeCoverageQuery(
+    filterCoverage,
+    optionQuery
+  );
 
   // grafik1
 
-  const { data: getTotalImmunizationTotalCumulativeCoverageRecipientsQuery } =
-    useGetTotalImmunizationTotalCumulativeCoverageRecipientsQuery(
-      filterCumulativeCoverageRecipients,
-      optionQuery
-    );
-  const { data: getDistributionStatusChartQuery } =
-    useGetDistributionStatusChartQuery(filterDistributionStatus, optionQuery);
-  const { data: getDistributionStatusPregnantChartQuery } =
-    useGetDistributionStatusPregnantChartQuery(
-      filterDistributionStatusPregnant
-    );
-  const { data: getTotalCumulativeCoverageRecipientsQuery } =
-    useGetTotalCumulativeCoverageRecipientsQuery(
-      filterGetTotalCumulativeCoverageRecipients,
-      optionQuery
-    );
+  const {
+    data: getTotalImmunizationTotalCumulativeCoverageRecipientsQuery,
+    isLoading: isLoadingImmunizationTotalCumulativeCoverageRecipientsQuery,
+  } = useGetTotalImmunizationTotalCumulativeCoverageRecipientsQuery(
+    filterCumulativeCoverageRecipients,
+    optionQuery
+  );
+  const {
+    data: getDistributionStatusChartQuery,
+    isLoading: isLoadingDistributionStatusChartQuery,
+  } = useGetDistributionStatusChartQuery(filterDistributionStatus, optionQuery);
+  const {
+    data: getDistributionStatusPregnantChartQuery,
+    isLoading: isLoadingDistributionStatusPregnantChartQuery,
+  } = useGetDistributionStatusPregnantChartQuery(
+    filterDistributionStatusPregnant
+  );
+  const {
+    data: getTotalCumulativeCoverageRecipientsQuery,
+    isLoading: isLoadingCumulativeCoverageRecipientsQuery,
+  } = useGetTotalCumulativeCoverageRecipientsQuery(
+    filterGetTotalCumulativeCoverageRecipients,
+    optionQuery
+  );
 
   const dataGraphRegionalRoutineImmunizationCoverageTrend = [
     {
@@ -340,6 +323,7 @@ const Wus = () => {
         </div>
       ),
       regional: "",
+      isLoading: isLoadingImmunizationTotalCoverageQuery,
     },
     {
       title: `Cakupan Tertinggi Tahun ${filter.tahun}`,
@@ -355,6 +339,7 @@ const Wus = () => {
 
       regional:
         getTotalImmunizationTotalCoverageHighestQuery?.data?.faskes_desc,
+      isLoading: isLoadingImmunizationTotalCoverageHighestQuery,
     },
     {
       title: `Cakupan Terendah Tahun ${filter.tahun}`,
@@ -362,12 +347,13 @@ const Wus = () => {
         <div>
           {formatNumber(
             getTotalImmunizationTotalCoverageLowestQuery?.data?.ytd_pct_total ||
-            0
+              0
           )}
           %
         </div>
       ),
       regional: getTotalImmunizationTotalCoverageLowestQuery?.data?.faskes_desc,
+      isLoading: isLoadingImmunizationTotalCoverageLowestQuery,
     },
   ];
 
@@ -428,135 +414,153 @@ const Wus = () => {
                 ditentukan.
               </div>
               <div className="gap-4 grid grid-cols-1 sm:grid-cols-3 mt-4">
-                <ChildSummaryImmunization
-                  className="px-4 border rounded-lg"
-                  titleIcon={
-                    <Image
-                      alt="satusehat"
-                      src={VaccinateNudge.src}
-                      width={24}
-                      height={24}
-                    />
-                  }
-                  title={"Status T2+"}
-                  value={
-                    formatNumber(
-                      getTotalImmunizationQuery?.data?.ytd_total_t2plus
-                    ) || "0"
-                  }
-                  percent={getTotalImmunizationQuery?.data?.ytd_pct_t2plus || 0}
-                  target={
-                    formatNumber(
-                      getTotalImmunizationQuery?.data?.immunization_target_cnt
-                    ) || 0
-                  }
-                  subtitle={"dari "}
-                />
-
-                <ChildSummaryImmunization
-                  className="px-4 border rounded-lg"
-                  titleIcon={
-                    <Image
-                      alt="satusehat"
-                      src={VaccinateNudge.src}
-                      width={24}
-                      height={24}
-                    />
-                  }
-                  title={"Status T2+ Ibu Hamil"}
-                  value={
-                    formatNumber(
+                <div className="relative flex justify-center items-center">
+                  {isLoadingTotalImmunizationQuery && <Spin />}
+                  <ChildSummaryImmunization
+                    className="px-4 border rounded-lg"
+                    titleIcon={
+                      <Image
+                        alt="satusehat"
+                        src={VaccinateNudge.src}
+                        width={24}
+                        height={24}
+                      />
+                    }
+                    title={"Status T2+"}
+                    value={
+                      formatNumber(
+                        getTotalImmunizationQuery?.data?.ytd_total_t2plus
+                      ) || "0"
+                    }
+                    percent={
+                      getTotalImmunizationQuery?.data?.ytd_pct_t2plus || 0
+                    }
+                    target={
+                      formatNumber(
+                        getTotalImmunizationQuery?.data?.immunization_target_cnt
+                      ) || 0
+                    }
+                    subtitle={"dari "}
+                  />
+                </div>
+                <div className="relative flex justify-center items-center">
+                  {isLoadingTotalImmunizationPregnantQuery && <Spin />}
+                  <ChildSummaryImmunization
+                    className="px-4 border rounded-lg"
+                    titleIcon={
+                      <Image
+                        alt="satusehat"
+                        src={VaccinateNudge.src}
+                        width={24}
+                        height={24}
+                      />
+                    }
+                    title={"Status T2+ Ibu Hamil"}
+                    value={
+                      formatNumber(
+                        getTotalImmunizationPregnantQuery?.data
+                          ?.ytd_total_t2plus_pregnant
+                      ) || "0"
+                    }
+                    percent={
                       getTotalImmunizationPregnantQuery?.data
-                        ?.ytd_total_t2plus_pregnant
-                    ) || "0"
-                  }
-                  percent={
-                    getTotalImmunizationPregnantQuery?.data
-                      ?.ytd_pct_t2plus_pregnant || "0"
-                  }
-                  target={
-                    formatNumber(
-                      getTotalImmunizationPregnantQuery?.data
-                        ?.immunization_target_cnt_pregnant
-                    ) || "0"
-                  }
-                  subtitle={"  dari "}
-                />
-
-                <ChildSummaryImmunization
-                  className="px-4 border rounded-lg"
-                  titleIcon={
-                    <Image
-                      alt="satusehat"
-                      src={VaccinateNudge.src}
-                      width={24}
-                      height={24}
-                    />
-                  }
-                  title={"Status T2+ Ibu Tidak Hamil"}
-                  value={
-                    formatNumber(
+                        ?.ytd_pct_t2plus_pregnant || "0"
+                    }
+                    target={
+                      formatNumber(
+                        getTotalImmunizationPregnantQuery?.data
+                          ?.immunization_target_cnt_pregnant
+                      ) || "0"
+                    }
+                    subtitle={"  dari "}
+                  />
+                </div>
+                <div className="relative flex justify-center items-center">
+                  {isLoadingTotalImmunizationFertileQuery && <Spin />}
+                  <ChildSummaryImmunization
+                    className="px-4 border rounded-lg"
+                    titleIcon={
+                      <Image
+                        alt="satusehat"
+                        src={VaccinateNudge.src}
+                        width={24}
+                        height={24}
+                      />
+                    }
+                    title={"Status T2+ Ibu Tidak Hamil"}
+                    value={
+                      formatNumber(
+                        getTotalImmunizationFertileQuery?.data
+                          ?.ytd_total_t2plus_fertile
+                      ) || "0"
+                    }
+                    percent={
                       getTotalImmunizationFertileQuery?.data
-                        ?.ytd_total_t2plus_fertile
-                    ) || "0"
-                  }
-                  percent={
-                    getTotalImmunizationFertileQuery?.data
-                      ?.ytd_pct_t2plus_fertile || 0
-                  }
-                  target={
-                    formatNumber(
-                      getTotalImmunizationFertileQuery?.data
-                        ?.immunization_target_cnt_fertile
-                    ) || 0
-                  }
-                  subtitle={"  dari "}
-                />
-                <ChildSummaryImmunization
-                  className={`px-4 border rounded-lg ${styles.scoreCardPurple}`}
-                  background="#9F1AB1"
-                  classNameTitle="text-white"
-                  classNameValue="text-4xl text-white"
-                  title="Total Penerima Imunisasi Td WUS"
-                  contentTooltip={<>Total Penerima Imunisasi Td WUS</>}
-                  value={
-                    formatNumber(
-                      getTotalImmunizationTdWusQuery?.data?.ytd_total_td_wus
-                    ) || "0"
-                  }
-                />
-                <ChildSummaryImmunization
-                  className={`px-4 border rounded-lg ${styles.scoreCardPurple}`}
-                  background="#9F1AB1"
-                  classNameTitle="text-white"
-                  classNameValue="text-4xl text-white"
-                  title="Total Penerima Imunisasi Td WUS Ibu Hamil"
-                  contentTooltip={
-                    <>Total Penerima Imunisasi Td WUS Ibu Hamil</>
-                  }
-                  value={
-                    formatNumber(
-                      getTotalImmunizationTdWusPregnantQuery?.data
-                        ?.ytd_total_td_wus_pregnant
-                    ) || "0"
-                  }
-                />
-                <ChildSummaryImmunization
-                  className={`px-4 border rounded-lg ${styles.scoreCardPurple}`}
-                  background="#9F1AB1"
-                  classNameTitle="text-white"
-                  classNameValue="text-4xl text-white"
-                  title="Total Penerima Imunisasi Td WUS Ibu Tidak Hamil"
-                  contentTooltip={
-                    <>Total Penerima Imunisasi Td WUS Ibu Tidak Hamil</>
-                  }
-                  value={
-                    formatNumber(
-                      getTotalImmunizationTdWusFertileQuery?.data
-                        ?.ytd_total_td_wus_fertile
-                    ) || "0"
-                  }
-                />
+                        ?.ytd_pct_t2plus_fertile || 0
+                    }
+                    target={
+                      formatNumber(
+                        getTotalImmunizationFertileQuery?.data
+                          ?.immunization_target_cnt_fertile
+                      ) || 0
+                    }
+                    subtitle={"  dari "}
+                  />
+                </div>
+                <div className="relative flex justify-center items-center">
+                  {isLoadingTotalImmunizationTdWusQuery && <Spin />}
+                  <ChildSummaryImmunization
+                    className={`px-4 border rounded-lg ${styles.scoreCardPurple}`}
+                    background="#9F1AB1"
+                    classNameTitle="text-white"
+                    classNameValue="text-4xl text-white"
+                    title="Total Penerima Imunisasi Td WUS"
+                    contentTooltip={<>Total Penerima Imunisasi Td WUS</>}
+                    value={
+                      formatNumber(
+                        getTotalImmunizationTdWusQuery?.data?.ytd_total_td_wus
+                      ) || "0"
+                    }
+                  />
+                </div>
+                <div className="relative flex justify-center items-center">
+                  {isLoadingTotalImmunizationTdWusPregnantQuery && <Spin />}
+                  <ChildSummaryImmunization
+                    className={`px-4 border rounded-lg ${styles.scoreCardPurple}`}
+                    background="#9F1AB1"
+                    classNameTitle="text-white"
+                    classNameValue="text-4xl text-white"
+                    title="Total Penerima Imunisasi Td WUS Ibu Hamil"
+                    contentTooltip={
+                      <>Total Penerima Imunisasi Td WUS Ibu Hamil</>
+                    }
+                    value={
+                      formatNumber(
+                        getTotalImmunizationTdWusPregnantQuery?.data
+                          ?.ytd_total_td_wus_pregnant
+                      ) || "0"
+                    }
+                  />
+                </div>
+                <div className="relative flex justify-center items-center">
+                  {isLoadingTotalImmunizationTdWusFertileQuery && <Spin />}
+                  <ChildSummaryImmunization
+                    className={`px-4 border rounded-lg ${styles.scoreCardPurple}`}
+                    background="#9F1AB1"
+                    classNameTitle="text-white"
+                    classNameValue="text-4xl text-white"
+                    title="Total Penerima Imunisasi Td WUS Ibu Tidak Hamil"
+                    contentTooltip={
+                      <>Total Penerima Imunisasi Td WUS Ibu Tidak Hamil</>
+                    }
+                    value={
+                      formatNumber(
+                        getTotalImmunizationTdWusFertileQuery?.data
+                          ?.ytd_total_td_wus_fertile
+                      ) || "0"
+                    }
+                  />
+                </div>
               </div>
             </div>
 
@@ -597,27 +601,14 @@ const Wus = () => {
                           }
                         />
                       }
+                      isLoading={
+                        isLoadingImmunizationTotalCumulativeCoverageQuery
+                      }
                       opts={{
                         height: 900,
                       }}
                       graphOptions={graphOptions1(
                         [
-                          // {
-                          //   // @ts-ignore
-                          //   name: "Target Cakupan per Daerah = 100%",
-                          //   data:
-                          //     (
-                          //       getTotalImmunizationTotalCumulativeCoverageQuery?.data ||
-                          //       []
-                          //     )?.map((r: any) => r?.ytd_pct_total) || [],
-                          //   type: "bar",
-                          //   label: {
-                          //     show: true,
-                          //     precision: 1,
-                          //     position: "right",
-                          //     formatter: (params: any) => `${params.value}%`,
-                          //   },
-                          // },
                           {
                             // @ts-ignore
                             name: "Persentase",
@@ -730,7 +721,9 @@ const Wus = () => {
                       }
                       threshold={
                         <div className="relative flex justify-center items-center">
-                          {/* {isLoadingSetSummaryScopePercentageQuery && <Spin />} */}
+                          {isLoadingCumulativeCoverageRecipientsQuery && (
+                            <Spin />
+                          )}
                           <div className="p-2 sm:w-32 md:w-64 h-fit">
                             <div className="text-sm">
                               Total cakupan kumulatif pada tahun {filter.tahun}
@@ -751,6 +744,9 @@ const Wus = () => {
                             </div>
                           </div>
                         </div>
+                      }
+                      isLoading={
+                        isLoadingImmunizationTotalCumulativeCoverageRecipientsQuery
                       }
                       graphOptions={graphOptions2([
                         {
@@ -834,6 +830,7 @@ const Wus = () => {
                           dataWus={getDistributionStatusChartQuery?.data}
                         />
                       }
+                      isLoading={isLoadingDistributionStatusChartQuery}
                       graphOptions={graphOptions7([
                         {
                           name: "Total",
@@ -889,6 +886,7 @@ const Wus = () => {
                           }
                         />
                       }
+                      isLoading={isLoadingDistributionStatusPregnantChartQuery}
                       graphOptions={graphOptions7([
                         {
                           name: "Total",
