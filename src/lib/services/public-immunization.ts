@@ -7,6 +7,14 @@ export const publicImmunizationApi = apiWithTag.injectEndpoints({
   overrideExisting: true,
   endpoints: (build) => ({
     // ---
+    getListVaccine: build.query({
+      query: (options = {}) => ({
+        url: `${API_URL}/v1/public-immunization/get-list-vaccine`,
+        params: options,
+      }),
+      providesTags: ["public-immunization"],
+    }),
+    // ---
     getTotalUniqueBaby: build.query({
       query: (options = {}) => ({
         url: `${API_URL}/v1/public-immunization/total-unique-baby`,
@@ -162,6 +170,7 @@ export const publicImmunizationApi = apiWithTag.injectEndpoints({
 });
 
 export const {
+  useGetListVaccineQuery,
   useGetTotalBaseCumulativeQuery,
   useGetTotalBaseHighestScopeQuery,
   useGetTotalBaseLowestScopeQuery,
