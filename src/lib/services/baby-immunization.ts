@@ -268,6 +268,62 @@ export const babyImmunizationApi = apiWithTag.injectEndpoints({
       }),
       providesTags: ["bayi-immunization"],
     }),
+    getGraphScope: build.query({
+      query: (options = {}) => ({
+        url: `${API_URL}/v1/immunization-bayi/graph-scope-immunization-type`,
+        params: options,
+      }),
+      providesTags: ["bayi-immunization"],
+    }),
+    getNonIdealAge: build.query({
+      query: (options = {}) => ({
+        url: `${API_URL}/v1/immunization-bayi/highest-immunization-non-ideal-age`,
+        params: options,
+      }),
+      providesTags: ["bayi-immunization"],
+    }),
+    getIdealAge: build.query({
+      query: (options = {}) => ({
+        url: `${API_URL}/v1/immunization-bayi/highest-immunization-ideal-age`,
+        params: options,
+      }),
+      providesTags: ["bayi-immunization"],
+    }),
+    getGraphImmunizationAge: build.query({
+      query: (options = {}) => ({
+        url: `${API_URL}/v1/immunization-bayi/graph-immunization-age`,
+        params: options,
+      }),
+      providesTags: ["bayi-immunization"],
+    }),
+    getAverageGender: build.query({
+      query: (options = {}) => ({
+        url: `${API_URL}/v1/immunization-bayi/average-immunization-gender`,
+        params: options,
+      }),
+      providesTags: ["bayi-immunization"],
+    }),
+    getMostImmunizationTypeMale: build.query({
+      query: (options = {}) => ({
+        url: `${API_URL}/v1/immunization-bayi/most-immunization-type-male`,
+        params: options,
+      }),
+      providesTags: ["bayi-immunization"],
+    }),
+    getMostImmunizationTypeFemale: build.query({
+      query: (options = {}) => ({
+        url: `${API_URL}/v1/immunization-bayi/most-immunization-type-female`,
+        params: options,
+      }),
+      providesTags: ["bayi-immunization"],
+    }),
+    getGraphImmunizationGender: build.query({
+      query: (options = {}) => ({
+        url: `${API_URL}/v1/immunization-bayi/graph-immunization-gender`,
+        params: options,
+      }),
+      providesTags: ["bayi-immunization"],
+    }),
 
     //==============================================================================================================================
     getTotalImmunizationByVaccineType: build.query({
@@ -470,6 +526,14 @@ export const {
   useGetHighestScopeQuery,
   useGetLowestScopeQuery,
   useGetTypeSuspaseQuery,
+  useGetGraphScopeQuery,
+  useGetNonIdealAgeQuery,
+  useGetIdealAgeQuery,
+  useGetGraphImmunizationAgeQuery,
+  useGetAverageGenderQuery,
+  useGetMostImmunizationTypeMaleQuery,
+  useGetMostImmunizationTypeFemaleQuery,
+  useGetGraphImmunizationGenderQuery,
 
   //
   useGetTotalImmunizationByVaccineTypeQuery,
