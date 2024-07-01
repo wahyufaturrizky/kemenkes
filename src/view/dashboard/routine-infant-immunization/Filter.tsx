@@ -174,7 +174,7 @@ export const Filter4: React.FC<FilterProps> = ({ filterState }) => {
             }
           />
         </div>
-        <div>
+        {/* <div>
           <Select
             options={ageTypeOptions}
             onChange={(e: any) => {
@@ -186,7 +186,7 @@ export const Filter4: React.FC<FilterProps> = ({ filterState }) => {
                 : filter.tipe_umur
             }
           />
-        </div>
+        </div> */}
       </div>
       <div className="flex gap-4">
         <div>
@@ -222,7 +222,7 @@ export const Filter5: React.FC<FilterProps> = ({ filterState }) => {
             }
           />
         </div>
-        <div>
+        {/* <div>
           <Select
             options={genderOptions}
             onChange={(e: any) => {
@@ -234,7 +234,7 @@ export const Filter5: React.FC<FilterProps> = ({ filterState }) => {
                 : filter.jenis_kelamin
             }
           />
-        </div>
+        </div> */}
       </div>
       <div className="flex gap-4">
         <div>
