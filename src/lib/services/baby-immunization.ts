@@ -242,7 +242,7 @@ export const babyImmunizationApi = apiWithTag.injectEndpoints({
     }),
     getTotalCompleteBase: build.query({
       query: (options = {}) => ({
-        url: `${API_URL}/v1/immunization-bayi/scope-complete-base-immunization`,
+        url: `${API_URL}/v1/immunization-bayi/scope-immunization-type`,
         params: options,
       }),
       providesTags: ["bayi-immunization"],

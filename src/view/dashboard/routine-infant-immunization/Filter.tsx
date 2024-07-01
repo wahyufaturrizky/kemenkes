@@ -1,30 +1,36 @@
 import { useState } from "react";
+import { openSans } from "@/assets/fonts";
+import { downloadFile } from "@/helpers/hook";
 import { Button, Select } from "@/components";
 import {
   ageTypeOptions,
   genderOptions,
   regionOptions,
-  trendTypeOptions,
-  vaccineTypeOptions,
+  trendTypeOptionsBayi,
+  vaccineTypeBabyOptionsNew,
 } from "@/utils/constants";
 
 interface FilterProps {
   filterState: any;
+  data?: any;
 }
-export const Filter1: React.FC<FilterProps> = ({ filterState }) => {
+export const Filter1: React.FC<FilterProps> = ({ filterState, data }) => {
   const [filter, setFilter] = filterState || useState({});
   return (
     <div className="flex flex-wrap justify-between items-center gap-4 sm:mt-20 md:mt-0 mb-8">
-      <div className="flex gap-4">
+      <div className={`flex gap-4 ${openSans.className}`}>
         <div>
           <Select
-            options={vaccineTypeOptions}
+            options={vaccineTypeBabyOptionsNew}
             onChange={(e: any) => {
-              setFilter({ ...filter, tipe_vaksin1: e ? e.value : "All" });
+              setFilter({
+                ...filter,
+                tipe_vaksin1: e ? e.value : "IMUNISASI DASAR LENGKAP",
+              });
             }}
             value={
               filter.tipe_vaksin1
-                ? vaccineTypeOptions?.find(
+                ? vaccineTypeBabyOptionsNew?.find(
                     (f) => f.value === filter.tipe_vaksin1
                   )
                 : filter.tipe_vaksin1
@@ -35,18 +41,28 @@ export const Filter1: React.FC<FilterProps> = ({ filterState }) => {
           <Select
             options={regionOptions}
             onChange={(e: any) => {
-              setFilter({ ...filter, wilayah: e ? e.value : "province" });
+              setFilter({ ...filter, wilayah1: e ? e.value : "province" });
             }}
             value={
-              filter.wilayah
-                ? vaccineTypeOptions?.find((f) => f.value === filter.wilayah)
-                : filter.wilayah
+              filter.wilayah1
+                ? regionOptions?.find((f) => f.value === filter.wilayah1)
+                : filter.wilayah1
             }
           />
         </div>
       </div>
       <div className="flex gap-4">
-        <div>
+        <div
+          onClick={async () => {
+            const pct = data?.map((r: any) => r.percentage.toString());
+            const target = data?.map((r: any) => r.threshold.toString());
+            const header = data?.map((r: any) => r.faskes_desc);
+            const body = [pct, target];
+            const verticalHeader = ["% Target Cakupan", "Target"];
+            const fileName = "Grafik Cakupan";
+            await downloadFile({ header, body, verticalHeader, fileName });
+          }}
+        >
           <Button text="Unduh" variant="outlined" />
         </div>
         {/* <div>
@@ -63,26 +79,28 @@ export const Filter2: React.FC<FilterProps> = ({ filterState }) => {
       <div className="flex gap-4">
         <div>
           <Select
-            options={trendTypeOptions}
+            options={trendTypeOptionsBayi}
             onChange={(e: any) => {
-              setFilter({ ...filter, jenis_tren: e ? e.value : "All" });
+              setFilter({ ...filter, jenis_tren: e ? e.value : "Kumulatif" });
             }}
             value={
               filter.jenis_tren
-                ? trendTypeOptions?.find((f) => f.value === filter.jenis_tren)
+                ? trendTypeOptionsBayi?.find(
+                    (f) => f.value === filter.jenis_tren
+                  )
                 : filter.jenis_tren
             }
           />
         </div>
         <div>
           <Select
-            options={vaccineTypeOptions}
+            options={vaccineTypeBabyOptionsNew}
             onChange={(e: any) => {
               setFilter({ ...filter, tipe_vaksin2: e ? e.value : "All" });
             }}
             value={
               filter.tipe_vaksin2
-                ? vaccineTypeOptions?.find(
+                ? vaccineTypeBabyOptionsNew?.find(
                     (f) => f.value === filter.tipe_vaksin2
                   )
                 : filter.tipe_vaksin2
@@ -108,13 +126,13 @@ export const Filter3: React.FC<FilterProps> = ({ filterState }) => {
       <div className="flex gap-4">
         <div>
           <Select
-            options={vaccineTypeOptions}
+            options={vaccineTypeBabyOptionsNew}
             onChange={(e: any) => {
               setFilter({ ...filter, tipe_vaksin3: e ? e.value : "All" });
             }}
             value={
               filter.tipe_vaksin3
-                ? vaccineTypeOptions?.find(
+                ? vaccineTypeBabyOptionsNew?.find(
                     (f) => f.value === filter.tipe_vaksin3
                   )
                 : filter.tipe_vaksin3
@@ -140,14 +158,17 @@ export const Filter4: React.FC<FilterProps> = ({ filterState }) => {
       <div className="flex gap-4">
         <div>
           <Select
-            options={vaccineTypeOptions}
+            options={vaccineTypeBabyOptionsNew}
             onChange={(e: any) => {
-              setFilter({ ...filter, tipe_vaksin3: e ? e.value : "All" });
+              setFilter({
+                ...filter,
+                tipe_vaksin4: e ? e.value : "IMUNISASI DASAR LENGKAP",
+              });
             }}
             value={
               filter.tipe_vaksin3
-                ? vaccineTypeOptions?.find(
-                    (f) => f.value === filter.tipe_vaksin3
+                ? vaccineTypeBabyOptionsNew?.find(
+                    (f) => f.value === filter.tipe_vaksin4
                   )
                 : filter.tipe_vaksin3
             }
@@ -185,13 +206,16 @@ export const Filter5: React.FC<FilterProps> = ({ filterState }) => {
       <div className="flex gap-4">
         <div>
           <Select
-            options={vaccineTypeOptions}
+            options={vaccineTypeBabyOptionsNew}
             onChange={(e: any) => {
-              setFilter({ ...filter, tipe_vaksin5: e ? e.value : "All" });
+              setFilter({
+                ...filter,
+                tipe_vaksin5: e ? e.value : "IMUNISASI DASAR LENGKAP",
+              });
             }}
             value={
               filter.tipe_vaksin5
-                ? vaccineTypeOptions?.find(
+                ? vaccineTypeBabyOptionsNew?.find(
                     (f) => f.value === filter.tipe_vaksin5
                   )
                 : filter.tipe_vaksin5
