@@ -459,3 +459,97 @@ export const genderOptions = [
     value: "2",
   },
 ];
+
+export const vaccineTypeBabyOptionsNew = [
+  {
+    label: "Imunisasi Dasar Lengkap",
+    value: "IMUNISASI DASAR LENGKAP",
+  },
+  {
+    label: "BCG",
+    value: "BCG",
+  },
+  {
+    label: "Campak Rubela",
+    value: "CAMPAK RUBELA",
+  },
+  {
+    label: "DPT-HB-Hib 1",
+    value: "DPT-HB-Hib 1",
+  },
+  {
+    label: "DPT-HB-Hib 2",
+    value: "DPT-HB-Hib 2",
+  },
+  {
+    label: "DPT-HB-Hib 3",
+    value: "DPT-HB-Hib 3",
+  },
+  {
+    label: "HB - 0",
+    value: "HB 0",
+  },
+  {
+    label: "IPV 1",
+    value: "IPV 1",
+  },
+  {
+    label: "IPV 2",
+    value: "IPV 2",
+  },
+  {
+    label: "IPV 3",
+    value: "IPV 3",
+  },
+  {
+    label: "JE",
+    value: "JE",
+  },
+  {
+    label: "PCV 1",
+    value: "PCV 1",
+  },
+  {
+    label: "PCV 2",
+    value: "PCV 2",
+  },
+  {
+    label: "Polio 1",
+    value: "POLIO 1",
+  },
+  {
+    label: "Polio 2",
+    value: "POLIO 2",
+  },
+  {
+    label: "Polio 3",
+    value: "POLIO 3",
+  },
+  {
+    label: "Polio 4",
+    value: "POLIO 4",
+  },
+  {
+    label: "Rotavirus 1",
+    value: "ROTAVIRUS 1",
+  },
+  {
+    label: "Rotavirus 2",
+    value: "ROTAVIRUS 2",
+  },
+  {
+    label: "Rotavirus 3",
+    value: "ROTAVIRUS 3",
+  },
+];
+
+export const trendTypeOptionsBayi = [
+  {
+    label: "Kumulatif",
+    value: "Kumulatif",
+  },
+  {
+    label: "Bulanan",
+    value: "Bulanan",
+  },
+];
