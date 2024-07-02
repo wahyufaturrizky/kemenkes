@@ -32,7 +32,7 @@ const RoutineBadutaImmunization = () => {
     tipe_umur: 1,
     jenis_kelamin: 1,
     wilayah: "All",
-    wilayah1: "province",
+    wilayah1: "All",
     kewilayahan_type: 0
   })
   const [filter] = filterState
@@ -504,7 +504,10 @@ const RoutineBadutaImmunization = () => {
                         data={getPercentageTotalImmunizationQuery?.data || []} />}
                       isLoading={isLoadingPercentageTotalImmunizationQuery}
                       opts={{
-                        height: 900
+                        height: getPercentageTotalImmunizationQuery?.data?.length > 1500 ? 65000 :
+                          getPercentageTotalImmunizationQuery?.data?.length > 700 ? 35000 :
+                            getPercentageTotalImmunizationQuery?.data?.length > 200 ? 15000 :
+                              900
                       }}
                       graphOptions={graphOptions1([{
                         // @ts-ignore
