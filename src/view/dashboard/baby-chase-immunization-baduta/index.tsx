@@ -32,7 +32,7 @@ const BabyChaseImmunizationBaduta = () => {
     tipe_umur: 1,
     jenis_kelamin: 1,
     wilayah: "All",
-    wilayah1: "province",
+    wilayah1: "All",
     kewilayahan_type: 0
   })
   const [filter] = filterState
@@ -323,7 +323,10 @@ const BabyChaseImmunizationBaduta = () => {
                         data={getGraphTotalQuery?.data || []} />}
                       isLoading={isLoadingGraphTotalQuery}
                       opts={{
-                        height: 900
+                        height: getGraphTotalQuery?.data?.length > 1500 ? 65000 :
+                          getGraphTotalQuery?.data?.length > 700 ? 35000 :
+                            getGraphTotalQuery?.data?.length > 200 ? 15000 :
+                              900
                       }}
                       graphOptions={graphOptions1([{
                         // @ts-ignore

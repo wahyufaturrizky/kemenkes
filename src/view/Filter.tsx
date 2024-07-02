@@ -18,6 +18,10 @@ interface FilterProps {
 export const Filter1: React.FC<FilterProps> = ({ filterState, data }) => {
   const [filter, setFilter] = filterState || useState({});
   const { data: getListVaccine } = useGetListVaccineQuery({});
+  const regionTypeOptions = filter.kecamatan ? regionOptions.filter((r) => r.value === "faskes")
+    : filter.kabkota ? regionOptions.filter((r) => r.value === "district" || r.value === "faskes")
+      : filter.provinsi ? regionOptions.filter((r) => r.value === "city" || r.value === "district" || r.value === "faskes")
+        : regionOptions
 
   return (
     <div className="flex flex-wrap justify-between items-center gap-4 sm:mt-20 md:mt-0 mb-8">
@@ -49,13 +53,13 @@ export const Filter1: React.FC<FilterProps> = ({ filterState, data }) => {
         </div>
         <div>
           <Select
-            options={regionOptions}
+            options={regionTypeOptions}
             onChange={(e: any) => {
               setFilter({ ...filter, wilayah1: e ? e.value : "All" });
             }}
             value={
               filter.wilayah1
-                ? regionOptions?.find((f) => f.value === filter.wilayah1)
+                ? regionTypeOptions?.find((f) => f.value === filter.wilayah1)
                 : filter.wilayah1
             }
           />
@@ -63,10 +67,10 @@ export const Filter1: React.FC<FilterProps> = ({ filterState, data }) => {
       </div>
       <div className="flex gap-4">
         <div onClick={async () => {
-          const total = data?.map((r: any) => r.jumlah_penerima.toString());
-          const pct = data?.map((r: any) => r.pct_cakupan.toString());
-          const target = data?.map((r: any) => r.target_cakupan.toString());
-          const header = dataMonths?.map((r) => r.label);
+          const total = data?.map((r: any) => r.total.toString());
+          const pct = data?.map((r: any) => r.pct.toString());
+          const target = data?.map((r: any) => r.threshold.toString());
+          const header = data?.map((r: any) => r.domicile);
           const body = [pct, total, target];
           const verticalHeader = ["% Target Cakupan", "Jumlah Penerima Imunisasi", "Cakupan"];
           const fileName = "Data Kumulatif";

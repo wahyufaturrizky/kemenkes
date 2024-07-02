@@ -66,6 +66,7 @@ const HomeView = () => {
             ? "province"
             : "All",
   }
+
   const optionTotalUniqueQuery = {
     refetchOnMountOrArgChange: true,
     skip:
@@ -77,12 +78,12 @@ const HomeView = () => {
     ...dataQuery,
     jenis_tren: filter.jenis_tren,
     region_type: filter.wilayah,
-    vaccine_type: filter.tipe_vaksin1
+    vaccine_type: filter.tipe_vaksin2
   }
   const filterChart2Query = {
     ...dataQuery,
     region_type: filter.wilayah1,
-    vaccine_type: filter.tipe_vaksin2
+    vaccine_type: filter.tipe_vaksin1
   }
   const { data: getTotalUniqueBabyQuery,
     isLoading: isLoadingTotalUniqueBabyQuery
@@ -453,7 +454,10 @@ const HomeView = () => {
                     filterComp={<Filter1 filterState={filterState} />}
                     isLoading={isLoadingTotalChartProvinceQuery}
                     opts={{
-                      height: 900
+                      height: getTotalChartProvinceQuery?.data?.length > 1500 ? 65000 :
+                        getTotalChartProvinceQuery?.data?.length > 700 ? 35000 :
+                          getTotalChartProvinceQuery?.data?.length > 200 ? 15000 :
+                            900
                     }}
                     graphOptions={graphOptions1([{
                       // @ts-ignore
@@ -462,7 +466,7 @@ const HomeView = () => {
                         (
                           getTotalChartProvinceQuery?.data ||
                           []
-                        )?.map((r: any) => r?.pct_immunization) || [],
+                        )?.map((r: any) => r?.pct) || [],
                       type: "bar",
                       label: {
                         show: true,
@@ -479,14 +483,14 @@ const HomeView = () => {
                       data: (
                         getTotalChartProvinceQuery?.data ||
                         []
-                      )?.map((r: any) => r?.pct_target_threshold) || [],
+                      )?.map((r: any) => r?.threshold) || [],
                     }
                     ]
                       , (
                         getTotalChartProvinceQuery?.data ||
                         []
                       )
-                        ?.map((r: any) => r.faskes_desc)
+                        ?.map((r: any) => r.domicile === "All" ? "Nasional" : r.domicile)
                     )}
                   />
                 </div>
