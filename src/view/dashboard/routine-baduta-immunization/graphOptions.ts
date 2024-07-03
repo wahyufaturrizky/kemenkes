@@ -43,7 +43,7 @@ export const graphOptions1 = (series: any[], legend: any[]) => {
 };
 export const graphOptions2 = (series: any[]) => {
   const option: EChartsOptionProps = {
-    color: ["#EAAA08", "#8ECCFF", "#00B1A9"],
+    color: ["#8ECCFF", "#EAAA08", "#00B1A9"],
     grid: { containLabel: true },
     tooltip: {
       trigger: "axis",

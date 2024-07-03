@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import { openSans } from "@/assets/fonts";
 import { downloadFile } from "@/helpers/hook";
 import { Button, Select } from "@/components";
@@ -16,6 +16,22 @@ interface FilterProps {
 }
 export const Filter1: React.FC<FilterProps> = ({ filterState, data }) => {
   const [filter, setFilter] = filterState || useState({});
+  // console.log(filter);
+  const filteredRegionOptions = useMemo(() => {
+    if (filter.faskes !== "") {
+      return regionOptions.slice(4);
+    } else if (filter.kecamatan !== "") {
+      return regionOptions.slice(3);
+    } else if (filter.kabkota !== "") {
+      return regionOptions.slice(2);
+    } else if (filter.provinsi !== "") {
+      return regionOptions.slice(1);
+    } else {
+      return regionOptions;
+    }
+  }, [filter.provinsi, filter.kabkota, filter.kecamatan, filter.faskes]);
+
+  // console.log(filteredRegionOptions, "isi pilihan");
   return (
     <div className="flex flex-wrap justify-between items-center gap-4 sm:mt-20 md:mt-0 mb-8">
       <div className={`flex gap-4 ${openSans.className}`}>
@@ -39,9 +55,9 @@ export const Filter1: React.FC<FilterProps> = ({ filterState, data }) => {
         </div>
         <div>
           <Select
-            options={regionOptions}
+            options={filteredRegionOptions}
             onChange={(e: any) => {
-              setFilter({ ...filter, wilayah1: e ? e.value : "province" });
+              setFilter({ ...filter, wilayah1: e ? e.value : "" });
             }}
             value={
               filter.wilayah1

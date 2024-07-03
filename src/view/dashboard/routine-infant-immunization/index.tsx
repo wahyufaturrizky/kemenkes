@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState, useMemo } from "react";
 import Image from "next/image";
 import styles from "@/assets/css/styles.module.css";
 import VaccinateNudge from "@/assets/icons/vaccinate-nudge.png";
@@ -145,7 +145,7 @@ const RoutineBabyImmunization = () => {
     tipe_umur: 1,
     jenis_kelamin: 1,
     wilayah: "All",
-    wilayah1: "province",
+    wilayah1: "",
     // kewilayahan_type: 0,
   });
   const [filter] = filterState;
@@ -177,20 +177,47 @@ const RoutineBabyImmunization = () => {
     // kewilayahan_type: filter.kewilayahan_type,
   };
 
-  const filterGraph1 = {
-    ...dateQuery,
-    region_type: filter.wilayah1,
-    vaccine_type: filter.tipe_vaksin1,
-    faskes_id: filter.faskes
-      ? filter.faskes
+  const [rergionTypeGraph1, setRegionTypeGraph1] = useState("province");
+
+  useEffect(() => {
+    filter.faskes
+      ? setRegionTypeGraph1("faskes")
       : filter.kecamatan
-      ? filter.kecamatan
+      ? setRegionTypeGraph1("district")
       : filter.kabkota
-      ? filter.kabkota
+      ? setRegionTypeGraph1("city")
       : filter.provinsi
-      ? filter.provinsi
-      : "All",
-  };
+      ? setRegionTypeGraph1("province")
+      : setRegionTypeGraph1("All");
+    // console.log("isi region faskes");
+  }, [filter.faskes, filter.kecamatan, filter.kabkota, filter.provinsi]);
+
+  useEffect(() => {
+    filter.wilayah1
+      ? setRegionTypeGraph1(filter.wilayah1)
+      : setRegionTypeGraph1("province");
+    // console.log("isi region wolayah");
+  }, [filter.wilayah1]);
+
+  // console.log(rergionTypeGraph1, "isi region grafik");
+
+  const filterGraph1 = useMemo(
+    () => ({
+      ...dateQuery,
+      region_type: rergionTypeGraph1,
+      vaccine_type: filter.tipe_vaksin1,
+      faskes_id: filter.faskes
+        ? filter.faskes
+        : filter.kecamatan
+        ? filter.kecamatan
+        : filter.kabkota
+        ? filter.kabkota
+        : filter.provinsi
+        ? filter.provinsi
+        : "All",
+    }),
+    [rergionTypeGraph1, filter, dateQuery]
+  );
 
   const regionIdQuery =
     filter.wilayah === "faskes"
@@ -418,7 +445,6 @@ const RoutineBabyImmunization = () => {
   //   ),
   //   "isi   data b"
   // );
-  // console.log(getGraphScope?.data?.[0], "isi data  a");
 
   // grafik 3 end
 
@@ -432,7 +458,7 @@ const RoutineBabyImmunization = () => {
     isLoading: isLoadingGraphImmunizationAge,
   } = useGetGraphImmunizationAgeQuery(filterAge, optionQuery);
   const aliasSummaryImmunizationByAgeQuery = Object.entries(
-    getGraphImmunizationAge?.data || []
+    getGraphImmunizationAge?.data?.[0] || []
   ).map(([key, value]) => ({ label: key, value: value }));
   // grafik 4 end
 
@@ -452,9 +478,10 @@ const RoutineBabyImmunization = () => {
     isLoading: isLoadingGraphImmunizationGender,
   } = useGetGraphImmunizationGenderQuery(filterGender, optionQuery);
   const aliasGraphImmunizationGenderQuery = Object.entries(
-    getGraphImmunizationGender?.data || []
+    getGraphImmunizationGender?.data?.[0] || []
   ).map(([key, value]) => ({ label: key, value: value }));
   // grafik 5 end
+  // console.log(getGraphImmunizationAge?.data, "isi data  a");
 
   // console.log(getLowestScope?.data?.vaksin, "isi total");
 
@@ -764,8 +791,8 @@ const RoutineBabyImmunization = () => {
           formatter: (params: any, i: number) =>
             `${
               params.name === "Laki-laki"
-                ? getAverageGender?.data?.pct_female
-                : getAverageGender?.data?.pct_male
+                ? getAverageGender?.data?.[0]?.pct_female
+                : getAverageGender?.data?.[0]?.pct_male
             }%`,
         },
         labelLine: {
@@ -773,11 +800,11 @@ const RoutineBabyImmunization = () => {
         },
         data: [
           {
-            value: getAverageGender?.data?.total_male,
+            value: getAverageGender?.data?.[0]?.ytd_male_all,
             name: "Laki-laki",
           },
           {
-            value: getAverageGender?.data?.total_female,
+            value: getAverageGender?.data?.[0]?.ytd_female_all,
             name: "Perempuan",
           },
         ],
@@ -854,7 +881,7 @@ const RoutineBabyImmunization = () => {
                     classNameTitle="text-white"
                     classNameValue="text-4xl text-white"
                     title="Total Penerima Imunisasi Bayi"
-                    contentTooltip={<>Total Penerima Imunisasi Bayi</>}
+                    // contentTooltip={<>Total Penerima Imunisasi Bayi</>}
                     value={formatNumber(
                       getTotalImmunizationQuery?.data?.[0]?.total || 0
                     )}
@@ -1589,7 +1616,15 @@ const RoutineBabyImmunization = () => {
                             name: "Target Cakupan per Daerah = 100%",
                             data:
                               (getGraphImmunizationScope?.data || [])?.map(
-                                (r: any) => r?.percentage
+                                (r: any) => ({
+                                  value: r?.percentage,
+                                  itemStyle: {
+                                    color:
+                                      r.faskes_desc === "All"
+                                        ? "#2D9CED"
+                                        : undefined,
+                                  },
+                                })
                               ) || [],
                             type: "bar",
                             label: {
@@ -1750,6 +1785,28 @@ const RoutineBabyImmunization = () => {
                       // ])}
                       graphOptions={graphOptions2([
                         {
+                          name: "% Cakupan",
+                          data:
+                            (
+                              getCumulativeScopeImmunizationQuery?.data || []
+                            )?.map(
+                              (r: any) =>
+                                ((r?.percentage || 0) / 100) * (r?.total || 0)
+                            ) || [],
+                          type: "line",
+                          label: {
+                            show: true,
+                            precision: 1,
+                            formatter: (params: any) =>
+                              `${formatNumber(
+                                ((params.value || 0) /
+                                  (getCumulativeScopeImmunizationQuery?.data ||
+                                    [])[params.dataIndex]?.total) *
+                                  100
+                              )}%`,
+                          },
+                        },
+                        {
                           name: "% Target Cakupan",
                           data:
                             (
@@ -1783,28 +1840,6 @@ const RoutineBabyImmunization = () => {
                             precision: 1,
                             formatter: (params: any) =>
                               `${formatNumber(params.value || 0)}`,
-                          },
-                        },
-                        {
-                          name: "% Cakupan",
-                          data:
-                            (
-                              getCumulativeScopeImmunizationQuery?.data || []
-                            )?.map(
-                              (r: any) =>
-                                ((r?.percentage || 0) / 100) * (r?.total || 0)
-                            ) || [],
-                          type: "line",
-                          label: {
-                            show: true,
-                            precision: 1,
-                            formatter: (params: any) =>
-                              `${formatNumber(
-                                ((params.value || 0) /
-                                  (getCumulativeScopeImmunizationQuery?.data ||
-                                    [])[params.dataIndex]?.total) *
-                                  100
-                              )}%`,
                           },
                         },
                       ])}
@@ -1945,7 +1980,10 @@ const RoutineBabyImmunization = () => {
                                 {getTypeSuspase?.data
                                   ?.filter((item: any) => item.status === 0)
                                   .map((r: any, i: number) => (
-                                    <p key={i + "exceed"}>
+                                    <p
+                                      key={i + "exceed"}
+                                      style={{ marginRight: "0.5rem" }}
+                                    >
                                       {r.vaksin?.toUpperCase()}
                                       {", "}
                                     </p>
