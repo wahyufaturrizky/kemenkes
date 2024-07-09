@@ -28,10 +28,36 @@ export const graphOptions1 = (series: any[], legend: any[]) => {
 
 export const graphOptions2 = (series: any[]) => {
   const option: EChartsOptionProps = {
-    color: ["#EAAA08", "#8ECCFF", "#00B1A9"],
+    color: ["#00B1A9", "#EAAA08", "#8ECCFF"],
     grid: { containLabel: true },
     tooltip: {
       trigger: "axis",
+      formatter: function (params: any) {
+        let tooltipContent = `<div style="min-width: 350px;">${params[0].axisValueLabel}<br/>`;
+        const additionalDataSeries = series.find(
+          (s: any) => s.name === "% Cakupan"
+        ); // Ganti "Nama Series Anda" dengan nama yang tepat
+        params.forEach((item: any, i: number) => {
+          if (item.seriesName === "Jumlah Penerima Imunisasi") {
+            tooltipContent += `${item.marker} ${
+              item.seriesName
+            } <span style="float: right;"><strong>${formatNumber(
+              item.value
+            )}</strong></span><br/>`;
+          } else {
+            const additionalDataValue = additionalDataSeries
+              ? additionalDataSeries.additionalData[item.dataIndex]
+              : 0;
+            tooltipContent += `${item.marker} ${
+              item.seriesName
+            } <span style="float: right;"><strong>${formatNumber(
+              additionalDataValue
+            )}%</strong></span><br/>`;
+          }
+        });
+        tooltipContent += `</div>`;
+        return tooltipContent;
+      },
     },
     legend: {
       data: series.map((r) => r.name),
@@ -45,11 +71,13 @@ export const graphOptions2 = (series: any[]) => {
     },
     yAxis: {
       type: "value",
+      show: false,
     },
     series: series,
   };
   return option;
 };
+
 export const graphOptions3 = (series: any[], xData: any[]) => {
   const option: EChartsOptionProps = {
     color: ["#EAAA08", "#FF4405", "#2E90FA"],

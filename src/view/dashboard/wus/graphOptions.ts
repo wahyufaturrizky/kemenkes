@@ -69,7 +69,7 @@ export const graphOptions1 = (series: any[], legend: any[]) => {
 
 export const graphOptions2 = (series: any[]) => {
   const option: EChartsOptionProps = {
-    color: ["#EAAA08", "#00B1A9", "#8ECCFF"],
+    color: ["#EAAA08", "#8ECCFF", "#00B1A9"],
     grid: { containLabel: true },
     tooltip: {
       trigger: "axis",
@@ -152,8 +152,9 @@ export const graphOptions5 = (series: any[], legend: any[]) => {
   return option;
 };
 
-export const graphOptions7 = (series: any[]) => {
+export const graphOptions7 = (series: any[], xData: any[]) => {
   const option = {
+    color: "#2E90FA",
     tooltip: {
       trigger: "axis",
       axisPointer: {
@@ -172,7 +173,7 @@ export const graphOptions7 = (series: any[]) => {
     xAxis: [
       {
         type: "category",
-        data: ["T1", "T2", "T3", "T4", "T5", "T2+"],
+        data: xData,
         axisTick: {
           alignWithLabel: true,
         },
@@ -200,3 +201,202 @@ export const graphOptions7 = (series: any[]) => {
   };
   return option;
 };
+export const graphOptions8 = (series: any[], xData: any[]) => {
+  const option = {
+    color: "#2E90FA",
+    tooltip: {
+      trigger: "axis",
+      axisPointer: {
+        type: "shadow",
+      },
+      valueFormatter: function (value: any) {
+        return `${formatNumber(value)}%`;
+        // return new Intl.NumberFormat("id-ID").format(value);
+      },
+    },
+    grid: {
+      left: "3%",
+      right: "4%",
+      bottom: "3%",
+      containLabel: true,
+    },
+    legend: {
+      data: series.map((serie) => serie.name),
+      // bottom: 0,
+      // textStyle: {
+      //   fontSize: 10, // Sesuaikan ukuran font
+      // },
+      icon: "circle", // Menggunakan bentuk lingkaran
+      itemWidth: 8, // Ukuran lebar ikon
+      itemHeight: 8,
+    },
+    xAxis: [
+      {
+        type: "category",
+        data: xData,
+        axisTick: {
+          alignWithLabel: true,
+        },
+      },
+    ],
+    yAxis: [
+      {
+        type: "value",
+        axisLabel: {
+          formatter: function (value: any) {
+            return formatNumber(value);
+          },
+        },
+      },
+    ],
+    series: series.map((serie) => ({
+      ...serie,
+      label: {
+        ...serie.label,
+        formatter: function (params: any) {
+          return `${formatNumber(params?.value)}%`;
+        },
+      },
+    })),
+  };
+  return option;
+};
+
+// export const graphOptions8 = (
+//   series: any[],
+//   xData: any[],
+//   legendData: any[]
+// ) => {
+//   // console.log(legendData, "isi legend");
+//   const option = {
+//     tooltip: {
+//       trigger: "axis",
+//       axisPointer: {
+//         type: "shadow",
+//       },
+//       valueFormatter: function (value: any) {
+//         return `${formatNumber(value)}%`;
+//         // return new Intl.NumberFormat("id-ID").format(value);
+//       },
+//     },
+//     grid: {
+//       left: "3%",
+//       right: "4%",
+//       bottom: "3%",
+//       containLabel: true,
+//     },
+//     legend: {
+//       data: legendData.map((data) => data),
+//       bottom: 0,
+//       orient: "horizontal",
+//       x: "center",
+//     },
+//     xAxis: [
+//       {
+//         type: "category",
+//         data: xData,
+//         axisTick: {
+//           alignWithLabel: true,
+//         },
+//       },
+//     ],
+//     yAxis: [
+//       {
+//         type: "value",
+//         axisLabel: {
+//           formatter: function (value: any) {
+//             return `${formatNumber(value)}%`;
+//           },
+//         },
+//       },
+//     ],
+//     series: series.flatMap((serie) => {
+//       const { name, data } = serie;
+//       return [
+//         {
+//           name: `${name}`,
+//           type: "bar",
+//           stack: "total",
+//           data: data.map((value: any) => value), // 50% of the value
+//           itemStyle: {
+//             color: "#FAC515",
+//           },
+//           label: {
+//             show: true,
+//             formatter: function (params: any) {
+//               return `${formatNumber(params?.value)}%`;
+//             },
+//           },
+//         },
+//         {
+//           name: `${name}`,
+//           type: "bar",
+//           stack: "total",
+//           data: data.map((value: any) => 100 - value), // 50% of the value
+//           itemStyle: {
+//             color: "#2E90FA",
+//           },
+//           label: {
+//             show: false,
+//             // formatter: function (params: any) {
+//             //   return formatNumber(params?.value);
+//             // },
+//           },
+//           tooltip: {
+//             show: false,
+//           },
+//         },
+//       ];
+//     }),
+//   };
+//   return option;
+// };
+
+// export const graphOptions8 = (series: any[], xData: any[]) => {
+//   const option = {
+//     tooltip: {
+//       trigger: "axis",
+//       axisPointer: {
+//         type: "shadow",
+//       },
+//       valueFormatter: function (value: any) {
+//         return new Intl.NumberFormat("id-ID").format(value);
+//       },
+//     },
+//     grid: {
+//       left: "3%",
+//       right: "4%",
+//       bottom: "3%",
+//       containLabel: true,
+//     },
+//     xAxis: [
+//       {
+//         type: "category",
+//         data: xData,
+//         axisTick: {
+//           alignWithLabel: true,
+//         },
+//       },
+//     ],
+//     yAxis: [
+//       {
+//         type: "value",
+//         axisLabel: {
+//           formatter: function (value: any) {
+//             return formatNumber(value);
+//           },
+//         },
+//       },
+//     ],
+//     series: series.map((serie) => ({
+//       ...serie,
+//       label: {
+//         ...serie.label,
+//         formatter: function (params: any) {
+//           return formatNumber(params?.value);
+//         },
+//       },
+//     })),
+//   };
+//   return option;
+// };

@@ -33,12 +33,12 @@ import {
 } from "@/view/dashboard/routine-infant-immunization/Filter";
 // import { Filter2 } from "../routine-baduta-immunization/Filter";
 import {
+  graphOptions2,
   graphOptions4,
   graphOptions5,
 } from "@/view/dashboard/routine-infant-immunization/graphOptions";
 import {
   graphOptions1,
-  graphOptions2,
   graphOptions3,
 } from "../routine-baduta-immunization/graphOptions";
 
@@ -125,11 +125,12 @@ import {
 import { formatNumber } from "@/helpers";
 import { openSans } from "@/assets/fonts";
 import GraphRoutineImmunizationCoverageTrendBias from "@/view/home/components/GraphBias";
+import ChildSummaryImmunizationZeroDose from "@/view/home/components/ChildSummaryZeroDose";
 
 const RoutineBabyImmunization = () => {
   const filterState = useState({
-    // tahun: new Date().getFullYear(),
     tahun: 2023,
+    // tahun: new Date().getFullYear(),
     bulan: dataMonths.find((r, i) => i === new Date().getMonth())?.value,
     provinsi: "",
     kabkota: "",
@@ -1503,7 +1504,7 @@ const RoutineBabyImmunization = () => {
 
                 <div className="relative flex justify-center items-center">
                   {isLoadingNumberZeroQuery && <Spin />}
-                  <ChildSummaryImmunizationBayi
+                  <ChildSummaryImmunizationZeroDose
                     className={`px-8 ${styles.scoreCardYellow}`}
                     background="white"
                     classNameTitle="text-white"
@@ -1729,60 +1730,6 @@ const RoutineBabyImmunization = () => {
                         </div>
                       }
                       isLoading={isLoadingCumulativeScopeImmunizationQuery}
-                      // graphOptions={graphOptions2([
-                      //   {
-                      //     name: "% Target Cakupan",
-                      //     data:
-                      //       (
-                      //         getCumulativeScopeImmunizationQuery?.data || []
-                      //       )?.map((r: any) => r?.threshold) || [],
-                      //     type: "line",
-                      //     label: {
-                      //       show: true,
-                      //       precision: 1,
-                      //       formatter: (params: any) =>
-                      //         `${formatNumber(
-                      //           ((params.value || 0) /
-                      //             (getCumulativeScopeImmunizationQuery?.data ||
-                      //               [])[params.dataIndex]?.total) *
-                      //             100
-                      //         )}%`,
-                      //     },
-                      //   },
-                      //   {
-                      //     name: "Jumlah Penerima Imunisasi",
-                      //     data:
-                      //       (
-                      //         getCumulativeScopeImmunizationQuery?.data || []
-                      //       )?.map((r: any) => r?.total || 0) || [],
-                      //     type: "bar",
-                      //     label: {
-                      //       show: true,
-                      //       precision: 1,
-                      //       formatter: (params: any) =>
-                      //         `${formatNumber(params.value || 0)}`,
-                      //     },
-                      //   },
-                      //   {
-                      //     name: "% Cakupan",
-                      //     data:
-                      //       (
-                      //         getCumulativeScopeImmunizationQuery?.data || []
-                      //       )?.map((r: any) => r?.percentage || 0) || [],
-                      //     type: "line",
-                      //     label: {
-                      //       show: true,
-                      //       precision: 1,
-                      //       formatter: (params: any) =>
-                      //         `${formatNumber(
-                      //           ((params.value || 0) /
-                      //             (getCumulativeScopeImmunizationQuery?.data ||
-                      //               [])[params.dataIndex]?.total) *
-                      //             100
-                      //         )}%`,
-                      //     },
-                      //   },
-                      // ])}
                       graphOptions={graphOptions2([
                         {
                           name: "% Cakupan",
@@ -1791,7 +1738,8 @@ const RoutineBabyImmunization = () => {
                               getCumulativeScopeImmunizationQuery?.data || []
                             )?.map(
                               (r: any) =>
-                                ((r?.percentage || 0) / 100) * (r?.total || 0)
+                                ((r?.percentage || 0) / 100) *
+                                ((r?.total * 100) / r?.percentage || 0)
                             ) || [],
                           type: "line",
                           label: {
@@ -1799,12 +1747,19 @@ const RoutineBabyImmunization = () => {
                             precision: 1,
                             formatter: (params: any) =>
                               `${formatNumber(
-                                ((params.value || 0) /
-                                  (getCumulativeScopeImmunizationQuery?.data ||
-                                    [])[params.dataIndex]?.total) *
-                                  100
+                                (getCumulativeScopeImmunizationQuery?.data ||
+                                  [])[params.dataIndex]?.percentage
                               )}%`,
+                            // `${formatNumber(params.value || 0)}`,
                           },
+                          additionalData:
+                            (
+                              getCumulativeScopeImmunizationQuery?.data || []
+                            )?.map(
+                              (r: any) =>
+                                // ((r?.percentage || 0) / 100) * (r?.total || 0)
+                                r?.percentage || 0
+                            ) || [],
                         },
                         {
                           name: "% Target Cakupan",
@@ -1813,7 +1768,8 @@ const RoutineBabyImmunization = () => {
                               getCumulativeScopeImmunizationQuery?.data || []
                             )?.map(
                               (r: any) =>
-                                ((r?.threshold || 0) / 100) * (r?.total || 0)
+                                ((r?.threshold || 0) / 100) *
+                                ((r?.total * 100) / r?.percentage || 0)
                             ) || [],
                           type: "line",
                           label: {
@@ -1821,11 +1777,12 @@ const RoutineBabyImmunization = () => {
                             precision: 1,
                             formatter: (params: any) =>
                               `${formatNumber(
-                                ((params.value || 0) /
-                                  (getCumulativeScopeImmunizationQuery?.data ||
-                                    [])[params.dataIndex]?.total) *
-                                  100
+                                (getCumulativeScopeImmunizationQuery?.data ||
+                                  [])[params.dataIndex]?.threshold
                               )}%`,
+                          },
+                          tooltip: {
+                            show: false,
                           },
                         },
                         {
@@ -1833,7 +1790,12 @@ const RoutineBabyImmunization = () => {
                           data:
                             (
                               getCumulativeScopeImmunizationQuery?.data || []
-                            )?.map((r: any) => r?.total || 0) || [],
+                            )?.map(
+                              (r: any) =>
+                                (((r?.percentage || 0) / 100) *
+                                  (r?.total * 100)) /
+                                  r?.percentage || 0
+                            ) || [],
                           type: "bar",
                           label: {
                             show: true,
@@ -2055,7 +2017,25 @@ const RoutineBabyImmunization = () => {
                         ],
                         aliasSummaryImmunizationPerVaccineQuery
                           ?.filter((f) => f.label.includes("ytd_total_"))
-                          ?.map((r: any) => r?.label)
+                          ?.map((r: any) =>
+                            r?.label.includes("idl1")
+                              ? "Imunisasi Dasar Lengkap"
+                              : r?.label.includes("bcg1")
+                              ? "BCG"
+                              : r?.label.includes("hb1")
+                              ? "HB - 0"
+                              : r?.label.includes("polio1")
+                              ? "Polio 1"
+                              : r?.label.includes("polio2")
+                              ? "Polio 2"
+                              : r?.label.includes("polio3")
+                              ? "Polio 3"
+                              : r?.label.includes("polio4")
+                              ? "Polio 4"
+                              : r?.label.includes("dpt1")
+                              ? "DPT-HB-Hib-1"
+                              : r?.label
+                          )
                       )}
                     />
                   </div>

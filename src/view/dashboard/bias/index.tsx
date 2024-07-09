@@ -60,7 +60,8 @@ import {
 } from "@/lib/services/bias";
 import { Filter1, Filter2, Filter3, Filter4, Filter5 } from "./FilterBias";
 // import { graphOptions5 } from "../routine-baduta-immunization/graphOptions";
-import { graphOptions1, graphOptions2 } from "../wus/graphOptions";
+import { graphOptions1 } from "../wus/graphOptions";
+import { graphOptions2 } from "../routine-infant-immunization/graphOptions";
 // import { graphOptions2 } from "./graphOptionts";
 
 import { graphOptions3, graphOptions4, graphOptions5 } from "./graphOptionts";
@@ -73,7 +74,8 @@ import GraphRoutineImmunizationCoverageTrendWus from "@/view/home/components/Gra
 
 const Bias = () => {
   const filterState = useState({
-    tahun: 2024,
+    tahun: 2023,
+    // tahun: new Date().getFullYear(),
     bulan: dataMonth.find((r, i) => i === new Date().getMonth())?.value,
     provinsi: "",
     kabkota: "",
@@ -154,15 +156,15 @@ const Bias = () => {
     region_type_chart: filter.wilayah2,
 
     // faskes_parent_id: 11,
-    // faskes_id: filter.faskes
-    //   ? filter.faskes
-    //   : filter.kecamatan
-    //   ? filter.kecamatan
-    //   : filter.kabkota
-    //   ? filter.kabkota
-    //   : filter.provinsi
-    //   ? filter.provinsi
-    //   : "ALL",
+    faskes_id: filter.faskes
+      ? filter.faskes
+      : filter.kecamatan
+      ? filter.kecamatan
+      : filter.kabkota
+      ? filter.kabkota
+      : filter.provinsi
+      ? filter.provinsi
+      : "ALL",
     vaccine_type: filter.tipe_vaksin,
     kewilayahan_type: filter.kewilayahan_type,
   };
@@ -874,30 +876,100 @@ const Bias = () => {
                       isLoading={isLoadingChart}
                       graphOptions={graphOptions2([
                         {
-                          name: "% Target Cakupan",
+                          name: "% Cakupan",
                           data:
-                            (getChart?.data || [])?.map((r: any) =>
-                              formatNumber(r?.target_cakupan)
+                            (getChart?.data || [])?.map(
+                              (r: any) =>
+                                ((r?.cakupan || 0) / 100) *
+                                ((r?.jumlah_penerima * 100) / r?.cakupan || 0)
                             ) || [],
                           type: "line",
+                          label: {
+                            show: true,
+                            precision: 1,
+                            formatter: (params: any) =>
+                              `${formatNumber(
+                                (getChart?.data || [])[params.dataIndex]
+                                  ?.cakupan
+                              )}%`,
+                            // `${formatNumber(params.value || 0)}`,
+                          },
+                          additionalData:
+                            (getChart?.data || [])?.map(
+                              (r: any) =>
+                                // ((r?.percentage || 0) / 100) * (r?.total || 0)
+                                r?.cakupan || 0
+                            ) || [],
+                        },
+                        {
+                          name: "% Target Cakupan",
+                          data:
+                            (getChart?.data || [])?.map(
+                              (r: any) =>
+                                ((r?.target_cakupan || 0) / 100) *
+                                ((r?.jumlah_penerima * 100) / r?.cakupan || 0)
+                            ) || [],
+                          type: "line",
+                          label: {
+                            show: true,
+                            precision: 1,
+                            formatter: (params: any) =>
+                              `${formatNumber(
+                                (getChart?.data || [])[params.dataIndex]
+                                  ?.target_cakupan
+                              )}%`,
+                          },
+                          tooltip: {
+                            show: false,
+                          },
                         },
                         {
                           name: "Jumlah Penerima Imunisasi",
                           data:
                             (getChart?.data || [])?.map(
-                              (r: any) => r?.jumlah_penerima
-                            ) || [],
-                          type: "line",
-                        },
-                        {
-                          name: "% Cakupan",
-                          data:
-                            (getChart?.data || [])?.map((r: any) =>
-                              formatNumber(r?.cakupan)
+                              (r: any) =>
+                                (((r?.cakupan || 0) / 100) *
+                                  (r?.jumlah_penerima * 100)) /
+                                  r?.cakupan || 0
                             ) || [],
                           type: "bar",
+                          label: {
+                            show: true,
+                            precision: 1,
+                            formatter: (params: any) =>
+                              `${formatNumber(params.value || 0)}`,
+                          },
                         },
                       ])}
+                      // graphOptions={graphOptions2([
+                      //   {
+                      //     name: "% Target Cakupan",
+                      //     data:
+                      //       (getChart?.data || [])?.map((r: any) =>
+                      //         formatNumber(r?.target_cakupan)
+                      //       ) || [],
+                      //     type: "line",
+                      //     tooltip: {
+                      //       show: false,
+                      //     },
+                      //   },
+                      //   {
+                      //     name: "Jumlah Penerima Imunisasi",
+                      //     data:
+                      //       (getChart?.data || [])?.map(
+                      //         (r: any) => r?.jumlah_penerima
+                      //       ) || [],
+                      //     type: "line",
+                      //   },
+                      //   {
+                      //     name: "% Cakupan",
+                      //     data:
+                      //       (getChart?.data || [])?.map((r: any) =>
+                      //         formatNumber(r?.cakupan)
+                      //       ) || [],
+                      //     type: "bar",
+                      //   },
+                      // ])}
                     />
                   </div>
                 }

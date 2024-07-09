@@ -37,7 +37,8 @@ import {
 import VaccinateNudge from "@/assets/icons/vaccinate-nudge.png";
 import styles from "@/assets/css/styles.module.css";
 
-import { graphOptions1, graphOptions2, graphOptions7 } from "./graphOptions";
+import { graphOptions1, graphOptions7, graphOptions8 } from "./graphOptions";
+import { graphOptions2 } from "../routine-infant-immunization/graphOptions";
 
 import { formatNumber } from "@/helpers";
 import { openSans } from "@/assets/fonts";
@@ -52,7 +53,7 @@ import TabsBias from "@/components/tabsBias";
 
 const Wus = () => {
   const filterState = useState({
-    tahun: 2024,
+    tahun: new Date().getFullYear(),
     bulan: dataMonth.find((r, i) => i === new Date().getMonth())?.value,
     provinsi: "",
     kabkota: "",
@@ -127,6 +128,15 @@ const Wus = () => {
     women_category: filter.women_category_daerah,
     region_type: filter.wilayah,
     kewilayahan_type: filter.kewilayahan_type,
+    faskes_id: filter.faskes
+      ? filter.faskes
+      : filter.kecamatan
+      ? filter.kecamatan
+      : filter.kabkota
+      ? filter.kabkota
+      : filter.provinsi
+      ? filter.provinsi
+      : "All",
   };
 
   const filterCumulativeCoverageRecipients = {
@@ -619,6 +629,19 @@ const Wus = () => {
                               )?.map((r: any) =>
                                 formatNumber(r?.ytd_pct_total)
                               ) || [],
+                            // data:
+                            //   (
+                            //     getTotalImmunizationTotalCumulativeCoverageQuery?.data ||
+                            //     []
+                            //   )?.map((r: any) => ({
+                            //     value: r?.percentage,
+                            //     itemStyle: {
+                            //       color:
+                            //         r.faskes_desc === "All"
+                            //           ? "#2D9CED"
+                            //           : undefined,
+                            //     },
+                            //   })) || [],
                             type: "bar",
                             label: {
                               show: true,
@@ -703,8 +726,10 @@ const Wus = () => {
                         <div className="font-bold md:text-2xl">
                           Data <b className="text-primary-2">Kumulatif</b>{" "}
                           Jumlah Penerima, Cakupan, dan Target Cakupan{" "}
-                          <b className="text-primary-2">T2+</b> pada Wanita Usia
-                          Subur atau Ibu Hamil Selama Tahun{" "}
+                          <b className="text-primary-2">
+                            {filter.status_type_kumulatif?.toUpperCase()}
+                          </b>{" "}
+                          pada Wanita Usia Subur atau Ibu Hamil Selama Tahun{" "}
                           <b className="text-primary-2">{filter.tahun}</b>
                         </div>
                       }
@@ -750,20 +775,59 @@ const Wus = () => {
                       }
                       graphOptions={graphOptions2([
                         {
-                          name: "% Target Cakupan",
+                          name: "% Cakupan",
                           data:
                             (
                               getTotalImmunizationTotalCumulativeCoverageRecipientsQuery?.data ||
                               []
-                            )?.map((r: any) =>
-                              formatNumber(r?.pct_target_threshold)
+                            )?.map(
+                              (r: any) =>
+                                ((r?.pct_total || 0) / 100) *
+                                ((r?.total * 100) / r?.pct_total || 0)
                             ) || [],
                           type: "line",
                           label: {
                             show: true,
                             precision: 1,
                             formatter: (params: any) =>
-                              `${formatNumber(params.value || 0)} %`,
+                              `${formatNumber(
+                                (getTotalImmunizationTotalCumulativeCoverageRecipientsQuery?.data ||
+                                  [])[params.dataIndex]?.pct_total
+                              )}%`,
+                          },
+                          additionalData:
+                            (
+                              getTotalImmunizationTotalCumulativeCoverageRecipientsQuery?.data ||
+                              []
+                            )?.map(
+                              (r: any) =>
+                                // ((r?.percentage || 0) / 100) * (r?.total || 0)
+                                r?.pct_total || 0
+                            ) || [],
+                        },
+                        {
+                          name: "% Target Cakupan",
+                          data:
+                            (
+                              getTotalImmunizationTotalCumulativeCoverageRecipientsQuery?.data ||
+                              []
+                            )?.map(
+                              (r: any) =>
+                                ((r?.pct_target_threshold || 0) / 100) *
+                                ((r?.total * 100) / r?.pct_total || 0)
+                            ) || [],
+                          type: "line",
+                          label: {
+                            show: true,
+                            precision: 1,
+                            formatter: (params: any) =>
+                              `${formatNumber(
+                                (getTotalImmunizationTotalCumulativeCoverageRecipientsQuery?.data ||
+                                  [])[params.dataIndex]?.pct_target_threshold
+                              )}%`,
+                          },
+                          tooltip: {
+                            show: false,
                           },
                         },
                         {
@@ -772,31 +836,73 @@ const Wus = () => {
                             (
                               getTotalImmunizationTotalCumulativeCoverageRecipientsQuery?.data ||
                               []
-                            )?.map((r: any) => formatNumber(r?.total)) || [],
-                          type: "line",
-                          label: {
-                            show: true,
-                            precision: 1,
-                            formatter: (params: any) => params.value || 0,
-                          },
-                        },
-                        {
-                          name: "% Cakupan",
-                          data:
-                            (
-                              getTotalImmunizationTotalCumulativeCoverageRecipientsQuery?.data ||
-                              []
-                            )?.map((r: any) => formatNumber(r?.pct_total)) ||
-                            [],
+                            )?.map(
+                              (r: any) =>
+                                (((r?.pct_total || 0) / 100) *
+                                  (r?.total * 100)) /
+                                  r?.pct_total || 0
+                            ) || [],
                           type: "bar",
                           label: {
                             show: true,
                             precision: 1,
                             formatter: (params: any) =>
-                              `${formatNumber(params.value || 0)} %`,
+                              `${formatNumber(params.value || 0)}`,
                           },
                         },
                       ])}
+                      // graphOptions={graphOptions2([
+                      //   {
+                      //     name: "% Target Cakupan",
+                      //     data:
+                      //       (
+                      //         getTotalImmunizationTotalCumulativeCoverageRecipientsQuery?.data ||
+                      //         []
+                      //       )?.map((r: any) =>
+                      //         formatNumber(r?.pct_target_threshold)
+                      //       ) || [],
+                      //     type: "line",
+                      //     label: {
+                      //       show: true,
+                      //       precision: 1,
+                      //       formatter: (params: any) =>
+                      //         `${formatNumber(params.value || 0)} %`,
+                      //     },
+                      //     tooltip: {
+                      //       show: false,
+                      //     },
+                      //   },
+                      //   {
+                      //     name: "Jumlah Penerima Imunisasi",
+                      //     data:
+                      //       (
+                      //         getTotalImmunizationTotalCumulativeCoverageRecipientsQuery?.data ||
+                      //         []
+                      //       )?.map((r: any) => formatNumber(r?.total)) || [],
+                      //     type: "bar",
+                      //     label: {
+                      //       show: true,
+                      //       precision: 1,
+                      //       formatter: (params: any) => params.value || 0,
+                      //     },
+                      //   },
+                      //   {
+                      //     name: "% Cakupan",
+                      //     data:
+                      //       (
+                      //         getTotalImmunizationTotalCumulativeCoverageRecipientsQuery?.data ||
+                      //         []
+                      //       )?.map((r: any) => formatNumber(r?.pct_total)) ||
+                      //       [],
+                      //     type: "line",
+                      //     label: {
+                      //       show: true,
+                      //       precision: 1,
+                      //       formatter: (params: any) =>
+                      //         `${formatNumber(params.value || 0)} %`,
+                      //     },
+                      //   },
+                      // ])}
                     />
                   </div>
                 }
@@ -831,32 +937,32 @@ const Wus = () => {
                         />
                       }
                       isLoading={isLoadingDistributionStatusChartQuery}
-                      graphOptions={graphOptions7([
-                        {
-                          name: "Total",
-                          type: "bar",
-                          barWidth: "60%",
-                          label: {
-                            show: true,
-                            position: "inside",
+                      graphOptions={graphOptions7(
+                        [
+                          {
+                            name: "Cakupan",
+                            type: "bar",
+                            barWidth: "60%",
+                            label: {
+                              show: true,
+                              position: "inside",
+                            },
+                            data:
+                              (
+                                getDistributionStatusChartQuery?.data || []
+                              )?.map((r: any) => r?.total) || [],
                           },
-                          data: [
-                            getDistributionStatusChartQuery?.data?.ytd_total_t1,
-                            getDistributionStatusChartQuery?.data?.ytd_total_t2,
-                            getDistributionStatusChartQuery?.data?.ytd_total_t3,
-                            getDistributionStatusChartQuery?.data?.ytd_total_t4,
-                            getDistributionStatusChartQuery?.data?.ytd_total_t5,
-                            getDistributionStatusChartQuery?.data
-                              ?.ytd_total_t2plus,
-                          ],
-                        },
-                      ])}
+                        ],
+                        (getDistributionStatusChartQuery?.data || [])?.map(
+                          (r: any) => r?.vaccine
+                        ) || []
+                      )}
                     />
                   </div>
                 }
               />
             </div>
-            <div className="py-4 pb-12">
+            <div className="pt-4 pb-12">
               <RoutineImmunizationCoverageTrendGraph
                 title=""
                 subTitle=""
@@ -887,41 +993,74 @@ const Wus = () => {
                         />
                       }
                       isLoading={isLoadingDistributionStatusPregnantChartQuery}
-                      graphOptions={graphOptions7([
-                        {
-                          name: "Total",
-                          type: "bar",
-                          barWidth: "60%",
-                          label: {
-                            show: true,
-                            position: "inside",
-                          },
-                          data: [
-                            getDistributionStatusPregnantChartQuery?.data
-                              ?.ytd_total_t1,
-                            getDistributionStatusPregnantChartQuery?.data
-                              ?.ytd_total_t2,
-                            getDistributionStatusPregnantChartQuery?.data
-                              ?.ytd_total_t3,
-                            getDistributionStatusPregnantChartQuery?.data
-                              ?.ytd_total_t4,
-                            getDistributionStatusPregnantChartQuery?.data
-                              ?.ytd_total_t5,
-                            getDistributionStatusPregnantChartQuery?.data
-                              ?.ytd_total_t2plus,
-                          ],
-                          itemStyle: {
-                            borderColor: "#FAC515",
-                            color: "#FAC515",
-                          },
-                          emphasis: {
+                      graphOptions={graphOptions8(
+                        [
+                          {
+                            name: "WUS Tidak Hamil",
+                            type: "bar",
+                            stack: "Total",
+                            barWidth: "60%",
+
+                            data:
+                              (
+                                getDistributionStatusPregnantChartQuery?.data ||
+                                []
+                              )?.map((r: any) => r?.pct) || [],
+                            label: {
+                              show: true,
+                              position: "inside",
+                              // formatter: (params: any) => {
+                              //   console.log(params.value, "isi pram"); // Untuk memeriksa nilai params.value
+                              //   return `${params.value}%`;
+                              // },
+                              // formatter: (params: any) =>
+                              //   `${formatNumber(
+                              //     (getDistributionStatusPregnantChartQuery?.data ||
+                              //       [])[params.dataIndex]?.pct
+                              //   )}%`,
+                            },
                             itemStyle: {
                               borderColor: "#FAC515",
                               color: "#FAC515",
                             },
+                            emphasis: {
+                              itemStyle: {
+                                borderColor: "#FAC515",
+                                color: "#FAC515",
+                              },
+                            },
                           },
-                        },
-                      ])}
+                          {
+                            name: "WUS Hamil",
+                            type: "bar",
+                            stack: "Total",
+                            barWidth: "60%",
+
+                            data:
+                              (
+                                getDistributionStatusPregnantChartQuery?.data ||
+                                []
+                              )?.map((r: any) => 100 - r?.pct) || [],
+                            label: {
+                              show: false,
+                            },
+                            itemStyle: {
+                              borderColor: "#2E90FA",
+                              color: "#2E90FA",
+                            },
+                            emphasis: {
+                              itemStyle: {
+                                borderColor: "#2E90FA",
+                                color: "#2E90FA",
+                              },
+                            },
+                          },
+                        ],
+                        (
+                          getDistributionStatusPregnantChartQuery?.data || []
+                        )?.map((r: any) => r?.vaccine) || []
+                        // ["WUS Tidak Hamil", "WUS Hamil"]
+                      )}
                     />
                   </div>
                 }

@@ -430,7 +430,7 @@ export const regionOptionsBias = [
   },
   {
     label: "Kecamatan",
-    value: "DISTRICT",
+    value: "KECAMATAN",
   },
   {
     label: "Faskes",
