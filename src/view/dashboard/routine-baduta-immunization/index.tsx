@@ -15,24 +15,23 @@ import { openSans } from "@/assets/fonts";
 
 const RoutineBadutaImmunization = () => {
   const filterState = useState({
-    // tahun: new Date().getFullYear(),
-    tahun: 2023,
+    tahun: new Date().getFullYear(),
     bulan: dataMonths.find((r, i) => i === new Date().getMonth())?.value,
     provinsi: '',
     kabkota: '',
     kecamatan: '',
     jenis_sarana: '',
     faskes: '',
-    tipe_vaksin1: "1",
-    tipe_vaksin2: "1",
-    tipe_vaksin3: "1",
-    tipe_vaksin4: "1",
-    tipe_vaksin5: "1",
+    tipe_vaksin1: vaccineTypeOptions[0].label,
+    tipe_vaksin2: vaccineTypeOptions[0].label,
+    tipe_vaksin3: vaccineTypeOptions[0].label,
+    tipe_vaksin4: vaccineTypeOptions[0].label,
+    tipe_vaksin5: vaccineTypeOptions[0].label,
     jenis_tren: 'kumulatif',
     tipe_umur: 1,
     jenis_kelamin: 1,
     wilayah: "All",
-    wilayah1: "province",
+    wilayah1: "All",
     kewilayahan_type: 0
   })
   const [filter] = filterState
@@ -504,7 +503,10 @@ const RoutineBadutaImmunization = () => {
                         data={getPercentageTotalImmunizationQuery?.data || []} />}
                       isLoading={isLoadingPercentageTotalImmunizationQuery}
                       opts={{
-                        height: 900
+                        height: getPercentageTotalImmunizationQuery?.data?.length > 1500 ? 65000 :
+                          getPercentageTotalImmunizationQuery?.data?.length > 700 ? 35000 :
+                            getPercentageTotalImmunizationQuery?.data?.length > 200 ? 15000 :
+                              900
                       }}
                       graphOptions={graphOptions1([{
                         // @ts-ignore

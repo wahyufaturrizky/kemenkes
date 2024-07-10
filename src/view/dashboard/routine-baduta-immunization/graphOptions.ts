@@ -43,10 +43,20 @@ export const graphOptions1 = (series: any[], legend: any[]) => {
 };
 export const graphOptions2 = (series: any[]) => {
   const option: EChartsOptionProps = {
-    color: ["#EAAA08", "#8ECCFF", "#00B1A9"],
+    color: ["#8ECCFF", "#EAAA08", "#00B1A9"],
     grid: { containLabel: true },
     tooltip: {
       trigger: "axis",
+      formatter: `{b0} <br/>
+        <svg width="250" height="20">
+          <circle cx="10" cy="10" r="5" fill="#EAAA08" />
+          <text x="20" y="15">{a1}: {c1}</text>
+        </svg>
+        <br/>
+        <svg width="250" height="20">
+            <circle cx="10" cy="10" r="5" fill="#00B1A9" />
+            <text x="20" y="15">{a2}: {c2}</text>
+        </svg>`
     },
     legend: {
       data: series.map((r) => r.name),

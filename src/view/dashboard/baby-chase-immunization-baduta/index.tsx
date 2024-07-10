@@ -15,24 +15,23 @@ import { openSans } from "@/assets/fonts";
 
 const BabyChaseImmunizationBaduta = () => {
   const filterState = useState({
-    // tahun: new Date().getFullYear(),
-    tahun: 2023,
+    tahun: new Date().getFullYear(),
     bulan: dataMonth.find((r, i) => i === new Date().getMonth())?.value,
     provinsi: '',
     kabkota: '',
     kecamatan: '',
     jenis_sarana: '',
     faskes: '',
-    tipe_vaksin1: "1",
-    tipe_vaksin2: "1",
-    tipe_vaksin3: "1",
-    tipe_vaksin4: "1",
-    tipe_vaksin5: "1",
+    tipe_vaksin1: vaccineTypeKejarOptions[0].label,
+    tipe_vaksin2: vaccineTypeKejarOptions[0].label,
+    tipe_vaksin3: vaccineTypeKejarOptions[0].label,
+    tipe_vaksin4: vaccineTypeKejarOptions[0].label,
+    tipe_vaksin5: vaccineTypeKejarOptions[0].label,
     jenis_tren: 'kumulatif',
     tipe_umur: 1,
     jenis_kelamin: 1,
     wilayah: "All",
-    wilayah1: "province",
+    wilayah1: "All",
     kewilayahan_type: 0
   })
   const [filter] = filterState
@@ -323,7 +322,10 @@ const BabyChaseImmunizationBaduta = () => {
                         data={getGraphTotalQuery?.data || []} />}
                       isLoading={isLoadingGraphTotalQuery}
                       opts={{
-                        height: 900
+                        height: getGraphTotalQuery?.data?.length > 1500 ? 65000 :
+                          getGraphTotalQuery?.data?.length > 700 ? 35000 :
+                            getGraphTotalQuery?.data?.length > 200 ? 15000 :
+                              900
                       }}
                       graphOptions={graphOptions1([{
                         // @ts-ignore
