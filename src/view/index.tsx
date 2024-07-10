@@ -8,20 +8,19 @@ import { Banner, BannerHighlightFooter, BannerText, GraphEcharts, Navbar, Sideba
 import { ChildSummaryImmunization, FilterSummaryImmunization, GraphAddOn, GraphRoutineImmunizationCoverageTrend, RoutineImmunizationCoverageTrendGraph, SummaryImmunization, TotalSummaryImmunization } from "@/view/home";
 import { Filter1, Filter2 } from "@/view/Filter";
 import { graphOptions1, graphOptions2 } from "@/view/graphOptions";
-import { dataMonths, dataTabBaduta, trendTypeOptions, vaccineTypeOptions } from "@/utils/constants";
-import { formatNumber } from "@/helpers";
+import { dataMonths, dataTabBaduta, trendTypeOptions } from "@/utils/constants";
+import { formatNumber, standardOptions } from "@/helpers";
 import { openSans } from "@/assets/fonts";
 import { FiPlus } from "react-icons/fi";
 import { useRouter } from "next/navigation";
 import { sidebarNavigation } from "@/utils/navigation";
-import { useGetTotalBaseCumulativeQuery, useGetTotalBaseHighestScopeQuery, useGetTotalBaseLowestScopeQuery, useGetTotalChartProvinceQuery, useGetTotalCityExceedTargetQuery, useGetTotalCityNotExceedTargetQuery, useGetTotalCumulativeChartScopeQuery, useGetTotalCumulativeScopeQuery, useGetTotalHighestScopeQuery, useGetTotalLowestScopeQuery, useGetTotalProvinceExceedTargetQuery, useGetTotalProvinceNotExceedTargetQuery, useGetTotalUniqueAntigenCompleteQuery, useGetTotalUniqueBabyQuery, useGetTotalUniqueBadutaCompleteQuery, useGetTotalUniqueBadutaQuery, useGetTotalUniqueBaseCompleteQuery, useGetTotalUniqueBiasCompleteQuery, useGetTotalUniqueBiasQuery, useGetTotalUniqueT2CompleteQuery, useGetTotalUniqueWusQuery } from "@/lib/services/public-immunization";
+import { useGetTotalBaseCumulativeQuery, useGetTotalBaseHighestScopeQuery, useGetTotalBaseLowestScopeQuery, useGetTotalChartProvinceQuery, useGetTotalCityExceedTargetQuery, useGetTotalCityNotExceedTargetQuery, useGetTotalCumulativeChartScopeQuery, useGetTotalCumulativeScopeQuery, useGetTotalHighestScopeQuery, useGetTotalLowestScopeQuery, useGetTotalProvinceExceedTargetQuery, useGetTotalProvinceNotExceedTargetQuery, useGetTotalUniqueAntigenCompleteQuery, useGetTotalUniqueBabyQuery, useGetTotalUniqueBadutaCompleteQuery, useGetTotalUniqueBadutaQuery, useGetTotalUniqueBaseCompleteQuery, useGetTotalUniqueBiasCompleteQuery, useGetTotalUniqueBiasQuery, useGetTotalUniqueT2CompleteQuery, useGetTotalUniqueWusQuery, useGetListVaccineQuery } from "@/lib/services/public-immunization";
 
 const HomeView = () => {
   const { push } = useRouter();
 
   const filterState = useState({
-    // tahun: new Date().getFullYear(),
-    tahun: 2023,
+    tahun: new Date().getFullYear(),
     bulan: dataMonths.find((r, i) => i === new Date().getMonth())?.value,
     provinsi: '',
     kabkota: '',
@@ -85,6 +84,9 @@ const HomeView = () => {
     region_type: filter.wilayah1,
     vaccine_type: filter.tipe_vaksin1
   }
+  const { data: getListVaccine } = useGetListVaccineQuery({})
+  const optionsVaccineType = standardOptions(getListVaccine?.data, 'vaccine_name', 'vaccine_id')
+
   const { data: getTotalUniqueBabyQuery,
     isLoading: isLoadingTotalUniqueBabyQuery
   } = useGetTotalUniqueBabyQuery(filterTotalUniqueQuery, optionTotalUniqueQuery)
@@ -271,7 +273,7 @@ const HomeView = () => {
       subtitle: " dari ",
     },
   ]
-
+  console.log(filter, "filter")
   return (
     <div className="flex flex-col items-center">
       {/* <div className="px-4 container">
@@ -384,8 +386,8 @@ const HomeView = () => {
               graph={
                 <div className="my-4 p-4 md:p-8 border rounded-lg">
                   <GraphRoutineImmunizationCoverageTrend
-                    title={<div className="font-bold md:text-2xl">Data {trendTypeOptions.find((r) => r.value === filter.jenis_tren)?.label} Jumlah Penerima, Cakupan, dan Target Cakupan <b className="text-primary-2">{vaccineTypeOptions.find((r) => r.value === filter.tipe_vaksin2)?.label}</b> pada Bayi Usia di Bawah 1 Tahun Selama Tahun <b className="text-primary-2">{filter.tahun}</b></div>}
-                    subTitle={`Grafik menampilkan tren cakupan ${trendTypeOptions.find((r) => r.value === filter.jenis_tren)?.label} penerima ${vaccineTypeOptions.find((r) => r.value === filter.tipe_vaksin2)?.label} selama tahun ${filter.tahun}`}
+                    title={<div className="font-bold md:text-2xl">Data {trendTypeOptions.find((r) => r.value === filter.jenis_tren)?.label} Jumlah Penerima, Cakupan, dan Target Cakupan <b className="text-primary-2">{optionsVaccineType.find((r) => r.value === filter.tipe_vaksin2)?.label}</b> pada Bayi Usia di Bawah 1 Tahun Selama Tahun <b className="text-primary-2">{filter.tahun}</b></div>}
+                    subTitle={`Grafik menampilkan tren cakupan ${trendTypeOptions.find((r) => r.value === filter.jenis_tren)?.label} penerima ${optionsVaccineType.find((r) => r.value === filter.tipe_vaksin2)?.label} selama tahun ${filter.tahun}`}
                     variant="private"
                     filterState={filterState}
                     filterComp={<Filter2 filterState={filterState} />}
@@ -395,7 +397,7 @@ const HomeView = () => {
                         <div className="p-2 sm:w-32 md:w-64 h-fit">
                           <div className="text-sm">Total cakupan {trendTypeOptions.find((r) => r.value === filter.jenis_tren)?.label} pada tahun {filter.tahun}</div>
                           <div className="py-2 font-bold text-3xl text-primary">{formatNumber(getTotalCumulativeScopeQuery?.data?.presentase || 0)}%</div>
-                          <div>Jumlah {vaccineTypeOptions.find((r) => r.value === filter.tipe_vaksin2)?.label}: {formatNumber(getTotalCumulativeScopeQuery?.data?.total || 0)}</div>
+                          <div>Jumlah {optionsVaccineType.find((r) => r.value === filter.tipe_vaksin2)?.label}: {formatNumber(getTotalCumulativeScopeQuery?.data?.total || 0)}</div>
                         </div>
                       </div>
                     }
@@ -447,8 +449,8 @@ const HomeView = () => {
               graph={
                 <div className="my-4 p-4 md:p-8 border rounded-lg">
                   <GraphRoutineImmunizationCoverageTrend
-                    title={<div className="font-bold md:text-2xl">Data Cakupan <b className="text-primary-2">{vaccineTypeOptions.find((r) => r.value === filter.tipe_vaksin1)?.label}</b> pada Provinsi di <b className="text-primary-2">Indonesia</b> Selama Tahun <b className="text-primary-2">{filter.tahun}</b></div>}
-                    subTitle={`Grafik menampilkan hasil cakupan semua data rutin${vaccineTypeOptions.find((r) => r.value === filter.tipe_vaksin1)?.label} dari 34 provinsi di Indonesia`}
+                    title={<div className="font-bold md:text-2xl">Data Cakupan <b className="text-primary-2">{optionsVaccineType.find((r) => r.value === filter.tipe_vaksin1)?.label}</b> pada Provinsi di <b className="text-primary-2">Indonesia</b> Selama Tahun <b className="text-primary-2">{filter.tahun}</b></div>}
+                    subTitle={`Grafik menampilkan hasil cakupan semua data rutin ${optionsVaccineType.find((r) => r.value === filter.tipe_vaksin1)?.label} dari 34 provinsi di Indonesia`}
                     addOn={<GraphAddOn dataCard={dataTotalBase} />} variant="private"
                     filterState={filterState}
                     filterComp={<Filter1 filterState={filterState} />}
