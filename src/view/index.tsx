@@ -273,7 +273,7 @@ const HomeView = () => {
       subtitle: " dari ",
     },
   ]
-  console.log(filter, "filter")
+
   return (
     <div className="flex flex-col items-center">
       {/* <div className="px-4 container">
@@ -390,7 +390,7 @@ const HomeView = () => {
                     subTitle={`Grafik menampilkan tren cakupan ${trendTypeOptions.find((r) => r.value === filter.jenis_tren)?.label} penerima ${optionsVaccineType.find((r) => r.value === filter.tipe_vaksin2)?.label} selama tahun ${filter.tahun}`}
                     variant="private"
                     filterState={filterState}
-                    filterComp={<Filter2 filterState={filterState} />}
+                    filterComp={<Filter2 filterState={filterState} data={getTotalCumulativeChartScopeQuery?.data || []} />}
                     threshold={
                       <div className="relative flex justify-center items-center">
                         {isLoadingTotalCumulativeScopeQuery && <Spin />}
@@ -453,7 +453,7 @@ const HomeView = () => {
                     subTitle={`Grafik menampilkan hasil cakupan semua data rutin ${optionsVaccineType.find((r) => r.value === filter.tipe_vaksin1)?.label} dari 34 provinsi di Indonesia`}
                     addOn={<GraphAddOn dataCard={dataTotalBase} />} variant="private"
                     filterState={filterState}
-                    filterComp={<Filter1 filterState={filterState} />}
+                    filterComp={<Filter1 filterState={filterState} data={getTotalChartProvinceQuery?.data || []} />}
                     isLoading={isLoadingTotalChartProvinceQuery}
                     opts={{
                       height: getTotalChartProvinceQuery?.data?.length > 1500 ? 65000 :

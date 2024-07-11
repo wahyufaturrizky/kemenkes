@@ -70,7 +70,7 @@ export const Filter1: React.FC<FilterProps> = ({ filterState, data }) => {
           const total = data?.map((r: any) => r.total.toString());
           const pct = data?.map((r: any) => r.pct.toString());
           const target = data?.map((r: any) => r.threshold.toString());
-          const header = data?.map((r: any) => r.domicile);
+          const header = data?.map((r: any) => r.domicile === "All" ? "Nasional" : r.domicile);
           const body = [pct, total, target];
           const verticalHeader = ["% Target Cakupan", "Jumlah Penerima Imunisasi", "Cakupan"];
           const fileName = "Data Kumulatif";
@@ -134,10 +134,10 @@ export const Filter2: React.FC<FilterProps> = ({ filterState, data }) => {
       </div>
       <div className="flex gap-4">
         <div onClick={async () => {
-          const total = data?.map((r: any) => r.total.toString());
-          const pct = data?.map((r: any) => r.pct.toString());
-          const target = data?.map((r: any) => r.threshold.toString());
-          const header = data?.map((r: any) => r.domicile);
+          const total = data?.map((r: any) => r.jumlah_penerima.toString());
+          const pct = data?.map((r: any) => r.pct_cakupan.toString());
+          const target = data?.map((r: any) => r.target_cakupan.toString());
+          const header = dataMonths?.map((r) => r.label);
           const body = [pct, total, target];
           const verticalHeader = ["% Target Cakupan", "Jumlah Imunisasi", "Target"];
           const fileName = "Grafik Cakupan";

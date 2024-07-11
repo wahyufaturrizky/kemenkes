@@ -52,7 +52,7 @@ const BabyChaseImmunizationBaduta = () => {
           : filter.provinsi
             ? "province"
             : "All",
-    region_id: filter.faskes
+    faskes_id: filter.faskes
       ? filter.faskes
       : filter.kecamatan
         ? filter.kecamatan
@@ -74,14 +74,30 @@ const BabyChaseImmunizationBaduta = () => {
           : "All";
   const filterQueryGraphPercentage = {
     ...dateQuery,
-    region_type: filter.wilayah1,
-    region_id: regionIdQuery,
+    region_type: filter.wilayah1 ? filter.wilayah1 : filter.faskes
+      ? "faskes"
+      : filter.kecamatan
+        ? "district"
+        : filter.kabkota
+          ? "city"
+          : filter.provinsi
+            ? "province"
+            : "All",
+    faskes_id: regionIdQuery,
     kewilayahan_type: filter.kewilayahan_type,
   };
   const filterQueryGraph = {
     ...dateQuery,
-    region_type: filter.wilayah,
-    region_id: regionIdQuery,
+    region_type: filter.faskes
+      ? "faskes"
+      : filter.kecamatan
+        ? "district"
+        : filter.kabkota
+          ? "city"
+          : filter.provinsi
+            ? "province"
+            : "All",
+    faskes_id: regionIdQuery,
     kewilayahan_type: filter.kewilayahan_type,
   };
   const optionQuery = {
@@ -91,31 +107,14 @@ const BabyChaseImmunizationBaduta = () => {
       (!filter.bulan &&
         (!filter.provinsi || !filter.kabkota || !filter.kecamatan)),
   };
-  const optionQueryMustFaskes = {
-    refetchOnMountOrArgChange: true,
-    skip:
-      !filter.tahun ||
-      (!filter.bulan &&
-        (!filter.provinsi || !filter.kabkota || !filter.kecamatan)) || !filter.faskes,
-  };
-  const optionQueryGraph = {
-    refetchOnMountOrArgChange: true,
-    skip: (!filter.tahun || !filter.bulan || !filter.wilayah || (!filter.tipe_vaksin1 || !filter.tipe_vaksin2 || !filter.tipe_vaksin3)
-      && (!filter.provinsi || !filter.kabkota || !filter.kecamatan)) || !filter.faskes
-  }
   const optionQueryTotal = {
     refetchOnMountOrArgChange: true,
     skip: !filter.wilayah || (!filter.tipe_vaksin1 || !filter.tipe_vaksin2 || !filter.tipe_vaksin3)
   }
 
-  const optionQueryTotalMustFaskes = {
-    refetchOnMountOrArgChange: true,
-    skip: !filter.wilayah || (!filter.tipe_vaksin1 || !filter.tipe_vaksin2 || !filter.tipe_vaksin3) || !filter.faskes
-  }
-
   const { data: getImmunizationScopeKejarQuery,
     isLoading: isLoadingImmunizationScopeKejarQuery,
-  } = useGetImmunizationScopeKejarQuery({ ...filterQueryGraph, vaccine_type: filter.tipe_vaksin1 }, optionQueryTotalMustFaskes)
+  } = useGetImmunizationScopeKejarQuery({ ...filterQueryGraph, vaccine_type: filter.tipe_vaksin1 }, optionQueryTotal)
   const { data: getHighestScopeKejarQuery,
     isLoading: isLoadingHighestScopeKejarQuery,
   } = useGetHighestScopeKejarQuery({ ...filterQueryGraph, vaccine_type: filter.tipe_vaksin1 }, optionQueryTotal)
@@ -127,12 +126,12 @@ const BabyChaseImmunizationBaduta = () => {
   } = useGetGraphTotalQuery({ ...filterQueryGraphPercentage, vaccine_type: filter.tipe_vaksin1 }, optionQuery)
   const { data: getGraphScopeKejarImmunizationQuery,
     isLoading: isLoadingGraphScopeKejarImmunizationQuery,
-  } = useGetGraphScopeKejarImmunizationQuery({ ...filterQueryGraphPercentage, vaccine_type: filter.tipe_vaksin1 }, optionQueryMustFaskes)
+  } = useGetGraphScopeKejarImmunizationQuery({ ...filterQueryGraphPercentage, vaccine_type: filter.tipe_vaksin1 }, optionQuery)
   const aliasGraphScopeKejarImmunizationQuery = Object.entries(getGraphScopeKejarImmunizationQuery?.data || []).map(([key, value]) => ({ label: key, value: value }));
 
   const { data: getImmunizationGraphKejarStatusQuery,
     isLoading: isLoadingImmunizationGraphKejarStatusQuery,
-  } = useGetImmunizationGraphKejarStatusQuery(filterQueryGraph, optionQueryMustFaskes)
+  } = useGetImmunizationGraphKejarStatusQuery(filterQueryGraph, optionQuery)
   const aliasImmunizationGraphKejarStatusQuery = Object.entries(getImmunizationGraphKejarStatusQuery?.data || []).map(([key, value]) => ({ label: key, value: value }));
   // const { data: getSetScopePercentagePerMonthQuery,
   //   isLoading: isLoadingSetScopePercentagePerMonthQuery,
@@ -140,38 +139,38 @@ const BabyChaseImmunizationBaduta = () => {
 
   const { data: getHighestScopeKejarImmunizationQuery,
     isLoading: isLoadingHighestScopeKejarImmunizationQuery,
-  } = useGetHighestScopeKejarImmunizationQuery(filterQueryGraph, optionQueryMustFaskes)
+  } = useGetHighestScopeKejarImmunizationQuery(filterQueryGraph, optionQuery)
   const { data: getLowestScopeKejarImmunizationQuery,
     isLoading: isLoadingLowestScopeKejarImmunizationQuery,
-  } = useGetLowestScopeKejarImmunizationQuery(filterQueryGraph, optionQueryMustFaskes)
+  } = useGetLowestScopeKejarImmunizationQuery(filterQueryGraph, optionQuery)
 
   const { data: getSummaryImmunizationByAgeQuery,
     isLoading: isLoadingSummaryImmunizationByAgeQuery,
-  } = useGetSummaryImmunizationByAgeQuery(filterQueryGraph, optionQueryMustFaskes)
+  } = useGetSummaryImmunizationByAgeQuery(filterQueryGraph, optionQuery)
   const aliasSummaryImmunizationByAgeQuery = Object.entries(getSummaryImmunizationByAgeQuery?.data || []).map(([key, value]) => ({ label: key, value: value }));
 
   const { data: getAverageImmunizationByGenderQuery,
     isLoading: isLoadingAverageImmunizationByGenderQuery,
-  } = useGetAverageImmunizationByGenderQuery(filterQueryGraph, optionQueryMustFaskes)
+  } = useGetAverageImmunizationByGenderQuery(filterQueryGraph, optionQuery)
   const { data: getImmunizationWithHighetMaleRecivientQuery,
     isLoading: isLoadingImmunizationWithHighetMaleRecivientQuery,
-  } = useGetImmunizationWithHighetMaleRecivientQuery(filterQueryGraph, optionQueryMustFaskes)
+  } = useGetImmunizationWithHighetMaleRecivientQuery(filterQueryGraph, optionQuery)
   const { data: getImmunizationWithHighetFemaleRecivientQuery,
     isLoading: isLoadingImmunizationWithHighetFemaleRecivientQuery,
-  } = useGetImmunizationWithHighetFemaleRecivientQuery(filterQueryGraph, optionQueryMustFaskes)
+  } = useGetImmunizationWithHighetFemaleRecivientQuery(filterQueryGraph, optionQuery)
   const { data: getSummaryImmunizationPerGenderQuery,
     isLoading: isLoadingSummaryImmunizationPerGenderQuery,
-  } = useGetSummaryImmunizationPerGenderQuery(filterQueryGraph, optionQueryMustFaskes)
+  } = useGetSummaryImmunizationPerGenderQuery(filterQueryGraph, optionQuery)
   const aliasSummaryImmunizationPerGenderQuery = Object.entries(getSummaryImmunizationPerGenderQuery?.data || []).map(([key, value]) => ({ label: key, value: value }));
 
   const { data: getDistributionGraphTimeQuery,
     isLoading: isLoadingGetDistributionGraphTimeQuery,
-  } = useGetDistributionGraphTimeQuery({ ...filterQueryGraph }, optionQueryMustFaskes)
+  } = useGetDistributionGraphTimeQuery({ ...filterQueryGraph }, optionQuery)
   const aliasDistributionGraphTimeQuery = Object.entries(getDistributionGraphTimeQuery?.data || []).map(([key, value]) => ({ label: key, value: value }));
 
   const { data: getGetTotalImmunizationScopeQuery,
     isLoading: isLoadingGetTotalImmunizationScopeQuery,
-  } = useGetTotalImmunizationScopeQuery({ ...filterQueryGraph }, optionQueryMustFaskes)
+  } = useGetTotalImmunizationScopeQuery({ ...filterQueryGraph }, optionQuery)
 
   const dataGraphRegionalRoutineImmunizationCoverageTrend1 = [
     {

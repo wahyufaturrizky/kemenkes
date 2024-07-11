@@ -176,6 +176,7 @@ const FilterSummaryImmunization: React.FC<FilterProps> = ({ filterState }) => {
             onChange={(e: any) => {
               setFilter({
                 ...filter,
+                wilayah: 'province',
                 provinsi: e?.value,
                 kabkota: '',
                 kecamatan: '',
@@ -197,6 +198,7 @@ const FilterSummaryImmunization: React.FC<FilterProps> = ({ filterState }) => {
             onChange={(e: any) => {
               setFilter({
                 ...filter,
+                wilayah: 'city',
                 kabkota: e?.value,
                 kecamatan: '',
                 jenis_sarana: '',
@@ -217,6 +219,7 @@ const FilterSummaryImmunization: React.FC<FilterProps> = ({ filterState }) => {
             onChange={(e: any) => {
               setFilter({
                 ...filter,
+                wilayah: 'district',
                 kecamatan: e?.value,
                 jenis_sarana: '',
                 faskes: ''
@@ -253,7 +256,7 @@ const FilterSummaryImmunization: React.FC<FilterProps> = ({ filterState }) => {
               <Select
                 placeholder="Pilih Faskes"
                 options={standardOptions((getMedicalFacility?.data || []), "faskes_name", "faskes")}
-                onChange={(e: any) => { setFilter({ ...filter, faskes: e?.value }) }}
+                onChange={(e: any) => { setFilter({ ...filter, wilayah: 'faskes', faskes: e?.value }) }}
                 value={filter.faskes ?
                   standardOptions((getMedicalFacility?.data || []), "faskes_name", "faskes")
                     ?.find((f) => f.value === filter.faskes)
