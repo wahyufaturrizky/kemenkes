@@ -70,6 +70,16 @@ export const graphOptions3 = (series: any[], xData: any[]) => {
     grid: { containLabel: true },
     tooltip: {
       trigger: "axis",
+      formatter: `{b0} <br/>
+        <svg width="250" height="20">
+          <circle cx="10" cy="10" r="5" fill="#EAAA08" />
+          <text x="20" y="15">{a1}: {c1}</text>
+        </svg>
+        <br/>
+        <svg width="250" height="20">
+            <circle cx="10" cy="10" r="5" fill="#FF4405" />
+            <text x="20" y="15">{a2}: {c2}</text>
+        </svg>`
     },
     legend: {
       show: true,

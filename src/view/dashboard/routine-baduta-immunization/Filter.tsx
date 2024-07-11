@@ -33,7 +33,7 @@ export const Filter1: React.FC<FilterProps> = ({ filterState, data }) => {
             value={
               filter.tipe_vaksin1
                 ? vaccineTypeOptions?.find(
-                  (f) => f.value === filter.tipe_vaksin1
+                  (f) => f.label === filter.tipe_vaksin1
                 )
                 : filter.tipe_vaksin1
             }
@@ -99,7 +99,7 @@ export const Filter2: React.FC<FilterProps> = ({ filterState, data }) => {
             value={
               filter.tipe_vaksin2
                 ? vaccineTypeOptions?.find(
-                  (f) => f.value === filter.tipe_vaksin2
+                  (f) => f.label === filter.tipe_vaksin2
                 )
                 : filter.tipe_vaksin2
             }
@@ -141,7 +141,7 @@ export const Filter3: React.FC<FilterProps> = ({ filterState, data }) => {
             value={
               filter.tipe_vaksin3
                 ? vaccineTypeOptions?.find(
-                  (f) => f.value === filter.tipe_vaksin3
+                  (f) => f.label === filter.tipe_vaksin3
                 )
                 : filter.tipe_vaksin3
             }
@@ -182,7 +182,7 @@ export const Filter4: React.FC<FilterProps> = ({ filterState, data }) => {
             value={
               filter.tipe_vaksin3
                 ? vaccineTypeOptions?.find(
-                  (f) => f.value === filter.tipe_vaksin3
+                  (f) => f.label === filter.tipe_vaksin3
                 )
                 : filter.tipe_vaksin3
             }
