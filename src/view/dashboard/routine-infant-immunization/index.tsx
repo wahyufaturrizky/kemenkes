@@ -16,13 +16,14 @@ import {
 } from "@/components";
 import {
   ChildSummaryImmunization,
-  FilterSummaryImmunization,
   GraphAddOn,
   GraphRoutineImmunizationCoverageTrend,
   RoutineImmunizationCoverageTrendGraph,
   SummaryImmunization,
   TotalSummaryImmunization,
 } from "@/view/home";
+import FilterSummaryImmunizationBayi from "@/view/home/components/FilterBayi";
+
 import ChildSummaryImmunizationBayi from "@/view/home/components/ChildSuemmryBayi";
 import {
   Filter1,
@@ -145,8 +146,8 @@ const RoutineBabyImmunization = () => {
     tipe_umur: 1,
     jenis_kelamin: 1,
     wilayah: "All",
-    wilayah1: "",
-    // kewilayahan_type: 0,
+    wilayah1: "province",
+    faskes_parent: "",
   });
   const [filter] = filterState;
 
@@ -204,17 +205,19 @@ const RoutineBabyImmunization = () => {
   const filterGraph1 = useMemo(
     () => ({
       ...dateQuery,
-      region_type: rergionTypeGraph1,
+      region_type: filter.wilayah1,
+      // region_type: rergionTypeGraph1,
       vaccine_type: filter.tipe_vaksin1,
-      faskes_id: filter.faskes
-        ? filter.faskes
-        : filter.kecamatan
-        ? filter.kecamatan
-        : filter.kabkota
-        ? filter.kabkota
-        : filter.provinsi
-        ? filter.provinsi
-        : "All",
+      // faskes_id: filter.faskes
+      //   ? filter.faskes
+      //   : filter.kecamatan
+      //   ? filter.kecamatan
+      //   : filter.kabkota
+      //   ? filter.kabkota
+      //   : filter.provinsi
+      //   ? filter.provinsi
+      //   : "All",
+      faskes_parent: filter.faskes_parent,
     }),
     [rergionTypeGraph1, filter, dateQuery]
   );
@@ -868,7 +871,7 @@ const RoutineBabyImmunization = () => {
               </div>
             </div>
             <div className="pt-6">
-              <FilterSummaryImmunization filterState={filterState} />
+              <FilterSummaryImmunizationBayi filterState={filterState} />
             </div>
             <div className="py-6"></div>
             {/* scorecard */}

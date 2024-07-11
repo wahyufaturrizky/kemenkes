@@ -25,7 +25,9 @@ interface FilterProps {
   filterState?: any;
 }
 
-const FilterSummaryImmunization: React.FC<FilterProps> = ({ filterState }) => {
+const FilterSummaryImmunizationBayi: React.FC<FilterProps> = ({
+  filterState,
+}) => {
   const [filter, setFilter] = filterState || useState({});
   // const [filter, setFilter] = useState({
   //   tahun: '',
@@ -211,6 +213,8 @@ const FilterSummaryImmunization: React.FC<FilterProps> = ({ filterState }) => {
                 kecamatan: "",
                 jenis_sarana: "",
                 faskes: "",
+                wilayah1: e?.value ? "city" : "province",
+                faskes_parent: e?.label ? e?.label?.toUpperCase() : "",
               });
             }}
             value={
@@ -240,6 +244,7 @@ const FilterSummaryImmunization: React.FC<FilterProps> = ({ filterState }) => {
                 kecamatan: "",
                 jenis_sarana: "",
                 faskes: "",
+                wilayah1: e?.value ? "district" : "city",
               });
             }}
             value={
@@ -268,6 +273,7 @@ const FilterSummaryImmunization: React.FC<FilterProps> = ({ filterState }) => {
                 kecamatan: e?.value,
                 jenis_sarana: "",
                 faskes: "",
+                wilayah1: e?.value ? "faskes" : "district",
               });
             }}
             value={
@@ -369,4 +375,4 @@ const FilterSummaryImmunization: React.FC<FilterProps> = ({ filterState }) => {
   );
 };
 
-export default FilterSummaryImmunization;
+export default FilterSummaryImmunizationBayi;
