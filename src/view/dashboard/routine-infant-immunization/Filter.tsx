@@ -4,6 +4,7 @@ import { downloadFile } from "@/helpers/hook";
 import { Button, Select } from "@/components";
 import {
   ageTypeOptions,
+  dataMonth,
   genderOptions,
   regionOptions,
   trendTypeOptionsBayi,
@@ -70,12 +71,12 @@ export const Filter1: React.FC<FilterProps> = ({ filterState, data }) => {
       <div className="flex gap-4">
         <div
           onClick={async () => {
-            const pct = data?.map((r: any) => r.percentage.toString());
-            const target = data?.map((r: any) => r.threshold.toString());
+            const pct = data?.map((r: any) => `${r.percentage.toString()}%`);
+            const target = data?.map((r: any) => `${r.threshold.toString()}%`);
             const header = data?.map((r: any) => r.faskes_desc);
             const body = [pct, target];
             const verticalHeader = ["% Target Cakupan", "Target"];
-            const fileName = "Grafik Cakupan";
+            const fileName = "Grafik Tren Cakupan Daerah Imunisasi Bayi";
             await downloadFile({ header, body, verticalHeader, fileName });
           }}
         >
@@ -88,7 +89,7 @@ export const Filter1: React.FC<FilterProps> = ({ filterState, data }) => {
     </div>
   );
 };
-export const Filter2: React.FC<FilterProps> = ({ filterState }) => {
+export const Filter2: React.FC<FilterProps> = ({ filterState, data }) => {
   const [filter, setFilter] = filterState || useState({});
   return (
     <div className="flex flex-wrap justify-between items-center gap-4 sm:mt-20 md:mt-0 mb-8">
@@ -125,7 +126,28 @@ export const Filter2: React.FC<FilterProps> = ({ filterState }) => {
         </div>
       </div>
       <div className="flex gap-4">
-        <div>
+        <div
+          onClick={async () => {
+            const pct = data?.map((r: any) => `${r.percentage.toString()}%`);
+            const target = data?.map((r: any) => `${r.threshold.toString()}%`);
+            const total = data?.map((r: any) => `${r.total.toString()}`);
+            const header = dataMonth?.map((r) => r.label);
+            const body = [pct, target, total];
+            const verticalHeader = [
+              "% Cakupan",
+              "% Target Cakupan",
+              "Jumlah Penerima Imunisasi",
+            ];
+            const fileName =
+              "Grafik Tren Cakupan Kumulatif atau Bulanan Penerima Imunisasi Bayi";
+            await downloadFile({
+              header,
+              body,
+              verticalHeader,
+              fileName,
+            });
+          }}
+        >
           <Button text="Unduh" variant="outlined" />
         </div>
         {/* <div>
@@ -135,7 +157,7 @@ export const Filter2: React.FC<FilterProps> = ({ filterState }) => {
     </div>
   );
 };
-export const Filter3: React.FC<FilterProps> = ({ filterState }) => {
+export const Filter3: React.FC<FilterProps> = ({ filterState, data }) => {
   const [filter, setFilter] = filterState || useState({});
   return (
     <div className="flex flex-wrap justify-between items-center gap-4 sm:mt-20 md:mt-0 mb-8">
@@ -157,17 +179,35 @@ export const Filter3: React.FC<FilterProps> = ({ filterState }) => {
         </div>
       </div>
       <div className="flex gap-4">
-        <div>
+        <div
+          onClick={async () => {
+            const pct = data?.map((r: any) => `${r.pct.toString()}%`);
+            const target = data?.map((r: any) => `${r.threshold.toString()}%`);
+            const total = data?.map((r: any) => `${r.ytd_total.toString()}`);
+            const header = data?.map((r: any) => r.vaccine_name);
+            const body = [pct, target, total];
+            const verticalHeader = [
+              "% Cakupan",
+              "% Target Cakupan",
+              "Jumlah Penerima Imunisasi",
+            ];
+            const fileName =
+              "Grafik Cakupan Imunisasi Bayi berdasarkan Jenis Imunisasi";
+            await downloadFile({
+              header,
+              body,
+              verticalHeader,
+              fileName,
+            });
+          }}
+        >
           <Button text="Unduh" variant="outlined" />
         </div>
-        {/* <div>
-          <Button text="Laporkan" variant="outlined" />
-        </div> */}
       </div>
     </div>
   );
 };
-export const Filter4: React.FC<FilterProps> = ({ filterState }) => {
+export const Filter4: React.FC<FilterProps> = ({ filterState, data }) => {
   const [filter, setFilter] = filterState || useState({});
   return (
     <div className="flex flex-wrap justify-between items-center gap-4 sm:mt-20 md:mt-0 mb-8">
@@ -205,7 +245,25 @@ export const Filter4: React.FC<FilterProps> = ({ filterState }) => {
         </div> */}
       </div>
       <div className="flex gap-4">
-        <div>
+        <div
+          onClick={async () => {
+            const ideal = data?.map((r: any) => `${r.pct_ideal.toString()}%`);
+            const non_ideal = data?.map(
+              (r: any) => `${r.pct_non_ideal.toString()}%`
+            );
+            const header = data?.map((r: any) => r.vaccine_name);
+            const body = [ideal, non_ideal];
+            const verticalHeader = ["Usia Ideal", "Usia Non Ideal"];
+            const fileName =
+              "Grafik Cakupan Imunisasi pada Bayi berdasarkan Usia Pemberian Imunisasi";
+            await downloadFile({
+              header,
+              body,
+              verticalHeader,
+              fileName,
+            });
+          }}
+        >
           <Button text="Unduh" variant="outlined" />
         </div>
         {/* <div>
@@ -215,7 +273,7 @@ export const Filter4: React.FC<FilterProps> = ({ filterState }) => {
     </div>
   );
 };
-export const Filter5: React.FC<FilterProps> = ({ filterState }) => {
+export const Filter5: React.FC<FilterProps> = ({ filterState, data }) => {
   const [filter, setFilter] = filterState || useState({});
   return (
     <div className="flex flex-wrap justify-between items-center gap-4 sm:mt-20 md:mt-0 mb-8">
@@ -253,7 +311,23 @@ export const Filter5: React.FC<FilterProps> = ({ filterState }) => {
         </div> */}
       </div>
       <div className="flex gap-4">
-        <div>
+        <div
+          onClick={async () => {
+            const male = data?.map((r: any) => `${r.pct_male.toString()}%`);
+            const female = data?.map((r: any) => `${r.pct_female.toString()}%`);
+            const header = data?.map((r: any) => r.vaccine_name);
+            const body = [male, female];
+            const verticalHeader = ["Laki-laki", "Perempuan"];
+            const fileName =
+              "Grafik Distribusi Imunisasi pada Bayi Berdasarkan Jenis Kelamin";
+            await downloadFile({
+              header,
+              body,
+              verticalHeader,
+              fileName,
+            });
+          }}
+        >
           <Button text="Unduh" variant="outlined" />
         </div>
         {/* <div>

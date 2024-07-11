@@ -74,8 +74,8 @@ import GraphRoutineImmunizationCoverageTrendWus from "@/view/home/components/Gra
 
 const Bias = () => {
   const filterState = useState({
-    tahun: 2023,
-    // tahun: new Date().getFullYear(),
+    // tahun: 2023,
+    tahun: new Date().getFullYear(),
     bulan: dataMonth.find((r, i) => i === new Date().getMonth())?.value,
     provinsi: "",
     kabkota: "",
@@ -150,6 +150,7 @@ const Bias = () => {
     vaccine_type: filter.tipe_vaksin,
     kewilayahan_type: filter.kewilayahan_type,
   };
+  // grafik1 start
   const filterQueryGetAllRegion = {
     ...dateQuery,
     ...regionType,
@@ -168,6 +169,7 @@ const Bias = () => {
     vaccine_type: filter.tipe_vaksin,
     kewilayahan_type: filter.kewilayahan_type,
   };
+  // grafik1 end
   const filterQueryTotalHighest = {
     ...dateQuery,
     region_type: filter.wilayah2,

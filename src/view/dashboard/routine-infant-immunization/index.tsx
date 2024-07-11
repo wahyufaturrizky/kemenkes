@@ -33,14 +33,14 @@ import {
 } from "@/view/dashboard/routine-infant-immunization/Filter";
 // import { Filter2 } from "../routine-baduta-immunization/Filter";
 import {
+  graphOptions1,
   graphOptions2,
-  graphOptions4,
+  graphOptions3,
   graphOptions5,
 } from "@/view/dashboard/routine-infant-immunization/graphOptions";
-import {
-  graphOptions1,
-  graphOptions3,
-} from "../routine-baduta-immunization/graphOptions";
+import // graphOptions3,
+"../routine-baduta-immunization/graphOptions";
+import { graphOptions4 } from "../bias/graphOptionts";
 
 import {
   // useGetAverageImmunizationByGenderQuery,
@@ -129,8 +129,7 @@ import ChildSummaryImmunizationZeroDose from "@/view/home/components/ChildSummar
 
 const RoutineBabyImmunization = () => {
   const filterState = useState({
-    tahun: 2023,
-    // tahun: new Date().getFullYear(),
+    tahun: new Date().getFullYear(),
     bulan: dataMonths.find((r, i) => i === new Date().getMonth())?.value,
     provinsi: "",
     kabkota: "",
@@ -436,9 +435,9 @@ const RoutineBabyImmunization = () => {
     useGetTypeSuspaseQuery(filterTotalBayi, optionQuery);
   const { data: getGraphScope, isLoading: isLoadingGraphScope } =
     useGetGraphScopeQuery(filterGraph3, optionQuery);
-  const aliasSummaryImmunizationPerVaccineQuery = Object.entries(
-    getGraphScope?.data?.[0] || []
-  ).map(([key, value]) => ({ label: key, value: value }));
+  // const aliasSummaryImmunizationPerVaccineQuery = Object.entries(
+  //   getGraphScope?.data?.[0]?.vaccine_list || []
+  // ).map(([key, value]) => ({ label: key, value: value }));
 
   // console.log(
   //   aliasSummaryImmunizationPerVaccineQuery?.filter((f) =>
@@ -446,6 +445,15 @@ const RoutineBabyImmunization = () => {
   //   ),
   //   "isi   data b"
   // );
+  // console.log(
+  //   getGraphScope?.data?.[0]?.vaccine_list?.map(
+  //     (data: any) => data?.vaccine_name
+  //   ),
+
+  //   "isi data"
+  // );
+
+  // console.log(aliasSummaryImmunizationPerVaccineQuery, "isi data");
 
   // grafik 3 end
 
@@ -482,7 +490,7 @@ const RoutineBabyImmunization = () => {
     getGraphImmunizationGender?.data?.[0] || []
   ).map(([key, value]) => ({ label: key, value: value }));
   // grafik 5 end
-  // console.log(getGraphImmunizationAge?.data, "isi data  a");
+  // console.log(getGraphImmunizationAge, "isi data  a");
 
   // console.log(getLowestScope?.data?.vaksin, "isi total");
 
@@ -1696,7 +1704,12 @@ const RoutineBabyImmunization = () => {
                       } pada bayi selama tahun ${filter.tahun}`}
                       variant="private"
                       filterState={filterState}
-                      filterComp={<Filter2 filterState={filterState} />}
+                      filterComp={
+                        <Filter2
+                          filterState={filterState}
+                          data={getCumulativeScopeImmunizationQuery?.data || []}
+                        />
+                      }
                       threshold={
                         <div className="relative flex justify-center items-center">
                           {isLoadingTotalCumulativeScopeImmunization && (
@@ -1841,57 +1854,12 @@ const RoutineBabyImmunization = () => {
                       }
                       variant="private"
                       filterState={filterState}
-                      filterComp={<Filter3 filterState={filterState} />}
-                      // threshold={
-                      //   <div className="text-sm">
-                      //     <div className="relative">
-                      //       {isLoadingTypeSuspase && <Spin />}
-                      //       <div
-                      //         className="relative mt-5 px-4 py-3 rounded-xl h-32"
-                      //         style={{
-                      //           boxShadow: "0px 2px 12px 0px #00000014",
-                      //         }}
-                      //       >
-                      //         <div className="font-bold">
-                      //           Imunisasi yang Melampaui Target Cakupan
-                      //         </div>
-                      //         <div style={{ display: "flex" }}>
-                      //           {getTypeSuspase?.data
-                      //             ?.filter((item: any) => item.status !== 0)
-                      //             .map((r: any, i: number) => (
-                      //               <p key={i + "exceed"}>
-                      //                 {r.vaksin.toUpperCase()}
-                      //                 {", "}
-                      //               </p>
-                      //             ))}
-                      //         </div>
-                      //       </div>
-                      //     </div>
-                      //     <div className="relative">
-                      //       {isLoadingTypeSuspase && <Spin />}
-                      //       <div
-                      //         className="my-5 px-4 py-3 rounded-xl h-32"
-                      //         style={{
-                      //           boxShadow: "0px 2px 12px 0px #00000014",
-                      //         }}
-                      //       >
-                      //         <div className="font-bold">
-                      //           Imunisasi yang Belum Melampaui Target Cakupan
-                      //         </div>
-                      //         <div style={{ display: "flex" }}>
-                      //           {getTypeSuspase?.data
-                      //             ?.filter((item: any) => item.status === 0)
-                      //             .map((r: any, i: number) => (
-                      //               <p key={i + "exceed"}>
-                      //                 {r.vaksin.toUpperCase()}
-                      //                 {", "}
-                      //               </p>
-                      //             ))}
-                      //         </div>
-                      //       </div>
-                      //     </div>
-                      //   </div>
-                      // }
+                      filterComp={
+                        <Filter3
+                          filterState={filterState}
+                          data={getGraphScope?.data?.[0]?.vaccine_list}
+                        />
+                      }
                       threshold={
                         <div className="text-sm">
                           <div className="relative">
@@ -1959,53 +1927,74 @@ const RoutineBabyImmunization = () => {
                         [
                           {
                             name: "% Cakupan",
+                            // data:
+                            //   aliasSummaryImmunizationPerVaccineQuery?.filter(
+                            //     (f) => f.label.includes("pct_")
+                            //   ) || [],
                             data:
-                              aliasSummaryImmunizationPerVaccineQuery?.filter(
-                                (f) => f.label.includes("pct_")
+                              (
+                                getGraphScope?.data?.[0]?.vaccine_list || []
+                              )?.map(
+                                (r: any) =>
+                                  ((r?.pct || 0) / 100) * (r?.ytd_total || 0)
                               ) || [],
-                            // data: (getSummaryImmunizationPerVaccineQuery?.data || [])?.map((r: any) => (((r?.pct || 0) / 100) * (r?.total || 0))) || [],
                             type: "line",
                             label: {
                               show: true,
                               precision: 1,
                               formatter: (params: any) =>
                                 `${formatNumber(
-                                  ((params.value || 0) /
-                                    (getGraphScope?.data || [])[
-                                      params.dataIndex
-                                    ]?.total) *
-                                    100
+                                  (getGraphScope?.data?.[0]?.vaccine_list ||
+                                    [])[params.dataIndex]?.pct
                                 )}%`,
                             },
+                            additionalData:
+                              (
+                                getGraphScope?.data?.[0]?.vaccine_list || []
+                              )?.map(
+                                (r: any) =>
+                                  // ((r?.percentage || 0) / 100) * (r?.total || 0)
+                                  r?.pct || 0
+                              ) || [],
                           },
                           {
                             name: "% Target Cakupan",
+                            // data:
+                            //   aliasSummaryImmunizationPerVaccineQuery?.filter(
+                            //     (f) => f.label.includes("threshold_")
+                            //   ) || [],
                             data:
-                              aliasSummaryImmunizationPerVaccineQuery?.filter(
-                                (f) => f.label.includes("threshold_")
+                              (
+                                getGraphScope?.data?.[0]?.vaccine_list || []
+                              )?.map(
+                                (r: any) =>
+                                  ((r?.threshold || 0) / 100) *
+                                  (r?.ytd_total || 0)
                               ) || [],
-                            // data: (getGraphScope?.data || [])?.map((r: any) => (((r?.pct_treshold || 0) / 100) * (r?.total || 0))) || [],
                             type: "line",
                             label: {
                               show: true,
                               precision: 1,
                               formatter: (params: any) =>
                                 `${formatNumber(
-                                  ((params.value || 0) /
-                                    (getGraphScope?.data || [])[
-                                      params.dataIndex
-                                    ]?.total) *
-                                    100
+                                  (getGraphScope?.data?.[0]?.vaccine_list ||
+                                    [])[params.dataIndex]?.threshold
                                 )}%`,
+                            },
+                            tooltip: {
+                              show: false,
                             },
                           },
                           {
                             name: "Cakupan",
+                            // data:
+                            //   aliasSummaryImmunizationPerVaccineQuery?.filter(
+                            //     (f) => f.label.includes("ytd_total_")
+                            //   ) || [],
                             data:
-                              aliasSummaryImmunizationPerVaccineQuery?.filter(
-                                (f) => f.label.includes("ytd_total_")
-                              ) || [],
-                            // data: (getGraphScope?.data || [])?.map((r: any) => r?.total) || [],
+                              (
+                                getGraphScope?.data?.[0]?.vaccine_list || []
+                              )?.map((r: any) => r?.ytd_total) || [],
                             type: "bar",
                             label: {
                               show: true,
@@ -2015,27 +2004,30 @@ const RoutineBabyImmunization = () => {
                             },
                           },
                         ],
-                        aliasSummaryImmunizationPerVaccineQuery
-                          ?.filter((f) => f.label.includes("ytd_total_"))
-                          ?.map((r: any) =>
-                            r?.label.includes("idl1")
-                              ? "Imunisasi Dasar Lengkap"
-                              : r?.label.includes("bcg1")
-                              ? "BCG"
-                              : r?.label.includes("hb1")
-                              ? "HB - 0"
-                              : r?.label.includes("polio1")
-                              ? "Polio 1"
-                              : r?.label.includes("polio2")
-                              ? "Polio 2"
-                              : r?.label.includes("polio3")
-                              ? "Polio 3"
-                              : r?.label.includes("polio4")
-                              ? "Polio 4"
-                              : r?.label.includes("dpt1")
-                              ? "DPT-HB-Hib-1"
-                              : r?.label
-                          )
+                        (getGraphScope?.data?.[0]?.vaccine_list || [])?.map(
+                          (r: any) => r?.vaccine_name
+                        ) || []
+                        // aliasSummaryImmunizationPerVaccineQuery
+                        //   ?.filter((f) => f.label.includes("ytd_total_"))
+                        //   ?.map((r: any) =>
+                        //     r?.label.includes("idl1")
+                        //       ? "Imunisasi Dasar Lengkap"
+                        //       : r?.label.includes("bcg1")
+                        //       ? "BCG"
+                        //       : r?.label.includes("hb1")
+                        //       ? "HB - 0"
+                        //       : r?.label.includes("polio1")
+                        //       ? "Polio 1"
+                        //       : r?.label.includes("polio2")
+                        //       ? "Polio 2"
+                        //       : r?.label.includes("polio3")
+                        //       ? "Polio 3"
+                        //       : r?.label.includes("polio4")
+                        //       ? "Polio 4"
+                        //       : r?.label.includes("dpt1")
+                        //       ? "DPT-HB-Hib-1"
+                        //       : r?.label
+                        //   )
                       )}
                     />
                   </div>
@@ -2082,7 +2074,14 @@ const RoutineBabyImmunization = () => {
                       }
                       variant="private"
                       filterState={filterState}
-                      filterComp={<Filter4 filterState={filterState} />}
+                      filterComp={
+                        <Filter4
+                          filterState={filterState}
+                          data={
+                            getGraphImmunizationAge?.data?.[0]?.vaccine_list
+                          }
+                        />
+                      }
                       isLoading={isLoadingGraphImmunizationAge}
                       // graphOptions={graphOptions4(
                       //   [
@@ -2111,28 +2110,37 @@ const RoutineBabyImmunization = () => {
                         [
                           {
                             name: "Usia Ideal",
-                            data:
-                              aliasSummaryImmunizationByAgeQuery?.filter((f) =>
-                                f.label.includes("ytd_ideal_")
-                              ) || [],
+                            // data:
+                            //   aliasSummaryImmunizationByAgeQuery?.filter((f) =>
+                            //     f.label.includes("ytd_ideal_")
+                            //   ) || [],
 
-                            // data: (getSummaryImmunizationByAgeQuery?.data || [])?.map((r: any) => r?.total_ideal) || [],
+                            data:
+                              (
+                                getGraphImmunizationAge?.data?.[0]
+                                  ?.vaccine_list || []
+                              )?.map((r: any) => r?.pct_ideal) || [],
                             type: "bar",
                           },
                           {
                             name: "Usia Non Ideal",
+                            // data:
+                            //   aliasSummaryImmunizationByAgeQuery?.filter((f) =>
+                            //     f.label.includes("ytd_non_ideal_")
+                            //   ) || [],
                             data:
-                              aliasSummaryImmunizationByAgeQuery?.filter((f) =>
-                                f.label.includes("ytd_non_ideal_")
-                              ) || [],
+                              (
+                                getGraphImmunizationAge?.data?.[0]
+                                  ?.vaccine_list || []
+                              )?.map((r: any) => r?.pct_non_ideal) || [],
 
                             // data: (getSummaryImmunizationByAgeQuery?.data || [])?.map((r: any) => r?.total_non_ideal) || [],
                             type: "bar",
                           },
                         ],
-                        aliasSummaryImmunizationByAgeQuery
-                          ?.filter((f) => f.label.includes("ytd_non_ideal_"))
-                          ?.map((r: any) => r?.label)
+                        (
+                          getGraphImmunizationAge?.data?.[0]?.vaccine_list || []
+                        )?.map((r: any) => r?.vaccine_name) || []
                       )}
                     />
                   </div>
@@ -2200,44 +2208,60 @@ const RoutineBabyImmunization = () => {
                       }
                       variant="private"
                       filterState={filterState}
-                      filterComp={<Filter5 filterState={filterState} />}
+                      filterComp={
+                        <Filter5
+                          filterState={filterState}
+                          data={
+                            getGraphImmunizationGender?.data?.[0]?.vaccine_list
+                          }
+                        />
+                      }
                       isLoading={isLoadingGraphImmunizationGender}
                       graphOptions={graphOptions5(
                         [
                           {
                             name: "Laki-laki",
-                            data:
-                              aliasGraphImmunizationGenderQuery?.filter((f) =>
-                                f.label.includes("ytd_male_")
-                              ) || [],
+                            // data:
+                            //   aliasGraphImmunizationGenderQuery?.filter((f) =>
+                            //     f.label.includes("ytd_male_")
+                            //   ) || [],
 
-                            // data: (getSummaryImmunizationPerGenderQuery?.data || [])?.map((r: any) => r?.total_male) || [],
+                            data:
+                              (
+                                getGraphImmunizationGender?.data?.[0]
+                                  ?.vaccine_list || []
+                              )?.map((r: any) => r?.pct_male) || [],
                             type: "bar",
                             label: {
-                              show: true,
+                              // show: true,
                               precision: 1,
                               // formatter: (params: any) => `${formatNumber(((getSummaryImmunizationPerGenderQuery?.data || [])[params.dataIndex]?.pct_male))}%`
                             },
                           },
                           {
                             name: "Perempuan",
-                            data:
-                              aliasGraphImmunizationGenderQuery?.filter((f) =>
-                                f.label.includes("ytd_female_")
-                              ) || [],
+                            // data:
+                            //   aliasGraphImmunizationGenderQuery?.filter((f) =>
+                            //     f.label.includes("ytd_female_")
+                            //   ) || [],
 
-                            // data: (getSummaryImmunizationPerGenderQuery?.data || [])?.map((r: any) => r?.total_female) || [],
+                            data:
+                              (
+                                getGraphImmunizationGender?.data?.[0]
+                                  ?.vaccine_list || []
+                              )?.map((r: any) => r?.pct_female) || [],
                             type: "bar",
                             label: {
-                              show: true,
+                              // show: true,
                               precision: 1,
                               // formatter: (params: any) => `${formatNumber((getSummaryImmunizationPerGenderQuery?.data || [])[params.dataIndex]?.pct_female)}%`
                             },
                           },
                         ],
-                        aliasGraphImmunizationGenderQuery
-                          ?.filter((f) => f.label.includes("ytd_female_"))
-                          ?.map((r: any) => r?.label)
+                        (
+                          getGraphImmunizationGender?.data?.[0]?.vaccine_list ||
+                          []
+                        )?.map((r: any) => r?.vaccine_name) || []
                       )}
                     />
                   </div>

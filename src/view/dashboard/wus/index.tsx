@@ -80,6 +80,8 @@ const Wus = () => {
     month: filter.bulan,
   };
 
+  // console.log(filter, "isi filter");
+
   const filterQuery = {
     ...dateQuery,
     region_type:
@@ -126,8 +128,32 @@ const Wus = () => {
     ...dateQuery,
     status_type: filter.status_type_daerah,
     women_category: filter.women_category_daerah,
+    // region_type: filter.provinsi
+    //   ? "city"
+    //   : filter.kabkota
+    //   ? "district"
+    //   : filter.kecamatan
+    //   ? "faskes"
+    //   : "province",
     region_type: filter.wilayah,
+
     kewilayahan_type: filter.kewilayahan_type,
+    // faskes_parent_id:
+    //   filter.faskes !== ""
+    //     ? filter.kecamatan
+    //     : filter.provinsi !== "" &&
+    //       filter.kabkota !== "" &&
+    //       filter.kecamatan === undefined
+    //     ? filter.provinsi
+    //     : filter.provinsi !== "" &&
+    //       filter.kabkota !== "" &&
+    //       filter.kecamatan !== ""
+    //     ? filter.kabkota
+    //     : filter.provinsi !== "" && filter.kabkota !== ""
+    //     ? filter.provinsi
+    //     : filter.provinsi !== ""
+    //     ? filter.provinsi
+    //     : "All",
     faskes_id: filter.faskes
       ? filter.faskes
       : filter.kecamatan
