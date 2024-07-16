@@ -786,6 +786,11 @@ const RoutineBabyImmunization = () => {
     color: ["#2E90FA", "#E478FA"],
     tooltip: {
       trigger: "item",
+      formatter: (params: any) => {
+        const value = params.data.value;
+        const formattedValue = value?.toFixed(2).replace(".", ",");
+        return `${params.marker} ${params.name}: <span style="float: right; margin-left: 8px;"><strong>${formattedValue}%</strong></span><br/>`;
+      },
     },
     legend: {
       orient: "vertical",
@@ -794,29 +799,36 @@ const RoutineBabyImmunization = () => {
     },
     series: [
       {
-        name: "Access From",
+        name: "% cakupan",
         type: "pie",
         radius: "50%",
         label: {
           show: true,
           position: "inner",
-          formatter: (params: any, i: number) =>
-            `${
+          // formatter: (params: any, i: number) =>
+          //   `${
+          //     params.name === "Laki-laki"
+          //       ? getAverageGender?.data?.[0]?.pct_female
+          //       : getAverageGender?.data?.[0]?.pct_male
+          //   }%`,
+          formatter: (params: any) => {
+            const value =
               params.name === "Laki-laki"
-                ? getAverageGender?.data?.[0]?.pct_female
-                : getAverageGender?.data?.[0]?.pct_male
-            }%`,
+                ? getAverageGender?.data?.[0]?.pct_male
+                : getAverageGender?.data?.[0]?.pct_female;
+            return `${value?.toFixed(2).replace(".", ",")}%`;
+          },
         },
         labelLine: {
           show: false,
         },
         data: [
           {
-            value: getAverageGender?.data?.[0]?.ytd_male_all,
+            value: getAverageGender?.data?.[0]?.pct_male,
             name: "Laki-laki",
           },
           {
-            value: getAverageGender?.data?.[0]?.ytd_female_all,
+            value: getAverageGender?.data?.[0]?.pct_female,
             name: "Perempuan",
           },
         ],
