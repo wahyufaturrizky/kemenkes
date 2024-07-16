@@ -150,10 +150,10 @@ export const Filter3: React.FC<FilterProps> = ({ filterState, data }) => {
       </div>
       <div className="flex gap-4">
         <div onClick={async () => {
-          const pct = data?.filter((f: any) => f.label.includes("pct_"))?.map((r: any) => r.value.toString());
-          const total = data?.filter((f: any) => f.label.includes("ytd_total_"))?.map((r: any) => r.value.toString());
-          const target = data?.filter((f: any) => f.label.includes("threshold_"))?.map((r: any) => r.value.toString());
-          const header = data?.filter((f: any) => f.label.includes("pct_"))?.map((r: any) => r.label?.split("_")[1]);
+          const pct = data?.map((r: any) => r?.pct.toString())
+          const total = data?.map((r: any) => r?.ytd_total.toString())
+          const target = data?.map((r: any) => r?.threshold.toString())
+          const header = data?.map((r: any) => r?.vaccine_name)
           const body = [pct, target, total];
           const verticalHeader = ["% Cakupan", "% Target Cakupan", "Cakupan"];
           const fileName = "Grafik Cakupan Berdasarkan Jenis Imunisasi";
@@ -204,9 +204,9 @@ export const Filter4: React.FC<FilterProps> = ({ filterState, data }) => {
       </div>
       <div className="flex gap-4">
         <div onClick={async () => {
-          const ideal = data?.filter((f: any) => f.label.includes("ytd_ideal_"))?.map((r: any) => r.value.toString());
-          const nonIdeal = data?.filter((f: any) => f.label.includes("ytd_non_ideal_"))?.map((r: any) => r.value.toString());
-          const header = data?.filter((f: any) => f.label.includes("ytd_ideal_"))?.map((r: any) => r.label?.split("_")[2]);
+          const ideal = data?.map((r: any) => r.ytd_ideal.toString());
+          const nonIdeal = data?.map((r: any) => r.ytd_non_ideal.toString());
+          const header = data?.map((r: any) => r.vaccine_name.toString());
           const body = [ideal, nonIdeal];
           const verticalHeader = ["Ideal", "Non Ideal"];
           const fileName = "Grafik Cakupan Berdasarkan Usia";
@@ -257,9 +257,9 @@ export const Filter5: React.FC<FilterProps> = ({ filterState, data }) => {
       </div>
       <div className="flex gap-4">
         <div onClick={async () => {
-          const male = data?.filter((f: any) => f.label.includes("ytd_male_"))?.map((r: any) => r.value.toString());
-          const female = data?.filter((f: any) => f.label.includes("ytd_female_"))?.map((r: any) => r.value.toString());
-          const header = data?.filter((f: any) => f.label.includes("ytd_male_"))?.map((r: any) => r.label?.split("_")[2]);
+          const male = data?.map((r: any) => r.ytd_male.toString());
+          const female = data?.map((r: any) => r.ytd_female.toString());
+          const header = data?.map((r: any) => r.vaccine_name);
           const body = [male, female];
           const verticalHeader = ["Laki-laki", "Perempuan"];
           const fileName = "Grafik Cakupan Berdasarkan Jenis Kelamin";

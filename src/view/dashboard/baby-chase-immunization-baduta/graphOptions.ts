@@ -72,13 +72,13 @@ export const graphOptions3 = (series: any[], xData: any[]) => {
       trigger: "axis",
       formatter: `{b0} <br/>
         <svg width="250" height="20">
-          <circle cx="10" cy="10" r="5" fill="#EAAA08" />
-          <text x="20" y="15">{a1}: {c1}</text>
+          <circle cx="10" cy="10" r="5" fill="#8ECCFF" />
+          <text x="20" y="15">{a0}: {c0}</text>
         </svg>
         <br/>
         <svg width="250" height="20">
-            <circle cx="10" cy="10" r="5" fill="#FF4405" />
-            <text x="20" y="15">{a2}: {c2}</text>
+            <circle cx="10" cy="10" r="5" fill="#EAAA08" />
+            <text x="20" y="15">{a1}: {c1}</text>
         </svg>`
     },
     legend: {
@@ -137,6 +137,36 @@ export const graphOptions5 = (series: any[], legend: any[]) => {
     xAxis: {
       type: "category",
       data: legend,
+    },
+    yAxis: {
+      type: "value",
+    },
+    series: series,
+  };
+  return option;
+};
+export const graphOptions6 = (series: any[], xData: any[]) => {
+  const option: EChartsOptionProps = {
+    color: ["#8ECCFF", "#EAAA08", "#FF4405", "#2E90FA"],
+    grid: { containLabel: true },
+    tooltip: {
+      trigger: "axis",
+      formatter: `{b0} <br/>
+        <svg width="250" height="20">
+          <circle cx="10" cy="10" r="5" fill="#8ECCFF" />
+          <text x="20" y="15">{a0}: {c0}</text>
+        </svg>`
+    },
+    legend: {
+      show: true,
+      data: series.map((r) => r.name),
+      bottom: 20,
+      orient: "horizontal",
+      x: "center",
+    },
+    xAxis: {
+      type: "category",
+      data: xData,
     },
     yAxis: {
       type: "value",

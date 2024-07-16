@@ -55,15 +55,7 @@ const HomeView = () => {
 
   const filterTotalUniqueQuery = {
     ...dataQuery,
-    region_type: filter.faskes
-      ? "faskes"
-      : filter.kecamatan
-        ? "district"
-        : filter.kabkota
-          ? "city"
-          : filter.provinsi
-            ? "province"
-            : "All",
+    region_type: filter.wilayah
   }
 
   const optionTotalUniqueQuery = {
@@ -81,9 +73,10 @@ const HomeView = () => {
   }
   const filterChart2Query = {
     ...dataQuery,
-    region_type: filter.wilayah1,
+    region_type: filter.wilayah1 !== 'All' ? filter.wilayah1 : filter.wilayah,
     vaccine_type: filter.tipe_vaksin1
   }
+
   const { data: getListVaccine } = useGetListVaccineQuery({})
   const optionsVaccineType = standardOptions(getListVaccine?.data, 'vaccine_name', 'vaccine_id')
 

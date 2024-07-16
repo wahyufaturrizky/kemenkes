@@ -6,8 +6,8 @@ import styles from "@/assets/css/styles.module.css"
 import VaccinateNudge from "@/assets/icons/vaccinate-nudge.png"
 import { Banner, BannerHighlightFooter, BannerText, GraphEcharts, Navbar, Sidebar, Spin, Tabs } from "@/components"
 import { ChildSummaryImmunization, FilterSummaryImmunizationKejar as FilterSummaryImmunization, GraphAddOn, GraphRoutineImmunizationCoverageTrend, RoutineImmunizationCoverageTrendGraph, SummaryImmunization, TotalSummaryImmunization } from "@/view/home";
-import { Filter1, Filter2, Filter3, Filter4, Filter5 } from "@/view/dashboard/baby-chase-immunization-baduta/Filter";
-import { graphOptions1, graphOptions2, graphOptions3, graphOptions4, graphOptions5 } from "@/view/dashboard/baby-chase-immunization-baduta/graphOptions";
+import { Filter1, Filter2, Filter3, Filter4, Filter5, Filter6 } from "@/view/dashboard/baby-chase-immunization-baduta/Filter";
+import { graphOptions1, graphOptions2, graphOptions3, graphOptions4, graphOptions5, graphOptions6 } from "@/view/dashboard/baby-chase-immunization-baduta/graphOptions";
 import { useGetAverageImmunizationByGenderQuery, useGetDistributionGraphTimeQuery, useGetImmunizationWithHighetFemaleRecivientQuery, useGetImmunizationWithHighetMaleRecivientQuery, useGetMaxImmunizationByAgeQuery, useGetGraphTotalQuery, useGetLowestScopeKejarQuery, useGetSummaryImmunizationByAgeQuery, useGetSummaryImmunizationPerGenderQuery, useGetHighestImmunizationByAgeQuery, useGetHighestScopeKejarImmunizationQuery, useGetImmunizationGraphKejarStatusQuery, useGetTotalImmunizationScopeQuery, useGetLowestScopeKejarImmunizationQuery, useGetHighestScopeKejarQuery, useGetImmunizationScopeKejarQuery, useGetGraphScopeKejarImmunizationQuery } from "@/lib/services/babyxbaduta-immunization";
 import { dataMonth, dataTabBaduta, vaccineTypeKejarOptions, vaccineTypeOptions } from "@/utils/constants";
 import { ageResponseConvert, formatNumber } from "@/helpers";
@@ -383,7 +383,7 @@ const BabyChaseImmunizationBaduta = () => {
                       filterComp={<Filter2 filterState={filterState}
                         data={aliasGraphScopeKejarImmunizationQuery || []} />}
                       isLoading={isLoadingGraphScopeKejarImmunizationQuery}
-                      graphOptions={graphOptions3([
+                      graphOptions={graphOptions6([
                         {
                           name: "Target",
                           data: aliasGraphScopeKejarImmunizationQuery || [],
@@ -602,7 +602,7 @@ const BabyChaseImmunizationBaduta = () => {
                       variant="private"
                       addOn={<GraphAddOn dataCard={dataGraphRegionalRoutineImmunizationCoverageTrend3} />}
                       filterState={filterState}
-                      filterComp={<Filter2 filterState={filterState}
+                      filterComp={<Filter6 filterState={filterState}
                         data={getDistributionGraphTimeQuery?.data || []} />}
                       isLoading={isLoadingGetDistributionGraphTimeQuery}
                       graphOptions={graphOptions2([
