@@ -838,7 +838,7 @@ const RoutineBadutaImmunization = () => {
                         , (
                           _.uniqBy(getPercentageTotalImmunizationQuery?.data, "faskes_desc") ||
                           []
-                        )
+                        )?.map((r: any) => r?.faskes_desc === "All" ? "Nasional" : r?.faskes_desc)
                       )}
                     />
                   </div>
