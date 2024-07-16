@@ -39,10 +39,6 @@ export const Filter1: React.FC<FilterProps2> = ({ filterState, dataWus }) => {
     (r: any) => `${formatNumber(r.pct_target_threshold)} %`
   );
   const total = dataWus?.map((r: any) => formatNumber(r.ytd_total));
-  // const pctTarget = truncateStringToNumber(target);
-  // console.log(target, "isi target");
-  // const total = dataWus?.map((r: any) => r.total.toString());
-  // console.log(total, "isi bulan");
 
   const downloadFile = async () => {
     const url = `${API_URL}/v1/csv/download`;
@@ -130,7 +126,6 @@ export const Filter1: React.FC<FilterProps2> = ({ filterState, dataWus }) => {
                 )?.find((f) => f.value === filter.status_type_daerah)
                 : filter.status_type_daerah
             }
-          // isDisabled={!filter.bulan}
           />
         </div>
         <div>
@@ -156,7 +151,6 @@ export const Filter1: React.FC<FilterProps2> = ({ filterState, dataWus }) => {
                 )?.find((f) => f.value === filter.women_category_daerah)
                 : filter.women_category_daerah
             }
-          // isDisabled={!filter.bulan}
           />
         </div>
       </div>
@@ -178,7 +172,6 @@ export const Filter2: React.FC<FilterProps2> = ({ filterState, dataWus }) => {
   );
   const total = dataWus?.map((r: any) => formatNumber(r.total));
   const pctTotal = dataWus?.map((r: any) => `${formatNumber(r.pct_total)} %`);
-  // console.log(total, "isi bulan");
 
   const downloadFile = async () => {
     const url = `${API_URL}/v1/csv/download`;
@@ -266,7 +259,6 @@ export const Filter2: React.FC<FilterProps2> = ({ filterState, dataWus }) => {
                 )?.find((f) => f.value === filter.status_type_kumulatif)
                 : filter.status_type_kumulatif
             }
-          // isDisabled={!filter.bulan}
           />
         </div>
         <div>
@@ -292,7 +284,6 @@ export const Filter2: React.FC<FilterProps2> = ({ filterState, dataWus }) => {
                 )?.find((f) => f.value === filter.women_category_kumulatif)
                 : filter.women_category_kumulatif
             }
-          // isDisabled={!filter.bulan}
           />
         </div>
       </div>
@@ -390,7 +381,6 @@ export const Filter3: React.FC<FilterProps2> = ({ filterState, dataWus }) => {
                 )?.find((f) => f.value === filter.women_category_status_T)
                 : filter.women_category_status_T
             }
-          // isDisabled={!filter.bulan}
           />
         </div>
         <div onClick={downloadFile}>
@@ -496,7 +486,6 @@ export const Filter4: React.FC<FilterProps2> = ({ filterState, dataWus }) => {
                 )
                 : filter.women_category_status_T_Pregnant
             }
-          // isDisabled={!filter.bulan}
           />
         </div>
         <div onClick={downloadFile}>

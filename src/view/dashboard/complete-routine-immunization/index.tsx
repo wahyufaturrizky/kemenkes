@@ -7,9 +7,6 @@ import { dataGraphRegionalRoutineImmunizationCoverageTrend, dataTabs, dataTotalS
 const CompleteRoutineImmunization = () => {
   return (
     <div className="flex flex-col items-center">
-      {/* <div className="px-4 container">
-        <Navbar />
-      </div> */}
       <div className="flex justify-center bg-image2 bg-success w-full">
         <div className="px-4 container">
           <Banner
@@ -86,7 +83,6 @@ const CompleteRoutineImmunization = () => {
                       layout="vertical"
                       title={<div className="font-bold md:text-2xl">Data Cakupan <b className="text-primary-2">Imunisasi Total</b> Lengkap pada Provinsi di <b className="text-primary-2">Indonesia</b> Selama Tahun <b className="text-primary-2">2023</b></div>}
                       subTitle="Grafik menampilkan hasil cakupan semua data imunisasi rutin lengkap dari 34 provinsi di Indonesia"
-                    // addOn={<GraphAddOn dataCard={dataGraphRegionalRoutineImmunizationCoverageTrend} />} 
                     />
                   </div>
                 }

@@ -1,4 +1,5 @@
 import { EChartsOptionProps } from "@/components/graph-echarts";
+import { formatNumber } from "@/helpers";
 import { dataMonth } from "@/utils/constants";
 
 export const graphOptions1 = (series: any[], legend: any[]) => {
@@ -56,7 +57,7 @@ export const graphOptions2 = (series: any[]) => {
         <svg width="250" height="20">
             <circle cx="10" cy="10" r="5" fill="#00B1A9" />
             <text x="20" y="15">{a2}: {c2}</text>
-        </svg>`
+        </svg>`,
     },
     legend: {
       data: series.map((r) => r.name),
@@ -131,6 +132,31 @@ export const graphOptions5 = (series: any[], legend: any[]) => {
     grid: { containLabel: true },
     tooltip: {
       trigger: "axis",
+      formatter: function (params: any) {
+        let tooltipContent = `<div style="min-width: 350px;">${params[0].axisValueLabel}<br/>`;
+        params.forEach((item: any) => {
+          if (item.seriesName === "Total") {
+            // Menggunakan data asli untuk "Total" dalam tooltip
+            const originalData = series.find((serie) => serie.name === "Total")
+              .data[params[0].dataIndex];
+            tooltipContent += `${item.marker} ${item.seriesName
+              } <span style="float: right;"><strong>${formatNumber(
+                originalData
+              )}</strong></span><br/>`;
+          } else if (item.seriesName === "Cakupan") {
+            // Menggunakan format untuk "Cakupan"
+            tooltipContent += `${item.marker} ${item.seriesName} <span style="float: right;"><strong>${item.value}</strong></span><br/>`;
+          } else {
+            // Menggunakan format persentase untuk lainnya
+            tooltipContent += `${item.marker} ${item.seriesName
+              } <span style="float: right;"><strong>${formatNumber(
+                item.value
+              )}%</strong></span><br/>`;
+          }
+        });
+        tooltipContent += `</div>`;
+        return tooltipContent;
+      },
     },
     legend: {
       data: legend,
@@ -144,6 +170,9 @@ export const graphOptions5 = (series: any[], legend: any[]) => {
     },
     yAxis: {
       type: "value",
+      axisLabel: {
+        formatter: "{value}%",
+      },
     },
     series: series,
   };

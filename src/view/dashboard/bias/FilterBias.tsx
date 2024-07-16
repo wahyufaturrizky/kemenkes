@@ -68,48 +68,6 @@ export const Filter1: React.FC<FilterProps> = ({ filterState, dataBias }) => {
     );
   };
 
-  // const downloadFile2 = async () => {
-  //   const url = `${API_URL}/v1/csv/download`;
-  //   let fileName = "Tren Cakupan Daerah Imunisasi BIAS";
-  //   const data = {
-  //     header: dataBias?.map((r: any) => r.faskes_desc),
-  //     body: [faskes, persentase, threshold, total],
-  //     verticalHeader: ["Faskes", "Presentasi", "Threshold", "Total"],
-  //     fileName,
-  //     title: fileName,
-  //   };
-  //   try {
-  //     const response = await fetch(url, {
-  //       method: "POST",
-  //       headers: {
-  //         "Content-Type": "application/json",
-  //       },
-  //       body: JSON.stringify(data),
-  //     });
-
-  //     if (!response.ok) {
-  //       throw new Error("Network response was not ok");
-  //     }
-
-  //     const blob = await response.blob();
-
-  //     const downloadUrl = window.URL.createObjectURL(blob);
-
-  //     const a = document.createElement("a");
-  //     a.href = downloadUrl;
-  //     a.download = `${data.fileName}.xlsx`;
-
-  //     document.body.appendChild(a);
-
-  //     a.click();
-
-  //     document.body.removeChild(a);
-  //     window.URL.revokeObjectURL(downloadUrl);
-  //   } catch (error) {
-  //     console.error("There was a problem with the fetch operation:", error);
-  //   }
-  // };
-
   return (
     <div className="flex flex-wrap justify-between items-center gap-4 sm:mt-20 md:mt-0 mb-8">
       <div className={`flex gap-4 ${openSans.className}`}>
@@ -131,13 +89,13 @@ export const Filter1: React.FC<FilterProps> = ({ filterState, dataBias }) => {
             value={
               filter.tipe_vaksin
                 ? standardOptions(
-                    getjenisVaksin?.data || [],
-                    "vaccine_name",
-                    "vaccine_id"
-                  )?.find((f) => f.value === filter.tipe_vaksin)
+                  getjenisVaksin?.data || [],
+                  "vaccine_name",
+                  "vaccine_id"
+                )?.find((f) => f.value === filter.tipe_vaksin)
                 : filter.tipe_vaksin
             }
-            // isDisabled={!filter.bulan}
+          // isDisabled={!filter.bulan}
           />
         </div>
         <div>
@@ -163,9 +121,6 @@ export const Filter1: React.FC<FilterProps> = ({ filterState, dataBias }) => {
         <div onClick={handleDownload}>
           <Button text="Unduh" variant="outlined" />
         </div>
-        {/* <div>
-          <Button text="Laporkan" variant="outlined" />
-        </div> */}
       </div>
     </div>
   );
@@ -227,13 +182,13 @@ export const Filter2: React.FC<FilterProps> = ({ filterState, dataBias }) => {
             value={
               filter.tipe_vaksin2
                 ? standardOptions(
-                    getjenisVaksin?.data || [],
-                    "vaccine_name",
-                    "vaccine_id"
-                  )?.find((f) => f.value === filter.tipe_vaksin2)
+                  getjenisVaksin?.data || [],
+                  "vaccine_name",
+                  "vaccine_id"
+                )?.find((f) => f.value === filter.tipe_vaksin2)
                 : filter.tipe_vaksin2
             }
-            // isDisabled={!filter.bulan}
+          // isDisabled={!filter.bulan}
           />
         </div>
       </div>
@@ -241,9 +196,6 @@ export const Filter2: React.FC<FilterProps> = ({ filterState, dataBias }) => {
         <div onClick={handleDownload}>
           <Button text="Unduh" variant="outlined" />
         </div>
-        {/* <div>
-          <Button text="Laporkan" variant="outlined" />
-        </div> */}
       </div>
     </div>
   );
@@ -287,13 +239,13 @@ export const Filter3: React.FC<FilterProps> = ({ filterState, dataBias }) => {
             value={
               filter.tipe_vaksin3
                 ? standardOptions(
-                    getjenisVaksin?.data || [],
-                    "vaccine_name",
-                    "vaccine_id"
-                  )?.find((f) => f.value === filter.tipe_vaksin3)
+                  getjenisVaksin?.data || [],
+                  "vaccine_name",
+                  "vaccine_id"
+                )?.find((f) => f.value === filter.tipe_vaksin3)
                 : filter.tipe_vaksin3
             }
-            // isDisabled={!filter.bulan}
+          // isDisabled={!filter.bulan}
           />
         </div>
       </div>
@@ -301,9 +253,6 @@ export const Filter3: React.FC<FilterProps> = ({ filterState, dataBias }) => {
         <div onClick={handleDownload}>
           <Button text="Unduh" variant="outlined" />
         </div>
-        {/* <div>
-          <Button text="Laporkan" variant="outlined" />
-        </div> */}
       </div>
     </div>
   );
@@ -346,13 +295,12 @@ export const Filter4: React.FC<FilterProps> = ({ filterState, dataBias }) => {
             value={
               filter.tipe_vaksin4
                 ? standardOptions(
-                    getjenisVaksin?.data || [],
-                    "vaccine_name",
-                    "vaccine_id"
-                  )?.find((f) => f.value === filter.tipe_vaksin4)
+                  getjenisVaksin?.data || [],
+                  "vaccine_name",
+                  "vaccine_id"
+                )?.find((f) => f.value === filter.tipe_vaksin4)
                 : filter.tipe_vaksin4
             }
-            // isDisabled={!filter.bulan}
           />
         </div>
       </div>
@@ -360,9 +308,6 @@ export const Filter4: React.FC<FilterProps> = ({ filterState, dataBias }) => {
         <div onClick={handleDownload}>
           <Button text="Unduh" variant="outlined" />
         </div>
-        {/* <div>
-          <Button text="Laporkan" variant="outlined" />
-        </div> */}
       </div>
     </div>
   );
@@ -409,13 +354,12 @@ export const Filter5: React.FC<FilterProps> = ({ filterState, dataBias }) => {
             value={
               filter.tipe_vaksin5
                 ? standardOptions(
-                    getjenisVaksin?.data || [],
-                    "vaccine_name",
-                    "vaccine_id"
-                  )?.find((f) => f.value === filter.tipe_vaksin5)
+                  getjenisVaksin?.data || [],
+                  "vaccine_name",
+                  "vaccine_id"
+                )?.find((f) => f.value === filter.tipe_vaksin5)
                 : filter.tipe_vaksin5
             }
-            // isDisabled={!filter.bulan}
           />
         </div>
       </div>
@@ -423,9 +367,6 @@ export const Filter5: React.FC<FilterProps> = ({ filterState, dataBias }) => {
         <div onClick={handleDownload}>
           <Button text="Unduh" variant="outlined" />
         </div>
-        {/* <div>
-          <Button text="Laporkan" variant="outlined" />
-        </div> */}
       </div>
     </div>
   );

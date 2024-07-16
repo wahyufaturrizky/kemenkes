@@ -32,17 +32,15 @@ export const graphOptions1 = (series: any[], legend: any[]) => {
             const originalData = series.find(
               (serie) => serie.name === "Total Penerima"
             ).data[legend.length - 1 - params[0].dataIndex];
-            tooltipContent += `${item.marker} ${
-              item.seriesName
-            } <span style="float: right;"><strong>${formatNumber(
-              originalData
-            )}</strong></span><br/>`;
+            tooltipContent += `${item.marker} ${item.seriesName
+              } <span style="float: right;"><strong>${formatNumber(
+                originalData
+              )}</strong></span><br/>`;
           } else {
-            tooltipContent += `${item.marker} ${
-              item.seriesName
-            } <span style="float: right;"><strong>${formatNumber(
-              item.value
-            )}%</strong></span><br/>`;
+            tooltipContent += `${item.marker} ${item.seriesName
+              } <span style="float: right;"><strong>${formatNumber(
+                item.value
+              )}%</strong></span><br/>`;
           }
         });
         tooltipContent += `</div>`;
@@ -64,30 +62,6 @@ export const graphOptions1 = (series: any[], legend: any[]) => {
   return option;
 };
 
-// export const graphOptions1 = (series: any[], legend: any[]) => {
-//   const option: EChartsOptionProps = {
-//     grid: { containLabel: true },
-//     tooltip: {
-//       trigger: "axis",
-//       axisLabel: {
-//         formatter: "{value}%",
-//       },
-//     },
-//     yAxis: {
-//       type: "category",
-//       data: legend,
-//     },
-//     xAxis: {
-//       type: "value",
-//       axisLabel: {
-//         formatter: "{value}%",
-//       },
-//     },
-//     series: series,
-//   };
-//   return option;
-// };
-
 export const graphOptions2 = (series: any[]) => {
   const option: EChartsOptionProps = {
     color: ["#00B1A9", "#EAAA08", "#8ECCFF"],
@@ -101,20 +75,18 @@ export const graphOptions2 = (series: any[]) => {
         ); // Ganti "Nama Series Anda" dengan nama yang tepat
         params.forEach((item: any, i: number) => {
           if (item.seriesName === "Jumlah Penerima Imunisasi") {
-            tooltipContent += `${item.marker} ${
-              item.seriesName
-            } <span style="float: right;"><strong>${formatNumber(
-              item.value
-            )}</strong></span><br/>`;
+            tooltipContent += `${item.marker} ${item.seriesName
+              } <span style="float: right;"><strong>${formatNumber(
+                item.value
+              )}</strong></span><br/>`;
           } else {
             const additionalDataValue = additionalDataSeries
               ? additionalDataSeries.additionalData[item.dataIndex]
               : 0;
-            tooltipContent += `${item.marker} ${
-              item.seriesName
-            } <span style="float: right;"><strong>${formatNumber(
-              additionalDataValue
-            )}%</strong></span><br/>`;
+            tooltipContent += `${item.marker} ${item.seriesName
+              } <span style="float: right;"><strong>${formatNumber(
+                additionalDataValue
+              )}%</strong></span><br/>`;
           }
         });
         tooltipContent += `</div>`;
@@ -153,20 +125,18 @@ export const graphOptions3 = (series: any[], xData: any[]) => {
         ); // Ganti "Nama Series Anda" dengan nama yang tepat
         params.forEach((item: any, i: number) => {
           if (item.seriesName === "Cakupan") {
-            tooltipContent += `${item.marker} ${
-              item.seriesName
-            } <span style="float: right;"><strong>${formatNumber(
-              item.value
-            )}</strong></span><br/>`;
+            tooltipContent += `${item.marker} ${item.seriesName
+              } <span style="float: right;"><strong>${formatNumber(
+                item.value
+              )}</strong></span><br/>`;
           } else {
             const additionalDataValue = additionalDataSeries
               ? additionalDataSeries.additionalData[item.dataIndex]
               : 0;
-            tooltipContent += `${item.marker} ${
-              item.seriesName
-            } <span style="float: right;"><strong>${formatNumber(
-              additionalDataValue
-            )}%</strong></span><br/>`;
+            tooltipContent += `${item.marker} ${item.seriesName
+              } <span style="float: right;"><strong>${formatNumber(
+                additionalDataValue
+              )}%</strong></span><br/>`;
           }
         });
         tooltipContent += `</div>`;
@@ -183,21 +153,11 @@ export const graphOptions3 = (series: any[], xData: any[]) => {
     xAxis: {
       type: "category",
       data: xData,
-      // name: "X Axis Title", // Tambahkan judul sumbu X di sini
-      // nameLocation: "middle",
-      // nameGap: 50,
-      // axisLabel: {
-      //   rotate: 45, // Kurangi rotasi label sumbu X agar lebih terbaca
-      //   interval: 0, // Atur interval label sumbu X (0 menampilkan semua label)
-      //   align: "right",
-      //   verticalAlign: "middle",
-      // },
     },
     yAxis: {
       type: "value",
     },
     series: series,
-    // height: "300px",
   };
   return option;
 };
@@ -245,21 +205,19 @@ export const graphOptions5 = (series: any[], xData: any[]) => {
             // Menggunakan data asli untuk "Total" dalam tooltip
             const originalData = series.find((serie) => serie.name === "Total")
               .data[params[0].dataIndex];
-            tooltipContent += `${item.marker} ${
-              item.seriesName
-            } <span style="float: right;"><strong>${formatNumber(
-              originalData
-            )}</strong></span><br/>`;
+            tooltipContent += `${item.marker} ${item.seriesName
+              } <span style="float: right;"><strong>${formatNumber(
+                originalData
+              )}</strong></span><br/>`;
           } else if (item.seriesName === "Cakupan") {
             // Menggunakan format untuk "Cakupan"
             tooltipContent += `${item.marker} ${item.seriesName} <span style="float: right;"><strong>${item.value}</strong></span><br/>`;
           } else {
             // Menggunakan format persentase untuk lainnya
-            tooltipContent += `${item.marker} ${
-              item.seriesName
-            } <span style="float: right;"><strong>${formatNumber(
-              item.value
-            )}%</strong></span><br/>`;
+            tooltipContent += `${item.marker} ${item.seriesName
+              } <span style="float: right;"><strong>${formatNumber(
+                item.value
+              )}%</strong></span><br/>`;
           }
         });
         tooltipContent += `</div>`;
@@ -287,31 +245,7 @@ export const graphOptions5 = (series: any[], xData: any[]) => {
   };
   return option;
 };
-// export const graphOptions5 = (series: any[], legend: any[]) => {
-//   const option: EChartsOptionProps = {
-//     color: ["#2E90FA", "#E478FA"],
-//     grid: { containLabel: true },
-//     tooltip: {
-//       trigger: "axis",
-//     },
-//     legend: {
-//       show: true,
-//       data: legend,
-//       bottom: 20,
-//       orient: "horizontal",
-//       x: "center",
-//     },
-//     xAxis: {
-//       type: "category",
-//       data: legend,
-//     },
-//     yAxis: {
-//       type: "value",
-//     },
-//     series: series,
-//   };
-//   return option;
-// };
+
 export const graphOptions6 = (series: any[]) => {
   const option = {
     tooltip: {

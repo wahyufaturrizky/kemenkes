@@ -2,31 +2,6 @@ import { EChartsOptionProps } from "@/components/graph-echarts";
 import { dataMonth } from "@/utils/constants";
 import { formatNumber } from "@/helpers";
 
-// export const graphOptions3 = (series: any[], xData: any[]) => {
-//   const option: EChartsOptionProps = {
-//     color: ["#8ECCFF", "#00B1A9", "#EAAA08"],
-//     grid: { containLabel: true },
-//     tooltip: {
-//       trigger: "axis",
-//     },
-//     legend: {
-//       show: true,
-//       data: series.map((r) => r.name),
-//       bottom: 20,
-//       orient: "horizontal",
-//       x: "center",
-//     },
-//     xAxis: {
-//       type: "category",
-//       data: xData,
-//     },
-//     yAxis: {
-//       type: "value",
-//     },
-//     series: series,
-//   };
-//   return option;
-// };
 export const graphOptions3 = (series: any[], legend: any[]) => {
   const upperCaseLegend = (legend || []).map((item) => item.toUpperCase());
   const option: EChartsOptionProps = {
@@ -56,9 +31,6 @@ export const graphOptions3 = (series: any[], legend: any[]) => {
       bottom: 20,
       orient: "horizontal",
       x: "center",
-      // formatter: function (name: string) {
-      //   return name.toUpperCase();
-      // },
     },
     xAxis: {
       type: "category",
@@ -67,7 +39,6 @@ export const graphOptions3 = (series: any[], legend: any[]) => {
     yAxis: [
       {
         type: "value",
-        // name: "Cakupan",
         position: "left",
         axisLabel: {
           formatter: "{value}",
@@ -75,7 +46,6 @@ export const graphOptions3 = (series: any[], legend: any[]) => {
       },
       {
         type: "value",
-        // name: "% Target Cakupan",
         position: "right",
         axisLabel: {
           formatter: "{value} %",
@@ -171,12 +141,6 @@ export const graphOptions5 = (series: any[], legend: any[]) => {
           if (item.seriesName === "Total") {
             const originalData = series.find((serie) => serie.name === "Total")
               .data[params[0].dataIndex];
-            console.log(
-              "Original Data at index ",
-              params[0].dataIndex,
-              ": ",
-              originalData
-            );
             tooltipContent += `${item.marker} ${item.seriesName
               } <span style="float: right;"><strong>${formatNumber(
                 originalData

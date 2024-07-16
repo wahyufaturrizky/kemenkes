@@ -11,7 +11,6 @@ import {
   Spin,
   Tabs,
 } from "@/components";
-// import FilterSummaryImmunizationWus from "@/view/home/components/FilterWus";
 import { useState } from "react";
 import { dataMonth, dataTabBaduta } from "@/utils/constants";
 import {
@@ -48,7 +47,6 @@ import {
   useGetHighestScopeQuery,
   useGetLowestScopeQuery,
   useGetExceedTargetScopeQuery,
-  // useGetNotExceedTargetScopeQuery,
   useGetChartScopeQuery,
   useGetNonIdealAgeQuery,
   useGetIdealAgeQuery,
@@ -59,11 +57,8 @@ import {
   useGetChartByGenderQuery,
 } from "@/lib/services/bias";
 import { Filter1, Filter2, Filter3, Filter4, Filter5 } from "./FilterBias";
-// import { graphOptions5 } from "../routine-baduta-immunization/graphOptions";
 import { graphOptions1 } from "../wus/graphOptions";
 import { graphOptions2 } from "../routine-infant-immunization/graphOptions";
-// import { graphOptions2 } from "./graphOptionts";
-
 import { graphOptions3, graphOptions4, graphOptions5 } from "./graphOptionts";
 
 import { openSans } from "@/assets/fonts";
@@ -74,7 +69,6 @@ import GraphRoutineImmunizationCoverageTrendWus from "@/view/home/components/Gra
 
 const Bias = () => {
   const filterState = useState({
-    // tahun: 2023,
     tahun: new Date().getFullYear(),
     bulan: dataMonth.find((r, i) => i === new Date().getMonth())?.value,
     provinsi: "",
@@ -104,14 +98,14 @@ const Bias = () => {
       filter.faskes && filter.kewilayahan_type == 0
         ? "FASKES"
         : filter.faskes && filter.kewilayahan_type == 1
-        ? "KELURAHAN"
-        : filter.kecamatan
-        ? "KECAMATAN"
-        : filter.kabkota
-        ? "KABKO"
-        : filter.provinsi
-        ? "PROVINSI"
-        : "ALL",
+          ? "KELURAHAN"
+          : filter.kecamatan
+            ? "KECAMATAN"
+            : filter.kabkota
+              ? "KABKO"
+              : filter.provinsi
+                ? "PROVINSI"
+                : "ALL",
   };
   const filterQuery = {
     ...dateQuery,
@@ -119,12 +113,12 @@ const Bias = () => {
     faskes_id: filter.faskes
       ? filter.faskes
       : filter.kecamatan
-      ? filter.kecamatan
-      : filter.kabkota
-      ? filter.kabkota
-      : filter.provinsi
-      ? filter.provinsi
-      : "ALL",
+        ? filter.kecamatan
+        : filter.kabkota
+          ? filter.kabkota
+          : filter.provinsi
+            ? filter.provinsi
+            : "ALL",
     kewilayahan_type: filter.kewilayahan_type,
   };
   const optionQuery = {
@@ -137,16 +131,6 @@ const Bias = () => {
   const filterQueryTotal = {
     ...dateQuery,
     region_type: filter.wilayah2,
-    // faskes_parent_id: 11,
-    // faskes_id: filter.faskes
-    //   ? filter.faskes
-    //   : filter.kecamatan
-    //   ? filter.kecamatan
-    //   : filter.kabkota
-    //   ? filter.kabkota
-    //   : filter.provinsi
-    //   ? filter.provinsi
-    //   : "ALL",
     vaccine_type: filter.tipe_vaksin,
     kewilayahan_type: filter.kewilayahan_type,
   };
@@ -155,17 +139,15 @@ const Bias = () => {
     ...dateQuery,
     ...regionType,
     region_type_chart: filter.wilayah2,
-
-    // faskes_parent_id: 11,
     faskes_id: filter.faskes
       ? filter.faskes
       : filter.kecamatan
-      ? filter.kecamatan
-      : filter.kabkota
-      ? filter.kabkota
-      : filter.provinsi
-      ? filter.provinsi
-      : "ALL",
+        ? filter.kecamatan
+        : filter.kabkota
+          ? filter.kabkota
+          : filter.provinsi
+            ? filter.provinsi
+            : "ALL",
     vaccine_type: filter.tipe_vaksin,
     kewilayahan_type: filter.kewilayahan_type,
   };
@@ -178,19 +160,17 @@ const Bias = () => {
   };
   const filterQueryTotalChart = {
     ...dateQuery,
-    // year: 2022,
-    // month: 1,
     region_type: filter.wilayah,
     vaccine_type: filter.tipe_vaksin2,
     faskes_id: filter.faskes
       ? filter.faskes
       : filter.kecamatan
-      ? filter.kecamatan
-      : filter.kabkota
-      ? filter.kabkota
-      : filter.provinsi
-      ? filter.provinsi
-      : "ALL",
+        ? filter.kecamatan
+        : filter.kabkota
+          ? filter.kabkota
+          : filter.provinsi
+            ? filter.provinsi
+            : "ALL",
     tren_type: filter.tren_type,
     kewilayahan_type: filter.kewilayahan_type,
   };
@@ -200,12 +180,12 @@ const Bias = () => {
     filter.wilayah === "faskes"
       ? filter.faskes
       : filter.wilayah === "district"
-      ? filter.kecamatan
-      : filter.wilayah === "city"
-      ? filter.kabkota
-      : filter.wilayah === "province"
-      ? filter.provinsi
-      : "All";
+        ? filter.kecamatan
+        : filter.wilayah === "city"
+          ? filter.kabkota
+          : filter.wilayah === "province"
+            ? filter.provinsi
+            : "All";
   const filterQueryGraph = {
     ...dateQuery,
     region_type: filter.wilayah,
@@ -218,12 +198,12 @@ const Bias = () => {
     faskes_id: filter.faskes
       ? filter.faskes
       : filter.kecamatan
-      ? filter.kecamatan
-      : filter.kabkota
-      ? filter.kabkota
-      : filter.provinsi
-      ? filter.provinsi
-      : "ALL",
+        ? filter.kecamatan
+        : filter.kabkota
+          ? filter.kabkota
+          : filter.provinsi
+            ? filter.provinsi
+            : "ALL",
     kewilayahan_type: filter.kewilayahan_type,
     vaccine_type: filter.tipe_vaksin3,
   };
@@ -233,27 +213,26 @@ const Bias = () => {
     faskes_id: filter.faskes
       ? filter.faskes
       : filter.kecamatan
-      ? filter.kecamatan
-      : filter.kabkota
-      ? filter.kabkota
-      : filter.provinsi
-      ? filter.provinsi
-      : "ALL",
+        ? filter.kecamatan
+        : filter.kabkota
+          ? filter.kabkota
+          : filter.provinsi
+            ? filter.provinsi
+            : "ALL",
     kewilayahan_type: filter.kewilayahan_type,
     vaccine_type: filter.tipe_vaksin4,
   };
   const filterAverageGender = {
     ...dateQuery,
-    // region_type: filter.wilayah,
     faskes_id: filter.faskes
       ? filter.faskes
       : filter.kecamatan
-      ? filter.kecamatan
-      : filter.kabkota
-      ? filter.kabkota
-      : filter.provinsi
-      ? filter.provinsi
-      : "ALL",
+        ? filter.kecamatan
+        : filter.kabkota
+          ? filter.kabkota
+          : filter.provinsi
+            ? filter.provinsi
+            : "ALL",
     kewilayahan_type: filter.kewilayahan_type,
     vaccine_type: filter.tipe_vaksin5,
   };
@@ -307,7 +286,6 @@ const Bias = () => {
     useGetFullBiasScopeQuery(filterFullBiasScope, optionQuery);
   const { data: getHighestScope, isLoading: isLoadingHighestScope } =
     useGetHighestScopeQuery(
-      // filterQueryHighestScope
       filterFullBiasScope,
       optionQuery
     );
@@ -536,9 +514,6 @@ const Bias = () => {
               filterState={filterState}
             />
             <div className="flex flex-col gap-4 text-sm">
-              {/* <div className={`${openSans.className}`}>
-                UPDATE TERAKHIR: 23 SEPTEMBER 2023
-              </div> */}
               <div className="font-bold text-primary-1 text-xl md:text-3xl">
                 Imunisasi Rutin BIAS
               </div>
@@ -894,12 +869,10 @@ const Bias = () => {
                                 (getChart?.data || [])[params.dataIndex]
                                   ?.cakupan
                               )}%`,
-                            // `${formatNumber(params.value || 0)}`,
                           },
                           additionalData:
                             (getChart?.data || [])?.map(
                               (r: any) =>
-                                // ((r?.percentage || 0) / 100) * (r?.total || 0)
                                 r?.cakupan || 0
                             ) || [],
                         },
@@ -932,7 +905,7 @@ const Bias = () => {
                               (r: any) =>
                                 (((r?.cakupan || 0) / 100) *
                                   (r?.jumlah_penerima * 100)) /
-                                  r?.cakupan || 0
+                                r?.cakupan || 0
                             ) || [],
                           type: "bar",
                           label: {
@@ -943,35 +916,6 @@ const Bias = () => {
                           },
                         },
                       ])}
-                      // graphOptions={graphOptions2([
-                      //   {
-                      //     name: "% Target Cakupan",
-                      //     data:
-                      //       (getChart?.data || [])?.map((r: any) =>
-                      //         formatNumber(r?.target_cakupan)
-                      //       ) || [],
-                      //     type: "line",
-                      //     tooltip: {
-                      //       show: false,
-                      //     },
-                      //   },
-                      //   {
-                      //     name: "Jumlah Penerima Imunisasi",
-                      //     data:
-                      //       (getChart?.data || [])?.map(
-                      //         (r: any) => r?.jumlah_penerima
-                      //       ) || [],
-                      //     type: "line",
-                      //   },
-                      //   {
-                      //     name: "% Cakupan",
-                      //     data:
-                      //       (getChart?.data || [])?.map((r: any) =>
-                      //         formatNumber(r?.cakupan)
-                      //       ) || [],
-                      //     type: "bar",
-                      //   },
-                      // ])}
                     />
                   </div>
                 }
@@ -1089,18 +1033,6 @@ const Bias = () => {
                               formatter: (params: any) =>
                                 `${formatNumber(params.value)}%`,
                             },
-                            // label: {
-                            //   show: true,
-                            //   precision: 1,
-                            //   formatter: (params: any) =>
-                            //     `${formatNumber(
-                            //       ((params.value || 0) /
-                            //         (getChartScope?.data || [])[
-                            //           params.dataIndex
-                            //         ]?.ytd) *
-                            //         100
-                            //     )}%`,
-                            // },
                           },
                           {
                             name: "% Target Cakupan",
@@ -1118,9 +1050,6 @@ const Bias = () => {
                           },
                         ],
                         (getChartScope?.data || [])?.map((r: any) => r.vaccine)
-                        // getChartScope?.data?.map((r: any) =>
-                        //   r?.vaccine?.toUpperCase()
-                        // )
                       )}
                     />
                   </div>
@@ -1235,9 +1164,6 @@ const Bias = () => {
                       addOn={
                         <div className="flex gap-4 text-sm">
                           <div className="relative flex flex-1 justify-center items-center">
-                            {/* {isLoadingAverageImmunizationByGenderQuery && (
-                              <Spin />
-                            )} */}
                             <div
                               className="px-4 py-3 rounded-xl w-full h-full"
                               style={{
@@ -1257,7 +1183,6 @@ const Bias = () => {
                                 key={`gender-score-${i}`}
                                 className="relative flex flex-1 justify-center items-center"
                               >
-                                {/* {r?.isLoading && <Spin />} */}
                                 <div
                                   className="flex-1 px-4 py-3 rounded-xl w-full h-full"
                                   style={{

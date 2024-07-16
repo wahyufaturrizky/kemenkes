@@ -267,9 +267,6 @@ const BabyChaseImmunizationBaduta = () => {
 
   return (
     <div className="flex flex-col items-center">
-      {/* <div className="px-4 container">
-        <Navbar />
-      </div> */}
       <div className="flex justify-center bg-image1 bg-support-b2 w-full">
         <div className="px-4 container">
           <Banner

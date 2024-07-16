@@ -33,17 +33,15 @@ export const graphOptions1 = (series: any[], legend: any[]) => {
             const originalData = series.find(
               (serie) => serie.name === "Total Penerima"
             ).data[legend.length - 1 - params[0].dataIndex];
-            tooltipContent += `${item.marker} ${
-              item.seriesName
-            } <span style="float: right;"><strong>${formatNumber(
-              originalData
-            )}</strong></span><br/>`;
+            tooltipContent += `${item.marker} ${item.seriesName
+              } <span style="float: right;"><strong>${formatNumber(
+                originalData
+              )}</strong></span><br/>`;
           } else {
-            tooltipContent += `${item.marker} ${
-              item.seriesName
-            } <span style="float: right;"><strong>${formatNumber(
-              item.value
-            )}%</strong></span><br/>`;
+            tooltipContent += `${item.marker} ${item.seriesName
+              } <span style="float: right;"><strong>${formatNumber(
+                item.value
+              )}%</strong></span><br/>`;
           }
         });
         tooltipContent += `</div>`;
@@ -100,7 +98,6 @@ export const graphOptions2 = (series: any[]) => {
     yAxis: [
       {
         type: "value",
-        // name: "% Cakupan",
         position: "left",
         axisLabel: {
           formatter: "{value} %",
@@ -211,7 +208,6 @@ export const graphOptions8 = (series: any[], xData: any[]) => {
       },
       valueFormatter: function (value: any) {
         return `${formatNumber(value)}%`;
-        // return new Intl.NumberFormat("id-ID").format(value);
       },
     },
     grid: {
@@ -222,10 +218,6 @@ export const graphOptions8 = (series: any[], xData: any[]) => {
     },
     legend: {
       data: series.map((serie) => serie.name),
-      // bottom: 0,
-      // textStyle: {
-      //   fontSize: 10, // Sesuaikan ukuran font
-      // },
       icon: "circle", // Menggunakan bentuk lingkaran
       itemWidth: 8, // Ukuran lebar ikon
       itemHeight: 8,
@@ -261,142 +253,3 @@ export const graphOptions8 = (series: any[], xData: any[]) => {
   };
   return option;
 };
-
-// export const graphOptions8 = (
-//   series: any[],
-//   xData: any[],
-//   legendData: any[]
-// ) => {
-//   // console.log(legendData, "isi legend");
-//   const option = {
-//     tooltip: {
-//       trigger: "axis",
-//       axisPointer: {
-//         type: "shadow",
-//       },
-//       valueFormatter: function (value: any) {
-//         return `${formatNumber(value)}%`;
-//         // return new Intl.NumberFormat("id-ID").format(value);
-//       },
-//     },
-//     grid: {
-//       left: "3%",
-//       right: "4%",
-//       bottom: "3%",
-//       containLabel: true,
-//     },
-//     legend: {
-//       data: legendData.map((data) => data),
-//       bottom: 0,
-//       orient: "horizontal",
-//       x: "center",
-//     },
-//     xAxis: [
-//       {
-//         type: "category",
-//         data: xData,
-//         axisTick: {
-//           alignWithLabel: true,
-//         },
-//       },
-//     ],
-//     yAxis: [
-//       {
-//         type: "value",
-//         axisLabel: {
-//           formatter: function (value: any) {
-//             return `${formatNumber(value)}%`;
-//           },
-//         },
-//       },
-//     ],
-//     series: series.flatMap((serie) => {
-//       const { name, data } = serie;
-//       return [
-//         {
-//           name: `${name}`,
-//           type: "bar",
-//           stack: "total",
-//           data: data.map((value: any) => value), // 50% of the value
-//           itemStyle: {
-//             color: "#FAC515",
-//           },
-//           label: {
-//             show: true,
-//             formatter: function (params: any) {
-//               return `${formatNumber(params?.value)}%`;
-//             },
-//           },
-//         },
-//         {
-//           name: `${name}`,
-//           type: "bar",
-//           stack: "total",
-//           data: data.map((value: any) => 100 - value), // 50% of the value
-//           itemStyle: {
-//             color: "#2E90FA",
-//           },
-//           label: {
-//             show: false,
-//             // formatter: function (params: any) {
-//             //   return formatNumber(params?.value);
-//             // },
-//           },
-//           tooltip: {
-//             show: false,
-//           },
-//         },
-//       ];
-//     }),
-//   };
-//   return option;
-// };
-
-// export const graphOptions8 = (series: any[], xData: any[]) => {
-//   const option = {
-//     tooltip: {
-//       trigger: "axis",
-//       axisPointer: {
-//         type: "shadow",
-//       },
-//       valueFormatter: function (value: any) {
-//         return new Intl.NumberFormat("id-ID").format(value);
-//       },
-//     },
-//     grid: {
-//       left: "3%",
-//       right: "4%",
-//       bottom: "3%",
-//       containLabel: true,
-//     },
-//     xAxis: [
-//       {
-//         type: "category",
-//         data: xData,
-//         axisTick: {
-//           alignWithLabel: true,
-//         },
-//       },
-//     ],
-//     yAxis: [
-//       {
-//         type: "value",
-//         axisLabel: {
-//           formatter: function (value: any) {
-//             return formatNumber(value);
-//           },
-//         },
-//       },
-//     ],
-//     series: series.map((serie) => ({
-//       ...serie,
-//       label: {
-//         ...serie.label,
-//         formatter: function (params: any) {
-//           return formatNumber(params?.value);
-//         },
-//       },
-//     })),
-//   };
-//   return option;
-// };

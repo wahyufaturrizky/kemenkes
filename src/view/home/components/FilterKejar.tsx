@@ -5,27 +5,13 @@ import { DatePicker, Select } from "@/components"
 import { useGetFacilityOfTypeQuery, useGetMedicalFacilityQuery, useGetProvinceQuery, useGetRegencyQuery, useGetSubDistrictQuery } from "@/lib/services/region"
 import { dataMonth, filterLocationOptions } from "@/utils/constants"
 import { generateYearsArray, standardOptionSameLabel, standardOptions } from "@/helpers"
-// import { useGetVillagesQuery } from "@/lib/services/wus"
-
 interface FilterProps {
   filterState?: any
 }
 
 const FilterSummaryImmunization: React.FC<FilterProps> = ({ filterState }) => {
   const [filter, setFilter] = filterState || useState({})
-  // const [filter, setFilter] = useState({
-  //   tahun: '',
-  //   bulan: '',
-  //   // tanggal: null,
-  //   // lokasi: '',
-  //   provinsi: '',
-  //   kabkota: '',
-  //   kecamatan: '',
-  //   jenis_sarana: '',
-  //   faskes: ''
-  // })
   const { data: getProvince } = useGetProvinceQuery({},
-    // { skip: filter.lokasi === filterLocationOptions[0].value }
   );
   const { data: getRegency } = useGetRegencyQuery(
     { provinsi: filter.provinsi },
@@ -40,19 +26,6 @@ const FilterSummaryImmunization: React.FC<FilterProps> = ({ filterState }) => {
       refetchOnMountOrArgChange: true
     }
   );
-  // const { data: getVillage } = useGetVillagesQuery(
-  //   {
-  //     kewilayahan_type: filter.kewilayahan_type,
-  //     year: filter.tahun,
-  //     month: filter.bulan,
-  //     faskes_parent_id: filter.kecamatan,
-  //   },
-
-  //   {
-  //     skip: !filter.provinsi && !filter.kabkota && !filter.kecamatan,
-  //     refetchOnMountOrArgChange: true,
-  //   }
-  // );
   const { data: getFacilityOfType } = useGetFacilityOfTypeQuery({});
   const { data: getMedicalFacility } = useGetMedicalFacilityQuery(
     { provinsi: filter.provinsi, kabkota: filter.kabkota, kecamatan: filter.kecamatan, jenis_sarana: filter.jenis_sarana },
@@ -65,75 +38,6 @@ const FilterSummaryImmunization: React.FC<FilterProps> = ({ filterState }) => {
   return (
     <div className="flex flex-col gap-2">
       <div>Filter</div>
-      {/* <div className="flex flex-wrap items-center gap-4"> */}
-      {/* <div>
-          <Select
-            placeholder="Pilih Tahun"
-            options={standardOptionSameLabel(generateYearsArray(1979, new Date().getFullYear()))}
-            onChange={(e: any) => { setFilter({ ...filter, 
-              tahun: e?.value,
-              bulan: '',
-              provinsi: '',
-              kabkota: '',
-              kecamatan: '',
-              jenis_sarana: '',
-              faskes: ''
-            }) }}
-            value={filter.tahun ?
-              standardOptionSameLabel(generateYearsArray(1979, new Date().getFullYear()))
-                ?.find((f) => f.value === filter.tahun)
-              : filter.tahun}
-          />
-        </div>
-        <div>
-          <Select
-            placeholder="Pilih Bulan"
-            options={dataMonth}
-            onChange={(e: any) => { setFilter({ ...filter, 
-              bulan: e?.value,
-              provinsi: '',
-              kabkota: '',
-              kecamatan: '',
-              jenis_sarana: '',
-              faskes: ''
-            }) }}
-            value={filter.bulan ?
-              dataMonth
-                ?.find((f) => f.value === filter.bulan)
-              : filter.bulan}
-              isDisabled={!filter.tahun}
-
-          />
-        </div> */}
-      {/* <div>
-          <DatePicker
-            className="md:w-96"
-            selected={filter.tanggal}
-            placeholderText="Pilih Tanggal"
-            onChange={(date: any) => {
-              setFilter({
-                ...filter,
-                // @ts-ignore
-                tanggal: date
-              })
-            }}
-          // startDate={filter.tanggal ? filter.tanggal[0] : new Date()}
-          // endDate={filter.tanggal ? filter.tanggal[1] : new Date()}
-          />
-        </div> */}
-      {/* <div>
-          <Select
-            options={filterLocationOptions}
-            onChange={(e: any) => { setFilter({ ...filter, lokasi: e?.value }) }}
-            placeholder="Pilih Lokasi"
-            value={filter.lokasi ?
-              filterLocationOptions
-                ?.find((f) => f.value === filter.lokasi)
-              : filter.lokasi}
-          />
-        </div> */}
-      {/* </div> */}
-      {/* {filter.lokasi && */}
       <div className="flex flex-wrap items-center gap-4">
         <div>
           <Select
@@ -294,7 +198,6 @@ const FilterSummaryImmunization: React.FC<FilterProps> = ({ filterState }) => {
           </div>
         }
       </div>
-      {/* } */}
     </div >
   )
 }

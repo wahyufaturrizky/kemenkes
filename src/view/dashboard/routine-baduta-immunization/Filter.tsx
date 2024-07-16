@@ -13,14 +13,22 @@ import { downloadFile } from "@/helpers/hook";
 
 interface FilterProps {
   filterState: any;
-  data?: any
+  data?: any;
 }
 export const Filter1: React.FC<FilterProps> = ({ filterState, data }) => {
   const [filter, setFilter] = filterState || useState({});
-  const regionTypeOptions = filter.kecamatan ? regionOptions.filter((r) => r.value === "faskes")
-    : filter.kabkota ? regionOptions.filter((r) => r.value === "district" || r.value === "faskes")
-      : filter.provinsi ? regionOptions.filter((r) => r.value === "city" || r.value === "district" || r.value === "faskes")
-        : regionOptions
+  const regionTypeOptions = filter.kecamatan
+    ? regionOptions.filter((r) => r.value === "faskes")
+    : filter.kabkota
+      ? regionOptions.filter(
+        (r) => r.value === "district" || r.value === "faskes"
+      )
+      : filter.provinsi
+        ? regionOptions.filter(
+          (r) =>
+            r.value === "city" || r.value === "district" || r.value === "faskes"
+        )
+        : regionOptions;
   return (
     <div className="flex flex-wrap justify-between items-center gap-4 sm:mt-20 md:mt-0 mb-8">
       <div className={`flex gap-4 ${openSans.className}`}>
@@ -54,20 +62,19 @@ export const Filter1: React.FC<FilterProps> = ({ filterState, data }) => {
         </div>
       </div>
       <div className="flex gap-4">
-        <div onClick={async () => {
-          const pct = data?.map((r: any) => r.percentage.toString());
-          const target = data?.map((r: any) => r.threshold.toString());
-          const header = data?.map((r: any) => r.faskes_desc);
-          const body = [pct, target];
-          const verticalHeader = ["% Target Cakupan", "Target"];
-          const fileName = "Grafik Cakupan";
-          await downloadFile({ header, body, verticalHeader, fileName });
-        }} >
+        <div
+          onClick={async () => {
+            const pct = data?.map((r: any) => r.percentage.toString());
+            const target = data?.map((r: any) => r.threshold.toString());
+            const header = data?.map((r: any) => r.faskes_desc);
+            const body = [pct, target];
+            const verticalHeader = ["% Target Cakupan", "Target"];
+            const fileName = "Grafik Cakupan";
+            await downloadFile({ header, body, verticalHeader, fileName });
+          }}
+        >
           <Button text="Unduh" variant="outlined" />
         </div>
-        {/* <div>
-          <Button text="Laporkan" variant="outlined" />
-        </div> */}
       </div>
     </div>
   );
@@ -108,21 +115,24 @@ export const Filter2: React.FC<FilterProps> = ({ filterState, data }) => {
         </div>
       </div>
       <div className="flex gap-4">
-        <div onClick={async () => {
-          const pct = data?.map((r: any) => r.percentage.toString());
-          const total = data?.map((r: any) => r.total.toString());
-          const target = data?.map((r: any) => r.threshold.toString());
-          const header = dataMonths?.map((r) => r.label);
-          const body = [pct, total, target];
-          const verticalHeader = ["% Target Cakupan", "Jumlah Penerima Imunisasi", "Cakupan"];
-          const fileName = "Data Kumulatif";
-          await downloadFile({ header, body, verticalHeader, fileName });
-        }} >
+        <div
+          onClick={async () => {
+            const pct = data?.map((r: any) => r.percentage.toString());
+            const total = data?.map((r: any) => r.total.toString());
+            const target = data?.map((r: any) => r.threshold.toString());
+            const header = dataMonths?.map((r) => r.label);
+            const body = [pct, total, target];
+            const verticalHeader = [
+              "% Target Cakupan",
+              "Jumlah Penerima Imunisasi",
+              "Cakupan",
+            ];
+            const fileName = "Data Kumulatif";
+            await downloadFile({ header, body, verticalHeader, fileName });
+          }}
+        >
           <Button text="Unduh" variant="outlined" />
         </div>
-        {/* <div>
-          <Button text="Laporkan" variant="outlined" />
-        </div> */}
       </div>
     </div>
   );
@@ -161,9 +171,6 @@ export const Filter3: React.FC<FilterProps> = ({ filterState, data }) => {
         }} >
           <Button text="Unduh" variant="outlined" />
         </div>
-        {/* <div>
-          <Button text="Laporkan" variant="outlined" />
-        </div> */}
       </div>
     </div>
   );
@@ -214,9 +221,6 @@ export const Filter4: React.FC<FilterProps> = ({ filterState, data }) => {
         }} >
           <Button text="Unduh" variant="outlined" />
         </div>
-        {/* <div>
-          <Button text="Laporkan" variant="outlined" />
-        </div> */}
       </div>
     </div>
   );
@@ -226,34 +230,6 @@ export const Filter5: React.FC<FilterProps> = ({ filterState, data }) => {
   return (
     <div className="flex flex-wrap justify-between items-center gap-4 sm:mt-20 md:mt-0 mb-8">
       <div className="flex gap-4">
-        <div>
-          <Select
-            options={vaccineTypeOptions}
-            onChange={(e: any) => {
-              setFilter({ ...filter, tipe_vaksin5: e ? e.value : "All" });
-            }}
-            value={
-              filter.tipe_vaksin5
-                ? vaccineTypeOptions?.find(
-                  (f) => f.value === filter.tipe_vaksin5
-                )
-                : filter.tipe_vaksin5
-            }
-          />
-        </div>
-        <div>
-          <Select
-            options={genderOptions}
-            onChange={(e: any) => {
-              setFilter({ ...filter, jenis_kelamin: e ? e.value : "All" });
-            }}
-            value={
-              filter.jenis_kelamin
-                ? genderOptions?.find((f) => f.value === filter.jenis_kelamin)
-                : filter.jenis_kelamin
-            }
-          />
-        </div>
       </div>
       <div className="flex gap-4">
         <div onClick={async () => {
@@ -267,9 +243,6 @@ export const Filter5: React.FC<FilterProps> = ({ filterState, data }) => {
         }} >
           <Button text="Unduh" variant="outlined" />
         </div>
-        {/* <div>
-          <Button text="Laporkan" variant="outlined" />
-        </div> */}
       </div>
     </div>
   );
