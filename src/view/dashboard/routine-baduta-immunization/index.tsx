@@ -111,6 +111,13 @@ const RoutineBadutaImmunization = () => {
       ? "province"
       : "All",
     region_id: filter.faskes
+        ? "district"
+        : filter.kabkota
+          ? "city"
+          : filter.provinsi
+            ? "province"
+            : "All",
+    faskes_id: filter.faskes
       ? filter.faskes
       : filter.kecamatan
       ? filter.kecamatan
@@ -120,7 +127,6 @@ const RoutineBadutaImmunization = () => {
       ? filter.provinsi
       : "All",
     kewilayahan_type: filter.kewilayahan_type,
-    faskes_id: 16,
   };
   const regionIdQuery =
     filter.wilayah === "faskes"
@@ -135,16 +141,14 @@ const RoutineBadutaImmunization = () => {
   const filterQueryGraphPercentage = {
     ...dateQuery,
     region_type: filter.wilayah1,
-    region_id: regionIdQuery,
+    faskes_id: regionIdQuery,
     kewilayahan_type: filter.kewilayahan_type,
-    faskes_id: 16,
   };
   const filterQueryGraph = {
     ...dateQuery,
     region_type: filter.wilayah,
-    region_id: regionIdQuery,
+    faskes_id: regionIdQuery,
     kewilayahan_type: filter.kewilayahan_type,
-    faskes_id: 16,
   };
   const optionQuery = {
     refetchOnMountOrArgChange: true,
