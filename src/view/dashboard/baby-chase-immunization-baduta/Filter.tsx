@@ -107,10 +107,8 @@ export const Filter2: React.FC<FilterProps> = ({ filterState, data }) => {
       </div>
       <div className="flex gap-4">
         <div onClick={async () => {
-          // const pct = data?.filter((f: any) => f.label.includes("pct_"))?.map((r: any) => r.value.toString());
-          const total = data?.map((r: any) => r.value.toString());
-          // const target = data?.filter((f: any) => f.label.includes("threshold_"))?.map((r: any) => r.value.toString());
-          const header = data?.map((r: any) => r?.label?.split("pyd_kejar_")[1])
+          const total = data?.map((r: any) => (r.pyd_kejar || 0).toString());
+          const header = data?.map((r: any) => r?.vaccine_name)
           const body = [total];
           const verticalHeader = ["Cakupan"];
           const fileName = "Grafik Cakupan Berdasarkan Jenis Imunisasi";
@@ -145,9 +143,9 @@ export const Filter3: React.FC<FilterProps> = ({ filterState, data }) => {
       </div>
       <div className="flex gap-4">
         <div onClick={async () => {
-          const ideal = data?.filter((f: any) => f.label.includes("pct_kejar_"))?.map((r: any) => r.value.toString());
-          const nonIdeal = data?.filter((f: any) => f.label.includes("pct_non_kejar_"))?.map((r: any) => r.value.toString());
-          const header = data?.filter((f: any) => f.label.includes("pct_kejar_"))?.map((r: any) => r.label?.split("_")[2]);
+          const ideal = data?.map((r: any) => (r.pct_kejar || 0).toString());
+          const nonIdeal = data?.map((r: any) => (r.pct_non_kejar || 0).toString());
+          const header = data?.map((r: any) => r.vaccine_name);
           const body = [ideal, nonIdeal];
           const verticalHeader = ["Ideal", "Non Ideal"];
           const fileName = "Grafik Perbandingan Imunisasi Kejar Terhadap Imunisasi Ideal";
@@ -195,11 +193,11 @@ export const Filter4: React.FC<FilterProps> = ({ filterState, data }) => {
       </div>
       <div className="flex gap-4">
         <div onClick={async () => {
-          const data12 = data?.filter((f: any) => f.label.includes("pct_1_2_"))?.map((r: any) => r.value.toString());
-          const data23 = data?.filter((f: any) => f.label.includes("pct_2_3_"))?.map((r: any) => r.value.toString());
-          const data34 = data?.filter((f: any) => f.label.includes("pct_3_4_"))?.map((r: any) => r.value.toString());
-          const data45 = data?.filter((f: any) => f.label.includes("pct_4_5_"))?.map((r: any) => r.value.toString());
-          const header = data?.filter((f: any) => f.label.includes("pct_1_2_"))?.map((r: any) => r.label?.split("_")[3]);
+          const data12 = data?.map((r: any) => (r.pct_1_2 || 0).toString());
+          const data23 = data?.map((r: any) => (r.pct_2_3 || 0).toString());
+          const data34 = data?.map((r: any) => (r.pct_3_4 || 0).toString());
+          const data45 = data?.map((r: any) => (r.pct_4_5 || 0).toString());
+          const header = data?.map((r: any) => r.vaccine_name);
           const body = [data12, data23, data34, data45];
           const verticalHeader = ["Usia 1-2 Tahun", "Usia 2-3 Tahun", "Usia 3-4 Tahun", "Usia 4-5 Tahun"];
           const fileName = "Grafik Cakupan Berdasarkan Usia";
@@ -247,9 +245,9 @@ export const Filter5: React.FC<FilterProps> = ({ filterState, data }) => {
       </div>
       <div className="flex gap-4">
         <div onClick={async () => {
-          const male = data?.filter((f: any) => f.label.includes("pct_male_"))?.map((r: any) => r.value.toString());
-          const female = data?.filter((f: any) => f.label.includes("pct_female_"))?.map((r: any) => r.value.toString());
-          const header = data?.filter((f: any) => f.label.includes("pct_male_"))?.map((r: any) => r.label?.split("_")[2]);
+          const male = data?.map((r: any) => (r.pct_male || 0).toString());
+          const female = data?.map((r: any) => (r.pct_female || 0).toString());
+          const header = data?.map((r: any) => r.vaccine_name);
           const body = [male, female];
           const verticalHeader = ["Laki-laki", "Perempuan"];
           const fileName = "Grafik Cakupan Berdasarkan Jenis Kelamin";

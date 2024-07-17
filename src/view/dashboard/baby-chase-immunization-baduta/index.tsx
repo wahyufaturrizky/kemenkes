@@ -127,12 +127,12 @@ const BabyChaseImmunizationBaduta = () => {
   const { data: getGraphScopeKejarImmunizationQuery,
     isLoading: isLoadingGraphScopeKejarImmunizationQuery,
   } = useGetGraphScopeKejarImmunizationQuery({ ...filterQueryGraphPercentage, vaccine_type: filter.tipe_vaksin1 }, optionQuery)
-  const aliasGraphScopeKejarImmunizationQuery = Object.entries(getGraphScopeKejarImmunizationQuery?.data || []).map(([key, value]) => ({ label: key, value: value }));
+  const aliasGraphScopeKejarImmunizationQuery = getGraphScopeKejarImmunizationQuery?.data ? getGraphScopeKejarImmunizationQuery?.data[0]?.vaccine_list : []
 
   const { data: getImmunizationGraphKejarStatusQuery,
     isLoading: isLoadingImmunizationGraphKejarStatusQuery,
   } = useGetImmunizationGraphKejarStatusQuery(filterQueryGraph, optionQuery)
-  const aliasImmunizationGraphKejarStatusQuery = Object.entries(getImmunizationGraphKejarStatusQuery?.data || []).map(([key, value]) => ({ label: key, value: value }));
+  const aliasImmunizationGraphKejarStatusQuery = getImmunizationGraphKejarStatusQuery?.data ? getImmunizationGraphKejarStatusQuery?.data[0]?.vaccine_list : []
   // const { data: getSetScopePercentagePerMonthQuery,
   //   isLoading: isLoadingSetScopePercentagePerMonthQuery,
   // } = useGetScopePercentagePerMonthQuery({ ...filterQueryGraph, vaccine_type: filter.tipe_vaksin2, is_kumulatif: filter.jenis_tren === "kumulatif" ? true : false }, optionQuery)
@@ -147,7 +147,7 @@ const BabyChaseImmunizationBaduta = () => {
   const { data: getSummaryImmunizationByAgeQuery,
     isLoading: isLoadingSummaryImmunizationByAgeQuery,
   } = useGetSummaryImmunizationByAgeQuery(filterQueryGraph, optionQuery)
-  const aliasSummaryImmunizationByAgeQuery = Object.entries(getSummaryImmunizationByAgeQuery?.data || []).map(([key, value]) => ({ label: key, value: value }));
+  const aliasSummaryImmunizationByAgeQuery = getSummaryImmunizationByAgeQuery?.data ? getSummaryImmunizationByAgeQuery?.data[0]?.vaccine_list : []
 
   const { data: getAverageImmunizationByGenderQuery,
     isLoading: isLoadingAverageImmunizationByGenderQuery,
@@ -161,12 +161,11 @@ const BabyChaseImmunizationBaduta = () => {
   const { data: getSummaryImmunizationPerGenderQuery,
     isLoading: isLoadingSummaryImmunizationPerGenderQuery,
   } = useGetSummaryImmunizationPerGenderQuery(filterQueryGraph, optionQuery)
-  const aliasSummaryImmunizationPerGenderQuery = Object.entries(getSummaryImmunizationPerGenderQuery?.data || []).map(([key, value]) => ({ label: key, value: value }));
+  const aliasSummaryImmunizationPerGenderQuery = getSummaryImmunizationPerGenderQuery?.data ? getSummaryImmunizationPerGenderQuery?.data[0]?.vaccine_list : []
 
   const { data: getDistributionGraphTimeQuery,
     isLoading: isLoadingGetDistributionGraphTimeQuery,
   } = useGetDistributionGraphTimeQuery({ ...filterQueryGraph }, optionQuery)
-  const aliasDistributionGraphTimeQuery = Object.entries(getDistributionGraphTimeQuery?.data || []).map(([key, value]) => ({ label: key, value: value }));
 
   const { data: getGetTotalImmunizationScopeQuery,
     isLoading: isLoadingGetTotalImmunizationScopeQuery,
@@ -383,15 +382,14 @@ const BabyChaseImmunizationBaduta = () => {
                       graphOptions={graphOptions6([
                         {
                           name: "Target",
-                          data: aliasGraphScopeKejarImmunizationQuery || [],
+                          data: aliasGraphScopeKejarImmunizationQuery?.map((r: any) => (r?.pyd_kejar || 0)) || [],
                           type: 'bar',
                           label: {
                             show: true,
                             precision: 1,
                           }
                         },
-                      ], getGraphScopeKejarImmunizationQuery?.data ?
-                        Object.keys(getGraphScopeKejarImmunizationQuery?.data) : [],
+                      ], aliasGraphScopeKejarImmunizationQuery?.map((r: any) => r?.vaccine_name) || [],
                       )}
                     />
                   </div>
@@ -416,7 +414,7 @@ const BabyChaseImmunizationBaduta = () => {
                       graphOptions={graphOptions3([
                         {
                           name: "Kejar",
-                          data: aliasImmunizationGraphKejarStatusQuery?.filter((f) => !f?.label?.includes("non")) || [],
+                          data: aliasImmunizationGraphKejarStatusQuery?.map((r: any) => (r?.pct_kejar || 0)) || [],
                           type: 'bar',
                           stack: 'a',
                           label: {
@@ -426,7 +424,7 @@ const BabyChaseImmunizationBaduta = () => {
                         },
                         {
                           name: "Non Kejar",
-                          data: aliasImmunizationGraphKejarStatusQuery?.filter((f) => f?.label?.includes("non")) || [],
+                          data: aliasImmunizationGraphKejarStatusQuery?.map((r: any) => (r?.pct_non_kejar || 0)) || [],
                           type: 'bar',
                           stack: 'a',
                           label: {
@@ -434,12 +432,7 @@ const BabyChaseImmunizationBaduta = () => {
                             precision: 1,
                           }
                         },
-                      ], getImmunizationGraphKejarStatusQuery?.data ?
-                        aliasImmunizationGraphKejarStatusQuery?.filter((f) => !f?.label?.includes("non"))
-                          ?.map((r) => {
-                            return r?.label?.split("_")[2];
-                          })
-                        : [],
+                      ], aliasImmunizationGraphKejarStatusQuery?.map((r: any) => r?.vaccine_name) || [],
                       )}
                     />
                   </div>
@@ -464,7 +457,7 @@ const BabyChaseImmunizationBaduta = () => {
                       graphOptions={graphOptions4([
                         {
                           name: "Usia 4-5 Tahun",
-                          data: aliasSummaryImmunizationByAgeQuery?.filter((f) => f?.label?.includes("4_5")) || [],
+                          data: aliasSummaryImmunizationByAgeQuery?.map((r: any) => (r?.pct_4_5 || 0)) || [],
                           type: 'bar',
                           stack: 'a',
                           label: {
@@ -474,7 +467,7 @@ const BabyChaseImmunizationBaduta = () => {
                         },
                         {
                           name: "Usia 3-4 Tahun",
-                          data: aliasSummaryImmunizationByAgeQuery?.filter((f) => f?.label?.includes("3_4")) || [],
+                          data: aliasSummaryImmunizationByAgeQuery?.map((r: any) => (r?.pct_3_4 || 0)) || [],
                           type: 'bar',
                           stack: 'a',
                           label: {
@@ -484,7 +477,7 @@ const BabyChaseImmunizationBaduta = () => {
                         },
                         {
                           name: "Usia 2-3 Tahun",
-                          data: aliasSummaryImmunizationByAgeQuery?.filter((f) => f?.label?.includes("2_3")) || [],
+                          data: aliasSummaryImmunizationByAgeQuery?.map((r: any) => (r?.pct_2_3 || 0)) || [],
                           type: 'bar',
                           stack: 'a',
                           label: {
@@ -494,7 +487,7 @@ const BabyChaseImmunizationBaduta = () => {
                         },
                         {
                           name: "Usia 1-2 Tahun",
-                          data: aliasSummaryImmunizationByAgeQuery?.filter((f) => f?.label?.includes("1_2")) || [],
+                          data: aliasSummaryImmunizationByAgeQuery?.map((r: any) => (r?.pct_1_2 || 0)) || [],
                           type: 'bar',
                           stack: 'a',
                           label: {
@@ -502,12 +495,7 @@ const BabyChaseImmunizationBaduta = () => {
                             precision: 1,
                           }
                         },
-                      ], getSummaryImmunizationByAgeQuery?.data ?
-                        aliasSummaryImmunizationByAgeQuery?.filter((f) => !f?.label?.includes("1_2"))
-                          ?.map((r) => {
-                            return r?.label?.split("_")[3];
-                          })
-                        : [],
+                      ], aliasSummaryImmunizationByAgeQuery?.map((r: any) => r?.vaccine_name) || [],
                       )}
                     />
                   </div>
@@ -559,7 +547,7 @@ const BabyChaseImmunizationBaduta = () => {
                       graphOptions={graphOptions5([
                         {
                           name: "Laki-laki",
-                          data: aliasSummaryImmunizationPerGenderQuery?.filter((f) => f?.label?.includes("male")) || [],
+                          data: aliasSummaryImmunizationPerGenderQuery?.map((r: any) => (r?.pct_male || 0)) || [],
                           type: 'bar',
                           label: {
                             show: true,
@@ -568,19 +556,14 @@ const BabyChaseImmunizationBaduta = () => {
                         },
                         {
                           name: "Perempuan",
-                          data: aliasSummaryImmunizationPerGenderQuery?.filter((f) => f?.label?.includes("female")) || [],
+                          data: aliasSummaryImmunizationPerGenderQuery?.map((r: any) => (r?.pct_female || 0)) || [],
                           type: 'bar',
                           label: {
                             show: true,
                             precision: 1,
                           }
                         },
-                      ], getSummaryImmunizationPerGenderQuery?.data ?
-                        aliasSummaryImmunizationPerGenderQuery?.filter((f) => f?.label?.includes("female"))
-                          ?.map((r) => {
-                            return r?.label?.split("_")[2];
-                          })
-                        : [],
+                      ], aliasSummaryImmunizationPerGenderQuery?.map((r: any) => r?.vaccine_name) || [],
                       )}
                     />
                   </div>
