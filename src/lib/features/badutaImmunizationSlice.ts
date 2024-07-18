@@ -2,10 +2,13 @@ import { type PayloadAction, createSlice } from "@reduxjs/toolkit";
 import { badutaImmunizationApi } from "@/lib/services/baduta-immunization";
 
 export interface BadutaImmunizationState {
-  getTotalImmunization?: any;
-  getTotalImmunizationByVaccineType?: any;
-  getDoPercentageDPHTHBHIB?: any;
-  getDoPercentageCampakRubela?: any;
+  getTotalBadutaImmunizationRecipients?: any;
+  getDropoutDPTPercentage?: any;
+  getDropoutRubelaPercentage?: any;
+  getScopeBadutaImmunization?: any;
+  getScopeDPTImmunization?: any;
+  getScopeRubelaImmunization?: any;
+  getScopePCVImmunization?: any;
   getTotalScope?: any;
   getTotalHighestScope?: any;
   getTotalLowestScope?: any;
@@ -45,17 +48,26 @@ export const BadutaImmunizationSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
-      .addMatcher(badutaImmunizationApi.endpoints.getTotalImmunization.matchFulfilled, (state, { payload }) => {
-        state.getTotalImmunization = payload
+      .addMatcher(badutaImmunizationApi.endpoints.getTotalBadutaImmunizationRecipients.matchFulfilled, (state, { payload }) => {
+        state.getTotalBadutaImmunizationRecipients = payload
       })
-      .addMatcher(badutaImmunizationApi.endpoints.getTotalImmunizationByVaccineType.matchFulfilled, (state, { payload }) => {
-        state.getTotalImmunizationByVaccineType = payload
+      .addMatcher(badutaImmunizationApi.endpoints.getDropoutDPTPercentage.matchFulfilled, (state, { payload }) => {
+        state.getDropoutDPTPercentage = payload
       })
-      .addMatcher(badutaImmunizationApi.endpoints.getDoPercentageDPHTHBHIB.matchFulfilled, (state, { payload }) => {
-        state.getDoPercentageDPHTHBHIB = payload
+      .addMatcher(badutaImmunizationApi.endpoints.getDropoutRubelaPercentage.matchFulfilled, (state, { payload }) => {
+        state.getDropoutRubelaPercentage = payload
       })
-      .addMatcher(badutaImmunizationApi.endpoints.getDoPercentageCampakRubela.matchFulfilled, (state, { payload }) => {
-        state.getDoPercentageCampakRubela = payload
+      .addMatcher(badutaImmunizationApi.endpoints.getScopeBadutaImmunization.matchFulfilled, (state, { payload }) => {
+        state.getScopeBadutaImmunization = payload
+      })
+      .addMatcher(badutaImmunizationApi.endpoints.getScopeDPTImmunization.matchFulfilled, (state, { payload }) => {
+        state.getScopeDPTImmunization = payload
+      })
+      .addMatcher(badutaImmunizationApi.endpoints.getScopeRubelaImmunization.matchFulfilled, (state, { payload }) => {
+        state.getScopeRubelaImmunization = payload
+      })
+      .addMatcher(badutaImmunizationApi.endpoints.getScopePCVImmunization.matchFulfilled, (state, { payload }) => {
+        state.getScopePCVImmunization = payload
       })
       .addMatcher(badutaImmunizationApi.endpoints.getTotalScope.matchFulfilled, (state, { payload }) => {
         state.getTotalScope = payload

@@ -48,16 +48,18 @@ export const graphOptions2 = (series: any[]) => {
     grid: { containLabel: true },
     tooltip: {
       trigger: "axis",
-      formatter: `{b0} <br/>
-        <svg width="250" height="20">
-          <circle cx="10" cy="10" r="5" fill="#8ECCFF" />
-          <text x="20" y="15">{a1}: {c1}</text>
-        </svg>
-        <br/>
-        <svg width="250" height="20">
-            <circle cx="10" cy="10" r="5" fill="#00B1A9" />
-            <text x="20" y="15">{a2}: {c2}</text>
-        </svg>`,
+      formatter: function (params: any) {
+        let tooltipContent = `<div style="min-width: 350px;">${params[0].axisValueLabel}<br/>`;
+        params.forEach((item: any, i: number) => {
+          if (item.seriesName === "Jumlah Penerima Imunisasi") {
+            tooltipContent += `${item.marker} ${item.seriesName} <span style="float: right;"><strong>${item.value}</strong></span><br/>`;
+          } else if (item.seriesName === "% Cakupan") {
+            tooltipContent += `${item.marker} ${item.seriesName} <span style="float: right;"><strong>${((item.value / params[0].data) * 100).toFixed(2)}%</strong></span><br/>`;
+          }
+        });
+        tooltipContent += `</div>`;
+        return tooltipContent;
+      },
     },
     legend: {
       data: series.map((r) => r.name),
@@ -82,6 +84,18 @@ export const graphOptions3 = (series: any[], xData: any[]) => {
     grid: { containLabel: true },
     tooltip: {
       trigger: "axis",
+      formatter: function (params: any) {
+        let tooltipContent = `<div style="min-width: 350px;">${params[0].axisValueLabel}<br/>`;
+        params.forEach((item: any, i: number) => {
+          if (item.seriesName === "Cakupan") {
+            tooltipContent += `${item.marker} ${item.seriesName} <span style="float: right;"><strong>${item.value}</strong></span><br/>`;
+          } else if (item.seriesName === "% Cakupan") {
+            tooltipContent += `${item.marker} ${item.seriesName} <span style="float: right;"><strong>${((item.value / params[2].data) * 100).toFixed(2)}%</strong></span><br/>`;
+          }
+        });
+        tooltipContent += `</div>`;
+        return tooltipContent;
+      },
     },
     legend: {
       show: true,

@@ -79,12 +79,12 @@ export const Filter2: React.FC<FilterProps> = ({ filterState, data }) => {
           <Select
             options={trendTypeOptions}
             onChange={(e: any) => {
-              setFilter({ ...filter, jenis_tren: e ? e.value : "All" });
+              setFilter({ ...filter, jenis_tren1: e ? e.value : "All" });
             }}
             value={
-              filter.jenis_tren
-                ? trendTypeOptions?.find((f) => f.value === filter.jenis_tren)
-                : filter.jenis_tren
+              filter.jenis_tren1
+                ? trendTypeOptions?.find((f) => f.value === filter.jenis_tren1)
+                : filter.jenis_tren1
             }
           />
         </div>
@@ -166,14 +166,14 @@ export const Filter4: React.FC<FilterProps> = ({ filterState, data }) => {
           <Select
             options={vaccineTypeKejarOptions}
             onChange={(e: any) => {
-              setFilter({ ...filter, tipe_vaksin3: e ? e.value : "All" });
+              setFilter({ ...filter, tipe_vaksin4: e ? e.value : "All" });
             }}
             value={
-              filter.tipe_vaksin3
+              filter.tipe_vaksin4
                 ? vaccineTypeKejarOptions?.find(
-                  (f) => f.label === filter.tipe_vaksin3
+                  (f) => f.label === filter.tipe_vaksin4
                 )
-                : filter.tipe_vaksin3
+                : filter.tipe_vaksin4
             }
           />
         </div>
@@ -268,12 +268,12 @@ export const Filter6: React.FC<FilterProps> = ({ filterState, data }) => {
           <Select
             options={trendTypeOptions}
             onChange={(e: any) => {
-              setFilter({ ...filter, jenis_tren: e ? e.value : "All" });
+              setFilter({ ...filter, jenis_tren2: e ? e.value : "All" });
             }}
             value={
-              filter.jenis_tren
-                ? trendTypeOptions?.find((f) => f.value === filter.jenis_tren)
-                : filter.jenis_tren
+              filter.jenis_tren2
+                ? trendTypeOptions?.find((f) => f.value === filter.jenis_tren2)
+                : filter.jenis_tren2
             }
           />
         </div>
@@ -281,14 +281,14 @@ export const Filter6: React.FC<FilterProps> = ({ filterState, data }) => {
           <Select
             options={vaccineTypeKejarOptions}
             onChange={(e: any) => {
-              setFilter({ ...filter, tipe_vaksin2: e ? e.value : "All" });
+              setFilter({ ...filter, tipe_vaksin6: e ? e.value : "All" });
             }}
             value={
-              filter.tipe_vaksin2
+              filter.tipe_vaksin6
                 ? vaccineTypeKejarOptions?.find(
-                  (f) => f.label === filter.tipe_vaksin2
+                  (f) => f.label === filter.tipe_vaksin6
                 )
-                : filter.tipe_vaksin2
+                : filter.tipe_vaksin6
             }
             isClearable={false}
           />

@@ -36,7 +36,7 @@ export const Filter1: React.FC<FilterProps> = ({ filterState, data }) => {
           <Select
             options={vaccineTypeOptions}
             onChange={(e: any) => {
-              setFilter({ ...filter, tipe_vaksin1: e ? e.value : "All" });
+              setFilter({ ...filter, tipe_vaksin1: e ? e.label : "All" });
             }}
             value={
               filter.tipe_vaksin1
@@ -101,7 +101,7 @@ export const Filter2: React.FC<FilterProps> = ({ filterState, data }) => {
           <Select
             options={vaccineTypeOptions}
             onChange={(e: any) => {
-              setFilter({ ...filter, tipe_vaksin2: e ? e.value : "All" });
+              setFilter({ ...filter, tipe_vaksin2: e ? e.label : "All" });
             }}
             value={
               filter.tipe_vaksin2
@@ -146,7 +146,7 @@ export const Filter3: React.FC<FilterProps> = ({ filterState, data }) => {
           <Select
             options={vaccineTypeOptions}
             onChange={(e: any) => {
-              setFilter({ ...filter, tipe_vaksin3: e ? e.value : "All" });
+              setFilter({ ...filter, tipe_vaksin3: e ? e.label : "All" });
             }}
             value={
               filter.tipe_vaksin3
@@ -184,14 +184,14 @@ export const Filter4: React.FC<FilterProps> = ({ filterState, data }) => {
           <Select
             options={vaccineTypeOptions}
             onChange={(e: any) => {
-              setFilter({ ...filter, tipe_vaksin3: e ? e.value : "All" });
+              setFilter({ ...filter, tipe_vaksin4: e ? e.label : "All" });
             }}
             value={
-              filter.tipe_vaksin3
+              filter.tipe_vaksin4
                 ? vaccineTypeOptions?.find(
-                  (f) => f.label === filter.tipe_vaksin3
+                  (f) => f.label === filter.tipe_vaksin4
                 )
-                : filter.tipe_vaksin3
+                : filter.tipe_vaksin4
             }
           />
         </div>
