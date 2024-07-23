@@ -119,11 +119,10 @@ export const Filter2: React.FC<FilterProps> = ({ filterState, data }) => {
           onClick={async () => {
             const pct = data?.map((r: any) => r.percentage.toString());
             const total = data?.map((r: any) => r.total.toString());
-            const target = data?.map((r: any) => r.threshold.toString());
+            // const target = data?.map((r: any) => r.threshold.toString());
             const header = dataMonths?.map((r) => r.label);
-            const body = [pct, total, target];
+            const body = [pct, total];
             const verticalHeader = [
-              "% Target Cakupan",
               "Jumlah Penerima Imunisasi",
               "Cakupan",
             ];
@@ -162,10 +161,10 @@ export const Filter3: React.FC<FilterProps> = ({ filterState, data }) => {
         <div onClick={async () => {
           const pct = data?.map((r: any) => r?.pct.toString())
           const total = data?.map((r: any) => r?.ytd_total.toString())
-          const target = data?.map((r: any) => r?.threshold.toString())
+          // const target = data?.map((r: any) => r?.threshold.toString())
           const header = data?.map((r: any) => r?.vaccine_name)
-          const body = [pct, target, total];
-          const verticalHeader = ["% Cakupan", "% Target Cakupan", "Cakupan"];
+          const body = [pct, total];
+          const verticalHeader = ["% Cakupan", "Cakupan"];
           const fileName = "Grafik Cakupan Berdasarkan Jenis Imunisasi";
           await downloadFile({ header, body, verticalHeader, fileName });
         }} >
@@ -195,7 +194,7 @@ export const Filter4: React.FC<FilterProps> = ({ filterState, data }) => {
             }
           />
         </div>
-        <div>
+        {/* <div>
           <Select
             options={ageTypeOptions}
             onChange={(e: any) => {
@@ -207,7 +206,7 @@ export const Filter4: React.FC<FilterProps> = ({ filterState, data }) => {
                 : filter.tipe_umur
             }
           />
-        </div>
+        </div> */}
       </div>
       <div className="flex gap-4">
         <div onClick={async () => {

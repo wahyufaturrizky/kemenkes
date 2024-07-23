@@ -1,7 +1,24 @@
 import { EChartsOptionProps } from "@/components/graph-echarts";
+import { formatNumber } from "@/helpers";
 import { dataMonth } from "@/utils/constants";
 
 export const graphOptions1 = (series: any[], legend: any[]) => {
+  const reversedLegend = legend.slice().reverse();
+
+  // Membalik urutan series agar sesuai dengan urutan legend yang dibalik
+  const reversedSeries = series.map((serie) => {
+    if (serie.name === "Total Penerima") {
+      // Mengatur data ke 0 untuk "Total Penerima"
+      return {
+        ...serie,
+        data: serie.data.map(() => 0),
+      };
+    }
+    return {
+      ...serie,
+      data: serie.data.slice().reverse(),
+    };
+  });
   const option: EChartsOptionProps = {
     color: ["#00B1A9"],
     grid: { containLabel: true },
@@ -10,10 +27,18 @@ export const graphOptions1 = (series: any[], legend: any[]) => {
       axisLabel: {
         formatter: "{value}%",
       },
+      formatter: function (params: any) {
+        let tooltipContent = `<div style="min-width: 350px;">${params[0].axisValueLabel}<br/>`;
+        params.forEach((item: any, i: number) => {
+          tooltipContent += `${item.marker} ${item.seriesName} <span style="float: right;"><strong>${formatNumber(item.value)}%</strong></span><br/>`;
+        });
+        tooltipContent += `</div>`;
+        return tooltipContent;
+      },
     },
     yAxis: {
       type: "category",
-      data: legend,
+      data: reversedLegend,
     },
     xAxis: {
       type: "value",
@@ -21,7 +46,7 @@ export const graphOptions1 = (series: any[], legend: any[]) => {
         formatter: "{value}%",
       },
     },
-    series: series,
+    series: reversedSeries,
   };
   return option;
 };
@@ -35,9 +60,9 @@ export const graphOptions2 = (series: any[]) => {
         let tooltipContent = `<div style="min-width: 350px;">${params[0].axisValueLabel}<br/>`;
         params.forEach((item: any, i: number) => {
           if (item.seriesName === "Jumlah Penerima Imunisasi") {
-            tooltipContent += `${item.marker} ${item.seriesName} <span style="float: right;"><strong>${item.value}</strong></span><br/>`;
+            tooltipContent += `${item.marker} ${item.seriesName} <span style="float: right;"><strong>${formatNumber(item.value)}</strong></span><br/>`;
           } else if (item.seriesName === "% Cakupan") {
-            tooltipContent += `${item.marker} ${item.seriesName} <span style="float: right;"><strong>${((item.value / params[0].data) * 100).toFixed(2)}%</strong></span><br/>`;
+            tooltipContent += `${item.marker} ${item.seriesName} <span style="float: right;"><strong>${formatNumber(Number(((item.value / params[0].data) * 100).toFixed(2)))}%</strong></span><br/>`;
           }
         });
         tooltipContent += `</div>`;
@@ -53,6 +78,10 @@ export const graphOptions2 = (series: any[]) => {
     xAxis: {
       type: "category",
       data: dataMonth?.map((r) => r.label),
+      axisLabel: {
+        interval: 0,
+        rotate: 30
+      }
     },
     yAxis: {
       type: "value",

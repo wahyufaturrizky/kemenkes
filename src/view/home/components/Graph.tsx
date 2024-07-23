@@ -71,7 +71,7 @@ const GraphRoutineImmunizationCoverageTrend: React.FC<
               <div className="relative flex justify-center items-center">
                 {isLoading && <Spin />}
                 {graphOptions ? (
-                  <div className="w-full h-full overflow-scroll" id="graphhhh">
+                  <div className="w-full h-full overflow-scroll" style={{ minHeight: 550 }} id="graphhhh">
                     <GraphEcharts graphOptions={graphOptions} opts={opts || {}} />
                   </div>
                 ) : (

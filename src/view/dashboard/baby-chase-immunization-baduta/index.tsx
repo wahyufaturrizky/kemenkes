@@ -8,7 +8,7 @@ import VaccinateNudge from "@/assets/icons/vaccinate-nudge.png"
 import { Banner, BannerHighlightFooter, BannerText, GraphEcharts, Navbar, Sidebar, Spin, Tabs } from "@/components"
 import { ChildSummaryImmunization, FilterSummaryImmunizationKejar as FilterSummaryImmunization, GraphAddOn, GraphRoutineImmunizationCoverageTrend, RoutineImmunizationCoverageTrendGraph, SummaryImmunization, TotalSummaryImmunization } from "@/view/home";
 import { Filter1, Filter2, Filter3, Filter4, Filter5, Filter6 } from "@/view/dashboard/baby-chase-immunization-baduta/Filter";
-import { graphOptions1, graphOptions2, graphOptions3, graphOptions4, graphOptions5, graphOptions6 } from "@/view/dashboard/baby-chase-immunization-baduta/graphOptions";
+import { graphOptions1, graphOptions2, graphOptions3, graphOptions4, graphOptions5, graphOptions6, graphOptions7 } from "@/view/dashboard/baby-chase-immunization-baduta/graphOptions";
 import { useGetAverageImmunizationByGenderQuery, useGetDistributionGraphTimeQuery, useGetImmunizationWithHighetFemaleRecivientQuery, useGetImmunizationWithHighetMaleRecivientQuery, useGetMaxImmunizationByAgeQuery, useGetGraphTotalQuery, useGetLowestScopeKejarQuery, useGetSummaryImmunizationByAgeQuery, useGetSummaryImmunizationPerGenderQuery, useGetHighestImmunizationByAgeQuery, useGetHighestScopeKejarImmunizationQuery, useGetImmunizationGraphKejarStatusQuery, useGetTotalImmunizationScopeQuery, useGetLowestScopeKejarImmunizationQuery, useGetHighestScopeKejarQuery, useGetImmunizationScopeKejarQuery, useGetGraphScopeKejarImmunizationQuery } from "@/lib/services/babyxbaduta-immunization";
 import { dataMonth, dataTabBaduta, vaccineTypeKejarOptions, vaccineTypeOptions } from "@/utils/constants";
 import { ageResponseConvert, formatNumber } from "@/helpers";
@@ -211,7 +211,7 @@ const BabyChaseImmunizationBaduta = () => {
   const dataGraphRegionalRoutineImmunizationCoverageTrend3 = [
     {
       title: <div className="font-bold">Total Cakupan Imunisasi Tahun {filter.tahun}</div>,
-      value: getGetTotalImmunizationScopeQuery?.data?.total || 0,
+      value: getGetTotalImmunizationScopeQuery?.data?.total ? formatNumber(getGetTotalImmunizationScopeQuery?.data?.total) : '0',
       isFetching: isLoadingGetTotalImmunizationScopeQuery
     },
   ]
@@ -231,7 +231,12 @@ const BabyChaseImmunizationBaduta = () => {
   const ageChartOptions: any = {
     color: ["#2E90FA", "#E478FA"],
     tooltip: {
-      trigger: 'item'
+      trigger: 'item',
+      formatter: (params: any) => {
+        const value = params.data.value;
+        const formattedValue = value?.toFixed(2).replace(".", ",");
+        return `${params.marker} ${params.name}: <span style="float: right; margin-left: 8px;"><strong>${formattedValue}%</strong></span><br/>`;
+      },
     },
     legend: {
       orient: 'vertical',
@@ -332,7 +337,15 @@ const BabyChaseImmunizationBaduta = () => {
                           (
                             getGraphTotalQuery?.data ||
                             []
-                          )?.map((r: any) => r?.total) || [],
+                          )?.map((r: any) => ({
+                            value: formatNumber(r?.total) ?? 0,
+                            itemStyle: {
+                              color:
+                                r.faskes_desc === "All"
+                                  ? "#2D9CED"
+                                  : undefined,
+                            },
+                          })) || [],
                         type: "bar",
                         label: {
                           show: true,
@@ -382,14 +395,25 @@ const BabyChaseImmunizationBaduta = () => {
                       filterComp={<Filter2 filterState={filterState}
                         data={aliasGraphScopeKejarImmunizationQuery || []} />}
                       isLoading={isLoadingGraphScopeKejarImmunizationQuery}
+                      opts={{
+                        height: 500
+                      }}
                       graphOptions={graphOptions6([
                         {
-                          name: "Target",
-                          data: aliasGraphScopeKejarImmunizationQuery?.map((r: any) => (r?.pyd_kejar || 0)) || [],
+                          name: "Cakupan",
+                          data: aliasGraphScopeKejarImmunizationQuery?.map((r: any) => ({
+                            value: r?.pyd_kejar || 0,
+                            color: 'white'
+                          })) || [],
                           type: 'bar',
                           label: {
                             show: true,
                             precision: 1,
+                            formatter: (params: any) =>
+                              `${formatNumber(
+                                (aliasGraphScopeKejarImmunizationQuery || [])[params.dataIndex]
+                                  ?.pyd_kejar
+                              )}`,
                           }
                         },
                       ], aliasGraphScopeKejarImmunizationQuery?.map((r: any) => r?.vaccine_name) || [],
@@ -414,25 +438,38 @@ const BabyChaseImmunizationBaduta = () => {
                       filterComp={<Filter3 filterState={filterState}
                         data={aliasImmunizationGraphKejarStatusQuery || []} />}
                       isLoading={isLoadingImmunizationGraphKejarStatusQuery}
+                      opts={{
+                        height: 500
+                      }}
                       graphOptions={graphOptions3([
                         {
                           name: "Kejar",
                           data: aliasImmunizationGraphKejarStatusQuery?.map((r: any) => (r?.pct_kejar || 0)) || [],
                           type: 'bar',
-                          stack: 'a',
+                          stack: 'statusKejar',
                           label: {
                             show: true,
                             precision: 1,
+                            formatter: (params: any) =>
+                              `${formatNumber(
+                                (aliasImmunizationGraphKejarStatusQuery || [])[params.dataIndex]
+                                  ?.pct_kejar
+                              )}%`,
                           }
                         },
                         {
                           name: "Non Kejar",
                           data: aliasImmunizationGraphKejarStatusQuery?.map((r: any) => (r?.pct_non_kejar || 0)) || [],
                           type: 'bar',
-                          stack: 'a',
+                          stack: 'statusKejar',
                           label: {
                             show: true,
                             precision: 1,
+                            formatter: (params: any) =>
+                              `${formatNumber(
+                                (aliasImmunizationGraphKejarStatusQuery || [])[params.dataIndex]
+                                  ?.pct_non_kejar
+                              )}%`,
                           }
                         },
                       ], aliasImmunizationGraphKejarStatusQuery?.map((r: any) => r?.vaccine_name) || [],
@@ -457,45 +494,68 @@ const BabyChaseImmunizationBaduta = () => {
                       filterComp={<Filter4 filterState={filterState}
                         data={aliasSummaryImmunizationByAgeQuery || []} />}
                       isLoading={isLoadingSummaryImmunizationByAgeQuery}
+                      opts={{
+                        height: 500
+                      }}
                       graphOptions={graphOptions4([
                         {
                           name: "Usia 4-5 Tahun",
                           data: aliasSummaryImmunizationByAgeQuery?.map((r: any) => (r?.pct_4_5 || 0)) || [],
                           type: 'bar',
-                          stack: 'a',
+                          stack: 'age',
                           label: {
                             show: true,
                             precision: 1,
+                            formatter: (params: any) =>
+                              `${formatNumber(
+                                (aliasSummaryImmunizationByAgeQuery || [])[params.dataIndex]
+                                  ?.pct_4_5
+                              )}%`,
                           }
                         },
                         {
                           name: "Usia 3-4 Tahun",
                           data: aliasSummaryImmunizationByAgeQuery?.map((r: any) => (r?.pct_3_4 || 0)) || [],
                           type: 'bar',
-                          stack: 'a',
+                          stack: 'age',
                           label: {
                             show: true,
                             precision: 1,
+                            formatter: (params: any) =>
+                              `${formatNumber(
+                                (aliasSummaryImmunizationByAgeQuery || [])[params.dataIndex]
+                                  ?.pct_3_4
+                              )}%`,
                           }
                         },
                         {
                           name: "Usia 2-3 Tahun",
                           data: aliasSummaryImmunizationByAgeQuery?.map((r: any) => (r?.pct_2_3 || 0)) || [],
                           type: 'bar',
-                          stack: 'a',
+                          stack: 'age',
                           label: {
                             show: true,
                             precision: 1,
+                            formatter: (params: any) =>
+                              `${formatNumber(
+                                (aliasSummaryImmunizationByAgeQuery || [])[params.dataIndex]
+                                  ?.pct_2_3
+                              )}%`,
                           }
                         },
                         {
                           name: "Usia 1-2 Tahun",
                           data: aliasSummaryImmunizationByAgeQuery?.map((r: any) => (r?.pct_1_2 || 0)) || [],
                           type: 'bar',
-                          stack: 'a',
+                          stack: 'age',
                           label: {
                             show: true,
                             precision: 1,
+                            formatter: (params: any) =>
+                              `${formatNumber(
+                                (aliasSummaryImmunizationByAgeQuery || [])[params.dataIndex]
+                                  ?.pct_1_2
+                              )}%`,
                           }
                         },
                       ], aliasSummaryImmunizationByAgeQuery?.map((r: any) => r?.vaccine_name) || [],
@@ -547,6 +607,9 @@ const BabyChaseImmunizationBaduta = () => {
                       filterComp={<Filter5 filterState={filterState}
                         data={aliasSummaryImmunizationPerGenderQuery || []} />}
                       isLoading={isLoadingSummaryImmunizationPerGenderQuery}
+                      opts={{
+                        height: 500
+                      }}
                       graphOptions={graphOptions5([
                         {
                           name: "Laki-laki",
@@ -583,22 +646,32 @@ const BabyChaseImmunizationBaduta = () => {
                       title={<div className="font-bold md:text-2xl"><b className="text-primary-2">Grafik Distribusi Imunisasi pada Bayi dan Baduta Berdasarkan Waktu</b></div>}
                       subTitle="Grafik menampilkan distribusi imunisasi pada bayi dan baduta berdasarkan waktu."
                       variant="private"
+                      // @ts-ignore
                       addOn={<GraphAddOn dataCard={dataGraphRegionalRoutineImmunizationCoverageTrend3} />}
                       filterState={filterState}
                       filterComp={<Filter6 filterState={filterState}
                         data={getDistributionGraphTimeQuery?.data || []} />}
                       isLoading={isLoadingGetDistributionGraphTimeQuery}
-                      graphOptions={graphOptions2([
+                      opts={{
+                        height: 500
+                      }}
+                      graphOptions={graphOptions7([
                         {
-                          name: "Target",
+                          name: "Cakupan",
                           data: getDistributionGraphTimeQuery?.data ?
                             getDistributionGraphTimeQuery?.data
                               ?.map((r: any) => r?.total || 0)
                             : [],
                           type: 'bar',
                           label: {
+                            color: 'white',
                             show: true,
                             precision: 1,
+                            formatter: (params: any) =>
+                              `${formatNumber(
+                                (getDistributionGraphTimeQuery?.data || [])[params.dataIndex]
+                                  ?.total
+                              )}`,
                           }
                         },
                       ])}
