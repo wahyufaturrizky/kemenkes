@@ -27,6 +27,14 @@ export const graphOptions1 = (series: any[], legend: any[]) => {
       axisLabel: {
         formatter: "{value}%",
       },
+      formatter: function (params: any) {
+        let tooltipContent = `<div style="min-width: 350px;">${params[0].axisValueLabel}<br/>`;
+        params.forEach((item: any, i: number) => {
+          tooltipContent += `${item.marker} ${item.seriesName} <span style="float: right;"><strong>${formatNumber(item.value)}</strong></span><br/>`;
+        });
+        tooltipContent += `</div>`;
+        return tooltipContent;
+      },
     },
     yAxis: {
       type: "category",
@@ -174,6 +182,9 @@ export const graphOptions5 = (series: any[], legend: any[]) => {
     },
     yAxis: {
       type: "value",
+      axisLabel: {
+        formatter: (value: any) => formatNumber(value)
+      }
     },
     series: series,
   };
@@ -211,6 +222,9 @@ export const graphOptions6 = (series: any[], xData: any[]) => {
     },
     yAxis: {
       type: "value",
+      axisLabel: {
+        formatter: (value: any) => formatNumber(value)
+      }
     },
     series: series,
   };
@@ -249,6 +263,9 @@ export const graphOptions7 = (series: any[]) => {
     },
     yAxis: {
       type: "value",
+      axisLabel: {
+        formatter: (value: any) => formatNumber(value)
+      }
     },
     series: series,
   };

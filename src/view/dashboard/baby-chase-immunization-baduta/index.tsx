@@ -338,7 +338,7 @@ const BabyChaseImmunizationBaduta = () => {
                             getGraphTotalQuery?.data ||
                             []
                           )?.map((r: any) => ({
-                            value: formatNumber(r?.total) ?? 0,
+                            value: r?.total ?? 0,
                             itemStyle: {
                               color:
                                 r.faskes_desc === "All"
@@ -352,7 +352,7 @@ const BabyChaseImmunizationBaduta = () => {
                           precision: 1,
                           position: "right",
                           formatter: (params: any) =>
-                            `${params.value}`,
+                            `${formatNumber(params.value)}`,
                         },
                       },
                         // {

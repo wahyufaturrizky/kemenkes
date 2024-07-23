@@ -75,7 +75,7 @@ export const Filter2: React.FC<FilterProps> = ({ filterState, data }) => {
   return (
     <div className="flex flex-wrap justify-between items-center gap-4 sm:mt-20 md:mt-0 mb-8">
       <div className="flex gap-4">
-        <div>
+        {/* <div>
           <Select
             options={trendTypeOptions}
             onChange={(e: any) => {
@@ -103,7 +103,7 @@ export const Filter2: React.FC<FilterProps> = ({ filterState, data }) => {
             }
             isClearable={false}
           />
-        </div>
+        </div> */}
       </div>
       <div className="flex gap-4">
         <div onClick={async () => {
