@@ -187,7 +187,20 @@ const Wus = () => {
   };
 
   const filterGetTotalCumulativeCoverageRecipients = {
-    year: filter.tahun,
+    ...dateQuery,
+
+    region_type:
+      filter.faskes && filter.kewilayahan_type == 0
+        ? "faskes"
+        : filter.faskes && filter.kewilayahan_type == 1
+        ? "subdistrict"
+        : filter.kecamatan
+        ? "district"
+        : filter.kabkota
+        ? "city"
+        : filter.provinsi
+        ? "province"
+        : "All",
     status_type: filter.status_type_kumulatif,
     tren_type: filter.tren_type,
     women_category: filter.women_category_kumulatif,
@@ -322,7 +335,9 @@ const Wus = () => {
 
   const dataGraphRegionalRoutineImmunizationCoverageTrend = [
     {
-      title: `Total Cakupan T2+  Nasional Tahun ${filter.tahun}`,
+      title: `Total Cakupan ${filter.status_type_daerah.toUpperCase()}  Nasional Tahun ${
+        filter.tahun
+      }`,
       value: (
         <div>
           {formatNumber(
@@ -937,7 +952,6 @@ const Wus = () => {
                             type: "bar",
                             stack: "Total",
                             barWidth: "60%",
-
                             data:
                               (
                                 getDistributionStatusPregnantChartQuery?.data ||
@@ -957,32 +971,36 @@ const Wus = () => {
                                 color: "#FAC515",
                               },
                             },
-                          },
-                          {
-                            name: "WUS Hamil",
-                            type: "bar",
-                            stack: "Total",
-                            barWidth: "60%",
-
-                            data:
-                              (
-                                getDistributionStatusPregnantChartQuery?.data ||
-                                []
-                              )?.map((r: any) => 100 - r?.pct) || [],
-                            label: {
-                              show: false,
-                            },
-                            itemStyle: {
-                              borderColor: "#2E90FA",
+                            showBackground: true,
+                            backgroundStyle: {
                               color: "#2E90FA",
                             },
-                            emphasis: {
-                              itemStyle: {
-                                borderColor: "#2E90FA",
-                                color: "#2E90FA",
-                              },
-                            },
                           },
+                          // {
+                          //   name: "WUS Hamil",
+                          //   type: "bar",
+                          //   stack: "Total",
+                          //   barWidth: "60%",
+
+                          //   data:
+                          //     (
+                          //       getDistributionStatusPregnantChartQuery?.data ||
+                          //       []
+                          //     )?.map((r: any) => 100) || [],
+                          //   label: {
+                          //     show: false,
+                          //   },
+                          //   itemStyle: {
+                          //     borderColor: "#2E90FA",
+                          //     color: "#2E90FA",
+                          //   },
+                          //   emphasis: {
+                          //     itemStyle: {
+                          //       borderColor: "#2E90FA",
+                          //       color: "#2E90FA",
+                          //     },
+                          //   },
+                          // },
                         ],
                         (
                           getDistributionStatusPregnantChartQuery?.data || []

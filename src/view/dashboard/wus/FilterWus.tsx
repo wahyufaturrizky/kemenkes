@@ -32,25 +32,17 @@ export const Filter1: React.FC<FilterProps2> = ({ filterState, dataWus }) => {
   const { data: getjenisStatusList } = useGetJenisStatusListQuery({});
   const { data: getWomenCategory } = useGetWomencategoryQuery({});
 
-  const pctTotal = dataWus?.map(
-    (r: any) => `${formatNumber(r.ytd_pct_total)} %`
-  );
-  const target = dataWus?.map(
-    (r: any) => `${formatNumber(r.pct_target_threshold)} %`
-  );
-  const total = dataWus?.map((r: any) => formatNumber(r.ytd_total));
-
+  const dataBody = dataWus?.map((data: any) => [
+    `${formatNumber(data.ytd_pct_total)}%`,
+    `${formatNumber(data.ytd_total)}`,
+  ]);
   const downloadFile = async () => {
     const url = `${API_URL}/v1/csv/download`;
 
     const data = {
-      header: dataWus?.map((r: any) => r.faskes_desc),
-      body: [pctTotal, target, total],
-      verticalHeader: [
-        "% Target Cakupan",
-        "% Jumlah Penerima Imunisasi",
-        "Total Penerima",
-      ],
+      verticalHeader: dataWus?.map((r: any) => r.faskes_desc),
+      body: dataBody,
+      header: ["% Jumlah Penerima Imunisasi", "Total Penerima"],
       fileName: "Tren Cakupan daerah imunisasi WUS",
       title: "Tren Cakupan daerah imunisasi WUS",
     };
@@ -169,19 +161,18 @@ export const Filter2: React.FC<FilterProps2> = ({ filterState, dataWus }) => {
   const { data: getjenisStatusList } = useGetJenisStatusListQuery({});
   const { data: getWomenCategory } = useGetWomencategoryQuery({});
 
-  const pctTarget = dataWus?.map(
-    (r: any) => `${formatNumber(r.pct_target_threshold)} %`
-  );
-  const total = dataWus?.map((r: any) => formatNumber(r.total));
-  const pctTotal = dataWus?.map((r: any) => `${formatNumber(r.pct_total)} %`);
+  const dataBody = dataWus?.map((data: any) => [
+    `${formatNumber(data.pct_total)}%`,
+    `${formatNumber(data.total)}`,
+  ]);
 
   const downloadFile = async () => {
     const url = `${API_URL}/v1/csv/download`;
     let fileName = "Cakupan Kumulatif atau Bulanan penerima imunisasi WUS";
     const data = {
-      header: dataMonth?.map((r) => r.label),
-      body: [total, pctTotal],
-      verticalHeader: ["Jumlah Penerima Imunisasi", "% Cakupan"],
+      verticalHeader: dataMonth?.map((r) => r.label),
+      body: dataBody,
+      header: ["% Cakupan", "Jumlah Penerima Imunisasi"],
       fileName,
       title: fileName,
     };
@@ -303,18 +294,17 @@ export const Filter3: React.FC<FilterProps2> = ({ filterState, dataWus }) => {
     let fileName = "Sebaran Status T";
 
     const data = {
-      header: ["T1", "T2", "T3", "T4", "T5", "T2+"],
+      verticalHeader: ["T1", "T2", "T3", "T4", "T5", "T2+"],
       body: [
-        [
-          `${formatNumber(dataWus?.ytd_total_t1)}`,
-          `${formatNumber(dataWus?.ytd_total_t2)}`,
-          `${formatNumber(dataWus?.ytd_total_t3)}`,
-          `${formatNumber(dataWus?.ytd_total_t4)}`,
-          `${formatNumber(dataWus?.ytd_total_t5)}`,
-          `${formatNumber(dataWus?.ytd_total_t2plus)}`,
-        ],
+        [`${formatNumber(dataWus?.ytd_total_t1)}`],
+        [`${formatNumber(dataWus?.ytd_total_t2)}`],
+        [`${formatNumber(dataWus?.ytd_total_t3)}`],
+        [`${formatNumber(dataWus?.ytd_total_t4)}`],
+        [`${formatNumber(dataWus?.ytd_total_t5)}`],
+        [`${formatNumber(dataWus?.ytd_total_t2plus)}`],
+        // `${formatNumber(dataWus?.ytd_total_t2plus)}`,
       ],
-      verticalHeader: ["Total Penerima"],
+      header: ["Total Penerima"],
       fileName,
       title: fileName,
     };
@@ -399,18 +389,16 @@ export const Filter4: React.FC<FilterProps2> = ({ filterState, dataWus }) => {
     let fileName = "Sebaran Status Kehamilan Terhadap Status T";
     const data = {
       // Your data here (if required)
-      header: ["T1", "T2", "T3", "T4", "T5", "T2+"],
+      verticalHeader: ["T1", "T2", "T3", "T4", "T5", "T2+"],
       body: [
-        [
-          `${formatNumber(dataWus?.ytd_total_t1)}`,
-          `${formatNumber(dataWus?.ytd_total_t2)}`,
-          `${formatNumber(dataWus?.ytd_total_t3)}`,
-          `${formatNumber(dataWus?.ytd_total_t4)}`,
-          `${formatNumber(dataWus?.ytd_total_t5)}`,
-          `${formatNumber(dataWus?.ytd_total_t2plus)}`,
-        ],
+        [`${formatNumber(dataWus?.ytd_total_t1)}`],
+        [`${formatNumber(dataWus?.ytd_total_t2)}`],
+        [`${formatNumber(dataWus?.ytd_total_t3)}`],
+        [`${formatNumber(dataWus?.ytd_total_t4)}`],
+        [`${formatNumber(dataWus?.ytd_total_t5)}`],
+        [`${formatNumber(dataWus?.ytd_total_t2plus)}`],
       ],
-      verticalHeader: ["Total Penerima"],
+      header: ["Total Penerima"],
       fileName,
       title: fileName,
     };

@@ -221,7 +221,10 @@ export const graphOptions8 = (series: any[], xData: any[]) => {
       containLabel: true,
     },
     legend: {
-      data: series.map((serie) => serie.name),
+      data: [
+        ...series.map((serie) => serie.name),
+        "WUS Hamil", // Tambahkan legend tambahan di sini
+      ],
       icon: "circle", // Menggunakan bentuk lingkaran
       itemWidth: 8, // Ukuran lebar ikon
       itemHeight: 8,
@@ -255,5 +258,12 @@ export const graphOptions8 = (series: any[], xData: any[]) => {
       },
     })),
   };
+  option.series.push({
+    name: "WUS Hamil",
+    type: "line", // atau 'bar', sesuai dengan jenis grafik Anda
+    data: [], // Tidak ada data untuk seri tambahan ini
+    color: "#2E90FA", // Warna biru untuk seri tambahan ini
+    showSymbol: false, // Menyembunyikan simbol pada grafik
+  });
   return option;
 };
