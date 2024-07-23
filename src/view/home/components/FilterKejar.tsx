@@ -2,6 +2,7 @@
 
 import { useState } from "react"
 import { DatePicker, Select } from "@/components"
+import { useGetListFaskesQuery } from "@/lib/services/bias";
 import { useGetFacilityOfTypeQuery, useGetMedicalFacilityQuery, useGetProvinceQuery, useGetRegencyQuery, useGetSubDistrictQuery } from "@/lib/services/region"
 import { dataMonth, filterLocationOptions } from "@/utils/constants"
 import { generateYearsArray, standardOptionSameLabel, standardOptions } from "@/helpers"
@@ -34,7 +35,19 @@ const FilterSummaryImmunization: React.FC<FilterProps> = ({ filterState }) => {
       refetchOnMountOrArgChange: true
     }
   );
+  const { data: getListFaskes } = useGetListFaskesQuery(
+    {
+      kewilayahan_type: filter.kewilayahan_type,
+      year: filter.tahun,
+      month: filter.bulan,
+      faskes_parent_id: filter.kecamatan,
+    },
 
+    {
+      skip: !filter.provinsi && !filter.kabkota && !filter.kecamatan,
+      refetchOnMountOrArgChange: true,
+    }
+  );
   return (
     <div className="flex flex-col gap-2">
       <div>Filter</div>
@@ -81,6 +94,7 @@ const FilterSummaryImmunization: React.FC<FilterProps> = ({ filterState }) => {
               setFilter({
                 ...filter,
                 wilayah: 'province',
+                wilayah1: 'province',
                 provinsi: e?.value,
                 kabkota: '',
                 kecamatan: '',
@@ -103,6 +117,7 @@ const FilterSummaryImmunization: React.FC<FilterProps> = ({ filterState }) => {
               setFilter({
                 ...filter,
                 wilayah: 'city',
+                wilayah1: 'city',
                 kabkota: e?.value,
                 kecamatan: '',
                 jenis_sarana: '',
@@ -124,6 +139,7 @@ const FilterSummaryImmunization: React.FC<FilterProps> = ({ filterState }) => {
               setFilter({
                 ...filter,
                 wilayah: 'district',
+                wilayah1: 'district',
                 kecamatan: e?.value,
                 jenis_sarana: '',
                 faskes: ''
@@ -171,12 +187,14 @@ const FilterSummaryImmunization: React.FC<FilterProps> = ({ filterState }) => {
           </>
           :
           <div>
-            {/* <Select
-              placeholder="Desa/Kelurahan"
+            <Select
+              placeholder={
+                "Pilih  Desa/Kelurahan"
+              }
               options={standardOptions(
-                getVillage?.data || [],
-                "faskesName",
-                "faskesId"
+                getListFaskes?.data || [],
+                "faskes_name",
+                "faskes_id"
               )}
               onChange={(e: any) => {
                 setFilter({
@@ -187,14 +205,14 @@ const FilterSummaryImmunization: React.FC<FilterProps> = ({ filterState }) => {
               value={
                 filter.faskes
                   ? standardOptions(
-                    getVillage?.data || [],
-                    "faskesName",
-                    "faskesId"
+                    getListFaskes?.data || [],
+                    "faskes_name",
+                    "faskes_id"
                   )?.find((f) => f.value === filter.faskes)
                   : filter.faskes
               }
               isDisabled={!filter.kecamatan}
-            /> */}
+            />
           </div>
         }
       </div>

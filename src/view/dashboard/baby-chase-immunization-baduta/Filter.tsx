@@ -28,7 +28,7 @@ export const Filter1: React.FC<FilterProps> = ({ filterState, data }) => {
           <Select
             options={vaccineTypeKejarOptions}
             onChange={(e: any) => {
-              setFilter({ ...filter, tipe_vaksin1: e ? e.value : "All" });
+              setFilter({ ...filter, tipe_vaksin1: e ? e.label : "All" });
             }}
             value={
               filter.tipe_vaksin1
@@ -92,7 +92,7 @@ export const Filter2: React.FC<FilterProps> = ({ filterState, data }) => {
           <Select
             options={vaccineTypeKejarOptions}
             onChange={(e: any) => {
-              setFilter({ ...filter, tipe_vaksin2: e ? e.value : "All" });
+              setFilter({ ...filter, tipe_vaksin2: e ? e.label : "All" });
             }}
             value={
               filter.tipe_vaksin2
@@ -125,11 +125,11 @@ export const Filter3: React.FC<FilterProps> = ({ filterState, data }) => {
   return (
     <div className="flex flex-wrap justify-between items-center gap-4 sm:mt-20 md:mt-0 mb-8">
       <div className="flex gap-4">
-        <div>
+        {/* <div>
           <Select
             options={vaccineTypeKejarOptions}
             onChange={(e: any) => {
-              setFilter({ ...filter, tipe_vaksin3: e ? e.value : "All" });
+              setFilter({ ...filter, tipe_vaksin3: e ? e.label : "All" });
             }}
             value={
               filter.tipe_vaksin3
@@ -139,7 +139,7 @@ export const Filter3: React.FC<FilterProps> = ({ filterState, data }) => {
                 : filter.tipe_vaksin3
             }
           />
-        </div>
+        </div> */}
       </div>
       <div className="flex gap-4">
         <div onClick={async () => {
@@ -162,11 +162,11 @@ export const Filter4: React.FC<FilterProps> = ({ filterState, data }) => {
   return (
     <div className="flex flex-wrap justify-between items-center gap-4 sm:mt-20 md:mt-0 mb-8">
       <div className="flex gap-4">
-        <div>
+        {/* <div>
           <Select
             options={vaccineTypeKejarOptions}
             onChange={(e: any) => {
-              setFilter({ ...filter, tipe_vaksin4: e ? e.value : "All" });
+              setFilter({ ...filter, tipe_vaksin4: e ? e.label : "All" });
             }}
             value={
               filter.tipe_vaksin4
@@ -176,8 +176,8 @@ export const Filter4: React.FC<FilterProps> = ({ filterState, data }) => {
                 : filter.tipe_vaksin4
             }
           />
-        </div>
-        <div>
+        </div> */}
+        {/* <div>
           <Select
             options={ageTypeOptions}
             onChange={(e: any) => {
@@ -189,7 +189,7 @@ export const Filter4: React.FC<FilterProps> = ({ filterState, data }) => {
                 : filter.tipe_umur
             }
           />
-        </div>
+        </div> */}
       </div>
       <div className="flex gap-4">
         <div onClick={async () => {
@@ -214,11 +214,11 @@ export const Filter5: React.FC<FilterProps> = ({ filterState, data }) => {
   return (
     <div className="flex flex-wrap justify-between items-center gap-4 sm:mt-20 md:mt-0 mb-8">
       <div className="flex gap-4">
-        <div>
+        {/* <div>
           <Select
             options={vaccineTypeKejarOptions}
             onChange={(e: any) => {
-              setFilter({ ...filter, tipe_vaksin5: e ? e.value : "All" });
+              setFilter({ ...filter, tipe_vaksin5: e ? e.label : "All" });
             }}
             value={
               filter.tipe_vaksin5
@@ -228,8 +228,8 @@ export const Filter5: React.FC<FilterProps> = ({ filterState, data }) => {
                 : filter.tipe_vaksin5
             }
           />
-        </div>
-        <div>
+        </div> */}
+        {/* <div>
           <Select
             options={genderOptions}
             onChange={(e: any) => {
@@ -241,7 +241,7 @@ export const Filter5: React.FC<FilterProps> = ({ filterState, data }) => {
                 : filter.jenis_kelamin
             }
           />
-        </div>
+        </div> */}
       </div>
       <div className="flex gap-4">
         <div onClick={async () => {
@@ -281,7 +281,7 @@ export const Filter6: React.FC<FilterProps> = ({ filterState, data }) => {
           <Select
             options={vaccineTypeKejarOptions}
             onChange={(e: any) => {
-              setFilter({ ...filter, tipe_vaksin6: e ? e.value : "All" });
+              setFilter({ ...filter, tipe_vaksin6: e ? e.label : "All" });
             }}
             value={
               filter.tipe_vaksin6

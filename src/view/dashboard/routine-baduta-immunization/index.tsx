@@ -190,7 +190,7 @@ const RoutineBadutaImmunization = () => {
     {
       ...filterQueryGraph,
       vaccine_type: filter.tipe_vaksin2,
-      is_kumulatif: filter.jenis_tren === "kumulatif" ? true : false,
+      trend_type: _.upperFirst(filter.jenis_tren),
     },
     optionQuery
   );
@@ -201,7 +201,7 @@ const RoutineBadutaImmunization = () => {
     {
       ...filterQueryGraph,
       vaccine_type: filter.tipe_vaksin2,
-      is_kumulatif: filter.jenis_tren === "kumulatif" ? true : false,
+      trend_type: _.upperFirst(filter.jenis_tren),
     },
     optionQuery
   );
@@ -579,7 +579,7 @@ const RoutineBadutaImmunization = () => {
                     }
                     percent={
                       getDoPercentageDPHTHBHIBQuery?.data
-                        ? getDoPercentageDPHTHBHIBQuery?.data[0]?.percentage
+                        ? getDoPercentageDPHTHBHIBQuery?.data[0]?.drop_out_percentage
                         : 0
                     }
                     target={
@@ -612,7 +612,7 @@ const RoutineBadutaImmunization = () => {
                     }
                     percent={
                       getDoPercentageCampakRubelaQuery?.data
-                        ? getDoPercentageCampakRubelaQuery?.data[0]?.percentage
+                        ? getDoPercentageCampakRubelaQuery?.data[0]?.drop_out_percentage
                         : 0
                     }
                     target={
