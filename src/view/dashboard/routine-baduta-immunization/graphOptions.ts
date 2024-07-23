@@ -44,20 +44,22 @@ export const graphOptions1 = (series: any[], legend: any[]) => {
 };
 export const graphOptions2 = (series: any[]) => {
   const option: EChartsOptionProps = {
-    color: ["#8ECCFF", "#EAAA08", "#00B1A9"],
+    color: ["#EAAA08", "#8ECCFF", "#00B1A9"],
     grid: { containLabel: true },
     tooltip: {
       trigger: "axis",
-      formatter: `{b0} <br/>
-        <svg width="250" height="20">
-          <circle cx="10" cy="10" r="5" fill="#EAAA08" />
-          <text x="20" y="15">{a1}: {c1}</text>
-        </svg>
-        <br/>
-        <svg width="250" height="20">
-            <circle cx="10" cy="10" r="5" fill="#00B1A9" />
-            <text x="20" y="15">{a2}: {c2}</text>
-        </svg>`,
+      formatter: function (params: any) {
+        let tooltipContent = `<div style="min-width: 350px;">${params[0].axisValueLabel}<br/>`;
+        params.forEach((item: any, i: number) => {
+          if (item.seriesName === "Jumlah Penerima Imunisasi") {
+            tooltipContent += `${item.marker} ${item.seriesName} <span style="float: right;"><strong>${item.value}</strong></span><br/>`;
+          } else if (item.seriesName === "% Cakupan") {
+            tooltipContent += `${item.marker} ${item.seriesName} <span style="float: right;"><strong>${((item.value / params[0].data) * 100).toFixed(2)}%</strong></span><br/>`;
+          }
+        });
+        tooltipContent += `</div>`;
+        return tooltipContent;
+      },
     },
     legend: {
       data: series.map((r) => r.name),
@@ -82,6 +84,18 @@ export const graphOptions3 = (series: any[], xData: any[]) => {
     grid: { containLabel: true },
     tooltip: {
       trigger: "axis",
+      formatter: function (params: any) {
+        let tooltipContent = `<div style="min-width: 350px;">${params[0].axisValueLabel}<br/>`;
+        params.forEach((item: any, i: number) => {
+          if (item.seriesName === "Cakupan") {
+            tooltipContent += `${item.marker} ${item.seriesName} <span style="float: right;"><strong>${item.value}</strong></span><br/>`;
+          } else if (item.seriesName === "% Cakupan") {
+            tooltipContent += `${item.marker} ${item.seriesName} <span style="float: right;"><strong>${((item.value / params[2].data) * 100).toFixed(2)}%</strong></span><br/>`;
+          }
+        });
+        tooltipContent += `</div>`;
+        return tooltipContent;
+      },
     },
     legend: {
       show: true,
@@ -132,15 +146,6 @@ export const graphOptions5 = (series: any[], legend: any[]) => {
     grid: { containLabel: true },
     tooltip: {
       trigger: "axis",
-      // formatter: (params: any) => {
-      //   if (Array.isArray(params)) {
-      //     return params
-      //       .map((item) => `${item.seriesName}: ${item.value}%`)
-      //       .join("<br/>");
-      //   } else {
-      //     return `${params.seriesName}: ${params.value}%`;
-      //   }
-      // },
       formatter: function (params: any) {
         let tooltipContent = `<div style="min-width: 350px;">${params[0].axisValueLabel}<br/>`;
         params.forEach((item: any) => {
@@ -148,21 +153,19 @@ export const graphOptions5 = (series: any[], legend: any[]) => {
             // Menggunakan data asli untuk "Total" dalam tooltip
             const originalData = series.find((serie) => serie.name === "Total")
               .data[params[0].dataIndex];
-            tooltipContent += `${item.marker} ${
-              item.seriesName
-            } <span style="float: right;"><strong>${formatNumber(
-              originalData
-            )}</strong></span><br/>`;
+            tooltipContent += `${item.marker} ${item.seriesName
+              } <span style="float: right;"><strong>${formatNumber(
+                originalData
+              )}</strong></span><br/>`;
           } else if (item.seriesName === "Cakupan") {
             // Menggunakan format untuk "Cakupan"
             tooltipContent += `${item.marker} ${item.seriesName} <span style="float: right;"><strong>${item.value}</strong></span><br/>`;
           } else {
             // Menggunakan format persentase untuk lainnya
-            tooltipContent += `${item.marker} ${
-              item.seriesName
-            } <span style="float: right;"><strong>${formatNumber(
-              item.value
-            )}%</strong></span><br/>`;
+            tooltipContent += `${item.marker} ${item.seriesName
+              } <span style="float: right;"><strong>${formatNumber(
+                item.value
+              )}%</strong></span><br/>`;
           }
         });
         tooltipContent += `</div>`;
@@ -175,6 +178,9 @@ export const graphOptions5 = (series: any[], legend: any[]) => {
     xAxis: {
       type: "category",
       data: legend,
+      axisTick: {
+        alignWithLabel: true,
+      },
     },
     yAxis: {
       type: "value",

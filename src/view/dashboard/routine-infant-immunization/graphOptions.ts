@@ -89,30 +89,6 @@ export const graphOptions1 = (series: any[], legend: any[]) => {
   return option;
 };
 
-// export const graphOptions1 = (series: any[], legend: any[]) => {
-//   const option: EChartsOptionProps = {
-//     grid: { containLabel: true },
-//     tooltip: {
-//       trigger: "axis",
-//       axisLabel: {
-//         formatter: "{value}%",
-//       },
-//     },
-//     yAxis: {
-//       type: "category",
-//       data: legend,
-//     },
-//     xAxis: {
-//       type: "value",
-//       axisLabel: {
-//         formatter: "{value}%",
-//       },
-//     },
-//     series: series,
-//   };
-//   return option;
-// };
-
 export const graphOptions2 = (series: any[]) => {
   const option: EChartsOptionProps = {
     color: ["#00B1A9", "#EAAA08", "#8ECCFF"],
@@ -214,21 +190,11 @@ export const graphOptions3 = (series: any[], xData: any[]) => {
     xAxis: {
       type: "category",
       data: xData,
-      // name: "X Axis Title", // Tambahkan judul sumbu X di sini
-      // nameLocation: "middle",
-      // nameGap: 50,
-      // axisLabel: {
-      //   rotate: 45, // Kurangi rotasi label sumbu X agar lebih terbaca
-      //   interval: 0, // Atur interval label sumbu X (0 menampilkan semua label)
-      //   align: "right",
-      //   verticalAlign: "middle",
-      // },
     },
     yAxis: {
       type: "value",
     },
     series: series,
-    // height: "300px",
   };
   return option;
 };
@@ -318,31 +284,7 @@ export const graphOptions5 = (series: any[], xData: any[]) => {
   };
   return option;
 };
-// export const graphOptions5 = (series: any[], legend: any[]) => {
-//   const option: EChartsOptionProps = {
-//     color: ["#2E90FA", "#E478FA"],
-//     grid: { containLabel: true },
-//     tooltip: {
-//       trigger: "axis",
-//     },
-//     legend: {
-//       show: true,
-//       data: legend,
-//       bottom: 20,
-//       orient: "horizontal",
-//       x: "center",
-//     },
-//     xAxis: {
-//       type: "category",
-//       data: legend,
-//     },
-//     yAxis: {
-//       type: "value",
-//     },
-//     series: series,
-//   };
-//   return option;
-// };
+
 export const graphOptions6 = (series: any[]) => {
   const option = {
     tooltip: {

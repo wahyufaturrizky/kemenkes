@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Button, Select } from "@/components";
 import {
   ageTypeOptions,
+  dataMonths,
   genderOptions,
   regionOptions,
   trendTypeOptions,
@@ -27,7 +28,7 @@ export const Filter1: React.FC<FilterProps> = ({ filterState, data }) => {
           <Select
             options={vaccineTypeKejarOptions}
             onChange={(e: any) => {
-              setFilter({ ...filter, tipe_vaksin1: e ? e.value : "All" });
+              setFilter({ ...filter, tipe_vaksin1: e ? e.label : "All" });
             }}
             value={
               filter.tipe_vaksin1
@@ -65,9 +66,6 @@ export const Filter1: React.FC<FilterProps> = ({ filterState, data }) => {
         }} >
           <Button text="Unduh" variant="outlined" />
         </div>
-        {/* <div>
-          <Button text="Laporkan" variant="outlined" />
-        </div> */}
       </div>
     </div>
   );
@@ -81,12 +79,12 @@ export const Filter2: React.FC<FilterProps> = ({ filterState, data }) => {
           <Select
             options={trendTypeOptions}
             onChange={(e: any) => {
-              setFilter({ ...filter, jenis_tren: e ? e.value : "All" });
+              setFilter({ ...filter, jenis_tren1: e ? e.value : "All" });
             }}
             value={
-              filter.jenis_tren
-                ? trendTypeOptions?.find((f) => f.value === filter.jenis_tren)
-                : filter.jenis_tren
+              filter.jenis_tren1
+                ? trendTypeOptions?.find((f) => f.value === filter.jenis_tren1)
+                : filter.jenis_tren1
             }
           />
         </div>
@@ -94,7 +92,7 @@ export const Filter2: React.FC<FilterProps> = ({ filterState, data }) => {
           <Select
             options={vaccineTypeKejarOptions}
             onChange={(e: any) => {
-              setFilter({ ...filter, tipe_vaksin2: e ? e.value : "All" });
+              setFilter({ ...filter, tipe_vaksin2: e ? e.label : "All" });
             }}
             value={
               filter.tipe_vaksin2
@@ -109,20 +107,15 @@ export const Filter2: React.FC<FilterProps> = ({ filterState, data }) => {
       </div>
       <div className="flex gap-4">
         <div onClick={async () => {
-          const pct = data?.filter((f: any) => f.label.includes("pct_"))?.map((r: any) => r.value.toString());
-          const total = data?.filter((f: any) => f.label.includes("ytd_total_"))?.map((r: any) => r.value.toString());
-          const target = data?.filter((f: any) => f.label.includes("threshold_"))?.map((r: any) => r.value.toString());
-          const header = data?.filter((f: any) => f.label.includes("pct_"))?.map((r: any) => r.label?.split("_")[1]);
-          const body = [pct, target, total];
-          const verticalHeader = ["% Cakupan", "% Target Cakupan", "Cakupan"];
+          const total = data?.map((r: any) => (r.pyd_kejar || 0).toString());
+          const header = data?.map((r: any) => r?.vaccine_name)
+          const body = [total];
+          const verticalHeader = ["Cakupan"];
           const fileName = "Grafik Cakupan Berdasarkan Jenis Imunisasi";
           await downloadFile({ header, body, verticalHeader, fileName });
         }} >
           <Button text="Unduh" variant="outlined" />
         </div>
-        {/* <div>
-          <Button text="Laporkan" variant="outlined" />
-        </div> */}
       </div>
     </div>
   );
@@ -132,11 +125,11 @@ export const Filter3: React.FC<FilterProps> = ({ filterState, data }) => {
   return (
     <div className="flex flex-wrap justify-between items-center gap-4 sm:mt-20 md:mt-0 mb-8">
       <div className="flex gap-4">
-        <div>
+        {/* <div>
           <Select
             options={vaccineTypeKejarOptions}
             onChange={(e: any) => {
-              setFilter({ ...filter, tipe_vaksin3: e ? e.value : "All" });
+              setFilter({ ...filter, tipe_vaksin3: e ? e.label : "All" });
             }}
             value={
               filter.tipe_vaksin3
@@ -146,23 +139,20 @@ export const Filter3: React.FC<FilterProps> = ({ filterState, data }) => {
                 : filter.tipe_vaksin3
             }
           />
-        </div>
+        </div> */}
       </div>
       <div className="flex gap-4">
         <div onClick={async () => {
-          const ideal = data?.filter((f: any) => f.label.includes("ytd_ideal_"))?.map((r: any) => r.value.toString());
-          const nonIdeal = data?.filter((f: any) => f.label.includes("ytd_non_ideal_"))?.map((r: any) => r.value.toString());
-          const header = data?.filter((f: any) => f.label.includes("ytd_ideal_"))?.map((r: any) => r.label?.split("_")[2]);
+          const ideal = data?.map((r: any) => (r.pct_kejar || 0).toString());
+          const nonIdeal = data?.map((r: any) => (r.pct_non_kejar || 0).toString());
+          const header = data?.map((r: any) => r.vaccine_name);
           const body = [ideal, nonIdeal];
           const verticalHeader = ["Ideal", "Non Ideal"];
-          const fileName = "Grafik Cakupan Berdasarkan Usia";
+          const fileName = "Grafik Perbandingan Imunisasi Kejar Terhadap Imunisasi Ideal";
           await downloadFile({ header, body, verticalHeader, fileName });
         }} >
           <Button text="Unduh" variant="outlined" />
         </div>
-        {/* <div>
-          <Button text="Laporkan" variant="outlined" />
-        </div> */}
       </div>
     </div>
   );
@@ -172,22 +162,22 @@ export const Filter4: React.FC<FilterProps> = ({ filterState, data }) => {
   return (
     <div className="flex flex-wrap justify-between items-center gap-4 sm:mt-20 md:mt-0 mb-8">
       <div className="flex gap-4">
-        <div>
+        {/* <div>
           <Select
             options={vaccineTypeKejarOptions}
             onChange={(e: any) => {
-              setFilter({ ...filter, tipe_vaksin3: e ? e.value : "All" });
+              setFilter({ ...filter, tipe_vaksin4: e ? e.label : "All" });
             }}
             value={
-              filter.tipe_vaksin3
+              filter.tipe_vaksin4
                 ? vaccineTypeKejarOptions?.find(
-                  (f) => f.label === filter.tipe_vaksin3
+                  (f) => f.label === filter.tipe_vaksin4
                 )
-                : filter.tipe_vaksin3
+                : filter.tipe_vaksin4
             }
           />
-        </div>
-        <div>
+        </div> */}
+        {/* <div>
           <Select
             options={ageTypeOptions}
             onChange={(e: any) => {
@@ -199,23 +189,22 @@ export const Filter4: React.FC<FilterProps> = ({ filterState, data }) => {
                 : filter.tipe_umur
             }
           />
-        </div>
+        </div> */}
       </div>
       <div className="flex gap-4">
         <div onClick={async () => {
-          const ideal = data?.filter((f: any) => f.label.includes("ytd_ideal_"))?.map((r: any) => r.value.toString());
-          const nonIdeal = data?.filter((f: any) => f.label.includes("ytd_non_ideal_"))?.map((r: any) => r.value.toString());
-          const header = data?.filter((f: any) => f.label.includes("ytd_ideal_"))?.map((r: any) => r.label?.split("_")[2]);
-          const body = [ideal, nonIdeal];
-          const verticalHeader = ["Ideal", "Non Ideal"];
+          const data12 = data?.map((r: any) => (r.pct_1_2 || 0).toString());
+          const data23 = data?.map((r: any) => (r.pct_2_3 || 0).toString());
+          const data34 = data?.map((r: any) => (r.pct_3_4 || 0).toString());
+          const data45 = data?.map((r: any) => (r.pct_4_5 || 0).toString());
+          const header = data?.map((r: any) => r.vaccine_name);
+          const body = [data12, data23, data34, data45];
+          const verticalHeader = ["Usia 1-2 Tahun", "Usia 2-3 Tahun", "Usia 3-4 Tahun", "Usia 4-5 Tahun"];
           const fileName = "Grafik Cakupan Berdasarkan Usia";
           await downloadFile({ header, body, verticalHeader, fileName });
         }} >
           <Button text="Unduh" variant="outlined" />
         </div>
-        {/* <div>
-          <Button text="Laporkan" variant="outlined" />
-        </div> */}
       </div>
     </div>
   );
@@ -225,11 +214,11 @@ export const Filter5: React.FC<FilterProps> = ({ filterState, data }) => {
   return (
     <div className="flex flex-wrap justify-between items-center gap-4 sm:mt-20 md:mt-0 mb-8">
       <div className="flex gap-4">
-        <div>
+        {/* <div>
           <Select
             options={vaccineTypeKejarOptions}
             onChange={(e: any) => {
-              setFilter({ ...filter, tipe_vaksin5: e ? e.value : "All" });
+              setFilter({ ...filter, tipe_vaksin5: e ? e.label : "All" });
             }}
             value={
               filter.tipe_vaksin5
@@ -239,8 +228,8 @@ export const Filter5: React.FC<FilterProps> = ({ filterState, data }) => {
                 : filter.tipe_vaksin5
             }
           />
-        </div>
-        <div>
+        </div> */}
+        {/* <div>
           <Select
             options={genderOptions}
             onChange={(e: any) => {
@@ -252,13 +241,13 @@ export const Filter5: React.FC<FilterProps> = ({ filterState, data }) => {
                 : filter.jenis_kelamin
             }
           />
-        </div>
+        </div> */}
       </div>
       <div className="flex gap-4">
         <div onClick={async () => {
-          const male = data?.filter((f: any) => f.label.includes("ytd_male_"))?.map((r: any) => r.value.toString());
-          const female = data?.filter((f: any) => f.label.includes("ytd_female_"))?.map((r: any) => r.value.toString());
-          const header = data?.filter((f: any) => f.label.includes("ytd_male_"))?.map((r: any) => r.label?.split("_")[2]);
+          const male = data?.map((r: any) => (r.pct_male || 0).toString());
+          const female = data?.map((r: any) => (r.pct_female || 0).toString());
+          const header = data?.map((r: any) => r.vaccine_name);
           const body = [male, female];
           const verticalHeader = ["Laki-laki", "Perempuan"];
           const fileName = "Grafik Cakupan Berdasarkan Jenis Kelamin";
@@ -266,9 +255,56 @@ export const Filter5: React.FC<FilterProps> = ({ filterState, data }) => {
         }} >
           <Button text="Unduh" variant="outlined" />
         </div>
-        {/* <div>
-          <Button text="Laporkan" variant="outlined" />
-        </div> */}
+      </div>
+    </div>
+  );
+};
+export const Filter6: React.FC<FilterProps> = ({ filterState, data }) => {
+  const [filter, setFilter] = filterState || useState({});
+  return (
+    <div className="flex flex-wrap justify-between items-center gap-4 sm:mt-20 md:mt-0 mb-8">
+      <div className="flex gap-4">
+        <div>
+          <Select
+            options={trendTypeOptions}
+            onChange={(e: any) => {
+              setFilter({ ...filter, jenis_tren2: e ? e.value : "All" });
+            }}
+            value={
+              filter.jenis_tren2
+                ? trendTypeOptions?.find((f) => f.value === filter.jenis_tren2)
+                : filter.jenis_tren2
+            }
+          />
+        </div>
+        <div>
+          <Select
+            options={vaccineTypeKejarOptions}
+            onChange={(e: any) => {
+              setFilter({ ...filter, tipe_vaksin6: e ? e.label : "All" });
+            }}
+            value={
+              filter.tipe_vaksin6
+                ? vaccineTypeKejarOptions?.find(
+                  (f) => f.label === filter.tipe_vaksin6
+                )
+                : filter.tipe_vaksin6
+            }
+            isClearable={false}
+          />
+        </div>
+      </div>
+      <div className="flex gap-4">
+        <div onClick={async () => {
+          const total = data?.map((r: any) => r.total.toString());
+          const header = dataMonths?.map((r) => r.label);
+          const body = [total];
+          const verticalHeader = ["Total"];
+          const fileName = "Grafik Distribusi Imunisasi pada Bayi dan Baduta Berdasarkan Waktu";
+          await downloadFile({ header, body, verticalHeader, fileName });
+        }} >
+          <Button text="Unduh" variant="outlined" />
+        </div>
       </div>
     </div>
   );

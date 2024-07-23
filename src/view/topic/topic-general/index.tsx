@@ -120,8 +120,8 @@ const dataTopicGeneral = [
 const TopicGeneral = () => {
   return (
     <div className="flex flex-col items-center">
-      <div className="bg-image3 w-full flex justify-center">
-        <div className="container px-4">
+      <div className="flex justify-center bg-image3 w-full">
+        <div className="px-4 container">
           <Banner
             text={<BannerText
               highlightHeader="Menampilkan"
@@ -131,49 +131,46 @@ const TopicGeneral = () => {
           />
         </div>
       </div>
-      <div className="container mt-8">
-        <div className="text-primary-2 font-bold text-xl md:text-4xl py-4">Pilih topik yang anda inginkan</div>
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
+      <div className="mt-8 container">
+        <div className="py-4 font-bold text-primary-2 text-xl md:text-4xl">Pilih topik yang anda inginkan</div>
+        <div className="gap-8 grid grid-cols-1 md:grid-cols-4">
           {dataCategory.map((r, i) => (
-            <div key={`category-${i}`} className="py-4 border flex justify-center rounded-md">
+            <div key={`category-${i}`} className="flex justify-center py-4 border rounded-md">
               {r}
             </div>
           ))}
         </div>
       </div>
 
-      <div className="container my-8">
-        <div className="flex justify-between items-center gap-4">
-          <div className="text-primary-2 font-bold text-xl md:text-4xl py-4">Pilihan Dataset</div>
-          <div>
-            <Select
-              options={options}
-              onChange={(e) => { }}
-              placeholder="Urutkan"
-            // value={{ value: 'vanilla', label: 'Vanilla' }}
-            />
-          </div>
+      <div className="flex justify-between items-center gap-4">
+        <div className="py-4 font-bold text-primary-2 text-xl md:text-4xl">Pilihan Dataset</div>
+        <div>
+          <Select
+            options={options}
+            onChange={(e) => { }}
+            placeholder="Urutkan"
+          />
         </div>
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
-          {dataTopicGeneral.map((r, i) => (
-            <div key={`dataset-${i}`}>
-              <div className="relative">
-                <div className="rounded-tl-lg text-xs font-bold absolute p-2"
-                  style={{
-                    color: r.access === 1 ? "#FFFFFF" : "#3F4200",
-                    backgroundColor: r.access === 1 ? "#00B1A9" : "#C3CC00"
-                  }}>
-                  {r.access === 1 ? "Publik" : "Privat"}
-                </div>
-                <div className="rounded-lg flex justify-center items-center" style={{ backgroundColor: r.bgColor, minHeight: 212 }}>
-                  <Image alt="satusehat" src={r.image} width={99} height={126} />
-                </div>
+      </div>
+      <div className="gap-8 grid grid-cols-1 md:grid-cols-4">
+        {dataTopicGeneral.map((r, i) => (
+          <div key={`dataset-${i}`}>
+            <div className="relative">
+              <div className="absolute p-2 rounded-tl-lg font-bold text-xs"
+                style={{
+                  color: r.access === 1 ? "#FFFFFF" : "#3F4200",
+                  backgroundColor: r.access === 1 ? "#00B1A9" : "#C3CC00"
+                }}>
+                {r.access === 1 ? "Publik" : "Privat"}
               </div>
-              <div className="text-xl font-bold py-2">{r.title}</div>
-              <div className="text-sm font-normal">{r.updatedDate}</div>
+              <div className="flex justify-center items-center rounded-lg" style={{ backgroundColor: r.bgColor, minHeight: 212 }}>
+                <Image alt="satusehat" src={r.image} width={99} height={126} />
+              </div>
             </div>
-          ))}
-        </div>
+            <div className="py-2 font-bold text-xl">{r.title}</div>
+            <div className="font-normal text-sm">{r.updatedDate}</div>
+          </div>
+        ))}
       </div>
     </div>
   )

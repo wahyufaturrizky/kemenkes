@@ -192,57 +192,59 @@ export const filterLocationOptions = [
   },
 ];
 
+"unknown vaccine type\n please refer to following list:\nIMUNISASI DASAR LENGKAP\nHB 0\nBCG\nPOLIO 1\nPOLIO 2\nPOLIO 3\nPOLIO 4\nCAMPAK RUBELA\nDPT-HB-Hib 1\nDPT-HB-Hib 2\nDPT-HB-Hib 3\nJE\nDPT-HB-Hib 4\nIPV 1\nIPV 2\nPCV 1\nPCV 2\nPCV 3\nROTAVIRUS 1\nROTAVIRUS 2\nROTAVIRUS 3\nCAMPAK RUBELA 2\nIMUNISASI BADUTA LENGKAP"
+
 export const vaccineTypeKejarOptions = [
   {
-    label: "Polio 1",
-    value: "1",
-  },
-  {
-    label: "Polio 2",
-    value: "2",
-  },
-  {
-    label: "Polio 3",
-    value: "3",
-  },
-  {
-    label: "Polio 4",
+    label: "POLIO 1",
     value: "4",
   },
   {
-    label: "Imunisasi Dasar Lengkap",
+    label: "POLIO 2",
     value: "5",
   },
   {
-    label: "HB 0",
+    label: "POLIO 3",
     value: "6",
   },
   {
+    label: "IMUNISASI DASAR LENGKAP",
+    value: "1",
+  },
+  {
+    label: "HB 0",
+    value: "2",
+  },
+  {
     label: "BCG",
+    value: "3",
+  },
+  {
+    label: "POLIO 4",
     value: "7",
   },
   {
-    label: "DPT-HB-Hib 1",
+    label: "CAMPAK RUBELA",
     value: "8",
   },
   {
-    label: "DPT-HB-Hib 2",
+    label: "DPT-HB-Hib 1",
     value: "9",
   },
   {
-    label: "DPT-HB-Hib 3",
+    label: "DPT-HB-Hib 2",
     value: "10",
   },
   {
-    label: "Campak Rubela 1",
+    label: "DPT-HB-Hib 3",
     value: "11",
   },
   {
-    label: "PCV 1",
+    label: "JE",
     value: "12",
   },
   {
-    label: "PCV 2",
+    label: "DPT-HB-Hib 4",
     value: "13",
   },
   {
@@ -254,35 +256,35 @@ export const vaccineTypeKejarOptions = [
     value: "15",
   },
   {
-    label: "Rotavirus 1",
+    label: "PCV 1",
     value: "16",
   },
   {
-    label: "Rotavirus 2",
+    label: "PCV 2",
     value: "17",
   },
   {
-    label: "Rotavirus 3",
+    label: "PCV 3",
     value: "18",
   },
   {
-    label: "JE",
+    label: "ROTAVIRUS 1",
     value: "19",
   },
   {
-    label: "Campak Rubela 2",
+    label: "ROTAVIRUS 2",
     value: "20",
   },
   {
-    label: "DPT-HB-Hib 4",
+    label: "ROTAVIRUS 3",
     value: "21",
   },
   {
-    label: "PCV 3",
+    label: "CAMPAK RUBELA 2",
     value: "22",
   },
   {
-    label: "Imunisasi Baduta Lengkap",
+    label: "IMUNISASI BADUTA LENGKAP",
     value: "23",
   },
 ];

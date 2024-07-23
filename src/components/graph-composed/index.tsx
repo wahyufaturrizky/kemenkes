@@ -136,7 +136,6 @@ const GraphComposed: React.FC<GraphComposedProps> = ({
         }
         <Tooltip />
         <Legend />
-        {/* <Area type="monotone" dataKey="amt" fill="#8884d8" stroke="#8884d8" /> */}
         {layout === "horizontal" ?
           <>
             <Bar dataKey="pv" barSize={20} fill="#413ea0" />
@@ -148,7 +147,6 @@ const GraphComposed: React.FC<GraphComposedProps> = ({
             <Bar dataKey="pv" barSize={20} fill="#413ea0" />
           </>
         }
-        {/* <Scatter dataKey="cnt" fill="red" /> */}
       </ComposedChart>
     </ResponsiveContainer>
   );

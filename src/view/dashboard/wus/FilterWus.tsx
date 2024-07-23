@@ -39,10 +39,6 @@ export const Filter1: React.FC<FilterProps2> = ({ filterState, dataWus }) => {
     (r: any) => `${formatNumber(r.pct_target_threshold)} %`
   );
   const total = dataWus?.map((r: any) => formatNumber(r.ytd_total));
-  // const pctTarget = truncateStringToNumber(target);
-  // console.log(target, "isi target");
-  // const total = dataWus?.map((r: any) => r.total.toString());
-  // console.log(total, "isi bulan");
 
   const downloadFile = async () => {
     const url = `${API_URL}/v1/csv/download`;
@@ -178,7 +174,6 @@ export const Filter2: React.FC<FilterProps2> = ({ filterState, dataWus }) => {
   );
   const total = dataWus?.map((r: any) => formatNumber(r.total));
   const pctTotal = dataWus?.map((r: any) => `${formatNumber(r.pct_total)} %`);
-  // console.log(total, "isi bulan");
 
   const downloadFile = async () => {
     const url = `${API_URL}/v1/csv/download`;

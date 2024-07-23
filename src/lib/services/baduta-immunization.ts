@@ -7,49 +7,49 @@ export const badutaImmunizationApi = apiWithTag.injectEndpoints({
   overrideExisting: true,
   endpoints: (build) => ({
     // ---
-    getTotalImmunization: build.query({
+    getTotalBadutaImmunizationRecipients: build.query({
       query: (options = {}) => ({
         url: `${API_URL}/v2/immunization-bayi-baduta/total-baduta-immunization-recipients`,
         params: options,
       }),
       providesTags: ["baduta-immunization"],
     }),
-    getTotalImmunizationByVaccineType: build.query({
+    getScopeBadutaImmunization: build.query({
       query: (options = {}) => ({
         url: `${API_URL}/v2/immunization-bayi-baduta/scope-baduta-immunization`,
         params: options,
       }),
       providesTags: ["baduta-immunization"],
     }),
-    getDoPercentageDPHTHBHIB: build.query({
+    getScopeDPTImmunization: build.query({
       query: (options = {}) => ({
         url: `${API_URL}/v2/immunization-bayi-baduta/scope-dpt-immunization`,
         params: options,
       }),
       providesTags: ["baduta-immunization"],
     }),
-    getDoPercentageCampakRubela: build.query({
+    getScopeRubelaImmunization: build.query({
       query: (options = {}) => ({
         url: `${API_URL}/v2/immunization-bayi-baduta/scope-rubela-immunization`,
         params: options,
       }),
       providesTags: ["baduta-immunization"],
     }),
-    getDoPercentagePCV: build.query({
+    getScopePCVImmunization: build.query({
       query: (options = {}) => ({
-        url: `${API_URL}/v2/immunization-bayi-baduta/scope-rubela-immunization`,
+        url: `${API_URL}/v2/immunization-bayi-baduta/scope-pcv-immunization`,
         params: options,
       }),
       providesTags: ["baduta-immunization"],
     }),
-    getDoPercentageDPT: build.query({
+    getDropoutDPTPercentage: build.query({
       query: (options = {}) => ({
         url: `${API_URL}/v2/immunization-bayi-baduta/dropout-dpt-percentage`,
         params: options,
       }),
       providesTags: ["baduta-immunization"],
     }),
-    getDoPercentageRubela: build.query({
+    getDropoutRubelaPercentage: build.query({
       query: (options = {}) => ({
         url: `${API_URL}/v2/immunization-bayi-baduta/dropout-rubela-percentage`,
         params: options,
@@ -191,13 +191,13 @@ export const badutaImmunizationApi = apiWithTag.injectEndpoints({
 });
 
 export const {
-  useGetTotalImmunizationQuery,
-  useGetTotalImmunizationByVaccineTypeQuery,
-  useGetDoPercentageDPHTHBHIBQuery,
-  useGetDoPercentageCampakRubelaQuery,
-  useGetDoPercentageDPTQuery,
-  useGetDoPercentagePCVQuery,
-  useGetDoPercentageRubelaQuery,
+  useGetScopeBadutaImmunizationQuery,
+  useGetDropoutDPTPercentageQuery,
+  useGetDropoutRubelaPercentageQuery,
+  useGetScopeDPTImmunizationQuery,
+  useGetScopeRubelaImmunizationQuery,
+  useGetScopePCVImmunizationQuery,
+  useGetTotalBadutaImmunizationRecipientsQuery,
   useGetTotalScopeQuery,
   useGetTotalHighestScopeQuery,
   useGetTotalLowestScopeQuery,

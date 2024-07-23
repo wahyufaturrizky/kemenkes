@@ -12,7 +12,6 @@ import {
   Navbar,
   Sidebar,
   Spin,
-  // Tabs,
 } from "@/components";
 import {
   ChildSummaryImmunization,
@@ -32,7 +31,6 @@ import {
   Filter4,
   Filter5,
 } from "@/view/dashboard/routine-infant-immunization/Filter";
-// import { Filter2 } from "../routine-baduta-immunization/Filter";
 import {
   graphOptions1,
   graphOptions2,
@@ -147,8 +145,6 @@ const RoutineBabyImmunization = () => {
       : filter.kabkota
       ? filter.kabkota
       : filter.provinsi && filter.provinsi,
-    // : "All",
-    // kewilayahan_type: filter.kewilayahan_type,
   };
 
   const [rergionTypeGraph1, setRegionTypeGraph1] = useState("province");
@@ -163,17 +159,13 @@ const RoutineBabyImmunization = () => {
       : filter.provinsi
       ? setRegionTypeGraph1("province")
       : setRegionTypeGraph1("All");
-    // console.log("isi region faskes");
   }, [filter.faskes, filter.kecamatan, filter.kabkota, filter.provinsi]);
 
   useEffect(() => {
     filter.wilayah1
       ? setRegionTypeGraph1(filter.wilayah1)
       : setRegionTypeGraph1("province");
-    // console.log("isi region wolayah");
   }, [filter.wilayah1]);
-
-  // console.log(rergionTypeGraph1, "isi region grafik");
 
   const filterGraph1 = useMemo(
     () => ({
@@ -253,17 +245,6 @@ const RoutineBabyImmunization = () => {
     faskes_id: faskesIdQuery,
     vaccine_type: filter.tipe_vaksin4,
   };
-  // const filterGraphAge = {
-  //   ...dateQuery,
-  //   region_type: regionIdQuery,
-  //   faskes_id: filter.faskes
-  //     ? filter.faskes
-  //     : filter.kecamatan
-  //     ? filter.kecamatan
-  //     : filter.kabkota
-  //     ? filter.kabkota
-  //     : filter.provinsi && filter.provinsi,
-  // };
 
   const filterTotalBayi = {
     ...dateQuery,
@@ -276,20 +257,8 @@ const RoutineBabyImmunization = () => {
     ...dateQuery,
     region_type: regionIdQuery,
     faskes_id: faskesIdQuery,
-    // faskes_id: 16,
   };
-  const filterQueryGraphPercentage = {
-    ...dateQuery,
-    region_type: filter.wilayah1,
-    faskes_id: regionIdQuery,
-    // kewilayahan_type: filter.kewilayahan_type,
-  };
-  const filterQueryGraph = {
-    ...dateQuery,
-    region_type: filter.wilayah,
-    faskes_id: regionIdQuery,
-    // kewilayahan_type: filter.kewilayahan_type,
-  };
+
   const optionQuery = {
     refetchOnMountOrArgChange: true,
     skip:
@@ -428,27 +397,6 @@ const RoutineBabyImmunization = () => {
     useGetTypeSuspaseQuery(filterTotalBayi, optionQuery);
   const { data: getGraphScope, isLoading: isLoadingGraphScope } =
     useGetGraphScopeQuery(filterGraph3, optionQuery);
-  // const aliasSummaryImmunizationPerVaccineQuery = Object.entries(
-  //   getGraphScope?.data?.[0]?.vaccine_list || []
-  // ).map(([key, value]) => ({ label: key, value: value }));
-
-  // console.log(
-  //   aliasSummaryImmunizationPerVaccineQuery?.filter((f) =>
-  //     f.label.includes("pct_")
-  //   ),
-  //   "isi   data b"
-  // );
-  // console.log(
-  //   getGraphScope?.data?.[0]?.vaccine_list?.map(
-  //     (data: any) => data?.vaccine_name
-  //   ),
-
-  //   "isi data"
-  // );
-
-  // console.log(aliasSummaryImmunizationPerVaccineQuery, "isi data");
-
-  // grafik 3 end
 
   // grafik 4 start
   const { data: getNonIdealAge, isLoading: isLoadingNonIdealAge } =
@@ -483,161 +431,6 @@ const RoutineBabyImmunization = () => {
     getGraphImmunizationGender?.data?.[0] || []
   ).map(([key, value]) => ({ label: key, value: value }));
   // grafik 5 end
-  // console.log(getGraphImmunizationAge, "isi data  a");
-
-  // console.log(getLowestScope?.data?.vaksin, "isi total");
-
-  // const {
-  //   data: getDoPercentageDPHTHBHIBQuery,
-  //   isLoading: isLoadingDoPercentageDPHTHBHIBQuery,
-  // } = useGetDoPercentageDPHTHBHIBQuery(filterQuery, optionQuery);
-  // const {
-  //   data: getDoPercentageCampakRubelaQuery,
-  //   isLoading: isLoadingDoPercentageCampakRubelaQuery,
-  // } = useGetDoPercentageCampakRubelaQuery(filterQuery, optionQuery);
-  // const {
-  //   data: getTotalImmunizationByVaccineTypeQuery1,
-  //   isLoading: isLoadingTotalImmunizationByVaccineTypeQuery1,
-  // } = useGetTotalImmunizationByVaccineTypeQuery(
-  //   { ...filterQuery, vaccine_type: 1 },
-  //   optionQuery
-  // );
-  // const {
-  //   data: getTotalImmunizationByVaccineTypeQuery2,
-  //   isLoading: isLoadingTotalImmunizationByVaccineTypeQuery2,
-  // } = useGetTotalImmunizationByVaccineTypeQuery(
-  //   { ...filterQuery, vaccine_type: 2 },
-  //   optionQuery
-  // );
-  // const {
-  //   data: getTotalImmunizationByVaccineTypeQuery3,
-  //   isLoading: isLoadingTotalImmunizationByVaccineTypeQuery3,
-  // } = useGetTotalImmunizationByVaccineTypeQuery(
-  //   { ...filterQuery, vaccine_type: 3 },
-  //   optionQuery
-  // );
-  // const {
-  //   data: getTotalImmunizationByVaccineTypeQuery4,
-  //   isLoading: isLoadingTotalImmunizationByVaccineTypeQuery4,
-  // } = useGetTotalImmunizationByVaccineTypeQuery(
-  //   { ...filterQuery, vaccine_type: 4 },
-  //   optionQuery
-  // );
-  // const { data: getTotalScopeQuery, isLoading: isLoadingTotalScopeQuery } =
-  //   useGetTotalScopeQuery(
-  //     { ...filterQuery, vaccine_type: filter.tipe_vaksin1 },
-  //     optionQueryTotal
-  //   );
-  // const {
-  //   data: getTotalHighestScopeQuery,
-  //   isLoading: isLoadingTotalHighestScopeQuery,
-  // } = useGetTotalHighestScopeQuery(
-  //   { ...filterQueryGraph, vaccine_type: filter.tipe_vaksin1 },
-  //   optionQueryTotal
-  // );
-  // const {
-  //   data: getTotalLowestScopeQuery,
-  //   isLoading: isLoadingTotalLowestScopeQuery,
-  // } = useGetTotalLowestScopeQuery(
-  //   { ...filterQueryGraph, vaccine_type: filter.tipe_vaksin1 },
-  //   optionQueryTotal
-  // );
-  // const {
-  //   data: getPercentageTotalImmunizationQuery,
-  //   isLoading: isLoadingPercentageTotalImmunizationQuery,
-  // } = useGetPercentageTotalImmunizationQuery(
-  //   { ...filterQueryGraphPercentage, vaccine_type: filter.tipe_vaksin1 },
-  //   optionQuery
-  // );
-  // const {
-  //   data: getSetScopePercentagePerMonthQuery,
-  //   isLoading: isLoadingSetScopePercentagePerMonthQuery,
-  // } = useGetScopePercentagePerMonthQuery(
-  //   {
-  //     ...filterQueryGraph,
-  //     vaccine_type: filter.tipe_vaksin2,
-  //     is_kumulatif: filter.jenis_tren === "kumulatif" ? true : false,
-  //   },
-  //   optionQuery
-  // );
-  // const {
-  //   data: getSetSummaryScopePercentageQuery,
-  //   isLoading: isLoadingSetSummaryScopePercentageQuery,
-  // } = useGetSummaryScopePercentageQuery(
-  //   {
-  //     ...filterQueryGraph,
-  //     vaccine_type: filter.tipe_vaksin2,
-  //     is_kumulatif: filter.jenis_tren === "kumulatif" ? true : false,
-  //   },
-  //   optionQuery
-  // );
-  // const {
-  //   data: getTotalScopeByVaccineTypeQuery,
-  //   isLoading: isLoadingTotalScopeByVaccineTypeQuery,
-  // } = useGetTotalScopeByVaccineTypeQuery(
-  //   { ...filterQueryGraph, vaccine_type: filter.tipe_vaksin3 },
-  //   optionQuery
-  // );
-  // const {
-  //   data: getTotalHighestScopeByVaccineTypeQuery,
-  //   isLoading: isLoadingTotalHighestScopeByVaccineTypeQuery,
-  // } = useGetTotalHighestScopeByVaccineTypeQuery(filterQueryGraph, optionQuery);
-  // const {
-  //   data: getTotalLowestScopeByVaccineTypeQuery,
-  //   isLoading: isLoadingTotalLowestScopeByVaccineTypeQuery,
-  // } = useGetTotalLowestScopeByVaccineTypeQuery(filterQueryGraph, optionQuery);
-  // const {
-  //   data: getExceedTargetPerVaccineQuery,
-  //   isLoading: isLoadingExceedTargetPerVaccineQuery,
-  // } = useGetExceedTargetPerVaccineQuery(filterQueryGraph, optionQuery);
-  // const {
-  //   data: getInExceedTargetPerVaccineQuery,
-  //   isLoading: isLoadingInExceedTargetPerVaccineQuery,
-  // } = useGetInExceedTargetPerVaccineQuery(filterQueryGraph, optionQuery);
-  // const { data: getSummaryImmunizationPerVaccineQuery } =
-  //   useGetSummaryImmunizationPerVaccineQuery(filterQueryGraph, optionQuery);
-  // const { data: getMaxImmunizationByAgeQuery1 } = useGetMaxImmunizationByAgeQuery({ ...filterQueryGraph, age_type: 1 }, optionQuery)
-  // const {
-  //   data: getMaxImmunizationByAgeQuery2,
-  //   isLoading: isLoadingMaxImmunizationByAgeQuery2,
-  // } = useGetMaxImmunizationByAgeQuery(
-  //   { ...filterQueryGraph, age_type: 2 },
-  //   optionQuery
-  // );
-  // const {
-  //   data: getMaxImmunizationByAgeQuery3,
-  //   isLoading: isLoadingMaxImmunizationByAgeQuery3,
-  // } = useGetMaxImmunizationByAgeQuery(
-  //   { ...filterQueryGraph, age_type: 3 },
-  //   optionQuery
-  // );
-  // const { data: getHighestImmunizationByAgeQuery } = useGetHighestImmunizationByAgeQuery({ ...filterQueryGraph, age_type: filter.tipe_umur }, optionQuery)
-  // const {
-  //   data: getSummaryImmunizationByAgeQuery,
-  //   isLoading: isLoadingSummaryImmunizationByAgeQuery,
-  // } = useGetSummaryImmunizationByAgeQuery(filterQueryGraph, optionQuery);
-  // const {
-  //   data: getAverageImmunizationByGenderQuery,
-  //   isLoading: isLoadingAverageImmunizationByGenderQuery,
-  // } = useGetAverageImmunizationByGenderQuery(filterQueryGraph, optionQuery);
-  // const {
-  //   data: getImmunizationWithHighetMaleRecivientQuery,
-  //   isLoading: isLoadingImmunizationWithHighetMaleRecivientQuery,
-  // } = useGetImmunizationWithHighetMaleRecivientQuery(
-  //   filterQueryGraph,
-  //   optionQuery
-  // );
-  // const {
-  //   data: getImmunizationWithHighetFemaleRecivientQuery,
-  //   isLoading: isLoadingImmunizationWithHighetFemaleRecivientQuery,
-  // } = useGetImmunizationWithHighetFemaleRecivientQuery(
-  //   filterQueryGraph,
-  //   optionQuery
-  // );
-  // const {
-  //   data: getSummaryImmunizationPerGenderQuery,
-  //   isLoading: isLoadingSummaryImmunizationPerGenderQuery,
-  // } = useGetSummaryImmunizationPerGenderQuery(filterQueryGraph, optionQuery);
 
   const dataGraphRegionalRoutineImmunizationCoverageTrend1 = [
     {
@@ -795,12 +588,6 @@ const RoutineBabyImmunization = () => {
         label: {
           show: true,
           position: "inner",
-          // formatter: (params: any, i: number) =>
-          //   `${
-          //     params.name === "Laki-laki"
-          //       ? getAverageGender?.data?.[0]?.pct_female
-          //       : getAverageGender?.data?.[0]?.pct_male
-          //   }%`,
           formatter: (params: any) => {
             const value =
               params.name === "Laki-laki"
@@ -834,9 +621,6 @@ const RoutineBabyImmunization = () => {
   };
   return (
     <div className="flex flex-col items-center">
-      {/* <div className="px-4 container">
-        <Navbar />
-      </div> */}
       <div className="flex justify-center bg-image1 bg-support-b2 w-full">
         <div className="px-4 container">
           <Banner
@@ -855,12 +639,6 @@ const RoutineBabyImmunization = () => {
         <div className="flex gap-6">
           <Sidebar />
           <div>
-            {/* <Tabs
-              data={dataTabBaduta}
-              variant="private"
-              value={filter.kewilayahan_type}
-              filterState={filterState}
-            /> */}
             <div className="py-4"></div>
             <div className="flex flex-col gap-4 text-sm">
               <div className="font-bold text-primary-1 text-xl md:text-3xl">
@@ -895,7 +673,6 @@ const RoutineBabyImmunization = () => {
                     classNameTitle="text-white"
                     classNameValue="text-4xl text-white"
                     title="Total Penerima Imunisasi Bayi"
-                    // contentTooltip={<>Total Penerima Imunisasi Bayi</>}
                     value={formatNumber(
                       getTotalImmunizationQuery?.data?.[0]?.total || 0
                     )}
@@ -1381,54 +1158,6 @@ const RoutineBabyImmunization = () => {
                     subtitle={" dari "}
                   />
                 </div>
-                {/* {vaccineTypeBabyOptions?.map((r, i) => {
-                  const props =
-                    i === 0
-                      ? {
-                          contentTooltip: <>{r.label}</>,
-                        }
-                      : {};
-                  return (
-                    <ChildSummaryImmunization
-                      {...props}
-                      className="px-4 border rounded-lg"
-                      title={r.label}
-                      value={
-                        getTotalImmunizationByVaccineTypeQuery1?.data?.total ||
-                        0
-                      }
-                      percent={
-                        getTotalImmunizationByVaccineTypeQuery1?.data?.pct || 0
-                      }
-                      target={
-                        getTotalImmunizationByVaccineTypeQuery1?.data?.target ||
-                        0
-                      }
-                      subtitle={" dari "}
-                    />
-                  );
-                })} */}
-                {/* <ChildSummaryImmunization className="px-4 border rounded-lg" titleIcon={<Image alt="satusehat" src={VaccinateNudge.src} width={24} height={24} />}
-                  title={vaccineTypeBabyOptions[1].label}
-                  value={getTotalImmunizationByVaccineTypeQuery2?.data?.total || 0}
-                  percent={getTotalImmunizationByVaccineTypeQuery2?.data?.pct || 0}
-                  target={getTotalImmunizationByVaccineTypeQuery2?.data?.target || 0}
-                  subtitle={" dari "}
-                />
-                <ChildSummaryImmunization className="px-4 border rounded-lg" titleIcon={<Image alt="satusehat" src={VaccinateNudge.src} width={24} height={24} />}
-                  title={vaccineTypeBabyOptions[2].label}
-                  value={getTotalImmunizationByVaccineTypeQuery3?.data?.total || 0}
-                  percent={getTotalImmunizationByVaccineTypeQuery3?.data?.pct || 0}
-                  target={getTotalImmunizationByVaccineTypeQuery3?.data?.target || 0}
-                  subtitle={" dari "}
-                />
-                <ChildSummaryImmunization className="px-4 border rounded-lg" titleIcon={<Image alt="satusehat" src={VaccinateNudge.src} width={24} height={24} />}
-                  title={vaccineTypeBabyOptions[3].label}
-                  value={getTotalImmunizationByVaccineTypeQuery4?.data?.total || 0}
-                  percent={getTotalImmunizationByVaccineTypeQuery4?.data?.pct || 0}
-                  target={getTotalImmunizationByVaccineTypeQuery4?.data?.target || 0}
-                  subtitle={" dari "}
-                /> */}
               </div>
               <div className="gap-4 grid grid-cols-1 sm:grid-cols-3 md:grid-cols-4 mt-4">
                 <div className="relative flex justify-center items-center">
@@ -1536,48 +1265,7 @@ const RoutineBabyImmunization = () => {
                   />
                 </div>
               </div>
-              {/* <div className="gap-4 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 mt-4">
-                <ChildSummaryImmunization
-                  className={`px-8 ${styles.scoreCardYellow}`}
-                  background="white"
-                  classNameTitle="text-white"
-                  classNameValue="text-4xl text-white"
-                  title="Presentase Left Out"
-                  value={getScopeCompleteBase?.data?.[0]?.total || 0}
-                  percent={getScopeCompleteBase?.data?.[0]?.percentage || "0"}
-                  target={
-                    formatNumber(getScopeCompleteBase?.data?.[0].target) || "0"
-                  }
-                  subtitle={" dari "}
-                />
-                <ChildSummaryImmunization
-                  className={`px-8 ${styles.scoreCardYellow}`}
-                  background="white"
-                  classNameTitle="text-white"
-                  classNameValue="text-4xl text-white"
-                  title={"Persentase Drop Out \nDPT-HB-Hib"}
-                  value={`${getDoPercentageDPHTHBHIBQuery?.data?.pct || 0}%`}
-                />
-                <ChildSummaryImmunization
-                  className={`px-8 ${styles.scoreCardYellow}`}
-                  background="white"
-                  classNameTitle="text-white"
-                  classNameValue="text-4xl text-white"
-                  title={"Persentase Drop Out \nCampak Rubela"}
-                  value={`${getDoPercentageCampakRubelaQuery?.data?.pct || 0}%`}
-                />
-                <ChildSummaryImmunization
-                  className={`px-8 ${styles.scoreCardYellow}`}
-                  background="white"
-                  classNameTitle="text-white"
-                  classNameValue="text-4xl text-white"
-                  title={"Jumlah Zero Dose"}
-                  value={`${getDoPercentageCampakRubelaQuery?.data?.pct || 0}%`}
-                />
-              </div> */}
             </div>
-            {/* scorecard */}
-
             {/* grafik1 */}
             <div className="py-4 pb-12">
               <RoutineImmunizationCoverageTrendGraph
@@ -1807,16 +1495,11 @@ const RoutineBabyImmunization = () => {
                                 (getCumulativeScopeImmunizationQuery?.data ||
                                   [])[params.dataIndex]?.percentage
                               )}%`,
-                            // `${formatNumber(params.value || 0)}`,
                           },
                           additionalData:
                             (
                               getCumulativeScopeImmunizationQuery?.data || []
-                            )?.map(
-                              (r: any) =>
-                                // ((r?.percentage || 0) / 100) * (r?.total || 0)
-                                r?.percentage || 0
-                            ) || [],
+                            )?.map((r: any) => r?.percentage || 0) || [],
                         },
                         {
                           name: "% Target Cakupan",
@@ -2026,27 +1709,6 @@ const RoutineBabyImmunization = () => {
                         (getGraphScope?.data?.[0]?.vaccine_list || [])?.map(
                           (r: any) => r?.vaccine_name
                         ) || []
-                        // aliasSummaryImmunizationPerVaccineQuery
-                        //   ?.filter((f) => f.label.includes("ytd_total_"))
-                        //   ?.map((r: any) =>
-                        //     r?.label.includes("idl1")
-                        //       ? "Imunisasi Dasar Lengkap"
-                        //       : r?.label.includes("bcg1")
-                        //       ? "BCG"
-                        //       : r?.label.includes("hb1")
-                        //       ? "HB - 0"
-                        //       : r?.label.includes("polio1")
-                        //       ? "Polio 1"
-                        //       : r?.label.includes("polio2")
-                        //       ? "Polio 2"
-                        //       : r?.label.includes("polio3")
-                        //       ? "Polio 3"
-                        //       : r?.label.includes("polio4")
-                        //       ? "Polio 4"
-                        //       : r?.label.includes("dpt1")
-                        //       ? "DPT-HB-Hib-1"
-                        //       : r?.label
-                        //   )
                       )}
                     />
                   </div>
@@ -2102,38 +1764,10 @@ const RoutineBabyImmunization = () => {
                         />
                       }
                       isLoading={isLoadingGraphImmunizationAge}
-                      // graphOptions={graphOptions4(
-                      //   [
-                      //     {
-                      //       name: "Usia Ideal",
-                      //       data:
-                      //         (
-                      //           getSummaryImmunizationByAgeQuery?.data || []
-                      //         )?.map((r: any) => r?.total_ideal) || [],
-                      //       type: "bar",
-                      //     },
-                      //     {
-                      //       name: "Usia Non Ideal",
-                      //       data:
-                      //         (
-                      //           getSummaryImmunizationByAgeQuery?.data || []
-                      //         )?.map((r: any) => r?.total_non_ideal) || [],
-                      //       type: "bar",
-                      //     },
-                      //   ],
-                      //   getSummaryImmunizationPerVaccineQuery?.data?.map(
-                      //     (r: any) => r?.vaccine
-                      //   )
-                      // )}
                       graphOptions={graphOptions4(
                         [
                           {
                             name: "Usia Ideal",
-                            // data:
-                            //   aliasSummaryImmunizationByAgeQuery?.filter((f) =>
-                            //     f.label.includes("ytd_ideal_")
-                            //   ) || [],
-
                             data:
                               (
                                 getGraphImmunizationAge?.data?.[0]
@@ -2143,17 +1777,11 @@ const RoutineBabyImmunization = () => {
                           },
                           {
                             name: "Usia Non Ideal",
-                            // data:
-                            //   aliasSummaryImmunizationByAgeQuery?.filter((f) =>
-                            //     f.label.includes("ytd_non_ideal_")
-                            //   ) || [],
                             data:
                               (
                                 getGraphImmunizationAge?.data?.[0]
                                   ?.vaccine_list || []
                               )?.map((r: any) => r?.pct_non_ideal) || [],
-
-                            // data: (getSummaryImmunizationByAgeQuery?.data || [])?.map((r: any) => r?.total_non_ideal) || [],
                             type: "bar",
                           },
                         ],
@@ -2240,11 +1868,6 @@ const RoutineBabyImmunization = () => {
                         [
                           {
                             name: "Laki-laki",
-                            // data:
-                            //   aliasGraphImmunizationGenderQuery?.filter((f) =>
-                            //     f.label.includes("ytd_male_")
-                            //   ) || [],
-
                             data:
                               (
                                 getGraphImmunizationGender?.data?.[0]
@@ -2252,18 +1875,11 @@ const RoutineBabyImmunization = () => {
                               )?.map((r: any) => r?.pct_male) || [],
                             type: "bar",
                             label: {
-                              // show: true,
                               precision: 1,
-                              // formatter: (params: any) => `${formatNumber(((getSummaryImmunizationPerGenderQuery?.data || [])[params.dataIndex]?.pct_male))}%`
                             },
                           },
                           {
                             name: "Perempuan",
-                            // data:
-                            //   aliasGraphImmunizationGenderQuery?.filter((f) =>
-                            //     f.label.includes("ytd_female_")
-                            //   ) || [],
-
                             data:
                               (
                                 getGraphImmunizationGender?.data?.[0]
@@ -2271,9 +1887,7 @@ const RoutineBabyImmunization = () => {
                               )?.map((r: any) => r?.pct_female) || [],
                             type: "bar",
                             label: {
-                              // show: true,
                               precision: 1,
-                              // formatter: (params: any) => `${formatNumber((getSummaryImmunizationPerGenderQuery?.data || [])[params.dataIndex]?.pct_female)}%`
                             },
                           },
                         ],
