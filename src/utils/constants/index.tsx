@@ -675,4 +675,269 @@ export const ancGraphOptions3 = [
   { label: "Jumlah Ibu Hamil Komplikasi Dirujuk", value: 45 },
 ];
 
+export const ancGraphOptions4 = [
+  { value: 300, pct: 30 },
+  { value: 250, pct: 25.0 },
+  { value: 400, pct: 40 },
+  { value: 780, pct: 78.0 },
+  { value: 900, pct: 90 },
+  { value: 1000, pct: 100 },
+  { value: 30, pct: 3 },
+  { value: 30, pct: 3 },
+  { value: 30, pct: 3 },
+  { value: 56, pct: 5.6 },
+  { value: 30, pct: 3 },
+  { value: 30, pct: 3 },
+];
+
+export const ancGtaphOptions5 = [
+  {
+    region: "Aceh",
+    jumlah: 600,
+    persentase_bumil_anemia: 50,
+    persentase_nasional: 60,
+  },
+  {
+    region: "Sumatera Utara",
+    jumlah: 700,
+    persentase_bumil_anemia: 55,
+    persentase_nasional: 60,
+  },
+  {
+    region: "Sumatera Barat",
+    jumlah: 500,
+    persentase_bumil_anemia: 52,
+    persentase_nasional: 60,
+  },
+  {
+    region: "Riau",
+    jumlah: 650,
+    persentase_bumil_anemia: 53,
+    persentase_nasional: 60,
+  },
+  {
+    region: "Jambi",
+    jumlah: 600,
+    persentase_bumil_anemia: 54,
+    persentase_nasional: 60,
+  },
+  {
+    region: "Sumatera Selatan",
+    jumlah: 620,
+    persentase_bumil_anemia: 51,
+    persentase_nasional: 60,
+  },
+  {
+    region: "Bengkulu",
+    jumlah: 580,
+    persentase_bumil_anemia: 50,
+    persentase_nasional: 60,
+  },
+  {
+    region: "Lampung",
+    jumlah: 630,
+    persentase_bumil_anemia: 56,
+    persentase_nasional: 60,
+  },
+  {
+    region: "Kepulauan Bangka Belitung",
+    jumlah: 500,
+    persentase_bumil_anemia: 52,
+    persentase_nasional: 60,
+  },
+  {
+    region: "Kepulauan Riau",
+    jumlah: 540,
+    persentase_bumil_anemia: 55,
+    persentase_nasional: 60,
+  },
+  {
+    region: "DKI Jakarta",
+    jumlah: 700,
+    persentase_bumil_anemia: 50,
+    persentase_nasional: 60,
+  },
+  {
+    region: "Jawa Barat",
+    jumlah: 800,
+    persentase_bumil_anemia: 60,
+    persentase_nasional: 60,
+  },
+  {
+    region: "Jawa Tengah",
+    jumlah: 750,
+    persentase_bumil_anemia: 58,
+    persentase_nasional: 60,
+  },
+  {
+    region: "DI Yogyakarta",
+    jumlah: 670,
+    persentase_bumil_anemia: 54,
+    persentase_nasional: 60,
+  },
+  {
+    region: "Jawa Timur",
+    jumlah: 820,
+    persentase_bumil_anemia: 57,
+    persentase_nasional: 60,
+  },
+  {
+    region: "Banten",
+    jumlah: 620,
+    persentase_bumil_anemia: 53,
+    persentase_nasional: 60,
+  },
+  {
+    region: "Bali",
+    jumlah: 550,
+    persentase_bumil_anemia: 52,
+    persentase_nasional: 60,
+  },
+  {
+    region: "Nusa Tenggara Barat",
+    jumlah: 500,
+    persentase_bumil_anemia: 51,
+    persentase_nasional: 60,
+  },
+  {
+    region: "Nusa Tenggara Timur",
+    jumlah: 480,
+    persentase_bumil_anemia: 55,
+    persentase_nasional: 60,
+  },
+  {
+    region: "Kalimantan Barat",
+    jumlah: 600,
+    persentase_bumil_anemia: 50,
+    persentase_nasional: 60,
+  },
+  {
+    region: "Kalimantan Tengah",
+    jumlah: 570,
+    persentase_bumil_anemia: 54,
+    persentase_nasional: 60,
+  },
+  {
+    region: "Kalimantan Selatan",
+    jumlah: 620,
+    persentase_bumil_anemia: 52,
+    persentase_nasional: 60,
+  },
+  {
+    region: "Kalimantan Timur",
+    jumlah: 590,
+    persentase_bumil_anemia: 53,
+    persentase_nasional: 60,
+  },
+  {
+    region: "Kalimantan Utara",
+    jumlah: 540,
+    persentase_bumil_anemia: 50,
+    persentase_nasional: 60,
+  },
+  {
+    region: "Sulawesi Utara",
+    jumlah: 620,
+    persentase_bumil_anemia: 56,
+    persentase_nasional: 60,
+  },
+  {
+    region: "Sulawesi Tengah",
+    jumlah: 570,
+    persentase_bumil_anemia: 54,
+    persentase_nasional: 60,
+  },
+  {
+    region: "Sulawesi Selatan",
+    jumlah: 750,
+    persentase_bumil_anemia: 58,
+    persentase_nasional: 60,
+  },
+  {
+    region: "Sulawesi Tenggara",
+    jumlah: 590,
+    persentase_bumil_anemia: 53,
+    persentase_nasional: 60,
+  },
+  {
+    region: "Gorontalo",
+    jumlah: 520,
+    persentase_bumil_anemia: 52,
+    persentase_nasional: 60,
+  },
+  {
+    region: "Sulawesi Barat",
+    jumlah: 510,
+    persentase_bumil_anemia: 55,
+    persentase_nasional: 60,
+  },
+  {
+    region: "Maluku",
+    jumlah: 480,
+    persentase_bumil_anemia: 54,
+    persentase_nasional: 60,
+  },
+  {
+    region: "Maluku Utara",
+    jumlah: 450,
+    persentase_bumil_anemia: 50,
+    persentase_nasional: 60,
+  },
+  {
+    region: "Papua Barat",
+    jumlah: 460,
+    persentase_bumil_anemia: 53,
+    persentase_nasional: 60,
+  },
+  {
+    region: "Papua",
+    jumlah: 500,
+    persentase_bumil_anemia: 55,
+    persentase_nasional: 60,
+  },
+  {
+    region: "Papua Selatan",
+    jumlah: 480,
+    persentase_bumil_anemia: 54,
+    persentase_nasional: 60,
+  },
+  {
+    region: "Papua Tengah",
+    jumlah: 470,
+    persentase_bumil_anemia: 52,
+    persentase_nasional: 60,
+  },
+  {
+    region: "Papua Pegunungan",
+    jumlah: 450,
+    persentase_bumil_anemia: 50,
+    persentase_nasional: 60,
+  },
+  {
+    region: "Papua Barat Daya",
+    jumlah: 460,
+    persentase_bumil_anemia: 53,
+    persentase_nasional: 60,
+  },
+];
+
+export const ancGraphOptions6 = [
+  { label: "K6", pct: 30 },
+  { label: "K5  USG", pct: 37 },
+  { label: "K5", pct: 40 },
+  { label: "K4", pct: 45 },
+  { label: "K3", pct: 60 },
+  { label: "K2", pct: 80 },
+  { label: "K1 USG", pct: 90 },
+  { label: "K1 Murni", pct: 95 },
+  { label: "K1 Akses", pct: 80 },
+];
+
+export const ancGraphOptions7 = [
+  { label: "Terlalu Muda", pct: 30, total: 300 },
+  { label: "Terlalu Tua", pct: 52, total: 520 },
+  { label: "Terlalu Banyak Anak", pct: 45, total: 450 },
+  { label: "Terlalu Rapat Jarak Kelahiran", pct: 45, total: 450 },
+];
+
 // anc end

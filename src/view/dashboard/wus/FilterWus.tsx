@@ -124,13 +124,13 @@ export const Filter1: React.FC<FilterProps2> = ({ filterState, dataWus }) => {
             value={
               filter.status_type_daerah
                 ? standardOptions(
-                  getjenisStatusList?.data || [],
-                  "jenisStatusName",
-                  "jenisStatusId"
-                )?.find((f) => f.value === filter.status_type_daerah)
+                    getjenisStatusList?.data || [],
+                    "jenisStatusName",
+                    "jenisStatusId"
+                  )?.find((f) => f.value === filter.status_type_daerah)
                 : filter.status_type_daerah
             }
-          // isDisabled={!filter.bulan}
+            // isDisabled={!filter.bulan}
           />
         </div>
         <div>
@@ -150,13 +150,13 @@ export const Filter1: React.FC<FilterProps2> = ({ filterState, dataWus }) => {
             value={
               filter.women_category_daerah
                 ? standardOptions(
-                  getWomenCategory?.data || [],
-                  "womenCategoryName",
-                  "womenCategoryId"
-                )?.find((f) => f.value === filter.women_category_daerah)
+                    getWomenCategory?.data || [],
+                    "womenCategoryName",
+                    "womenCategoryId"
+                  )?.find((f) => f.value === filter.women_category_daerah)
                 : filter.women_category_daerah
             }
-          // isDisabled={!filter.bulan}
+            // isDisabled={!filter.bulan}
           />
         </div>
       </div>
@@ -185,12 +185,8 @@ export const Filter2: React.FC<FilterProps2> = ({ filterState, dataWus }) => {
     let fileName = "Cakupan Kumulatif atau Bulanan penerima imunisasi WUS";
     const data = {
       header: dataMonth?.map((r) => r.label),
-      body: [pctTarget, total, pctTotal],
-      verticalHeader: [
-        "% Target Cakupan",
-        "Jumlah Penerima Imunisasi",
-        "% Cakupan",
-      ],
+      body: [total, pctTotal],
+      verticalHeader: ["Jumlah Penerima Imunisasi", "% Cakupan"],
       fileName,
       title: fileName,
     };
@@ -260,13 +256,13 @@ export const Filter2: React.FC<FilterProps2> = ({ filterState, dataWus }) => {
             value={
               filter.status_type_kumulatif
                 ? standardOptions(
-                  getjenisStatusList?.data || [],
-                  "jenisStatusName",
-                  "jenisStatusId"
-                )?.find((f) => f.value === filter.status_type_kumulatif)
+                    getjenisStatusList?.data || [],
+                    "jenisStatusName",
+                    "jenisStatusId"
+                  )?.find((f) => f.value === filter.status_type_kumulatif)
                 : filter.status_type_kumulatif
             }
-          // isDisabled={!filter.bulan}
+            // isDisabled={!filter.bulan}
           />
         </div>
         <div>
@@ -286,13 +282,13 @@ export const Filter2: React.FC<FilterProps2> = ({ filterState, dataWus }) => {
             value={
               filter.women_category_kumulatif
                 ? standardOptions(
-                  getWomenCategory?.data || [],
-                  "womenCategoryName",
-                  "womenCategoryId"
-                )?.find((f) => f.value === filter.women_category_kumulatif)
+                    getWomenCategory?.data || [],
+                    "womenCategoryName",
+                    "womenCategoryId"
+                  )?.find((f) => f.value === filter.women_category_kumulatif)
                 : filter.women_category_kumulatif
             }
-          // isDisabled={!filter.bulan}
+            // isDisabled={!filter.bulan}
           />
         </div>
       </div>
@@ -384,13 +380,13 @@ export const Filter3: React.FC<FilterProps2> = ({ filterState, dataWus }) => {
             value={
               filter.women_category_status_T
                 ? standardOptions(
-                  getWomenCategory?.data || [],
-                  "womenCategoryName",
-                  "womenCategoryId"
-                )?.find((f) => f.value === filter.women_category_status_T)
+                    getWomenCategory?.data || [],
+                    "womenCategoryName",
+                    "womenCategoryId"
+                  )?.find((f) => f.value === filter.women_category_status_T)
                 : filter.women_category_status_T
             }
-          // isDisabled={!filter.bulan}
+            // isDisabled={!filter.bulan}
           />
         </div>
         <div onClick={downloadFile}>
@@ -488,15 +484,15 @@ export const Filter4: React.FC<FilterProps2> = ({ filterState, dataWus }) => {
             value={
               filter.women_category_status_T_Pregnant
                 ? standardOptions(
-                  getWomenCategory?.data || [],
-                  "womenCategoryName",
-                  "womenCategoryId"
-                )?.find(
-                  (f) => f.value === filter.women_category_status_T_Pregnant
-                )
+                    getWomenCategory?.data || [],
+                    "womenCategoryName",
+                    "womenCategoryId"
+                  )?.find(
+                    (f) => f.value === filter.women_category_status_T_Pregnant
+                  )
                 : filter.women_category_status_T_Pregnant
             }
-          // isDisabled={!filter.bulan}
+            // isDisabled={!filter.bulan}
           />
         </div>
         <div onClick={downloadFile}>

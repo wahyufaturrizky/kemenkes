@@ -38,7 +38,8 @@ export const graphOptions1 = (series: any[], legend: any[]) => {
             } <span style="float: right;"><strong>${formatNumber(
               originalData
             )}</strong></span><br/>`;
-          } else {
+          } else if (item.seriesName !== "Target Cakupan per Daerah") {
+            // Ganti dengan nama series yang sesuai
             tooltipContent += `${item.marker} ${
               item.seriesName
             } <span style="float: right;"><strong>${formatNumber(
@@ -50,6 +51,7 @@ export const graphOptions1 = (series: any[], legend: any[]) => {
         return tooltipContent;
       },
     },
+
     yAxis: {
       type: "category",
       data: reversedLegend,
@@ -61,8 +63,8 @@ export const graphOptions1 = (series: any[], legend: any[]) => {
       },
     },
     series: reversedSeries,
-    width: "100%", // Misalnya, atur lebar grafik menjadi 100% dari container
-    height: "800px",
+    // width: "100%", // Misalnya, atur lebar grafik menjadi 100% dari container
+    // height: "800px",
   };
   return option;
 };

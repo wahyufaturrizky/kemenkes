@@ -30,7 +30,7 @@ import { formatNumber } from "@/helpers";
 export const graphOptions3 = (series: any[], legend: any[]) => {
   const upperCaseLegend = (legend || []).map((item) => item.toUpperCase());
   const option: EChartsOptionProps = {
-    color: ["#00B1A9", "#8ECCFF", "#EAAA08"],
+    color: ["#8ECCFF", "#00B1A9", "#EAAA08"],
     grid: { containLabel: true },
     tooltip: {
       trigger: "axis",
@@ -40,10 +40,11 @@ export const graphOptions3 = (series: any[], legend: any[]) => {
           if (item.seriesName === "Cakupan") {
             tooltipContent += `${item.marker} ${item.seriesName} <span style="float: right;"><strong>${item.value}</strong></span><br/>`;
           } else {
-            tooltipContent += `${item.marker} ${item.seriesName
-              } <span style="float: right;"><strong>${formatNumber(
-                item.value
-              )}%</strong></span><br/>`;
+            tooltipContent += `${item.marker} ${
+              item.seriesName
+            } <span style="float: right;"><strong>${formatNumber(
+              item.value
+            )}%</strong></span><br/>`;
           }
         });
         tooltipContent += `</div>`;
@@ -63,6 +64,12 @@ export const graphOptions3 = (series: any[], legend: any[]) => {
     xAxis: {
       type: "category",
       data: upperCaseLegend,
+      // axisLabel: {
+      //   rotate: 90, // Kurangi rotasi label sumbu X agar lebih terbaca
+      //   // interval: 0, // Atur interval label sumbu X (0 menampilkan semua label)
+      //   // align: "right",
+      //   // verticalAlign: "middle",
+      // },
     },
     yAxis: [
       {
@@ -117,19 +124,21 @@ export const graphOptions4 = (series: any[], xData: any[]) => {
             // Menggunakan data asli untuk "Total" dalam tooltip
             const originalData = series.find((serie) => serie.name === "Total")
               .data[params[0].dataIndex];
-            tooltipContent += `${item.marker} ${item.seriesName
-              } <span style="float: right;"><strong>${formatNumber(
-                originalData
-              )}</strong></span><br/>`;
+            tooltipContent += `${item.marker} ${
+              item.seriesName
+            } <span style="float: right;"><strong>${formatNumber(
+              originalData
+            )}</strong></span><br/>`;
           } else if (item.seriesName === "Cakupan") {
             // Menggunakan format untuk "Cakupan"
             tooltipContent += `${item.marker} ${item.seriesName} <span style="float: right;"><strong>${item.value}</strong></span><br/>`;
           } else {
             // Menggunakan format persentase untuk lainnya
-            tooltipContent += `${item.marker} ${item.seriesName
-              } <span style="float: right;"><strong>${formatNumber(
-                item.value
-              )}%</strong></span><br/>`;
+            tooltipContent += `${item.marker} ${
+              item.seriesName
+            } <span style="float: right;"><strong>${formatNumber(
+              item.value
+            )}%</strong></span><br/>`;
           }
         });
         tooltipContent += `</div>`;
@@ -171,23 +180,25 @@ export const graphOptions5 = (series: any[], legend: any[]) => {
           if (item.seriesName === "Total") {
             const originalData = series.find((serie) => serie.name === "Total")
               .data[params[0].dataIndex];
-            console.log(
-              "Original Data at index ",
-              params[0].dataIndex,
-              ": ",
+            // console.log(
+            //   "Original Data at index ",
+            //   params[0].dataIndex,
+            //   ": ",
+            //   originalData
+            // );
+            tooltipContent += `${item.marker} ${
+              item.seriesName
+            } <span style="float: right;"><strong>${formatNumber(
               originalData
-            );
-            tooltipContent += `${item.marker} ${item.seriesName
-              } <span style="float: right;"><strong>${formatNumber(
-                originalData
-              )}</strong></span><br/>`;
+            )}</strong></span><br/>`;
           } else if (item.seriesName === "Cakupan") {
             tooltipContent += `${item.marker} ${item.seriesName} <span style="float: right;"><strong>${item.value}</strong></span><br/>`;
           } else {
-            tooltipContent += `${item.marker} ${item.seriesName
-              } <span style="float: right;"><strong>${formatNumber(
-                item.value
-              )}%</strong></span><br/>`;
+            tooltipContent += `${item.marker} ${
+              item.seriesName
+            } <span style="float: right;"><strong>${formatNumber(
+              item.value
+            )}%</strong></span><br/>`;
           }
         });
         tooltipContent += `</div>`;

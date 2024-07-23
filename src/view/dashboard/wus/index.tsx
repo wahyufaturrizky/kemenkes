@@ -17,7 +17,7 @@ import {
 } from "@/view/home";
 import GraphRoutineImmunizationCoverageTrendWus from "@/view/home/components/GraphWus";
 import FilterSummaryImmunizationWus from "@/view/home/components/FilterWus";
-import { dataMonth, dataTabBaduta } from "@/utils/constants";
+import { dataMonth, dataTabBaduta, trendTypeOptions } from "@/utils/constants";
 import {
   useGetTotalImmunizationQuery,
   useGetTotalImmunizationPregnantQuery,
@@ -223,7 +223,7 @@ const Wus = () => {
 
   const filterDistributionStatus = {
     ...dateQuery,
-    status_type: filter.status_type_daerah,
+    // status_type: filter.status_type_daerah,
     women_category: filter.women_category_status_T,
     region_type:
       filter.faskes && filter.kewilayahan_type == 0
@@ -242,7 +242,7 @@ const Wus = () => {
 
   const filterDistributionStatusPregnant = {
     ...dateQuery,
-    status_type: filter.status_type_daerah,
+    // status_type: filter.status_type_daerah,
     women_category: filter.women_category_status_T_Pregnant,
     region_type:
       filter.faskes && filter.kewilayahan_type == 0
@@ -641,33 +641,44 @@ const Wus = () => {
                         isLoadingImmunizationTotalCumulativeCoverageQuery
                       }
                       opts={{
-                        height: 900,
+                        height:
+                          getTotalImmunizationTotalCumulativeCoverageQuery?.data
+                            ?.length > 1500
+                            ? 65000
+                            : getTotalImmunizationTotalCumulativeCoverageQuery
+                                ?.data?.length > 700
+                            ? 35000
+                            : getTotalImmunizationTotalCumulativeCoverageQuery
+                                ?.data?.length > 200
+                            ? 15000
+                            : 900,
                       }}
                       graphOptions={graphOptions1(
                         [
                           {
                             // @ts-ignore
                             name: "Persentase",
-                            data:
-                              (
-                                getTotalImmunizationTotalCumulativeCoverageQuery?.data ||
-                                []
-                              )?.map((r: any) =>
-                                formatNumber(r?.ytd_pct_total)
-                              ) || [],
                             // data:
                             //   (
                             //     getTotalImmunizationTotalCumulativeCoverageQuery?.data ||
                             //     []
-                            //   )?.map((r: any) => ({
-                            //     value: r?.percentage,
-                            //     itemStyle: {
-                            //       color:
-                            //         r.faskes_desc === "All"
-                            //           ? "#2D9CED"
-                            //           : undefined,
-                            //     },
-                            //   })) || [],
+                            //   )?.map((r: any) =>
+                            //     formatNumber(r?.ytd_pct_total)
+                            //   ) || [],
+
+                            data:
+                              (
+                                getTotalImmunizationTotalCumulativeCoverageQuery?.data ||
+                                []
+                              )?.map((r: any) => ({
+                                value: formatNumber(r?.ytd_pct_total) ?? 0,
+                                itemStyle: {
+                                  color:
+                                    r.faskes_desc === "NASIONAL"
+                                      ? "#2D9CED"
+                                      : undefined,
+                                },
+                              })) || [],
                             type: "bar",
                             label: {
                               show: true,
@@ -682,13 +693,16 @@ const Wus = () => {
                                   .reverse(); // Membuat salinan dan membalik urutan
                                 const totalData =
                                   reversedData[params.dataIndex]?.ytd_total;
-                                const valueWithComma = params.value.replace(
-                                  ".",
-                                  ","
-                                );
-                                return `${valueWithComma}% (${formatNumber(
-                                  totalData
-                                )})`;
+                                const valueWithComma = params?.value
+                                  ?.toString()
+                                  .replace(".", ",");
+
+                                return filter.wilayah === "province" ||
+                                  filter.wilayah === "city"
+                                  ? `${valueWithComma}% (${formatNumber(
+                                      totalData
+                                    )})`
+                                  : `(${formatNumber(totalData)})`;
                               },
                             },
                           },
@@ -750,7 +764,15 @@ const Wus = () => {
                     <GraphRoutineImmunizationCoverageTrend
                       title={
                         <div className="font-bold md:text-2xl">
-                          Data <b className="text-primary-2">Kumulatif</b>{" "}
+                          Data{" "}
+                          <b className="text-primary-2">
+                            {" "}
+                            {
+                              trendTypeOptions.find(
+                                (r) => r.value === filter.tren_type
+                              )?.label
+                            }
+                          </b>{" "}
                           Jumlah Penerima, Cakupan, dan Target Cakupan{" "}
                           <b className="text-primary-2">
                             {filter.status_type_kumulatif?.toUpperCase()}
@@ -777,7 +799,13 @@ const Wus = () => {
                           )}
                           <div className="p-2 sm:w-32 md:w-64 h-fit">
                             <div className="text-sm">
-                              Total cakupan kumulatif pada tahun {filter.tahun}
+                              Total cakupan{" "}
+                              {
+                                trendTypeOptions.find(
+                                  (r) => r.value === filter.tren_type
+                                )?.label
+                              }{" "}
+                              pada tahun {filter.tahun}
                             </div>
                             <div className="py-2 font-bold text-3xl text-primary">
                               {formatNumber(
@@ -787,7 +815,8 @@ const Wus = () => {
                               %
                             </div>
                             <div>
-                              Jumlah Imunisasi Baduta Lengkap:{" "}
+                              Jumlah Imunisasi{" "}
+                              {filter.status_type_kumulatif?.toUpperCase()}:{" "}
                               {formatNumber(
                                 getTotalCumulativeCoverageRecipientsQuery?.data
                                   ?.total || 0

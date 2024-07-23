@@ -62,7 +62,6 @@ import { Filter1, Filter2, Filter3, Filter4, Filter5 } from "./FilterBias";
 // import { graphOptions5 } from "../routine-baduta-immunization/graphOptions";
 import { graphOptions1 } from "../wus/graphOptions";
 import { graphOptions2 } from "../routine-infant-immunization/graphOptions";
-// import { graphOptions2 } from "./graphOptionts";
 
 import { graphOptions3, graphOptions4, graphOptions5 } from "./graphOptionts";
 
@@ -366,7 +365,7 @@ const Bias = () => {
     },
     {
       title: `Cakupan Imunisasi Tertinggi`,
-      value: <div>{getHighestScope?.data?.vaksin || ""}</div>,
+      value: <div>{getHighestScope?.data?.vaksin?.toUpperCase() || ""}</div>,
       regional: (
         <div>
           Jumlah Cakupan: {formatNumber(getHighestScope?.data?.total || 0)}
@@ -759,7 +758,14 @@ const Bias = () => {
                       }
                       isLoading={isLoadingGetAllRegion}
                       opts={{
-                        height: 900,
+                        height:
+                          getAllRegion?.data?.length > 1500
+                            ? 65000
+                            : getAllRegion?.data?.length > 700
+                            ? 35000
+                            : getAllRegion?.data?.length > 200
+                            ? 15000
+                            : 900,
                       }}
                       graphOptions={graphOptions1(
                         [
@@ -785,9 +791,12 @@ const Bias = () => {
                                   ".",
                                   ","
                                 );
-                                return `${valueWithComma} % (${formatNumber(
-                                  totalData
-                                )})`;
+                                return filter.wilayah2 === "KECAMATAN" ||
+                                  filter.wilayah2 === "FASKES"
+                                  ? `(${formatNumber(totalData)})`
+                                  : `${valueWithComma} % (${formatNumber(
+                                      totalData
+                                    )})`;
                               },
                             },
                           },
@@ -1066,7 +1075,9 @@ const Bias = () => {
                             name: "Cakupan",
                             data:
                               (getChartScope?.data || [])?.map(
-                                (r: any) => r?.ytd
+                                (r: any) =>
+                                  (((r?.pct || 0) / 100) * (r?.ytd * 100)) /
+                                    r?.pct || 0
                               ) || [],
                             type: "bar",
                             label: {
@@ -1182,6 +1193,12 @@ const Bias = () => {
                               (getChartByAge?.data || [])?.map(
                                 (r: any) => r?.ideal
                               ) || [],
+                            label: {
+                              show: true,
+                              precision: 1,
+                              formatter: (params: any) =>
+                                `${formatNumber(params.value)}%`,
+                            },
                             type: "bar",
                           },
                           {
@@ -1190,6 +1207,12 @@ const Bias = () => {
                               (getChartByAge?.data || [])?.map(
                                 (r: any) => r?.non_ideal
                               ) || [],
+                            label: {
+                              show: true,
+                              precision: 1,
+                              formatter: (params: any) =>
+                                `${formatNumber(params.value)}%`,
+                            },
                             type: "bar",
                           },
                           {

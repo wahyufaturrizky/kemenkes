@@ -37,7 +37,8 @@ export const graphOptions1 = (series: any[], legend: any[]) => {
             } <span style="float: right;"><strong>${formatNumber(
               originalData
             )}</strong></span><br/>`;
-          } else {
+          } else if (item.seriesName !== "Target") {
+            // Ganti dengan nama series yang sesuai
             tooltipContent += `${item.marker} ${
               item.seriesName
             } <span style="float: right;"><strong>${formatNumber(
@@ -48,6 +49,30 @@ export const graphOptions1 = (series: any[], legend: any[]) => {
         tooltipContent += `</div>`;
         return tooltipContent;
       },
+      // formatter: function (params: any) {
+      //   let tooltipContent = `<div style="min-width: 350px;">${params[0].axisValueLabel}<br/>`;
+      //   params.forEach((item: any, index: number) => {
+      //     if (item.seriesName === "Total Penerima") {
+      //       // Menggunakan data asli untuk "Total Penerima" dalam tooltip
+      //       const originalData = series.find(
+      //         (serie) => serie.name === "Total Penerima"
+      //       ).data[legend.length - 1 - params[0].dataIndex];
+      //       tooltipContent += `${item.marker} ${
+      //         item.seriesName
+      //       } <span style="float: right;"><strong>${formatNumber(
+      //         originalData
+      //       )}</strong></span><br/>`;
+      //     } else {
+      //       tooltipContent += `${item.marker} ${
+      //         item.seriesName
+      //       } <span style="float: right;"><strong>${formatNumber(
+      //         item.value
+      //       )}%</strong></span><br/>`;
+      //     }
+      //   });
+      //   tooltipContent += `</div>`;
+      //   return tooltipContent;
+      // },
     },
     yAxis: {
       type: "category",
@@ -130,6 +155,12 @@ export const graphOptions2 = (series: any[]) => {
     xAxis: {
       type: "category",
       data: dataMonth?.map((r) => r.label),
+      axisLabel: {
+        rotate: 90, // Kurangi rotasi label sumbu X agar lebih terbaca
+        interval: 0, // Atur interval label sumbu X (0 menampilkan semua label)
+        // align: "right",
+        // verticalAlign: "middle",
+      },
     },
     yAxis: {
       type: "value",

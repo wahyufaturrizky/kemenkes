@@ -245,6 +245,7 @@ const FilterSummaryImmunizationBayi: React.FC<FilterProps> = ({
                 jenis_sarana: "",
                 faskes: "",
                 wilayah1: e?.value ? "district" : "city",
+                // faskes_parent: e?.label ? e?.label?.toUpperCase() : "",
               });
             }}
             value={

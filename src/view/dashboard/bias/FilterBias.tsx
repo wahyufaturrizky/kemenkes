@@ -1,23 +1,23 @@
 import { useState } from "react";
 import { Button, Select } from "@/components";
-import { API_URL } from "@/helpers/config";
+// import { API_URL } from "@/helpers/config";
 import { dataMonth } from "@/utils/constants";
 import { downloadFile } from "@/helpers/downloadFile";
 import {
-  ageTypeOptions,
-  genderOptions,
-  regionOptions,
+  // ageTypeOptions,
+  // genderOptions,
+  // regionOptions,
   trendTypeOptions,
-  vaccineTypeOptions,
+  // vaccineTypeOptions,
   regionOptionsBias,
 } from "@/utils/constants";
 import { openSans } from "@/assets/fonts";
 import { standardOptions } from "@/helpers";
 
-import {
-  useGetJenisStatusListQuery,
-  useGetWomencategoryQuery,
-} from "@/lib/services/filter-wus";
+// import {
+//   useGetJenisStatusListQuery,
+//   useGetWomencategoryQuery,
+// } from "@/lib/services/filter-wus";
 import { useGetListVaccineQuery } from "@/lib/services/bias";
 
 interface FilterProps {
@@ -47,9 +47,9 @@ function formatNumberString(numStr: string) {
 }
 export const Filter1: React.FC<FilterProps> = ({ filterState, dataBias }) => {
   const [filter, setFilter] = filterState || useState({});
-  const { data: getjenisStatusList } = useGetJenisStatusListQuery({});
+  // const { data: getjenisStatusList } = useGetJenisStatusListQuery({});
   const { data: getjenisVaksin } = useGetListVaccineQuery({});
-  const { data: getWomenCategory } = useGetWomencategoryQuery({});
+  // const { data: getWomenCategory } = useGetWomencategoryQuery({});
 
   const header = dataBias?.map((r: any) => r.faskes);
   // const faskes = dataBias?.map((r: any) => r.faskes);
@@ -67,48 +67,6 @@ export const Filter1: React.FC<FilterProps> = ({ filterState, dataBias }) => {
       "Tren Cakupan Daerah Imunisasi BIAS"
     );
   };
-
-  // const downloadFile2 = async () => {
-  //   const url = `${API_URL}/v1/csv/download`;
-  //   let fileName = "Tren Cakupan Daerah Imunisasi BIAS";
-  //   const data = {
-  //     header: dataBias?.map((r: any) => r.faskes_desc),
-  //     body: [faskes, persentase, threshold, total],
-  //     verticalHeader: ["Faskes", "Presentasi", "Threshold", "Total"],
-  //     fileName,
-  //     title: fileName,
-  //   };
-  //   try {
-  //     const response = await fetch(url, {
-  //       method: "POST",
-  //       headers: {
-  //         "Content-Type": "application/json",
-  //       },
-  //       body: JSON.stringify(data),
-  //     });
-
-  //     if (!response.ok) {
-  //       throw new Error("Network response was not ok");
-  //     }
-
-  //     const blob = await response.blob();
-
-  //     const downloadUrl = window.URL.createObjectURL(blob);
-
-  //     const a = document.createElement("a");
-  //     a.href = downloadUrl;
-  //     a.download = `${data.fileName}.xlsx`;
-
-  //     document.body.appendChild(a);
-
-  //     a.click();
-
-  //     document.body.removeChild(a);
-  //     window.URL.revokeObjectURL(downloadUrl);
-  //   } catch (error) {
-  //     console.error("There was a problem with the fetch operation:", error);
-  //   }
-  // };
 
   return (
     <div className="flex flex-wrap justify-between items-center gap-4 sm:mt-20 md:mt-0 mb-8">
