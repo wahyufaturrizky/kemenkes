@@ -394,9 +394,9 @@ export const Filter4: React.FC<FilterProps2> = ({ filterState, dataWus }) => {
     //   `${formatNumber(data.pct)}%`,
     //   // `${formatNumber(data.total)}`,
     // ]);
-    const dataBody = dataWus?.[0]?.result.map((data: any, index: number) => [
+    const dataBody = dataWus?.[1]?.result.map((data: any, index: number) => [
       `${formatNumber(data.pct)}%`, // pct dari dataWus?.[0]
-      `${formatNumber(dataWus?.[1]?.result[index]?.pct)}%`, // pct dari dataWus?.[1]
+      `${formatNumber(dataWus?.[0]?.result[index]?.pct)}%`, // pct dari dataWus?.[1]
       // `${formatNumber(data.total)}`,
     ]);
 

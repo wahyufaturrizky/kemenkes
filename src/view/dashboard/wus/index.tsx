@@ -973,7 +973,7 @@ const Wus = () => {
                             data:
                               (
                                 getDistributionStatusPregnantChartQuery
-                                  ?.data?.[0]?.result || []
+                                  ?.data?.[1]?.result || []
                               )?.map((r: any) => r?.pct) || [],
                             label: {
                               show: true,
@@ -1002,7 +1002,7 @@ const Wus = () => {
                             data:
                               (
                                 getDistributionStatusPregnantChartQuery
-                                  ?.data?.[1]?.result || []
+                                  ?.data?.[0]?.result || []
                               )?.map((r: any) => r?.pct) || [],
                             label: {
                               show: false,
