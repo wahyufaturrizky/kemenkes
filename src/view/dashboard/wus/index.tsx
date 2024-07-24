@@ -86,39 +86,39 @@ const Wus = () => {
       filter.faskes && filter.kewilayahan_type == 0
         ? "faskes"
         : filter.faskes && filter.kewilayahan_type == 1
-        ? "subdistrict"
-        : filter.kecamatan
-        ? "district"
-        : filter.kabkota
-        ? "city"
-        : filter.provinsi
-        ? "province"
-        : "All",
+          ? "subdistrict"
+          : filter.kecamatan
+            ? "district"
+            : filter.kabkota
+              ? "city"
+              : filter.provinsi
+                ? "province"
+                : "All",
     faskes_parent_id:
       filter.faskes !== ""
         ? filter.kecamatan
         : filter.provinsi !== "" &&
           filter.kabkota !== "" &&
           filter.kecamatan === undefined
-        ? filter.provinsi
-        : filter.provinsi !== "" &&
-          filter.kabkota !== "" &&
-          filter.kecamatan !== ""
-        ? filter.kabkota
-        : filter.provinsi !== "" && filter.kabkota !== ""
-        ? filter.provinsi
-        : filter.provinsi !== ""
-        ? filter.provinsi
-        : "All",
+          ? filter.provinsi
+          : filter.provinsi !== "" &&
+            filter.kabkota !== "" &&
+            filter.kecamatan !== ""
+            ? filter.kabkota
+            : filter.provinsi !== "" && filter.kabkota !== ""
+              ? filter.provinsi
+              : filter.provinsi !== ""
+                ? filter.provinsi
+                : "All",
     faskes_id: filter.faskes
       ? filter.faskes
       : filter.kecamatan
-      ? filter.kecamatan
-      : filter.kabkota
-      ? filter.kabkota
-      : filter.provinsi
-      ? filter.provinsi
-      : "All",
+        ? filter.kecamatan
+        : filter.kabkota
+          ? filter.kabkota
+          : filter.provinsi
+            ? filter.provinsi
+            : "All",
     kewilayahan_type: filter.kewilayahan_type,
   };
 
@@ -132,12 +132,12 @@ const Wus = () => {
     faskes_id: filter.faskes
       ? filter.faskes
       : filter.kecamatan
-      ? filter.kecamatan
-      : filter.kabkota
-      ? filter.kabkota
-      : filter.provinsi
-      ? filter.provinsi
-      : "All",
+        ? filter.kecamatan
+        : filter.kabkota
+          ? filter.kabkota
+          : filter.provinsi
+            ? filter.provinsi
+            : "All",
   };
 
   const filterCumulativeCoverageRecipients = {
@@ -147,39 +147,39 @@ const Wus = () => {
       filter.faskes && filter.kewilayahan_type == 0
         ? "faskes"
         : filter.faskes && filter.kewilayahan_type == 1
-        ? "subdistrict"
-        : filter.kecamatan
-        ? "district"
-        : filter.kabkota
-        ? "city"
-        : filter.provinsi
-        ? "province"
-        : "All",
+          ? "subdistrict"
+          : filter.kecamatan
+            ? "district"
+            : filter.kabkota
+              ? "city"
+              : filter.provinsi
+                ? "province"
+                : "All",
     faskes_parent_id:
       filter.faskes !== ""
         ? filter.kecamatan
         : filter.provinsi !== "" &&
           filter.kabkota !== "" &&
           filter.kecamatan === undefined
-        ? filter.provinsi
-        : filter.provinsi !== "" &&
-          filter.kabkota !== "" &&
-          filter.kecamatan !== ""
-        ? filter.kabkota
-        : filter.provinsi !== "" && filter.kabkota !== ""
-        ? filter.provinsi
-        : filter.provinsi !== ""
-        ? filter.provinsi
-        : "All",
+          ? filter.provinsi
+          : filter.provinsi !== "" &&
+            filter.kabkota !== "" &&
+            filter.kecamatan !== ""
+            ? filter.kabkota
+            : filter.provinsi !== "" && filter.kabkota !== ""
+              ? filter.provinsi
+              : filter.provinsi !== ""
+                ? filter.provinsi
+                : "All",
     faskes_id: filter.faskes
       ? filter.faskes
       : filter.kecamatan
-      ? filter.kecamatan
-      : filter.kabkota
-      ? filter.kabkota
-      : filter.provinsi
-      ? filter.provinsi
-      : "All",
+        ? filter.kecamatan
+        : filter.kabkota
+          ? filter.kabkota
+          : filter.provinsi
+            ? filter.provinsi
+            : "All",
     kewilayahan_type: filter.kewilayahan_type,
     status_type: filter.status_type_kumulatif,
     tren_type: filter.tren_type,
@@ -193,14 +193,14 @@ const Wus = () => {
       filter.faskes && filter.kewilayahan_type == 0
         ? "faskes"
         : filter.faskes && filter.kewilayahan_type == 1
-        ? "subdistrict"
-        : filter.kecamatan
-        ? "district"
-        : filter.kabkota
-        ? "city"
-        : filter.provinsi
-        ? "province"
-        : "All",
+          ? "subdistrict"
+          : filter.kecamatan
+            ? "district"
+            : filter.kabkota
+              ? "city"
+              : filter.provinsi
+                ? "province"
+                : "All",
     status_type: filter.status_type_kumulatif,
     tren_type: filter.tren_type,
     women_category: filter.women_category_kumulatif,
@@ -215,14 +215,14 @@ const Wus = () => {
       filter.faskes && filter.kewilayahan_type == 0
         ? "faskes"
         : filter.faskes && filter.kewilayahan_type == 1
-        ? "subdistrict"
-        : filter.kecamatan
-        ? "district"
-        : filter.kabkota
-        ? "city"
-        : filter.provinsi
-        ? "province"
-        : "All",
+          ? "subdistrict"
+          : filter.kecamatan
+            ? "district"
+            : filter.kabkota
+              ? "city"
+              : filter.provinsi
+                ? "province"
+                : "All",
     kewilayahan_type: filter.kewilayahan_type,
   };
 
@@ -234,14 +234,14 @@ const Wus = () => {
       filter.faskes && filter.kewilayahan_type == 0
         ? "faskes"
         : filter.faskes && filter.kewilayahan_type == 1
-        ? "subdistrict"
-        : filter.kecamatan
-        ? "district"
-        : filter.kabkota
-        ? "city"
-        : filter.provinsi
-        ? "province"
-        : "All",
+          ? "subdistrict"
+          : filter.kecamatan
+            ? "district"
+            : filter.kabkota
+              ? "city"
+              : filter.provinsi
+                ? "province"
+                : "All",
     kewilayahan_type: filter.kewilayahan_type,
   };
 
@@ -335,9 +335,8 @@ const Wus = () => {
 
   const dataGraphRegionalRoutineImmunizationCoverageTrend = [
     {
-      title: `Total Cakupan ${filter.status_type_daerah.toUpperCase()}  Nasional Tahun ${
-        filter.tahun
-      }`,
+      title: `Total Cakupan ${filter.status_type_daerah.toUpperCase()}  Nasional Tahun ${filter.tahun
+        }`,
       value: (
         <div>
           {formatNumber(
@@ -371,7 +370,7 @@ const Wus = () => {
         <div>
           {formatNumber(
             getTotalImmunizationTotalCoverageLowestQuery?.data?.ytd_pct_total ||
-              0
+            0
           )}
           %
         </div>
@@ -631,12 +630,12 @@ const Wus = () => {
                             ?.length > 1500
                             ? 65000
                             : getTotalImmunizationTotalCumulativeCoverageQuery
-                                ?.data?.length > 700
-                            ? 35000
-                            : getTotalImmunizationTotalCumulativeCoverageQuery
+                              ?.data?.length > 700
+                              ? 35000
+                              : getTotalImmunizationTotalCumulativeCoverageQuery
                                 ?.data?.length > 200
-                            ? 15000
-                            : 900,
+                                ? 15000
+                                : 900,
                       }}
                       graphOptions={graphOptions1(
                         [
@@ -685,8 +684,8 @@ const Wus = () => {
                                 return filter.wilayah === "province" ||
                                   filter.wilayah === "city"
                                   ? `${valueWithComma}% (${formatNumber(
-                                      totalData
-                                    )})`
+                                    totalData
+                                  )})`
                                   : `(${formatNumber(totalData)})`;
                               },
                             },
@@ -780,7 +779,7 @@ const Wus = () => {
                                   (r) => r.value === filter.tren_type
                                 )?.label
                               }{" "}
-                              pada tahun {filter.tahun}
+                              pada bulan {(dataMonth)?.find((f) => f.value === filter.bulan)?.label || ''} tahun {filter.tahun}
                             </div>
                             <div className="py-2 font-bold text-3xl text-primary">
                               {formatNumber(
@@ -866,7 +865,7 @@ const Wus = () => {
                               (r: any) =>
                                 (((r?.pct_total || 0) / 100) *
                                   (r?.total * 100)) /
-                                  r?.pct_total || 0
+                                r?.pct_total || 0
                             ) || [],
                           type: "bar",
                           label: {

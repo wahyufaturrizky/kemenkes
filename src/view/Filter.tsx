@@ -69,11 +69,13 @@ export const Filter1: React.FC<FilterProps> = ({ filterState, data }) => {
         <div onClick={async () => {
           const total = data?.map((r: any) => r.total.toString());
           const pct = data?.map((r: any) => r.pct.toString());
-          const target = data?.map((r: any) => r.threshold.toString());
-          const header = data?.map((r: any) => r.domicile === "All" ? "Nasional" : r.domicile);
-          const body = [pct, total, target];
-          const verticalHeader = ["% Target Cakupan", "Jumlah Penerima Imunisasi", "Cakupan"];
-          const fileName = "Data Kumulatif";
+          // const target = data?.map((r: any) => r.threshold.toString());
+          const verticalHeader = data?.map((r: any) => r.domicile === "All" ? "Nasional" : r.domicile);
+          const body = data?.map((r: any, i: number) => {
+            return [total[i], pct[i]]
+          });
+          const header = ["Total", "%Cakupan"];
+          const fileName = "Data Cakupan";
           await downloadFile({ header, body, verticalHeader, fileName });
         }} >
           <Button text="Unduh" variant="outlined" />
@@ -133,10 +135,12 @@ export const Filter2: React.FC<FilterProps> = ({ filterState, data }) => {
         <div onClick={async () => {
           const total = data?.map((r: any) => r.jumlah_penerima.toString());
           const pct = data?.map((r: any) => r.pct_cakupan.toString());
-          const target = data?.map((r: any) => r.target_cakupan.toString());
-          const header = dataMonths?.map((r) => r.label);
-          const body = [pct, total, target];
-          const verticalHeader = ["% Target Cakupan", "Jumlah Imunisasi", "Target"];
+          // const target = data?.map((r: any) => r.target_cakupan.toString());
+          const verticalHeader = dataMonths?.map((r) => r.label);
+          const body = data?.map((r: any, i: number) => {
+            return [total[i], pct[i]]
+          });
+          const header = ["Jumlah Penerima Imunisasi", "%Cakupan"];
           const fileName = "Grafik Cakupan";
           await downloadFile({ header, body, verticalHeader, fileName });
         }} >

@@ -40,8 +40,8 @@ export const graphOptions1 = (series: any[], legend: any[]) => {
     xAxis: {
       type: "value",
       axisLabel: {
-        formatter: "{value}%",
-      },
+        formatter: (value: any) => `${formatNumber(value)}%`
+      }
     },
     series: reversedSeries,
   };
@@ -82,6 +82,9 @@ export const graphOptions2 = (series: any[]) => {
     },
     yAxis: {
       type: "value",
+      axisLabel: {
+        formatter: (value: any) => `${formatNumber(value)}`
+      }
     },
     series: series,
   };
@@ -123,6 +126,9 @@ export const graphOptions3 = (series: any[], xData: any[]) => {
     },
     yAxis: {
       type: "value",
+      axisLabel: {
+        formatter: (value: any) => `${formatNumber(value)}`
+      }
     },
     series: series,
   };
@@ -160,6 +166,9 @@ export const graphOptions4 = (series: any[], xData: any[]) => {
     },
     yAxis: {
       type: "value",
+      axisLabel: {
+        formatter: (value: any) => `${formatNumber(value)}`
+      }
     },
     series: series,
   };
@@ -214,7 +223,7 @@ export const graphOptions5 = (series: any[], legend: any[]) => {
     yAxis: {
       type: "value",
       axisLabel: {
-        formatter: "{value}%",
+        formatter: (value: any) => `${formatNumber(value)}%`
       },
     },
     series: series,

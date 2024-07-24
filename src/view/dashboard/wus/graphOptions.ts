@@ -33,18 +33,16 @@ export const graphOptions1 = (series: any[], legend: any[]) => {
             const originalData = series.find(
               (serie) => serie.name === "Total Penerima"
             ).data[legend.length - 1 - params[0].dataIndex];
-            tooltipContent += `${item.marker} ${
-              item.seriesName
-            } <span style="float: right;"><strong>${formatNumber(
-              originalData
-            )}</strong></span><br/>`;
+            tooltipContent += `${item.marker} ${item.seriesName
+              } <span style="float: right;"><strong>${formatNumber(
+                originalData
+              )}</strong></span><br/>`;
           } else if (item.seriesName !== "Target Cakupan per Daerah") {
             // Ganti dengan nama series yang sesuai
-            tooltipContent += `${item.marker} ${
-              item.seriesName
-            } <span style="float: right;"><strong>${formatNumber(
-              item.value
-            )}%</strong></span><br/>`;
+            tooltipContent += `${item.marker} ${item.seriesName
+              } <span style="float: right;"><strong>${formatNumber(
+                item.value
+              )}%</strong></span><br/>`;
           }
         });
         tooltipContent += `</div>`;
@@ -59,7 +57,7 @@ export const graphOptions1 = (series: any[], legend: any[]) => {
     xAxis: {
       type: "value",
       axisLabel: {
-        formatter: "{value}%",
+        formatter: (value: any) => `${formatNumber(value)}%`
       },
     },
     series: reversedSeries,
@@ -104,7 +102,7 @@ export const graphOptions2 = (series: any[]) => {
         type: "value",
         position: "left",
         axisLabel: {
-          formatter: "{value} %",
+          formatter: (value: any) => `${formatNumber(value)}%`
         },
         show: false,
       },

@@ -25,7 +25,7 @@ export const graphOptions1 = (series: any[], legend: any[]) => {
     tooltip: {
       trigger: "axis",
       axisLabel: {
-        formatter: "{value}%",
+        formatter: (value: any) => `${formatNumber(value)}%`
       },
       formatter: function (params: any) {
         let tooltipContent = `<div style="min-width: 350px;">${params[0].axisValueLabel}<br/>`;

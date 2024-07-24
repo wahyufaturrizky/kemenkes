@@ -32,18 +32,16 @@ export const graphOptions1 = (series: any[], legend: any[]) => {
             const originalData = series.find(
               (serie) => serie.name === "Total Penerima"
             ).data[legend.length - 1 - params[0].dataIndex];
-            tooltipContent += `${item.marker} ${
-              item.seriesName
-            } <span style="float: right;"><strong>${formatNumber(
-              originalData
-            )}</strong></span><br/>`;
+            tooltipContent += `${item.marker} ${item.seriesName
+              } <span style="float: right;"><strong>${formatNumber(
+                originalData
+              )}</strong></span><br/>`;
           } else if (item.seriesName !== "Target") {
             // Ganti dengan nama series yang sesuai
-            tooltipContent += `${item.marker} ${
-              item.seriesName
-            } <span style="float: right;"><strong>${formatNumber(
-              item.value
-            )}%</strong></span><br/>`;
+            tooltipContent += `${item.marker} ${item.seriesName
+              } <span style="float: right;"><strong>${formatNumber(
+                item.value
+              )}%</strong></span><br/>`;
           }
         });
         tooltipContent += `</div>`;
@@ -81,7 +79,7 @@ export const graphOptions1 = (series: any[], legend: any[]) => {
     xAxis: {
       type: "value",
       axisLabel: {
-        formatter: "{value}%",
+        formatter: (value: any) => `${formatNumber(value)}%`
       },
     },
     series: reversedSeries,
@@ -102,20 +100,18 @@ export const graphOptions2 = (series: any[]) => {
         ); // Ganti "Nama Series Anda" dengan nama yang tepat
         params.forEach((item: any, i: number) => {
           if (item.seriesName === "Jumlah Penerima Imunisasi") {
-            tooltipContent += `${item.marker} ${
-              item.seriesName
-            } <span style="float: right;"><strong>${formatNumber(
-              item.value
-            )}</strong></span><br/>`;
+            tooltipContent += `${item.marker} ${item.seriesName
+              } <span style="float: right;"><strong>${formatNumber(
+                item.value
+              )}</strong></span><br/>`;
           } else {
             const additionalDataValue = additionalDataSeries
               ? additionalDataSeries.additionalData[item.dataIndex]
               : 0;
-            tooltipContent += `${item.marker} ${
-              item.seriesName
-            } <span style="float: right;"><strong>${formatNumber(
-              additionalDataValue
-            )}%</strong></span><br/>`;
+            tooltipContent += `${item.marker} ${item.seriesName
+              } <span style="float: right;"><strong>${formatNumber(
+                additionalDataValue
+              )}%</strong></span><br/>`;
           }
         });
         tooltipContent += `</div>`;
@@ -160,20 +156,18 @@ export const graphOptions3 = (series: any[], xData: any[]) => {
         ); // Ganti "Nama Series Anda" dengan nama yang tepat
         params.forEach((item: any, i: number) => {
           if (item.seriesName === "Cakupan") {
-            tooltipContent += `${item.marker} ${
-              item.seriesName
-            } <span style="float: right;"><strong>${formatNumber(
-              item.value
-            )}</strong></span><br/>`;
+            tooltipContent += `${item.marker} ${item.seriesName
+              } <span style="float: right;"><strong>${formatNumber(
+                item.value
+              )}</strong></span><br/>`;
           } else {
             const additionalDataValue = additionalDataSeries
               ? additionalDataSeries.additionalData[item.dataIndex]
               : 0;
-            tooltipContent += `${item.marker} ${
-              item.seriesName
-            } <span style="float: right;"><strong>${formatNumber(
-              additionalDataValue
-            )}%</strong></span><br/>`;
+            tooltipContent += `${item.marker} ${item.seriesName
+              } <span style="float: right;"><strong>${formatNumber(
+                additionalDataValue
+              )}%</strong></span><br/>`;
           }
         });
         tooltipContent += `</div>`;
@@ -242,21 +236,19 @@ export const graphOptions5 = (series: any[], xData: any[]) => {
             // Menggunakan data asli untuk "Total" dalam tooltip
             const originalData = series.find((serie) => serie.name === "Total")
               .data[params[0].dataIndex];
-            tooltipContent += `${item.marker} ${
-              item.seriesName
-            } <span style="float: right;"><strong>${formatNumber(
-              originalData
-            )}</strong></span><br/>`;
+            tooltipContent += `${item.marker} ${item.seriesName
+              } <span style="float: right;"><strong>${formatNumber(
+                originalData
+              )}</strong></span><br/>`;
           } else if (item.seriesName === "Cakupan") {
             // Menggunakan format untuk "Cakupan"
             tooltipContent += `${item.marker} ${item.seriesName} <span style="float: right;"><strong>${item.value}</strong></span><br/>`;
           } else {
             // Menggunakan format persentase untuk lainnya
-            tooltipContent += `${item.marker} ${
-              item.seriesName
-            } <span style="float: right;"><strong>${formatNumber(
-              item.value
-            )}%</strong></span><br/>`;
+            tooltipContent += `${item.marker} ${item.seriesName
+              } <span style="float: right;"><strong>${formatNumber(
+                item.value
+              )}%</strong></span><br/>`;
           }
         });
         tooltipContent += `</div>`;
@@ -277,7 +269,7 @@ export const graphOptions5 = (series: any[], xData: any[]) => {
     yAxis: {
       type: "value",
       axisLabel: {
-        formatter: "{value} %",
+        formatter: (value: any) => `${formatNumber(value)}%`
       },
     },
     series: series,

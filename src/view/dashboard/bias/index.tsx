@@ -98,14 +98,14 @@ const Bias = () => {
       filter.faskes && filter.kewilayahan_type == 0
         ? "FASKES"
         : filter.faskes && filter.kewilayahan_type == 1
-        ? "KELURAHAN"
-        : filter.kecamatan
-        ? "KECAMATAN"
-        : filter.kabkota
-        ? "KABKO"
-        : filter.provinsi
-        ? "PROVINSI"
-        : "ALL",
+          ? "KELURAHAN"
+          : filter.kecamatan
+            ? "KECAMATAN"
+            : filter.kabkota
+              ? "KABKO"
+              : filter.provinsi
+                ? "PROVINSI"
+                : "ALL",
   };
   const filterQuery = {
     ...dateQuery,
@@ -113,12 +113,12 @@ const Bias = () => {
     faskes_id: filter.faskes
       ? filter.faskes
       : filter.kecamatan
-      ? filter.kecamatan
-      : filter.kabkota
-      ? filter.kabkota
-      : filter.provinsi
-      ? filter.provinsi
-      : "ALL",
+        ? filter.kecamatan
+        : filter.kabkota
+          ? filter.kabkota
+          : filter.provinsi
+            ? filter.provinsi
+            : "ALL",
     kewilayahan_type: filter.kewilayahan_type,
   };
   const optionQuery = {
@@ -142,12 +142,12 @@ const Bias = () => {
     faskes_id: filter.faskes
       ? filter.faskes
       : filter.kecamatan
-      ? filter.kecamatan
-      : filter.kabkota
-      ? filter.kabkota
-      : filter.provinsi
-      ? filter.provinsi
-      : "ALL",
+        ? filter.kecamatan
+        : filter.kabkota
+          ? filter.kabkota
+          : filter.provinsi
+            ? filter.provinsi
+            : "ALL",
     vaccine_type: filter.tipe_vaksin,
     kewilayahan_type: filter.kewilayahan_type,
   };
@@ -165,12 +165,12 @@ const Bias = () => {
     faskes_id: filter.faskes
       ? filter.faskes
       : filter.kecamatan
-      ? filter.kecamatan
-      : filter.kabkota
-      ? filter.kabkota
-      : filter.provinsi
-      ? filter.provinsi
-      : "ALL",
+        ? filter.kecamatan
+        : filter.kabkota
+          ? filter.kabkota
+          : filter.provinsi
+            ? filter.provinsi
+            : "ALL",
     tren_type: filter.tren_type,
     kewilayahan_type: filter.kewilayahan_type,
   };
@@ -180,12 +180,12 @@ const Bias = () => {
     filter.wilayah === "faskes"
       ? filter.faskes
       : filter.wilayah === "district"
-      ? filter.kecamatan
-      : filter.wilayah === "city"
-      ? filter.kabkota
-      : filter.wilayah === "province"
-      ? filter.provinsi
-      : "All";
+        ? filter.kecamatan
+        : filter.wilayah === "city"
+          ? filter.kabkota
+          : filter.wilayah === "province"
+            ? filter.provinsi
+            : "All";
   const filterQueryGraph = {
     ...dateQuery,
     region_type: filter.wilayah,
@@ -198,12 +198,12 @@ const Bias = () => {
     faskes_id: filter.faskes
       ? filter.faskes
       : filter.kecamatan
-      ? filter.kecamatan
-      : filter.kabkota
-      ? filter.kabkota
-      : filter.provinsi
-      ? filter.provinsi
-      : "ALL",
+        ? filter.kecamatan
+        : filter.kabkota
+          ? filter.kabkota
+          : filter.provinsi
+            ? filter.provinsi
+            : "ALL",
     kewilayahan_type: filter.kewilayahan_type,
     vaccine_type: filter.tipe_vaksin3,
   };
@@ -213,12 +213,12 @@ const Bias = () => {
     faskes_id: filter.faskes
       ? filter.faskes
       : filter.kecamatan
-      ? filter.kecamatan
-      : filter.kabkota
-      ? filter.kabkota
-      : filter.provinsi
-      ? filter.provinsi
-      : "ALL",
+        ? filter.kecamatan
+        : filter.kabkota
+          ? filter.kabkota
+          : filter.provinsi
+            ? filter.provinsi
+            : "ALL",
     kewilayahan_type: filter.kewilayahan_type,
     vaccine_type: filter.tipe_vaksin4,
   };
@@ -227,12 +227,12 @@ const Bias = () => {
     faskes_id: filter.faskes
       ? filter.faskes
       : filter.kecamatan
-      ? filter.kecamatan
-      : filter.kabkota
-      ? filter.kabkota
-      : filter.provinsi
-      ? filter.provinsi
-      : "ALL",
+        ? filter.kecamatan
+        : filter.kabkota
+          ? filter.kabkota
+          : filter.provinsi
+            ? filter.provinsi
+            : "ALL",
     kewilayahan_type: filter.kewilayahan_type,
     vaccine_type: filter.tipe_vaksin5,
   };
@@ -735,10 +735,10 @@ const Bias = () => {
                           getAllRegion?.data?.length > 1500
                             ? 65000
                             : getAllRegion?.data?.length > 700
-                            ? 35000
-                            : getAllRegion?.data?.length > 200
-                            ? 15000
-                            : 900,
+                              ? 35000
+                              : getAllRegion?.data?.length > 200
+                                ? 15000
+                                : 900,
                       }}
                       graphOptions={graphOptions1(
                         [
@@ -768,8 +768,8 @@ const Bias = () => {
                                   filter.wilayah2 === "FASKES"
                                   ? `(${formatNumber(totalData)})`
                                   : `${valueWithComma} % (${formatNumber(
-                                      totalData
-                                    )})`;
+                                    totalData
+                                  )})`;
                               },
                             },
                           },
@@ -845,7 +845,8 @@ const Bias = () => {
                           {isLoadingPct && <Spin />}
                           <div className="p-2 sm:w-32 md:w-64 h-fit">
                             <div className="text-sm">
-                              Total cakupan kumulatif pada tahun {filter.tahun}
+                              Total cakupan kumulatif
+                              {" "}pada bulan {(dataMonth)?.find((f) => f.value === filter.bulan)?.label || ''} tahun {filter.tahun}
                             </div>
                             <div className="py-2 font-bold text-3xl text-primary">
                               {formatNumber(getPct?.data?.pct || 0)}%
@@ -911,7 +912,7 @@ const Bias = () => {
                               (r: any) =>
                                 (((r?.cakupan || 0) / 100) *
                                   (r?.jumlah_penerima * 100)) /
-                                  r?.cakupan || 0
+                                r?.cakupan || 0
                             ) || [],
                           type: "bar",
                           label: {
@@ -1018,7 +1019,7 @@ const Bias = () => {
                               (getChartScope?.data || [])?.map(
                                 (r: any) =>
                                   (((r?.pct || 0) / 100) * (r?.ytd * 100)) /
-                                    r?.pct || 0
+                                  r?.pct || 0
                               ) || [],
                             type: "bar",
                             label: {

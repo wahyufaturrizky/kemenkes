@@ -242,11 +242,10 @@ export const graphOptions4 = (series: any[], legend: any[]) => {
           if (item.seriesName === "Jumlah") {
             tooltipContent += `${item.marker} ${item.seriesName} <span style="float: right;"><strong>${item.value}</strong></span><br/>`;
           } else {
-            tooltipContent += `${item.marker} ${
-              item.seriesName
-            } <span style="float: right;"><strong>${formatNumber(
-              item.value
-            )}%</strong></span><br/>`;
+            tooltipContent += `${item.marker} ${item.seriesName
+              } <span style="float: right;"><strong>${formatNumber(
+                item.value
+              )}%</strong></span><br/>`;
           }
         });
         tooltipContent += `</div>`;
@@ -281,7 +280,7 @@ export const graphOptions4 = (series: any[], legend: any[]) => {
         // name: "% Target Cakupan",
         position: "right",
         axisLabel: {
-          formatter: "{value}",
+          formatter: (value: any) => `${formatNumber(value)}`
         },
         min: 0,
         max: 100,
@@ -316,11 +315,10 @@ export const graphOptions5 = (series: any[], legend: any[]) => {
           if (item.seriesName === "Jumlah Bumil Anemia") {
             tooltipContent += `${item.marker} ${item.seriesName} <span style="float: right;"><strong>${item.value}</strong></span><br/>`;
           } else {
-            tooltipContent += `${item.marker} ${
-              item.seriesName
-            } <span style="float: right;"><strong>${formatNumber(
-              item.value
-            )}%</strong></span><br/>`;
+            tooltipContent += `${item.marker} ${item.seriesName
+              } <span style="float: right;"><strong>${formatNumber(
+                item.value
+              )}%</strong></span><br/>`;
           }
         });
         tooltipContent += `</div>`;
@@ -360,7 +358,7 @@ export const graphOptions5 = (series: any[], legend: any[]) => {
         // name: "% Target Cakupan",
         position: "right",
         axisLabel: {
-          formatter: "{value} %",
+          formatter: (value: any) => `${formatNumber(value)}%`
         },
         min: 0,
         max: 100,
@@ -396,11 +394,10 @@ export const graphOptions6 = (series: any[], yData: any[]) => {
       formatter: function (params: any) {
         let tooltipContent = `<div style="min-width: 350px;">${params[0].axisValueLabel}<br/>`;
         params.forEach((item: any) => {
-          tooltipContent += `${item.marker} ${
-            item.seriesName
-          } <span style="float: right;"><strong>${formatNumber(
-            item.value
-          )}%</strong></span><br/>`;
+          tooltipContent += `${item.marker} ${item.seriesName
+            } <span style="float: right;"><strong>${formatNumber(
+              item.value
+            )}%</strong></span><br/>`;
         });
         tooltipContent += `</div>`;
         return tooltipContent;
@@ -419,7 +416,7 @@ export const graphOptions6 = (series: any[], yData: any[]) => {
     xAxis: {
       type: "value",
       axisLabel: {
-        formatter: "{value}%",
+        formatter: (value: any) => `${formatNumber(value)}%`
       },
     },
     yAxis: {
@@ -445,10 +442,10 @@ export const graphOptions7 = (series: any[], label: any[]) => {
         return params.dataIndex === 0
           ? "#60D3AA"
           : params.dataIndex === 1
-          ? "#00B3AC"
-          : params.dataIndex === 2
-          ? "#00968E"
-          : "#00A2B3";
+            ? "#00B3AC"
+            : params.dataIndex === 2
+              ? "#00968E"
+              : "#00A2B3";
       },
       // #00B3AC
     },
@@ -463,11 +460,10 @@ export const graphOptions7 = (series: any[], label: any[]) => {
           if (item.seriesName === "Sasaran") {
             tooltipContent += `${item.marker} ${item.seriesName} <span style="float: right;"><strong>${item.value}</strong></span><br/>`;
           } else {
-            tooltipContent += `${item.marker} ${
-              item.seriesName
-            } <span style="float: right;"><strong>${formatNumber(
-              item.value
-            )}%</strong></span><br/>`;
+            tooltipContent += `${item.marker} ${item.seriesName
+              } <span style="float: right;"><strong>${formatNumber(
+                item.value
+              )}%</strong></span><br/>`;
           }
         });
         tooltipContent += `</div>`;
@@ -534,7 +530,7 @@ export const graphOptions7 = (series: any[], label: any[]) => {
         // name: "% Target Cakupan",
         position: "right",
         axisLabel: {
-          formatter: "{value}%",
+          formatter: (value: any) => `${formatNumber(value)}%`
         },
         min: 0,
         max: 100,

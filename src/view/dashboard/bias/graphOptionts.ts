@@ -47,14 +47,14 @@ export const graphOptions3 = (series: any[], legend: any[]) => {
         type: "value",
         position: "left",
         axisLabel: {
-          formatter: "{value}",
+          formatter: (value: any) => `${formatNumber(value)}`
         },
       },
       {
         type: "value",
         position: "right",
         axisLabel: {
-          formatter: "{value} %",
+          formatter: (value: any) => `${formatNumber(value)}%`
         },
         min: 0,
         max: 100,
@@ -126,7 +126,7 @@ export const graphOptions4 = (series: any[], xData: any[]) => {
     yAxis: {
       type: "value",
       axisLabel: {
-        formatter: "{value} %",
+        formatter: (value: any) => `${formatNumber(value)}%`
       },
     },
     series: series,
