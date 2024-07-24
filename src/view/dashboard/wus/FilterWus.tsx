@@ -385,10 +385,22 @@ export const Filter4: React.FC<FilterProps2> = ({ filterState, dataWus }) => {
   const downloadFile = async () => {
     const url = `${API_URL}/v1/csv/download`; // Your endpoint URL
     let fileName = "Sebaran Status Kehamilan Terhadap Status T";
-    const dataBody = dataWus?.map((data: any) => [
-      `${formatNumber(data.pct)}%`,
-      `${formatNumber(data.total)}`,
+    // const dataBody1 = dataWus?.[0]?.result.map((data: any) => [
+    //   `${formatNumber(data.pct)}%`, //pct dari dataWus?.[0]
+    //   `${formatNumber(data.pct)}%`, //pct dari dataWus?.[1]
+    //   // `${formatNumber(data.total)}`,
+    // ]);
+    // const dataBody2 = dataWus?.[1]?.result.map((data: any) => [
+    //   `${formatNumber(data.pct)}%`,
+    //   // `${formatNumber(data.total)}`,
+    // ]);
+    const dataBody = dataWus?.[0]?.result.map((data: any, index: number) => [
+      `${formatNumber(data.pct)}%`, // pct dari dataWus?.[0]
+      `${formatNumber(dataWus?.[1]?.result[index]?.pct)}%`, // pct dari dataWus?.[1]
+      // `${formatNumber(data.total)}`,
     ]);
+
+    // const dataBody = [dataBody1, dataBody2];
     const data = {
       // Your data here (if required)
       verticalHeader: ["T1", "T2", "T3", "T4", "T5", "T2+"],
@@ -401,7 +413,7 @@ export const Filter4: React.FC<FilterProps2> = ({ filterState, dataWus }) => {
       //   [`${formatNumber(dataWus?.ytd_total_t5)}`],
       //   [`${formatNumber(dataWus?.ytd_total_t2plus)}`],
       // ],
-      header: ["% Cakupan", "Total Penerima"],
+      header: ["WUS Tidak  Hamil", "WUS Hamil"],
       fileName,
       title: fileName,
     };

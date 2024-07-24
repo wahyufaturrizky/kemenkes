@@ -33,16 +33,18 @@ export const graphOptions1 = (series: any[], legend: any[]) => {
             const originalData = series.find(
               (serie) => serie.name === "Total Penerima"
             ).data[legend.length - 1 - params[0].dataIndex];
-            tooltipContent += `${item.marker} ${item.seriesName
-              } <span style="float: right;"><strong>${formatNumber(
-                originalData
-              )}</strong></span><br/>`;
+            tooltipContent += `${item.marker} ${
+              item.seriesName
+            } <span style="float: right;"><strong>${formatNumber(
+              originalData
+            )}</strong></span><br/>`;
           } else if (item.seriesName !== "Target Cakupan per Daerah") {
             // Ganti dengan nama series yang sesuai
-            tooltipContent += `${item.marker} ${item.seriesName
-              } <span style="float: right;"><strong>${formatNumber(
-                item.value
-              )}%</strong></span><br/>`;
+            tooltipContent += `${item.marker} ${
+              item.seriesName
+            } <span style="float: right;"><strong>${formatNumber(
+              item.value
+            )}%</strong></span><br/>`;
           }
         });
         tooltipContent += `</div>`;
@@ -57,7 +59,7 @@ export const graphOptions1 = (series: any[], legend: any[]) => {
     xAxis: {
       type: "value",
       axisLabel: {
-        formatter: (value: any) => `${formatNumber(value)}%`
+        formatter: (value: any) => `${formatNumber(value)}%`,
       },
     },
     series: reversedSeries,
@@ -102,7 +104,7 @@ export const graphOptions2 = (series: any[]) => {
         type: "value",
         position: "left",
         axisLabel: {
-          formatter: (value: any) => `${formatNumber(value)}%`
+          formatter: (value: any) => `${formatNumber(value)}%`,
         },
         show: false,
       },
@@ -208,47 +210,47 @@ export const graphOptions8 = (series: any[], xData: any[]) => {
       axisPointer: {
         type: "shadow",
       },
-      // valueFormatter: function (value: any) {
-      //   return `${formatNumber(value)}%`;
-      // },
-      formatter: function (params: any) {
-        // Define your status data array or object, replace this with your actual data
-        const statusData = ["T1", "T2", "T3", "T4", "T5", "T2+", "Td"];
-
-        // Start building the tooltip content
-        let tooltipContent = `<div style="min-width: 350px;">
-                              <strong>WUS Tidak Hamil</strong><br/>`;
-
-        // Assuming params[0] is the data point we are interested in
-        const dataIndex = params[0].dataIndex;
-        const status = statusData[dataIndex]; // Get the status corresponding to the dataIndex
-
-        // Add status line
-        tooltipContent += `Status T: <span style="float: right;">${status}</span><br/>`;
-
-        // Iterate over each item in params to build the rest of the tooltip
-        params.forEach((item: any, index: number) => {
-          if (item.seriesName === "Total Penerima") {
-            const originalData = series.find(
-              (serie) => serie.name === "Total Penerima"
-            ).data[xData.length - 1 - params[0].dataIndex];
-            tooltipContent += `${item.marker} ${
-              item.seriesName
-            } <span style="float: right;"><strong>${formatNumber(
-              originalData
-            )}</strong></span><br/>`;
-          } else if (item.seriesName !== "Target Cakupan per Daerah") {
-            tooltipContent += `${item.marker} ${
-              item.seriesName
-            } <span style="float: right;"><strong>${formatNumber(
-              item.value
-            )}%</strong></span><br/>`;
-          }
-        });
-
-        tooltipContent += `</div>`;
-        return tooltipContent;
+      valueFormatter: function (value: any) {
+        return `${formatNumber(value)}%`;
       },
+      // formatter: function (params: any) {
+      //   // Define your status data array or object, replace this with your actual data
+      //   const statusData = ["T1", "T2", "T3", "T4", "T5", "T2+", "Td"];
+
+      //   // Start building the tooltip content
+      //   let tooltipContent = `<div style="min-width: 350px;">
+      //                         <strong>WUS Tidak Hamil</strong><br/>`;
+
+      //   // Assuming params[0] is the data point we are interested in
+      //   const dataIndex = params[0].dataIndex;
+      //   const status = statusData[dataIndex]; // Get the status corresponding to the dataIndex
+
+      //   // Add status line
+      //   tooltipContent += `Status T: <span style="float: right;">${status}</span><br/>`;
+
+      //   // Iterate over each item in params to build the rest of the tooltip
+      //   params.forEach((item: any, index: number) => {
+      //     if (item.seriesName === "Total Penerima") {
+      //       const originalData = series.find(
+      //         (serie) => serie.name === "Total Penerima"
+      //       ).data[xData.length - 1 - params[0].dataIndex];
+      //       tooltipContent += `${item.marker} ${
+      //         item.seriesName
+      //       } <span style="float: right;"><strong>${formatNumber(
+      //         originalData
+      //       )}</strong></span><br/>`;
+      //     } else if (item.seriesName !== "Target Cakupan per Daerah") {
+      //       tooltipContent += `${item.marker} ${
+      //         item.seriesName
+      //       } <span style="float: right;"><strong>${formatNumber(
+      //         item.value
+      //       )}%</strong></span><br/>`;
+      //     }
+      //   });
+
+      //   tooltipContent += `</div>`;
+      //   return tooltipContent;
+      // },
     },
     grid: {
       left: "3%",
