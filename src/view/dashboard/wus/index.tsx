@@ -756,7 +756,11 @@ const Wus = () => {
                           <b className="text-primary-2">{filter.tahun}</b>
                         </div>
                       }
-                      subTitle={`Grafik menampilkan tren cakupan kumulatif penerima imunisasi WUS`}
+                      subTitle={`Grafik menampilkan tren cakupan ${
+                        trendTypeOptions.find(
+                          (r) => r.value === filter.tren_type
+                        )?.label
+                      } penerima imunisasi WUS`}
                       variant="private"
                       filterState={filterState}
                       filterComp={

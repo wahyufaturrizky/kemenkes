@@ -293,18 +293,16 @@ export const Filter3: React.FC<FilterProps2> = ({ filterState, dataWus }) => {
     const url = `${API_URL}/v1/csv/download`;
     let fileName = "Sebaran Status T";
 
+    const dataBody = dataWus?.map((data: any) => [
+      `${formatNumber(data.pct)}%`,
+      `${formatNumber(data.total)}`,
+    ]);
+
     const data = {
+      // Your data here (if required)
       verticalHeader: ["T1", "T2", "T3", "T4", "T5", "T2+"],
-      body: [
-        [`${formatNumber(dataWus?.ytd_total_t1)}`],
-        [`${formatNumber(dataWus?.ytd_total_t2)}`],
-        [`${formatNumber(dataWus?.ytd_total_t3)}`],
-        [`${formatNumber(dataWus?.ytd_total_t4)}`],
-        [`${formatNumber(dataWus?.ytd_total_t5)}`],
-        [`${formatNumber(dataWus?.ytd_total_t2plus)}`],
-        // `${formatNumber(dataWus?.ytd_total_t2plus)}`,
-      ],
-      header: ["Total Penerima"],
+      body: dataBody,
+      header: ["% Cakupan", "Total Penerima"],
       fileName,
       title: fileName,
     };
@@ -387,18 +385,23 @@ export const Filter4: React.FC<FilterProps2> = ({ filterState, dataWus }) => {
   const downloadFile = async () => {
     const url = `${API_URL}/v1/csv/download`; // Your endpoint URL
     let fileName = "Sebaran Status Kehamilan Terhadap Status T";
+    const dataBody = dataWus?.map((data: any) => [
+      `${formatNumber(data.pct)}%`,
+      `${formatNumber(data.total)}`,
+    ]);
     const data = {
       // Your data here (if required)
       verticalHeader: ["T1", "T2", "T3", "T4", "T5", "T2+"],
-      body: [
-        [`${formatNumber(dataWus?.ytd_total_t1)}`],
-        [`${formatNumber(dataWus?.ytd_total_t2)}`],
-        [`${formatNumber(dataWus?.ytd_total_t3)}`],
-        [`${formatNumber(dataWus?.ytd_total_t4)}`],
-        [`${formatNumber(dataWus?.ytd_total_t5)}`],
-        [`${formatNumber(dataWus?.ytd_total_t2plus)}`],
-      ],
-      header: ["Total Penerima"],
+      body: dataBody,
+      // body: [
+      //   [`${formatNumber(dataWus?.ytd_total_t1)}`],
+      //   [`${formatNumber(dataWus?.ytd_total_t2)}`],
+      //   [`${formatNumber(dataWus?.ytd_total_t3)}`],
+      //   [`${formatNumber(dataWus?.ytd_total_t4)}`],
+      //   [`${formatNumber(dataWus?.ytd_total_t5)}`],
+      //   [`${formatNumber(dataWus?.ytd_total_t2plus)}`],
+      // ],
+      header: ["% Cakupan", "Total Penerima"],
       fileName,
       title: fileName,
     };
