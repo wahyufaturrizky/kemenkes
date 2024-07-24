@@ -449,7 +449,7 @@ export const babyImmunizationApi = apiWithTag.injectEndpoints({
       }),
       providesTags: ["bayi-immunization"],
     }),
-    getSummaryImmunizationByAge: build.query({
+    getSummaryBayiImmunizationByAge: build.query({
       query: (options = {}) => ({
         url: `${API_URL}/v1/bayi-immunization/summary-immunization-by-age`,
         params: options,
@@ -457,28 +457,28 @@ export const babyImmunizationApi = apiWithTag.injectEndpoints({
       providesTags: ["bayi-immunization"],
     }),
     // ---
-    getAverageImmunizationByGender: build.query({
+    getAverageBayiImmunizationByGender: build.query({
       query: (options = {}) => ({
         url: `${API_URL}/v1/bayi-immunization/average-immunization-by-gender`,
         params: options,
       }),
       providesTags: ["bayi-immunization"],
     }),
-    getImmunizationWithHighetMaleRecivient: build.query({
+    getImmunizationBayiWithHighetMaleRecivient: build.query({
       query: (options = {}) => ({
         url: `${API_URL}/v1/bayi-immunization/immunization-with-highet-male-recivient`,
         params: options,
       }),
       providesTags: ["bayi-immunization"],
     }),
-    getImmunizationWithHighetFemaleRecivient: build.query({
+    getImmunizationBayiWithHighetFemaleRecivient: build.query({
       query: (options = {}) => ({
         url: `${API_URL}/v1/bayi-immunization/immunization-with-highet-female-recivient`,
         params: options,
       }),
       providesTags: ["bayi-immunization"],
     }),
-    getSummaryImmunizationPerGender: build.query({
+    getSummaryBayiImmunizationPerGender: build.query({
       query: (options = {}) => ({
         url: `${API_URL}/v1/bayi-immunization/summary-immunization-per-gender`,
         params: options,
@@ -543,16 +543,16 @@ export const {
   useGetTotalHighestScopeQuery,
   useGetTotalLowestScopeQuery,
   useGetPercentageTotalImmunizationQuery,
-  useGetAverageImmunizationByGenderQuery,
+  useGetAverageBayiImmunizationByGenderQuery,
   useGetExceedTargetPerVaccineQuery,
   useGetHighestImmunizationByAgeQuery,
-  useGetImmunizationWithHighetFemaleRecivientQuery,
-  useGetImmunizationWithHighetMaleRecivientQuery,
+  useGetImmunizationBayiWithHighetFemaleRecivientQuery,
+  useGetImmunizationBayiWithHighetMaleRecivientQuery,
   useGetInExceedTargetPerVaccineQuery,
   useGetMaxImmunizationByAgeQuery,
   useGetScopePercentagePerMonthQuery,
-  useGetSummaryImmunizationByAgeQuery,
-  useGetSummaryImmunizationPerGenderQuery,
+  useGetSummaryBayiImmunizationByAgeQuery,
+  useGetSummaryBayiImmunizationPerGenderQuery,
   useGetSummaryImmunizationPerVaccineQuery,
   useGetSummaryScopePercentageQuery,
   useGetTotalHighestScopeByVaccineTypeQuery,

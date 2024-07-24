@@ -15,11 +15,10 @@ export const graphOptions3 = (series: any[], legend: any[]) => {
           if (item.seriesName === "Cakupan") {
             tooltipContent += `${item.marker} ${item.seriesName} <span style="float: right;"><strong>${item.value}</strong></span><br/>`;
           } else {
-            tooltipContent += `${item.marker} ${
-              item.seriesName
-            } <span style="float: right;"><strong>${formatNumber(
-              item.value
-            )}%</strong></span><br/>`;
+            tooltipContent += `${item.marker} ${item.seriesName
+              } <span style="float: right;"><strong>${formatNumber(
+                item.value
+              )}%</strong></span><br/>`;
           }
         });
         tooltipContent += `</div>`;
@@ -48,14 +47,14 @@ export const graphOptions3 = (series: any[], legend: any[]) => {
         type: "value",
         position: "left",
         axisLabel: {
-          formatter: "{value}",
+          formatter: (value: any) => `${formatNumber(value)}`
         },
       },
       {
         type: "value",
         position: "right",
         axisLabel: {
-          formatter: "{value} %",
+          formatter: (value: any) => `${formatNumber(value)}%`
         },
         min: 0,
         max: 100,
@@ -94,21 +93,19 @@ export const graphOptions4 = (series: any[], xData: any[]) => {
             // Menggunakan data asli untuk "Total" dalam tooltip
             const originalData = series.find((serie) => serie.name === "Total")
               .data[params[0].dataIndex];
-            tooltipContent += `${item.marker} ${
-              item.seriesName
-            } <span style="float: right;"><strong>${formatNumber(
-              originalData
-            )}</strong></span><br/>`;
+            tooltipContent += `${item.marker} ${item.seriesName
+              } <span style="float: right;"><strong>${formatNumber(
+                originalData
+              )}</strong></span><br/>`;
           } else if (item.seriesName === "Cakupan") {
             // Menggunakan format untuk "Cakupan"
             tooltipContent += `${item.marker} ${item.seriesName} <span style="float: right;"><strong>${item.value}</strong></span><br/>`;
           } else {
             // Menggunakan format persentase untuk lainnya
-            tooltipContent += `${item.marker} ${
-              item.seriesName
-            } <span style="float: right;"><strong>${formatNumber(
-              item.value
-            )}%</strong></span><br/>`;
+            tooltipContent += `${item.marker} ${item.seriesName
+              } <span style="float: right;"><strong>${formatNumber(
+                item.value
+              )}%</strong></span><br/>`;
           }
         });
         tooltipContent += `</div>`;
@@ -129,7 +126,7 @@ export const graphOptions4 = (series: any[], xData: any[]) => {
     yAxis: {
       type: "value",
       axisLabel: {
-        formatter: "{value} %",
+        formatter: (value: any) => `${formatNumber(value)}%`
       },
     },
     series: series,
@@ -150,25 +147,17 @@ export const graphOptions5 = (series: any[], legend: any[]) => {
           if (item.seriesName === "Total") {
             const originalData = series.find((serie) => serie.name === "Total")
               .data[params[0].dataIndex];
-            // console.log(
-            //   "Original Data at index ",
-            //   params[0].dataIndex,
-            //   ": ",
-            //   originalData
-            // );
-            tooltipContent += `${item.marker} ${
-              item.seriesName
-            } <span style="float: right;"><strong>${formatNumber(
-              originalData
-            )}</strong></span><br/>`;
+            tooltipContent += `${item.marker} ${item.seriesName
+              } <span style="float: right;"><strong>${formatNumber(
+                originalData
+              )}</strong></span><br/>`;
           } else if (item.seriesName === "Cakupan") {
             tooltipContent += `${item.marker} ${item.seriesName} <span style="float: right;"><strong>${item.value}</strong></span><br/>`;
           } else {
-            tooltipContent += `${item.marker} ${
-              item.seriesName
-            } <span style="float: right;"><strong>${formatNumber(
-              item.value
-            )}%</strong></span><br/>`;
+            tooltipContent += `${item.marker} ${item.seriesName
+              } <span style="float: right;"><strong>${formatNumber(
+                item.value
+              )}%</strong></span><br/>`;
           }
         });
         tooltipContent += `</div>`;

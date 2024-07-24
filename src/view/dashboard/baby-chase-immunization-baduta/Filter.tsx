@@ -58,9 +58,11 @@ export const Filter1: React.FC<FilterProps> = ({ filterState, data }) => {
           // const pct = data?.map((r: any) => r.percentage.toString());
           // const target = data?.map((r: any) => r.threshold.toString());
           const total = data?.map((r: any) => r.total.toString());
-          const header = data?.map((r: any) => r.faskes_desc);
-          const body = [total];
-          const verticalHeader = ["Total"];
+          const verticalHeader = data?.map((r: any) => r.faskes_desc);
+          const body = data?.map((r: any, i: number) => {
+            return [total[i]]
+          });
+          const header = ["Total"];
           const fileName = "Grafik Cakupan";
           await downloadFile({ header, body, verticalHeader, fileName });
         }} >
@@ -75,7 +77,7 @@ export const Filter2: React.FC<FilterProps> = ({ filterState, data }) => {
   return (
     <div className="flex flex-wrap justify-between items-center gap-4 sm:mt-20 md:mt-0 mb-8">
       <div className="flex gap-4">
-        <div>
+        {/* <div>
           <Select
             options={trendTypeOptions}
             onChange={(e: any) => {
@@ -103,14 +105,16 @@ export const Filter2: React.FC<FilterProps> = ({ filterState, data }) => {
             }
             isClearable={false}
           />
-        </div>
+        </div> */}
       </div>
       <div className="flex gap-4">
         <div onClick={async () => {
           const total = data?.map((r: any) => (r.pyd_kejar || 0).toString());
-          const header = data?.map((r: any) => r?.vaccine_name)
-          const body = [total];
-          const verticalHeader = ["Cakupan"];
+          const verticalHeader = data?.map((r: any) => r?.vaccine_name)
+          const body = data?.map((r: any, i: number) => {
+            return [total[i]]
+          });
+          const header = ["Cakupan"];
           const fileName = "Grafik Cakupan Berdasarkan Jenis Imunisasi";
           await downloadFile({ header, body, verticalHeader, fileName });
         }} >
@@ -145,9 +149,11 @@ export const Filter3: React.FC<FilterProps> = ({ filterState, data }) => {
         <div onClick={async () => {
           const ideal = data?.map((r: any) => (r.pct_kejar || 0).toString());
           const nonIdeal = data?.map((r: any) => (r.pct_non_kejar || 0).toString());
-          const header = data?.map((r: any) => r.vaccine_name);
-          const body = [ideal, nonIdeal];
-          const verticalHeader = ["Ideal", "Non Ideal"];
+          const verticalHeader = data?.map((r: any) => r.vaccine_name);
+          const body = data?.map((r: any, i: number) => {
+            return [ideal[i], nonIdeal[i]]
+          });
+          const header = ["Ideal", "Non Ideal"];
           const fileName = "Grafik Perbandingan Imunisasi Kejar Terhadap Imunisasi Ideal";
           await downloadFile({ header, body, verticalHeader, fileName });
         }} >
@@ -197,9 +203,11 @@ export const Filter4: React.FC<FilterProps> = ({ filterState, data }) => {
           const data23 = data?.map((r: any) => (r.pct_2_3 || 0).toString());
           const data34 = data?.map((r: any) => (r.pct_3_4 || 0).toString());
           const data45 = data?.map((r: any) => (r.pct_4_5 || 0).toString());
-          const header = data?.map((r: any) => r.vaccine_name);
-          const body = [data12, data23, data34, data45];
-          const verticalHeader = ["Usia 1-2 Tahun", "Usia 2-3 Tahun", "Usia 3-4 Tahun", "Usia 4-5 Tahun"];
+          const verticalHeader = data?.map((r: any) => r.vaccine_name);
+          const body = data?.map((r: any, i: number) => {
+            return [data12[i], data23[i], data34[i], data45[i]]
+          });
+          const header = ["Usia 1-2 Tahun", "Usia 2-3 Tahun", "Usia 3-4 Tahun", "Usia 4-5 Tahun"];
           const fileName = "Grafik Cakupan Berdasarkan Usia";
           await downloadFile({ header, body, verticalHeader, fileName });
         }} >
@@ -247,9 +255,11 @@ export const Filter5: React.FC<FilterProps> = ({ filterState, data }) => {
         <div onClick={async () => {
           const male = data?.map((r: any) => (r.pct_male || 0).toString());
           const female = data?.map((r: any) => (r.pct_female || 0).toString());
-          const header = data?.map((r: any) => r.vaccine_name);
-          const body = [male, female];
-          const verticalHeader = ["Laki-laki", "Perempuan"];
+          const verticalHeader = data?.map((r: any) => r.vaccine_name);
+          const body = data?.map((r: any, i: number) => {
+            return [male[i], female[i]]
+          });
+          const header = ["Laki-laki", "Perempuan"];
           const fileName = "Grafik Cakupan Berdasarkan Jenis Kelamin";
           await downloadFile({ header, body, verticalHeader, fileName });
         }} >
@@ -297,9 +307,11 @@ export const Filter6: React.FC<FilterProps> = ({ filterState, data }) => {
       <div className="flex gap-4">
         <div onClick={async () => {
           const total = data?.map((r: any) => r.total.toString());
-          const header = dataMonths?.map((r) => r.label);
-          const body = [total];
-          const verticalHeader = ["Total"];
+          const verticalHeader = dataMonths?.map((r) => r.label);
+          const body = data?.map((r: any, i: number) => {
+            return [total[i]]
+          });
+          const header = ["Total"];
           const fileName = "Grafik Distribusi Imunisasi pada Bayi dan Baduta Berdasarkan Waktu";
           await downloadFile({ header, body, verticalHeader, fileName });
         }} >

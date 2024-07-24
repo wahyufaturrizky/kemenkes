@@ -100,19 +100,19 @@ export const BabyImmunizationSlice = createSlice({
       .addMatcher(babyImmunizationApi.endpoints.getHighestImmunizationByAge.matchFulfilled, (state, { payload }) => {
         state.getHighestImmunizationByAge = payload
       })
-      .addMatcher(babyImmunizationApi.endpoints.getSummaryImmunizationByAge.matchFulfilled, (state, { payload }) => {
+      .addMatcher(babyImmunizationApi.endpoints.getSummaryBayiImmunizationByAge.matchFulfilled, (state, { payload }) => {
         state.getSummaryImmunizationByAge = payload
       })
-      .addMatcher(babyImmunizationApi.endpoints.getAverageImmunizationByGender.matchFulfilled, (state, { payload }) => {
+      .addMatcher(babyImmunizationApi.endpoints.getAverageBayiImmunizationByGender.matchFulfilled, (state, { payload }) => {
         state.getAverageImmunizationByGender = payload
       })
-      .addMatcher(babyImmunizationApi.endpoints.getImmunizationWithHighetMaleRecivient.matchFulfilled, (state, { payload }) => {
+      .addMatcher(babyImmunizationApi.endpoints.getImmunizationBayiWithHighetMaleRecivient.matchFulfilled, (state, { payload }) => {
         state.getImmunizationWithHighetMaleRecivient = payload
       })
-      .addMatcher(babyImmunizationApi.endpoints.getImmunizationWithHighetFemaleRecivient.matchFulfilled, (state, { payload }) => {
+      .addMatcher(babyImmunizationApi.endpoints.getImmunizationBayiWithHighetFemaleRecivient.matchFulfilled, (state, { payload }) => {
         state.getImmunizationWithHighetFemaleRecivient = payload
       })
-      .addMatcher(babyImmunizationApi.endpoints.getSummaryImmunizationPerGender.matchFulfilled, (state, { payload }) => {
+      .addMatcher(babyImmunizationApi.endpoints.getSummaryBayiImmunizationPerGender.matchFulfilled, (state, { payload }) => {
         state.getSummaryImmunizationPerGender = payload
       })
   }

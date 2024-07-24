@@ -33,7 +33,7 @@ const HomeView = () => {
     tipe_umur: 1,
     jenis_kelamin: 1,
     wilayah: "All",
-    wilayah1: "All",
+    wilayah1: "province",
     kewilayahan_type: 0
   })
   const [filter] = filterState
@@ -385,13 +385,18 @@ const HomeView = () => {
                       <div className="relative flex justify-center items-center">
                         {isLoadingTotalCumulativeScopeQuery && <Spin />}
                         <div className="p-2 sm:w-32 md:w-64 h-fit">
-                          <div className="text-sm">Total cakupan {trendTypeOptions.find((r) => r.value === filter.jenis_tren)?.label} pada tahun {filter.tahun}</div>
+                          <div className="text-sm">Total cakupan {trendTypeOptions.find((r) => r.value === filter.jenis_tren)?.label}
+                            {" "}pada bulan {(dataMonths)?.find((f) => f.value === filter.bulan)?.label || ''} tahun {filter.tahun}
+                          </div>
                           <div className="py-2 font-bold text-3xl text-primary">{formatNumber(getTotalCumulativeScopeQuery?.data?.presentase || 0)}%</div>
                           <div>Jumlah {optionsVaccineType.find((r) => r.value === filter.tipe_vaksin2)?.label}: {formatNumber(getTotalCumulativeScopeQuery?.data?.total || 0)}</div>
                         </div>
                       </div>
                     }
                     isLoading={isLoadingTotalCumulativeChartScopeQuery}
+                    opts={{
+                      height: 500
+                    }}
                     graphOptions={graphOptions2([
                       {
                         name: "% Target Cakupan",
@@ -408,7 +413,7 @@ const HomeView = () => {
                         data:
                           (
                             getTotalCumulativeChartScopeQuery?.data || []
-                          )?.map((r: any) => (r?.total || 0)) || [],
+                          )?.map((r: any) => (r?.jumlah_penerima || 0)) || [],
                         type: "bar",
                         label: {
                           show: true,
@@ -458,14 +463,22 @@ const HomeView = () => {
                         (
                           getTotalChartProvinceQuery?.data ||
                           []
-                        )?.map((r: any) => r?.pct) || [],
+                        )?.map((r: any) => ({
+                          value: r?.pct,
+                          itemStyle: {
+                            color:
+                              r.domicile === "All"
+                                ? "#2D9CED"
+                                : undefined,
+                          },
+                        })) || [],
                       type: "bar",
                       label: {
                         show: true,
                         precision: 1,
                         position: "right",
                         formatter: (params: any) =>
-                          `${params.value}%`,
+                          `${params.value}% (${formatNumber(((getTotalChartProvinceQuery?.data)?.map((r: any) => r?.total)?.reverse())[params?.dataIndex])})`,
                       },
                     },
                     {

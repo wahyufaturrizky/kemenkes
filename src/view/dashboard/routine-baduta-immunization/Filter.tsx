@@ -66,9 +66,11 @@ export const Filter1: React.FC<FilterProps> = ({ filterState, data }) => {
           onClick={async () => {
             const pct = data?.map((r: any) => r.percentage.toString());
             const target = data?.map((r: any) => r.threshold.toString());
-            const header = data?.map((r: any) => r.faskes_desc);
-            const body = [pct, target];
-            const verticalHeader = ["% Target Cakupan", "Target"];
+            const verticalHeader = data?.map((r: any) => r.faskes_desc);
+            const body = data?.map((r: any, i: number) => {
+              return [pct[i], target[i]]
+            });
+            const header = ["% Target Cakupan", "Target"];
             const fileName = "Grafik Cakupan";
             await downloadFile({ header, body, verticalHeader, fileName });
           }}
@@ -119,13 +121,14 @@ export const Filter2: React.FC<FilterProps> = ({ filterState, data }) => {
           onClick={async () => {
             const pct = data?.map((r: any) => r.percentage.toString());
             const total = data?.map((r: any) => r.total.toString());
-            const target = data?.map((r: any) => r.threshold.toString());
-            const header = dataMonths?.map((r) => r.label);
-            const body = [pct, total, target];
-            const verticalHeader = [
-              "% Target Cakupan",
+            // const target = data?.map((r: any) => r.threshold.toString());
+            const verticalHeader = dataMonths?.map((r) => r.label);
+            const body = data?.map((r: any, i: number) => {
+              return [total[i], pct[i]]
+            });
+            const header = [
               "Jumlah Penerima Imunisasi",
-              "Cakupan",
+              "%Cakupan",
             ];
             const fileName = "Data Kumulatif";
             await downloadFile({ header, body, verticalHeader, fileName });
@@ -162,10 +165,12 @@ export const Filter3: React.FC<FilterProps> = ({ filterState, data }) => {
         <div onClick={async () => {
           const pct = data?.map((r: any) => r?.pct.toString())
           const total = data?.map((r: any) => r?.ytd_total.toString())
-          const target = data?.map((r: any) => r?.threshold.toString())
-          const header = data?.map((r: any) => r?.vaccine_name)
-          const body = [pct, target, total];
-          const verticalHeader = ["% Cakupan", "% Target Cakupan", "Cakupan"];
+          // const target = data?.map((r: any) => r?.threshold.toString())
+          const verticalHeader = data?.map((r: any) => r?.vaccine_name)
+          const body = data?.map((r: any, i: number) => {
+            return [pct[i], total[i]]
+          });
+          const header = ["%Cakupan", "Cakupan"];
           const fileName = "Grafik Cakupan Berdasarkan Jenis Imunisasi";
           await downloadFile({ header, body, verticalHeader, fileName });
         }} >
@@ -195,7 +200,7 @@ export const Filter4: React.FC<FilterProps> = ({ filterState, data }) => {
             }
           />
         </div>
-        <div>
+        {/* <div>
           <Select
             options={ageTypeOptions}
             onChange={(e: any) => {
@@ -207,15 +212,17 @@ export const Filter4: React.FC<FilterProps> = ({ filterState, data }) => {
                 : filter.tipe_umur
             }
           />
-        </div>
+        </div> */}
       </div>
       <div className="flex gap-4">
         <div onClick={async () => {
           const ideal = data?.map((r: any) => r.ytd_ideal.toString());
           const nonIdeal = data?.map((r: any) => r.ytd_non_ideal.toString());
-          const header = data?.map((r: any) => r.vaccine_name.toString());
-          const body = [ideal, nonIdeal];
-          const verticalHeader = ["Ideal", "Non Ideal"];
+          const verticalHeader = data?.map((r: any) => r.vaccine_name.toString());
+          const body = data?.map((r: any, i: number) => {
+            return [ideal[i], nonIdeal[i]]
+          });
+          const header = ["Ideal", "Non Ideal"];
           const fileName = "Grafik Cakupan Berdasarkan Usia";
           await downloadFile({ header, body, verticalHeader, fileName });
         }} >
@@ -235,9 +242,11 @@ export const Filter5: React.FC<FilterProps> = ({ filterState, data }) => {
         <div onClick={async () => {
           const male = data?.map((r: any) => r.ytd_male.toString());
           const female = data?.map((r: any) => r.ytd_female.toString());
-          const header = data?.map((r: any) => r.vaccine_name);
-          const body = [male, female];
-          const verticalHeader = ["Laki-laki", "Perempuan"];
+          const verticalHeader = data?.map((r: any) => r.vaccine_name);
+          const body = data?.map((r: any, i: number) => {
+            return [male[i], female[i]]
+          });
+          const header = ["Laki-laki", "Perempuan"];
           const fileName = "Grafik Cakupan Berdasarkan Jenis Kelamin";
           await downloadFile({ header, body, verticalHeader, fileName });
         }} >

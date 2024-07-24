@@ -1,4 +1,5 @@
 import { EChartsOptionProps } from "@/components/graph-echarts";
+import { formatNumber } from "@/helpers";
 import { dataMonth } from "@/utils/constants";
 
 export const graphOptions1 = (series: any[], legend: any[]) => {
@@ -24,7 +25,15 @@ export const graphOptions1 = (series: any[], legend: any[]) => {
     tooltip: {
       trigger: "axis",
       axisLabel: {
-        formatter: "{value}%",
+        formatter: (value: any) => `${formatNumber(value)}%`
+      },
+      formatter: function (params: any) {
+        let tooltipContent = `<div style="min-width: 350px;">${params[0].axisValueLabel}<br/>`;
+        params.forEach((item: any, i: number) => {
+          tooltipContent += `${item.marker} ${item.seriesName} <span style="float: right;"><strong>${formatNumber(item.value)}</strong></span><br/>`;
+        });
+        tooltipContent += `</div>`;
+        return tooltipContent;
       },
     },
     yAxis: {
@@ -33,8 +42,11 @@ export const graphOptions1 = (series: any[], legend: any[]) => {
     },
     xAxis: {
       type: "value",
+      show: true,
       axisLabel: {
-        formatter: "{value}%",
+        formatter: function (value: any) {
+          return formatNumber(value || 0);
+        }
       },
     },
     series: reversedSeries,
@@ -57,6 +69,10 @@ export const graphOptions2 = (series: any[]) => {
     xAxis: {
       type: "category",
       data: dataMonth?.map((r) => r.label),
+      axisLabel: {
+        interval: 0,
+        rotate: 90 //If the label names are too long you can manage this by rotating the label.
+      }
     },
     yAxis: {
       type: "value",
@@ -67,20 +83,18 @@ export const graphOptions2 = (series: any[]) => {
 };
 export const graphOptions3 = (series: any[], xData: any[]) => {
   const option: EChartsOptionProps = {
-    color: ["#8ECCFF", "#EAAA08", "#FF4405", "#2E90FA"],
+    color: ["#F85253", "#2E90FA"],
     grid: { containLabel: true },
     tooltip: {
       trigger: "axis",
-      formatter: `{b0} <br/>
-        <svg width="250" height="20">
-          <circle cx="10" cy="10" r="5" fill="#8ECCFF" />
-          <text x="20" y="15">{a0}: {c0}</text>
-        </svg>
-        <br/>
-        <svg width="250" height="20">
-            <circle cx="10" cy="10" r="5" fill="#EAAA08" />
-            <text x="20" y="15">{a1}: {c1}</text>
-        </svg>`
+      formatter: function (params: any) {
+        let tooltipContent = `<div style="min-width: 350px;">${params[0].axisValueLabel}<br/>`;
+        params.forEach((item: any, i: number) => {
+          tooltipContent += `${item.marker} ${item.seriesName} <span style="float: right;"><strong>${formatNumber(item.value)}%</strong></span><br/>`;
+        });
+        tooltipContent += `</div>`;
+        return tooltipContent;
+      },
     },
     legend: {
       show: true,
@@ -92,9 +106,16 @@ export const graphOptions3 = (series: any[], xData: any[]) => {
     xAxis: {
       type: "category",
       data: xData,
+      axisLabel: {
+        interval: 0,
+        rotate: 90 //If the label names are too long you can manage this by rotating the label.
+      }
     },
     yAxis: {
       type: "value",
+      axisLabel: {
+        formatter: '{value}%'
+      }
     },
     series: series,
   };
@@ -102,10 +123,18 @@ export const graphOptions3 = (series: any[], xData: any[]) => {
 };
 export const graphOptions4 = (series: any[], xData: any[]) => {
   const option: EChartsOptionProps = {
-    color: ["#83E0DB", "#00B1A9"],
+    color: ["#84E0DB", "#57D0CB", "#2DB1A9", "#176B66"],
     grid: { containLabel: true },
     tooltip: {
       trigger: "axis",
+      formatter: function (params: any) {
+        let tooltipContent = `<div style="min-width: 350px;">${params[0].axisValueLabel}<br/>`;
+        params.forEach((item: any, i: number) => {
+          tooltipContent += `${item.marker} ${item.seriesName} <span style="float: right;"><strong>${formatNumber(item.value)}%</strong></span><br/>`;
+        });
+        tooltipContent += `</div>`;
+        return tooltipContent;
+      },
     },
     legend: {
       show: true,
@@ -117,9 +146,16 @@ export const graphOptions4 = (series: any[], xData: any[]) => {
     xAxis: {
       type: "category",
       data: xData,
+      axisLabel: {
+        interval: 0,
+        rotate: 90 //If the label names are too long you can manage this by rotating the label.
+      }
     },
     yAxis: {
       type: "value",
+      axisLabel: {
+        formatter: '{value}%'
+      }
     },
     series: series,
   };
@@ -134,13 +170,21 @@ export const graphOptions5 = (series: any[], legend: any[]) => {
     },
     legend: {
       data: legend,
+      show: true
     },
     xAxis: {
       type: "category",
       data: legend,
+      axisLabel: {
+        interval: 0,
+        rotate: 90 //If the label names are too long you can manage this by rotating the label.
+      }
     },
     yAxis: {
       type: "value",
+      axisLabel: {
+        formatter: (value: any) => formatNumber(value)
+      }
     },
     series: series,
   };
@@ -148,18 +192,21 @@ export const graphOptions5 = (series: any[], legend: any[]) => {
 };
 export const graphOptions6 = (series: any[], xData: any[]) => {
   const option: EChartsOptionProps = {
-    color: ["#8ECCFF", "#EAAA08", "#FF4405", "#2E90FA"],
+    color: ["#2E90FA"],
     grid: { containLabel: true },
     tooltip: {
       trigger: "axis",
-      formatter: `{b0} <br/>
-        <svg width="250" height="20">
-          <circle cx="10" cy="10" r="5" fill="#8ECCFF" />
-          <text x="20" y="15">{a0}: {c0}</text>
-        </svg>`
+      formatter: function (params: any) {
+        let tooltipContent = `<div style="min-width: 350px;">${params[0].axisValueLabel}<br/>`;
+        params.forEach((item: any, i: number) => {
+          tooltipContent += `${item.marker} ${item.seriesName} <span style="float: right;"><strong>${formatNumber(item.value)}</strong></span><br/>`;
+        });
+        tooltipContent += `</div>`;
+        return tooltipContent;
+      },
     },
     legend: {
-      show: true,
+      show: false,
       data: series.map((r) => r.name),
       bottom: 20,
       orient: "horizontal",
@@ -168,9 +215,57 @@ export const graphOptions6 = (series: any[], xData: any[]) => {
     xAxis: {
       type: "category",
       data: xData,
+      axisLabel: {
+        interval: 0,
+        rotate: 90 //If the label names are too long you can manage this by rotating the label.
+      }
     },
     yAxis: {
       type: "value",
+      axisLabel: {
+        formatter: (value: any) => formatNumber(value)
+      }
+    },
+    series: series,
+  };
+  return option;
+};
+
+export const graphOptions7 = (series: any[]) => {
+  const option: EChartsOptionProps = {
+    color: ["#669F2A"],
+    grid: { containLabel: true },
+    tooltip: {
+      trigger: "axis",
+      formatter: function (params: any) {
+        let tooltipContent = `<div style="min-width: 350px;">${params[0].axisValueLabel}<br/>`;
+        params.forEach((item: any, i: number) => {
+          tooltipContent += `${item.marker} ${item.seriesName} <span style="float: right;"><strong>${formatNumber(item.value)}</strong></span><br/>`;
+        });
+        tooltipContent += `</div>`;
+        return tooltipContent;
+      },
+    },
+    legend: {
+      data: series.map((r) => r.name),
+      bottom: 20,
+      orient: "horizontal",
+      x: "center",
+      show: false
+    },
+    xAxis: {
+      type: "category",
+      data: dataMonth?.map((r) => r.label),
+      axisLabel: {
+        interval: 0,
+        rotate: 30 //If the label names are too long you can manage this by rotating the label.
+      }
+    },
+    yAxis: {
+      type: "value",
+      axisLabel: {
+        formatter: (value: any) => formatNumber(value)
+      }
     },
     series: series,
   };
