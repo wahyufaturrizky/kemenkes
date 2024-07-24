@@ -94,7 +94,7 @@ const FilterSummaryImmunization: React.FC<FilterProps> = ({ filterState }) => {
               setFilter({
                 ...filter,
                 wilayah: 'province',
-                wilayah1: 'province',
+                wilayah1: 'city',
                 provinsi: e?.value,
                 kabkota: '',
                 kecamatan: '',
@@ -117,7 +117,7 @@ const FilterSummaryImmunization: React.FC<FilterProps> = ({ filterState }) => {
               setFilter({
                 ...filter,
                 wilayah: 'city',
-                wilayah1: 'city',
+                wilayah1: 'district',
                 kabkota: e?.value,
                 kecamatan: '',
                 jenis_sarana: '',
@@ -139,7 +139,7 @@ const FilterSummaryImmunization: React.FC<FilterProps> = ({ filterState }) => {
               setFilter({
                 ...filter,
                 wilayah: 'district',
-                wilayah1: 'district',
+                wilayah1: 'faskes',
                 kecamatan: e?.value,
                 jenis_sarana: '',
                 faskes: ''

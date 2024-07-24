@@ -190,7 +190,7 @@ const BabyChaseImmunizationBaduta = () => {
     {
       title: `Cakupan Kejar Terendah Tahun ${getLowestScopeKejarQuery?.data?.year || filter.tahun}`,
       value: (<div className="font-bold">{formatNumber(getLowestScopeKejarQuery?.data?.total || 0)}</div>),
-      regional: <div>{getLowestScopeKejarQuery?.data?.wilayah_desc !== "All" ? getLowestScopeKejarQuery?.data?.provinsi : ''}</div>,
+      regional: <div>{getLowestScopeKejarQuery?.data?.wilayah_desc !== "All" ? getLowestScopeKejarQuery?.data?.wilayah_desc : ''}</div>,
       isFetching: isLoadingLowestScopeKejarQuery
     },
   ]
