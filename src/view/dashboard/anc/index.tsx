@@ -1,6 +1,7 @@
 "use client";
 
 import React from "react";
+import { IoMdArrowForward } from "react-icons/io";
 import { Banner, BannerHighlightFooter, BannerText } from "@/components";
 import {
   graphOptions1,
@@ -22,9 +23,14 @@ import {
   ancGtaphOptions5,
   dataMonth,
 } from "@/utils/constants";
+import FilterSummaryImmunizationAnc from "@/view/home/components/FilterAnc";
 import { formatNumber } from "@/helpers";
 import Header from "@/components/header";
 import styles from "./anc.module.css";
+import SectionHeader from "@/components/sectionHeader";
+import Scorecard1 from "@/components/scorecard1";
+import Scorecard2 from "@/components/scorecard2";
+import { IoMdInformationCircleOutline } from "react-icons/io";
 
 export default function Anc() {
   const totalData = ancGraphOptions1.map((option) => option.ya + option.tidak);
@@ -38,9 +44,97 @@ export default function Anc() {
         desc={`Dashboard ini menampilkan:\nmonitoring capaian Indikator ANC berdasarkan data yang dikirim oleh faskes ke SATUSEHAT`}
         space={true}
       />
-      <div className="my-5">
-        <p className="text-[#525252] text-xl">Filter</p>
-        <div className="">p</div>
+      <FilterSummaryImmunizationAnc />
+      <SectionHeader
+        title="Jumlah Sasaran Ibu Hamil"
+        subtitle="Ringkasan berisi jumlah sasaran ibu hamil dan cakupan ibu hamil yang
+            sudah mendapatkan layanan pemeriksaan"
+        btn="Halaman Analisis"
+      />
+      <div className="w-full grid grid-cols-2 gap-2 mt-6">
+        <Scorecard1 title="Sasaran Ibu Hamil" total="555.876" direction="l" />
+        <Scorecard1
+          title="Ibu Hamil Tercatat"
+          total="111.876"
+          pct="30%"
+          direction="r"
+        />
+      </div>
+      <SectionHeader
+        title="Cakupan Kunjungan ANC"
+        subtitle="Jumlah dan persentase ibu hamil yang sudah melakukan kunjungan ANC K1 - K6 di fasilitas kesehatan"
+      />
+      <div className="w-full grid md:grid-cols-2 lg:grid-cols-4 gap-x-2 gap-y-6 mt-6">
+        <Scorecard2
+          title="K1"
+          value="111.234"
+          pct="30%"
+          className="rounded-l-xl"
+        />
+        <Scorecard2
+          title="K1"
+          subtitle="Akses"
+          value="111.234"
+          pct="30%"
+          className="rounded-r-xl lg:rounded-none"
+        />
+        <Scorecard2
+          title="K1"
+          subtitle="Murni"
+          value="111.234"
+          pct="30%"
+          className="rounded-l-xl lg:rounded-none"
+        />
+        <Scorecard2
+          title="K1"
+          subtitle="USG"
+          value="111.234"
+          pct="30%"
+          className="rounded-r-xl"
+        />
+        <Scorecard2
+          title="K4"
+          value="111.234"
+          pct="30%"
+          className="rounded-l-xl"
+        />
+        <Scorecard2
+          title="K5"
+          value="111.234"
+          pct="30%"
+          className="rounded-r-xl lg:rounded-none"
+        />
+        <Scorecard2
+          title="K5"
+          subtitle="USG"
+          value="111.234"
+          pct="30%"
+          className="rounded-l-xl lg:rounded-none"
+        />
+        <Scorecard2
+          title="K6"
+          value="111.234"
+          pct="30%"
+          className="rounded-r-xl"
+        />
+      </div>
+      <SectionHeader
+        title="Cakupan Program Ibu Hamil"
+        subtitle="Jumlah dan persentase capaian indikator program kesehatan ibu hamil"
+      />
+      <div className="w-full grid md:grid-cols-2 lg:grid-cols-4 gap-4 mt-6">
+        <div className="h-44 bg-primary grid grid-cols-2 p-5 text-white rounded-xl">
+          <div className="flex flex-col justify-between">
+            <p className="font-bold text-2xl">ANC</p>
+            <p className="font-bold text-6xl">bj</p>
+            <p className="font-bold text-2xl">kk</p>
+          </div>
+          <div className="flex flex-col items-end">
+            <IoMdInformationCircleOutline size={24} />
+            <p className="font-bold text-3xl m-3">jjv</p>
+            <p className="font-bold text-2xl">kbkb</p>
+          </div>
+        </div>
       </div>
 
       <div className="px-4 container  ">
