@@ -1,3 +1,5 @@
+import * as _ from 'lodash';
+
 export function standardOptionSameLabel(data: any[]) {
   const value = data.map((r) => {
     return {
@@ -62,4 +64,16 @@ export function ageResponseConvert(data: any) {
   return {
     pct_1_2, pct_2_3, pct_3_4, pct_4_5
   }
+}
+
+export function removeEmptyValue(object: object) {
+  const value = _.omitBy(object, (value: any) => {
+    if (Array.isArray(value)) {
+      return value?.length === 0;
+    } else if (value === '' || _.isNull(value) || _.isUndefined(value)) {
+      return true;
+    }
+    return false;
+  });
+  return value;
 }

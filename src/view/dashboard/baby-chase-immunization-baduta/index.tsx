@@ -11,7 +11,7 @@ import { Filter1, Filter2, Filter3, Filter4, Filter5, Filter6 } from "@/view/das
 import { graphOptions1, graphOptions2, graphOptions3, graphOptions4, graphOptions5, graphOptions6, graphOptions7 } from "@/view/dashboard/baby-chase-immunization-baduta/graphOptions";
 import { useGetAverageImmunizationByGenderQuery, useGetDistributionGraphTimeQuery, useGetImmunizationWithHighetFemaleRecivientQuery, useGetImmunizationWithHighetMaleRecivientQuery, useGetMaxImmunizationByAgeQuery, useGetGraphTotalQuery, useGetLowestScopeKejarQuery, useGetSummaryImmunizationByAgeQuery, useGetSummaryImmunizationPerGenderQuery, useGetHighestImmunizationByAgeQuery, useGetHighestScopeKejarImmunizationQuery, useGetImmunizationGraphKejarStatusQuery, useGetTotalImmunizationScopeQuery, useGetLowestScopeKejarImmunizationQuery, useGetHighestScopeKejarQuery, useGetImmunizationScopeKejarQuery, useGetGraphScopeKejarImmunizationQuery } from "@/lib/services/babyxbaduta-immunization";
 import { dataMonth, dataTabBaduta, vaccineTypeKejarOptions, vaccineTypeOptions } from "@/utils/constants";
-import { ageResponseConvert, formatNumber } from "@/helpers";
+import { ageResponseConvert, formatNumber, removeEmptyValue } from "@/helpers";
 import { openSans } from "@/assets/fonts";
 
 const BabyChaseImmunizationBaduta = () => {
@@ -86,7 +86,7 @@ const BabyChaseImmunizationBaduta = () => {
           : filter.provinsi
             ? "province"
             : "All",
-    faskes_id: regionIdQuery,
+    faskes_id: filter.wilayah1 === "province" ? "" : regionIdQuery,
     kewilayahan_type: filter.kewilayahan_type,
   };
   const filterQueryGraph = {
@@ -116,16 +116,16 @@ const BabyChaseImmunizationBaduta = () => {
   }
   const { data: getImmunizationScopeKejarQuery,
     isFetching: isLoadingImmunizationScopeKejarQuery,
-  } = useGetImmunizationScopeKejarQuery({ ...filterQueryGraphPercentage, vaccine_type: filter.tipe_vaksin1 }, optionQueryTotal)
+  } = useGetImmunizationScopeKejarQuery(removeEmptyValue({ ...filterQueryGraphPercentage, vaccine_type: filter.tipe_vaksin1 }), optionQueryTotal)
   const { data: getHighestScopeKejarQuery,
     isFetching: isLoadingHighestScopeKejarQuery,
-  } = useGetHighestScopeKejarQuery({ ...filterQueryGraphPercentage, vaccine_type: filter.tipe_vaksin1 }, optionQueryTotal)
+  } = useGetHighestScopeKejarQuery(removeEmptyValue({ ...filterQueryGraphPercentage, vaccine_type: filter.tipe_vaksin1 }), optionQueryTotal)
   const { data: getLowestScopeKejarQuery,
     isFetching: isLoadingLowestScopeKejarQuery,
-  } = useGetLowestScopeKejarQuery({ ...filterQueryGraphPercentage, vaccine_type: filter.tipe_vaksin1 }, optionQueryTotal)
+  } = useGetLowestScopeKejarQuery(removeEmptyValue({ ...filterQueryGraphPercentage, vaccine_type: filter.tipe_vaksin1 }), optionQueryTotal)
   const { data: getGraphTotalQuery,
     isFetching: isLoadingGraphTotalQuery,
-  } = useGetGraphTotalQuery({ ...filterQueryGraphPercentage, vaccine_type: filter.tipe_vaksin1 }, optionQuery)
+  } = useGetGraphTotalQuery(removeEmptyValue({ ...filterQueryGraphPercentage, vaccine_type: filter.tipe_vaksin1 }), optionQuery)
   // -----------
   const { data: getGraphScopeKejarImmunizationQuery,
     isFetching: isLoadingGraphScopeKejarImmunizationQuery,
@@ -322,7 +322,7 @@ const BabyChaseImmunizationBaduta = () => {
                       addOn={<GraphAddOn dataCard={dataGraphRegionalRoutineImmunizationCoverageTrend1} />} variant="private"
                       filterState={filterState}
                       filterComp={<Filter1 filterState={filterState}
-                        data={getGraphTotalQuery?.data || []} />}
+                        data={_.uniqBy(getGraphTotalQuery?.data, 'faskes_desc') || []} />}
                       isLoading={isLoadingGraphTotalQuery}
                       opts={{
                         height: getGraphTotalQuery?.data?.length > 1500 ? 65000 :
@@ -335,7 +335,7 @@ const BabyChaseImmunizationBaduta = () => {
                         name: "Total",
                         data:
                           (
-                            getGraphTotalQuery?.data ||
+                            _.uniqBy(getGraphTotalQuery?.data, 'faskes_desc') ||
                             []
                           )?.map((r: any) => ({
                             value: r?.total ?? 0,
@@ -366,7 +366,7 @@ const BabyChaseImmunizationBaduta = () => {
                         // }
                       ]
                         , (
-                          getGraphTotalQuery?.data ||
+                          _.uniqBy(getGraphTotalQuery?.data, 'faskes_desc') ||
                           []
                         )
                           ?.map((r: any) => {
