@@ -9,7 +9,9 @@ import {
   useGetRegencyQuery,
   useGetSubDistrictQuery,
 } from "@/lib/services/region";
-import { useGetFaskesWusQuery } from "@/lib/services/wus";
+// import { useGetFaskesWusQuery } from "@/lib/services/wus";
+import { useGetListFaskesQuery } from "@/lib/services/bias";
+
 import { dataMonth, filterLocationOptions } from "@/utils/constants";
 import {
   generateYearsArray,
@@ -40,42 +42,29 @@ const FilterSummaryImmunizationAnc: React.FC<FilterProps> = ({
       refetchOnMountOrArgChange: true,
     }
   );
-  const { data: getFaskesWus } = useGetFaskesWusQuery(
+  // const { data: getFaskesWus } = useGetFaskesWusQuery(
+  //   {
+  //     year: filter.tahun,
+  //     month: filter.bulan,
+  //     faskes_parent_id: filter.kecamatan,
+  //     kewilayahan_type: filter.kewilayahan_type,
+  //   },
+
+  //   {
+  //     skip: !filter.provinsi && !filter.kabkota && !filter.kecamatan,
+  //     refetchOnMountOrArgChange: true,
+  //   }
+  // );
+  const { data: getListFaskes } = useGetListFaskesQuery(
     {
+      kewilayahan_type: filter.kewilayahan_type,
       year: filter.tahun,
       month: filter.bulan,
       faskes_parent_id: filter.kecamatan,
-      kewilayahan_type: filter.kewilayahan_type,
     },
 
     {
       skip: !filter.provinsi && !filter.kabkota && !filter.kecamatan,
-      refetchOnMountOrArgChange: true,
-    }
-  );
-  const { data: getListFaskes } = useGetFaskesWusQuery(
-    {
-      kewilayahan_type: filter.kewilayahan_type,
-      year: filter.tahun,
-      month: filter.bulan,
-      faskes_parent_id: filter.kecamatan,
-    },
-
-    {
-      skip: !filter.provinsi && !filter.kabkota && !filter.kecamatan,
-      refetchOnMountOrArgChange: true,
-    }
-  );
-  const { data: getFacilityOfType } = useGetFacilityOfTypeQuery({});
-  const { data: getMedicalFacility } = useGetMedicalFacilityQuery(
-    {
-      provinsi: filter.provinsi,
-      kabkota: filter.kabkota,
-      kecamatan: filter.kecamatan,
-      jenis_sarana: filter.jenis_sarana,
-    },
-    {
-      skip: !filter.provinsi && !filter.kabkota,
       refetchOnMountOrArgChange: true,
     }
   );
@@ -212,7 +201,7 @@ const FilterSummaryImmunizationAnc: React.FC<FilterProps> = ({
         </div>
         <div>
           <Select
-            placeholder={"Pilih  Desa/Kelurahan"}
+            placeholder={"Pilih Desa/Kelurahan"}
             options={standardOptions(
               getListFaskes?.data || [],
               "faskes_name",
