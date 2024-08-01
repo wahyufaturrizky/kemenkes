@@ -122,6 +122,11 @@ export const graphOptions4 = (series: any[], xData: any[]) => {
     xAxis: {
       type: "category",
       data: upperCaseLegend,
+      axisLabel: {
+        show: true,
+        interval: 0,
+        rotate: 45,
+      },
     },
     yAxis: {
       type: "value",
@@ -169,7 +174,7 @@ export const graphOptions5 = (series: any[], legend: any[]) => {
     },
     xAxis: {
       type: "category",
-      data: upperCaseLegend,
+      data: upperCaseLegend
     },
     yAxis: {
       type: "value",

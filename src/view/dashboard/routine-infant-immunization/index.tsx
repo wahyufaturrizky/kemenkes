@@ -407,7 +407,11 @@ const RoutineBabyImmunization = () => {
   const {
     data: getGraphImmunizationAge,
     isLoading: isLoadingGraphImmunizationAge,
-  } = useGetGraphImmunizationAgeQuery(filterAge, optionQuery);
+  } = useGetGraphImmunizationAgeQuery({
+    ...dateQuery,
+    region_type: regionIdQuery,
+    faskes_id: faskesIdQuery
+  }, optionQuery);
   const aliasSummaryImmunizationByAgeQuery = Object.entries(
     getGraphImmunizationAge?.data?.[0] || []
   ).map(([key, value]) => ({ label: key, value: value }));
@@ -1727,6 +1731,9 @@ const RoutineBabyImmunization = () => {
                 graph={
                   <div className="my-4 p-4 md:p-8 border rounded-lg">
                     <GraphRoutineImmunizationCoverageTrend
+                    opts={{
+                      height: 550
+                    }}
                       layout="vertical"
                       title={
                         <div className="font-bold md:text-2xl">
@@ -1766,6 +1773,7 @@ const RoutineBabyImmunization = () => {
                           data={
                             getGraphImmunizationAge?.data?.[0]?.vaccine_list
                           }
+                          showFilter={false}
                         />
                       }
                       isLoading={isLoadingGraphImmunizationAge}
@@ -1806,6 +1814,9 @@ const RoutineBabyImmunization = () => {
                 graph={
                   <div className="my-4 p-4 md:p-8 border rounded-lg">
                     <GraphRoutineImmunizationCoverageTrend
+                      opts={{
+                        height: 550
+                      }}
                       layout="vertical"
                       title={
                         <div className="font-bold md:text-2xl">
@@ -1866,6 +1877,7 @@ const RoutineBabyImmunization = () => {
                           data={
                             getGraphImmunizationGender?.data?.[0]?.vaccine_list
                           }
+                          showFilter={false}
                         />
                       }
                       isLoading={isLoadingGraphImmunizationGender}
