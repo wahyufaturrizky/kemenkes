@@ -69,8 +69,7 @@ const Wus = () => {
     status_type_kumulatif: "t1",
     women_category_daerah: "All",
     women_category_kumulatif: "All",
-    women_category_status_T: "All",
-    women_category_status_T_Pregnant: "All",
+    women_category_status_T: "All"
   });
 
   const [filter] = filterState;
@@ -229,7 +228,6 @@ const Wus = () => {
   const filterDistributionStatusPregnant = {
     ...dateQuery,
     // status_type: filter.status_type_daerah,
-    women_category: filter.women_category_status_T_Pregnant,
     region_type:
       filter.faskes && filter.kewilayahan_type == 0
         ? "faskes"
@@ -740,7 +738,7 @@ const Wus = () => {
                 }
               />
             </div>
-
+            
             <div className="py-4 pb-12">
               <RoutineImmunizationCoverageTrendGraph
                 title="Grafik Tren Cakupan Kumulatif atau Bulanan Penerima Imunisasi WUS "
@@ -748,6 +746,9 @@ const Wus = () => {
                 graph={
                   <div className="my-4 p-4 md:p-8 border rounded-lg">
                     <GraphRoutineImmunizationCoverageTrend
+                      opts={{
+                        height: 550
+                      }}
                       title={
                         <div className="font-bold md:text-2xl">
                           Data{" "}
@@ -761,7 +762,7 @@ const Wus = () => {
                           </b>{" "}
                           Jumlah Penerima, Cakupan, dan Target Cakupan{" "}
                           <b className="text-primary-2">
-                            {filter.status_type_kumulatif?.toUpperCase()}
+                            {filter.status_type_kumulatif === 't2plus' ? 'T2+' : filter.status_type_kumulatif?.toUpperCase()}
                           </b>{" "}
                           pada Wanita Usia Subur atau Ibu Hamil Selama Tahun{" "}
                           <b className="text-primary-2">{filter.tahun}</b>
@@ -894,7 +895,9 @@ const Wus = () => {
                               `${formatNumber(params.value || 0)}`,
                           },
                         },
-                      ])}
+                      ],
+                      true
+                    )}
                     />
                   </div>
                 }
@@ -907,6 +910,9 @@ const Wus = () => {
                 graph={
                   <div className="my-4 p-4 md:p-8 border rounded-lg">
                     <GraphRoutineImmunizationCoverageTrend
+                      opts={{
+                        height: 550
+                      }}
                       title={<></>}
                       subTitle={``}
                       variant="private"
@@ -952,6 +958,9 @@ const Wus = () => {
                     <GraphRoutineImmunizationCoverageTrend
                       title={<></>}
                       subTitle={``}
+                      opts={{
+                        height: 550
+                      }}
                       variant="private"
                       filterState={filterState}
                       filterComp={
@@ -989,10 +998,6 @@ const Wus = () => {
                                 color: "#FAC515",
                               },
                             },
-                            // showBackground: true,
-                            // backgroundStyle: {
-                            //   color: "#2E90FA",
-                            // },
                           },
                           {
                             name: "WUS Hamil",
@@ -1012,42 +1017,7 @@ const Wus = () => {
                               borderColor: "#2E90FA",
                               color: "#2E90FA",
                             },
-                            // emphasis: {
-                            //   itemStyle: {
-                            //     borderColor: "#2E90FA",
-                            //     color: "#2E90FA",
-                            //   },
-                            // },
-                            // showBackground: true,
-                            // backgroundStyle: {
-                            //   color: "#2E90FA",
-                            // },
                           },
-                          // {
-                          //   name: "WUS Hamil",
-                          //   type: "bar",
-                          //   stack: "Total",
-                          //   barWidth: "60%",
-
-                          //   data:
-                          //     (
-                          //       getDistributionStatusPregnantChartQuery?.data ||
-                          //       []
-                          //     )?.map((r: any) => 100) || [],
-                          //   label: {
-                          //     show: false,
-                          //   },
-                          //   itemStyle: {
-                          //     borderColor: "#2E90FA",
-                          //     color: "#2E90FA",
-                          //   },
-                          //   emphasis: {
-                          //     itemStyle: {
-                          //       borderColor: "#2E90FA",
-                          //       color: "#2E90FA",
-                          //     },
-                          //   },
-                          // },
                         ],
                         (
                           getDistributionStatusPregnantChartQuery?.data?.[0]

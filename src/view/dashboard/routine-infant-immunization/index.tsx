@@ -90,6 +90,7 @@ import {
 import {
   dataMonths,
   trendTypeOptions,
+  vaccineTypeBabyOptionsNew,
   vaccineTypeOptions,
 } from "@/utils/constants";
 import { formatNumber } from "@/helpers";
@@ -469,7 +470,8 @@ const RoutineBabyImmunization = () => {
   ];
   const dataGraphRegionalRoutineImmunizationCoverageTrend2 = [
     {
-      title: `Cakupan Imunisasi Dasar Lengkap (IDL)`,
+      // title: `Cakupan ${filterTotalBayi.vaccine_type}`,
+      title: `Cakupan ${vaccineTypeBabyOptionsNew.find((type) => type.value === filterTotalBayi.vaccine_type)?.label}`,
       value: (
         <div>
           {formatNumber(getTotalCompleteBase?.data?.[0]?.percentage || 0)}%
@@ -1666,7 +1668,7 @@ const RoutineBabyImmunization = () => {
                             data:
                               (
                                 getGraphScope?.data?.[0]?.vaccine_list || []
-                              )?.map((r: any) => r?.pct || 0) || [],
+                              )?.map((r: any) => r?.pct) || [],
                             type: "line",
                             label: {
                               show: true,
@@ -1696,9 +1698,9 @@ const RoutineBabyImmunization = () => {
                               formatter: (params: any) =>
                                 `${formatNumber(params.value)}%`,
                             },
-                            // tooltip: {
-                            //   show: false,
-                            // },
+                            tooltip: {
+                              show: false,
+                            },
                           },
                         ],
                         (getGraphScope?.data?.[0]?.vaccine_list || [])?.map(
