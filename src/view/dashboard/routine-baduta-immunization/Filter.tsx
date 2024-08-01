@@ -14,6 +14,7 @@ import { downloadFile } from "@/helpers/hook";
 interface FilterProps {
   filterState: any;
   data?: any;
+  showFilter?: boolean;
 }
 export const Filter1: React.FC<FilterProps> = ({ filterState, data }) => {
   const [filter, setFilter] = filterState || useState({});
@@ -140,43 +141,64 @@ export const Filter2: React.FC<FilterProps> = ({ filterState, data }) => {
     </div>
   );
 };
-export const Filter3: React.FC<FilterProps> = ({ filterState, data }) => {
+export const Filter3: React.FC<FilterProps> = ({ filterState, data, showFilter }) => {
   const [filter, setFilter] = filterState || useState({});
   return (
     <div className="flex flex-wrap justify-between items-center gap-4 sm:mt-20 md:mt-0 mb-8">
-      <div className="flex gap-4">
-        <div>
-          <Select
-            options={vaccineTypeOptions}
-            onChange={(e: any) => {
-              setFilter({ ...filter, tipe_vaksin3: e ? e.label : "All" });
-            }}
-            value={
-              filter.tipe_vaksin3
-                ? vaccineTypeOptions?.find(
-                  (f) => f.label === filter.tipe_vaksin3
-                )
-                : filter.tipe_vaksin3
-            }
-          />
+      {showFilter ?? (
+        <div className="flex gap-4">
+          <div>
+            <Select
+              options={vaccineTypeOptions}
+              onChange={(e: any) => {
+                setFilter({ ...filter, tipe_vaksin3: e ? e.label : "All" });
+              }}
+              value={
+                filter.tipe_vaksin3
+                  ? vaccineTypeOptions?.find(
+                    (f) => f.label === filter.tipe_vaksin3
+                  )
+                  : filter.tipe_vaksin3
+              }
+            />
+          </div>
         </div>
-      </div>
-      <div className="flex gap-4">
-        <div onClick={async () => {
-          const pct = data?.map((r: any) => r?.pct.toString())
-          const total = data?.map((r: any) => r?.ytd_total.toString())
-          // const target = data?.map((r: any) => r?.threshold.toString())
-          const verticalHeader = data?.map((r: any) => r?.vaccine_name)
-          const body = data?.map((r: any, i: number) => {
-            return [pct[i], total[i]]
-          });
-          const header = ["%Cakupan", "Cakupan"];
-          const fileName = "Grafik Cakupan Berdasarkan Jenis Imunisasi";
-          await downloadFile({ header, body, verticalHeader, fileName });
-        }} >
-          <Button text="Unduh" variant="outlined" />
+      )}
+      {showFilter ? (
+        <div className="flex gap-4">
+          <div onClick={async () => {
+            const pct = data?.map((r: any) => r?.pct.toString())
+            const total = data?.map((r: any) => r?.ytd_total.toString())
+            // const target = data?.map((r: any) => r?.threshold.toString())
+            const verticalHeader = data?.map((r: any) => r?.vaccine_name)
+            const body = data?.map((r: any, i: number) => {
+              return [pct[i], total[i]]
+            });
+            const header = ["%Cakupan", "Cakupan"];
+            const fileName = "Grafik Cakupan Berdasarkan Jenis Imunisasi";
+            await downloadFile({ header, body, verticalHeader, fileName });
+          }} >
+            <Button text="Unduh" variant="outlined" />
+          </div>
         </div>
-      </div>
+      ): (
+        <div className="flex justify-end w-full gap-4">
+          <div onClick={async () => {
+            const pct = data?.map((r: any) => r?.pct.toString())
+            const total = data?.map((r: any) => r?.ytd_total.toString())
+            // const target = data?.map((r: any) => r?.threshold.toString())
+            const verticalHeader = data?.map((r: any) => r?.vaccine_name)
+            const body = data?.map((r: any, i: number) => {
+              return [pct[i], total[i]]
+            });
+            const header = ["%Cakupan", "Cakupan"];
+            const fileName = "Grafik Cakupan Berdasarkan Jenis Imunisasi";
+            await downloadFile({ header, body, verticalHeader, fileName });
+          }} >
+            <Button text="Unduh" variant="outlined" />
+          </div>
+        </div>
+      )}
     </div>
   );
 };
