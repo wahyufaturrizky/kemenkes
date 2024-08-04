@@ -1006,6 +1006,7 @@ const RoutineBadutaImmunization = () => {
                         <Filter3
                           filterState={filterState}
                           data={aliasSummaryImmunizationPerVaccineQuery || []}
+                          showFilter={false}
                         />
                       }
                       opts={{

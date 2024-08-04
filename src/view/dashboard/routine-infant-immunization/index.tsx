@@ -90,6 +90,7 @@ import {
 import {
   dataMonths,
   trendTypeOptions,
+  vaccineTypeBabyOptionsNew,
   vaccineTypeOptions,
 } from "@/utils/constants";
 import { formatNumber } from "@/helpers";
@@ -406,7 +407,11 @@ const RoutineBabyImmunization = () => {
   const {
     data: getGraphImmunizationAge,
     isLoading: isLoadingGraphImmunizationAge,
-  } = useGetGraphImmunizationAgeQuery(filterAge, optionQuery);
+  } = useGetGraphImmunizationAgeQuery({
+    ...dateQuery,
+    region_type: regionIdQuery,
+    faskes_id: faskesIdQuery
+  }, optionQuery);
   const aliasSummaryImmunizationByAgeQuery = Object.entries(
     getGraphImmunizationAge?.data?.[0] || []
   ).map(([key, value]) => ({ label: key, value: value }));
@@ -469,7 +474,8 @@ const RoutineBabyImmunization = () => {
   ];
   const dataGraphRegionalRoutineImmunizationCoverageTrend2 = [
     {
-      title: `Cakupan Imunisasi Dasar Lengkap (IDL)`,
+      // title: `Cakupan ${filterTotalBayi.vaccine_type}`,
+      title: `Cakupan ${vaccineTypeBabyOptionsNew.find((type) => type.value === filterTotalBayi.vaccine_type)?.label}`,
       value: (
         <div>
           {formatNumber(getTotalCompleteBase?.data?.[0]?.percentage || 0)}%
@@ -1674,7 +1680,7 @@ const RoutineBabyImmunization = () => {
                             data:
                               (
                                 getGraphScope?.data?.[0]?.vaccine_list || []
-                              )?.map((r: any) => r?.pct || 0) || [],
+                              )?.map((r: any) => r?.pct) || [],
                             type: "line",
                             label: {
                               show: true,
@@ -1704,9 +1710,9 @@ const RoutineBabyImmunization = () => {
                               formatter: (params: any) =>
                                 `${formatNumber(params.value)}%`,
                             },
-                            // tooltip: {
-                            //   show: false,
-                            // },
+                            tooltip: {
+                              show: false,
+                            },
                           },
                         ],
                         (getGraphScope?.data?.[0]?.vaccine_list || [])?.map(
@@ -1725,6 +1731,9 @@ const RoutineBabyImmunization = () => {
                 graph={
                   <div className="my-4 p-4 md:p-8 border rounded-lg">
                     <GraphRoutineImmunizationCoverageTrend
+                    opts={{
+                      height: 550
+                    }}
                       layout="vertical"
                       title={
                         <div className="font-bold md:text-2xl">
@@ -1764,6 +1773,7 @@ const RoutineBabyImmunization = () => {
                           data={
                             getGraphImmunizationAge?.data?.[0]?.vaccine_list
                           }
+                          showFilter={false}
                         />
                       }
                       isLoading={isLoadingGraphImmunizationAge}
@@ -1804,6 +1814,9 @@ const RoutineBabyImmunization = () => {
                 graph={
                   <div className="my-4 p-4 md:p-8 border rounded-lg">
                     <GraphRoutineImmunizationCoverageTrend
+                      opts={{
+                        height: 550
+                      }}
                       layout="vertical"
                       title={
                         <div className="font-bold md:text-2xl">
@@ -1864,6 +1877,7 @@ const RoutineBabyImmunization = () => {
                           data={
                             getGraphImmunizationGender?.data?.[0]?.vaccine_list
                           }
+                          showFilter={false}
                         />
                       }
                       isLoading={isLoadingGraphImmunizationGender}
