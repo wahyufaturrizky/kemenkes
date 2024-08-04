@@ -46,7 +46,7 @@ const Scorecard3: React.FC<Scorecard3Props> = ({
           </div>
           <IoMdInformationCircleOutline size={24} color="#00B1A9" />
         </div>
-        <p className="text-xs mt-1">{subtitle}</p>
+        <p className="text-xs mt-1 font-bold">{subtitle}</p>
       </div>
       <div className="flex justify-between items-end">
         <p className="font-bold text-3xl">{value}</p>

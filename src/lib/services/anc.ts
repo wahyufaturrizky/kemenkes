@@ -15,7 +15,15 @@ export const ancImmunizationApi = apiWithTag.injectEndpoints({
       }),
       providesTags: ["anc-immunization"],
     }),
+    getTopDisease: build.query({
+      query: (options = {}) => ({
+        url: `${API_URL}/v1/anc-immunization/top-diseases`,
+        params: options,
+      }),
+      providesTags: ["anc-immunization"],
+    }),
   }),
 });
 
-export const { useGetTotalImmunizationQuery } = ancImmunizationApi;
+export const { useGetTotalImmunizationQuery, useGetTopDiseaseQuery } =
+  ancImmunizationApi;

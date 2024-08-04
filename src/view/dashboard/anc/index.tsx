@@ -2,8 +2,6 @@
 
 import React from "react";
 import { useState } from "react";
-import { IoMdArrowForward } from "react-icons/io";
-import { Banner, BannerHighlightFooter, BannerText } from "@/components";
 import {
   graphOptions1,
   graphOptions2,
@@ -33,14 +31,16 @@ import Scorecard1 from "@/components/scorecard1";
 import Scorecard2 from "@/components/scorecard2";
 import Scorecard3 from "@/components/scorecard3";
 import { IoMdInformationCircleOutline } from "react-icons/io";
-import { useGetTotalImmunizationQuery } from "@/lib/services/anc";
-import { Spin } from "@/components";
+import {
+  useGetTotalImmunizationQuery,
+  useGetTopDiseaseQuery,
+} from "@/lib/services/anc";
+import Card8Disease from "@/components/card8Disease";
 
 export default function Anc() {
   const filterState = useState({
-    tahun: 2023,
-    // tahun: new Date().getFullYear(),
-    // bulan: 12,
+    // tahun: 2023,
+    tahun: new Date().getFullYear(),
     bulan: dataMonth.find((r, i) => i === new Date().getMonth())?.value,
     provinsi: "",
     kabkota: "",
@@ -143,6 +143,30 @@ export default function Anc() {
   const filterK6 = createFilter("k6", true);
   const filterTenT = createFilter("10t", true);
   const filterFourT = createFilter("4t", true);
+  const filterUsg = createFilter("usg", true);
+  const filterKmk = createFilter("kmk", true);
+  const filterKek = createFilter("kek", true);
+  const filterKekRcv = createFilter("kek_rcv_nutri", true);
+  const filterKekCns = createFilter("kek_cns_nutri", true);
+  const filterKekPmt = createFilter("kek_pmt_lokal", true);
+  const filterHb = createFilter("hb", true);
+  const filterAnemiaRcv = createFilter("anemia_rcv_ttd_oral", true);
+  const filterAnemiaInc = createFilter("anemia_inc_hb", true);
+  const filterAnemiaRef = createFilter("anemia_ref_fkrtl", true);
+  const filterTTdRcv = createFilter("ttd_rcv", true);
+  const filterTTdCns = createFilter("ttd_cns", true);
+  const filterClass = createFilter("class", true);
+  const filterTd = createFilter("td", true);
+  const filterKia = createFilter("kia", true);
+  const filterDiukur = createFilter("measured", true);
+  const filterTekananDarah = createFilter("blood_pressure", true);
+  const filterLila = createFilter("lila", true);
+  const filterTinggiFundus = createFilter("fundal_height", true);
+  const filterDjj = createFilter("djj", true);
+  const filterTt = createFilter("tt", true);
+  const filterLab = createFilter("lab", true);
+  const filterTatalaksana = createFilter("case_msg", true);
+  const filterKonseling = createFilter("counseling", true);
 
   // SCORECARD
   const { data: SasaranIbuHamil, isFetching: isLoadingTotalImmunization } =
@@ -177,9 +201,80 @@ export default function Anc() {
     useGetTotalImmunizationQuery(filterTenT, optionQuery);
   const { data: FourT, isFetching: isLoadingFourT } =
     useGetTotalImmunizationQuery(filterFourT, optionQuery);
+  const { data: Usg, isFetching: isLoadingUsg } = useGetTotalImmunizationQuery(
+    filterUsg,
+    optionQuery
+  );
+  const { data: Kmk, isFetching: isLoadingKmk } = useGetTotalImmunizationQuery(
+    filterKmk,
+    optionQuery
+  );
+  const { data: Kek, isFetching: isLoadingKek } = useGetTotalImmunizationQuery(
+    filterKek,
+    optionQuery
+  );
+  const { data: KekRcv, isFetching: isLoadingKekRcv } =
+    useGetTotalImmunizationQuery(filterKekRcv, optionQuery);
+  const { data: KekCns, isFetching: isLoadingKekCns } =
+    useGetTotalImmunizationQuery(filterKekCns, optionQuery);
+  const { data: KekPmt, isFetching: isLoadingKekPmt } =
+    useGetTotalImmunizationQuery(filterKekPmt, optionQuery);
+  const { data: Hb, isFetching: isLoadingHb } = useGetTotalImmunizationQuery(
+    filterHb,
+    optionQuery
+  );
+  const { data: AnemiaRcv, isFetching: isLoadingAnemiaRcv } =
+    useGetTotalImmunizationQuery(filterAnemiaRcv, optionQuery);
+  const { data: AnemiaInc, isFetching: isLoadingAnemiaInc } =
+    useGetTotalImmunizationQuery(filterAnemiaInc, optionQuery);
+  const { data: AnemiaRef, isFetching: isLoadingAnemiaRef } =
+    useGetTotalImmunizationQuery(filterAnemiaRef, optionQuery);
+  const { data: TTdRcv, isFetching: isLoadingTTdRcv } =
+    useGetTotalImmunizationQuery(filterTTdRcv, optionQuery);
+  const { data: TTdCns, isFetching: isLoadingTTdCns } =
+    useGetTotalImmunizationQuery(filterTTdCns, optionQuery);
+  const { data: Class, isFetching: isLoadingClass } =
+    useGetTotalImmunizationQuery(filterClass, optionQuery);
+  const { data: Td, isFetching: isLoadingTd } = useGetTotalImmunizationQuery(
+    filterTd,
+    optionQuery
+  );
+  const { data: Kia, isFetching: isLoadingKia } = useGetTotalImmunizationQuery(
+    filterKia,
+    optionQuery
+  );
+  const { data: Diukur, isFetching: isLoadingDiukur } =
+    useGetTotalImmunizationQuery(filterDiukur, optionQuery);
+  const { data: TekananDarah, isFetching: isLoadingTekananDarah } =
+    useGetTotalImmunizationQuery(filterTekananDarah, optionQuery);
+  const { data: Lila, isFetching: isLoadingLila } =
+    useGetTotalImmunizationQuery(filterLila, optionQuery);
+  const { data: TinggiFundus, isFetching: isLoadingTinggiFundus } =
+    useGetTotalImmunizationQuery(filterTinggiFundus, optionQuery);
+  const { data: Djj, isFetching: isLoadingDjj } = useGetTotalImmunizationQuery(
+    filterDjj,
+    optionQuery
+  );
+  const { data: Tt, isFetching: isLoadingTt } = useGetTotalImmunizationQuery(
+    filterTt,
+    optionQuery
+  );
+  const { data: Lab, isFetching: isLoadingLab } = useGetTotalImmunizationQuery(
+    filterLab,
+    optionQuery
+  );
+  const { data: Tatalaksana, isFetching: isLoadingTatalaksana } =
+    useGetTotalImmunizationQuery(filterTatalaksana, optionQuery);
+  const { data: Konseling, isFetching: isLoadingKonseling } =
+    useGetTotalImmunizationQuery(filterKonseling, optionQuery);
 
-  // console.log(TotalImmunization, "isi data");
   // SCORECARD
+
+  // Mordibilitas
+  const { data: TopDisease, isFetching: loadingTopDisease } =
+    useGetTopDiseaseQuery(filterTotal, optionQuery);
+  // console.log(TopDisease, "isi data");
+  // Mordibilitas
 
   const totalData = ancGraphOptions1.map((option) => option.ya + option.tidak);
   return (
@@ -306,32 +401,200 @@ export default function Anc() {
           isLoading={isLoadingFourT}
           color="#D9EF82"
         />
-        {/*
+
         <Scorecard3
-          title="ANEMIA"
-          status={"Sedang \n& Berat"}
-          subtitle="mendapatkan rujukan ke FKRTL"
-          value="117.000"
-          pct="10,2%"
+          title="USG"
+          subtitle="KMK trimester 3"
+          value={formatNumber(Usg?.data?.total || "0")}
+          pct={`${formatNumber(Usg?.data?.pct) || 0}%`}
+          isLoading={isLoadingUsg}
+          color="#A8DFF1"
+        />
+
+        <Scorecard3
+          title="KMK"
+          subtitle="dirujuk"
+          value={formatNumber(Kmk?.data?.total || "0")}
+          pct={`${formatNumber(Kmk?.data?.pct) || 0}%`}
+          isLoading={isLoadingKmk}
+          color="#FF9899"
+        />
+        <Scorecard3
+          title="KEK"
+          value={formatNumber(Kek?.data?.total || "0")}
+          pct={`${formatNumber(Kek?.data?.pct) || 0}%`}
+          isLoading={isLoadingKek}
+          color="#EE534F"
+        />
+        <Scorecard3
+          title="KEK"
+          subtitle="mendapat tambahan gizi"
+          value={formatNumber(KekRcv?.data?.total || "0")}
+          pct={`${formatNumber(KekRcv?.data?.pct) || 0}%`}
+          isLoading={isLoadingKekRcv}
+          color="#EE534F"
+        />
+        <Scorecard3
+          title="KEK"
+          subtitle="mengkonsumsi tambahan gizi"
+          value={formatNumber(KekCns?.data?.total || "0")}
+          pct={`${formatNumber(KekCns?.data?.pct) || 0}%`}
+          isLoading={isLoadingKekCns}
+          color="#EE534F"
+        />
+        <Scorecard3
+          title="KEK"
+          subtitle="mendapat PMT lokal dengan penambahan berat badan"
+          value={formatNumber(KekPmt?.data?.total || "0")}
+          pct={`${formatNumber(KekPmt?.data?.pct) || 0}%`}
+          isLoading={isLoadingKekPmt}
+          color="#EE534F"
+        />
+        <Scorecard3
+          title="Hb"
+          subtitle="diperiksa Hb"
+          value={formatNumber(Hb?.data?.total || "0")}
+          pct={`${formatNumber(Hb?.data?.pct) || 0}%`}
+          isLoading={isLoadingHb}
+          color="#C282FA"
+        />
+        <Scorecard3
+          title="Anemia"
+          status="Ringan"
+          subtitle="mendapat terapi TTD oral"
+          value={formatNumber(AnemiaRcv?.data?.total || "0")}
+          pct={`${formatNumber(AnemiaRcv?.data?.pct) || 0}%`}
+          isLoading={isLoadingAnemiaRcv}
           color="#60D3AA"
         />
         <Scorecard3
-          title="ANEMIA"
-          status={"Sedang \n& Berat"}
-          subtitle="mendapatkan rujukan ke FKRTL"
-          value="117.000"
-          pct="10,2%"
+          title="Anemia"
+          status="Ringan"
+          subtitle="mengalami kenaikan Hb"
+          value={formatNumber(AnemiaInc?.data?.total || "0")}
+          pct={`${formatNumber(AnemiaInc?.data?.pct) || 0}%`}
+          isLoading={isLoadingAnemiaInc}
           color="#60D3AA"
         />
-        <Scorecard3 title="10T" value="117.000" pct="10,2%" color="#9CEE8C" />
         <Scorecard3
-          title="ANEMIA"
-          status={"Sedang \n& Berat"}
-          subtitle="mendapatkan rujukan ke FKRTL"
-          value="117.000"
-          pct="10,2%"
+          title="Anemia"
+          status="Ringan & Berat"
+          subtitle="mendapata rujukan ke FKRTL"
+          value={formatNumber(AnemiaRef?.data?.total || "0")}
+          pct={`${formatNumber(AnemiaRef?.data?.pct) || 0}%`}
+          isLoading={isLoadingAnemiaRef}
           color="#60D3AA"
-        /> */}
+        />
+        <Scorecard3
+          title="TTD"
+          subtitle="mendapat 90 tablet"
+          value={formatNumber(TTdRcv?.data?.total || "0")}
+          pct={`${formatNumber(TTdRcv?.data?.pct) || 0}%`}
+          isLoading={isLoadingTTdRcv}
+          color="#ABC337"
+        />
+        <Scorecard3
+          title="TTD"
+          subtitle="mengkonsumsi 90 tablet"
+          value={formatNumber(TTdCns?.data?.total || "0")}
+          pct={`${formatNumber(TTdCns?.data?.pct) || 0}%`}
+          isLoading={isLoadingTTdCns}
+          color="#ABC337"
+        />
+        <Scorecard3
+          title="Kelas"
+          subtitle="mengikuti kelas ibu hamil min. 4x"
+          value={formatNumber(Class?.data?.total || "0")}
+          pct={`${formatNumber(Class?.data?.pct) || 0}%`}
+          isLoading={isLoadingClass}
+          color="#F6CADD"
+        />
+        <Scorecard3
+          title="Td"
+          subtitle="mendapat imunisasi Td"
+          value={formatNumber(Td?.data?.total || "0")}
+          pct={`${formatNumber(Td?.data?.pct) || 0}%`}
+          isLoading={isLoadingTd}
+          color="#505581"
+        />
+        <Scorecard3
+          title="Buku KIA"
+          subtitle="memiliki buku KIA"
+          value={formatNumber(Kia?.data?.total || "0")}
+          pct={`${formatNumber(Kia?.data?.pct) || 0}%`}
+          isLoading={isLoadingKia}
+          color="#8FA5B2"
+        />
+        <Scorecard3
+          title="Diukur"
+          subtitle="berat badan dan tinggi badan"
+          value={formatNumber(Diukur?.data?.total || "0")}
+          pct={`${formatNumber(Diukur?.data?.pct) || 0}%`}
+          isLoading={isLoadingDiukur}
+          color="#5874D7"
+        />
+        <Scorecard3
+          title="Tekanan Darah"
+          value={formatNumber(TekananDarah?.data?.total || "0")}
+          pct={`${formatNumber(TekananDarah?.data?.pct) || 0}%`}
+          isLoading={isLoadingTekananDarah}
+          color="#DB3A3A"
+        />
+        <Scorecard3
+          title="Diukur LiLA"
+          subtitle="Lingkar Lengan Atas"
+          value={formatNumber(Lila?.data?.total || "0")}
+          pct={`${formatNumber(Lila?.data?.pct) || 0}%`}
+          isLoading={isLoadingLila}
+          color="#5874D7"
+        />
+        <Scorecard3
+          title="Tinggi Fundus"
+          subtitle="Penilaian usia/besar janin"
+          value={formatNumber(TinggiFundus?.data?.total || "0")}
+          pct={`${formatNumber(TinggiFundus?.data?.pct) || 0}%`}
+          isLoading={isLoadingTinggiFundus}
+          color="#5874D7"
+        />
+        <Scorecard3
+          title="Djj"
+          subtitle="Presentasi dan denyut jantung"
+          value={formatNumber(Djj?.data?.total || "0")}
+          pct={`${formatNumber(Djj?.data?.pct) || 0}%`}
+          isLoading={isLoadingDjj}
+          color="#FB5EA2"
+        />
+        <Scorecard3
+          title="Imunisasi TT"
+          subtitle="Imunisasi Tetanus Taksoid"
+          value={formatNumber(Tt?.data?.total || "0")}
+          pct={`${formatNumber(Tt?.data?.pct) || 0}%`}
+          isLoading={isLoadingTt}
+          color="#D9EF82"
+        />
+        <Scorecard3
+          title="Laboratorium"
+          subtitle="termasuk anemia & skrining triple eliminasi"
+          value={formatNumber(Lab?.data?.total || "0")}
+          pct={`${formatNumber(Lab?.data?.pct) || 0}%`}
+          isLoading={isLoadingLab}
+          color="#60D3AA"
+        />
+        <Scorecard3
+          title="Tatalaksana Kasus"
+          value={formatNumber(Tatalaksana?.data?.total || "0")}
+          pct={`${formatNumber(Tatalaksana?.data?.pct) || 0}%`}
+          isLoading={isLoadingTatalaksana}
+          color="#8FA5B2"
+        />
+        <Scorecard3
+          title="Konseling"
+          subtitle="Temu Wicara"
+          value={formatNumber(Konseling?.data?.total || "0")}
+          pct={`${formatNumber(Konseling?.data?.pct) || 0}%`}
+          isLoading={isLoadingKonseling}
+          color="#F6CADD"
+        />
       </div>
       <SectionHeader
         title="Morbiditas pada Ibu Hamil"
@@ -349,18 +612,115 @@ export default function Anc() {
           </p>
         </div>
         <div className="grid grid-cols-3 h-full gap-4 mt-6">
-          <div className=" col-span-3 lg:col-span-2">
-            <div className="h-[200px] bg-[#F3B239] mb-3"></div>
-            <div className="h-[400px] bg-[#CF3E53]"></div>
+          <div className=" col-span-3 lg:col-span-2 order-2 lg:order-1">
+            <div>
+              <Card8Disease
+                title={TopDisease?.data?.[1]?.disease_desc || "Rank 2"}
+                value={
+                  formatNumber(TopDisease?.data?.[1]?.total_preg_disease) || "0"
+                }
+                pct={`${
+                  formatNumber(TopDisease?.data?.[1]?.pct_total_preg_disease) ||
+                  0
+                }%`}
+                styles="h-[200px] bg-[#F3B239] mb-3"
+                size="l"
+                isLoading={loadingTopDisease}
+              />
+            </div>
+            <Card8Disease
+              title={TopDisease?.data?.[0]?.disease_desc || "Rank 1"}
+              value={
+                formatNumber(TopDisease?.data?.[0]?.total_preg_disease) || "0"
+              }
+              pct={`${
+                formatNumber(TopDisease?.data?.[0]?.pct_total_preg_disease) || 0
+              }%`}
+              isLoading={loadingTopDisease}
+              styles="h-[400px] bg-[#CF3E53]"
+              size="l"
+            />
           </div>
-          <div className="col-span-3 lg:col-span-1">
+          <div className="col-span-3 lg:col-span-1 order-1 lg:order-2">
             <div className="grid grid-cols-12 gap-3">
-              <div className="bg-[#00B8AE] h-[106px] col-span-5"></div>
-              <div className="bg-[#008E87] h-[106px] col-span-7"></div>
-              <div className="bg-[#00A2B3] h-[160px] col-span-7"></div>
-              <div className="bg-[#EC407A] h-[160px] col-span-5"></div>
-              <div className="bg-[#ADBB38] h-[130px] col-span-12"></div>
-              <div className="bg-[#A72787] h-[180px] col-span-12"></div>
+              <Card8Disease
+                title={TopDisease?.data?.[7]?.disease_desc || "Rank 8"}
+                value={
+                  formatNumber(TopDisease?.data?.[7]?.total_preg_disease) || "0"
+                }
+                pct={`${
+                  formatNumber(TopDisease?.data?.[7]?.pct_total_preg_disease) ||
+                  0
+                }%`}
+                isLoading={loadingTopDisease}
+                styles="bg-[#00B8AE] h-[106px] col-span-5"
+                size="s"
+              />
+              <Card8Disease
+                title={TopDisease?.data?.[6]?.disease_desc || "Rank 7"}
+                value={
+                  formatNumber(TopDisease?.data?.[6]?.total_preg_disease) || "0"
+                }
+                pct={`${
+                  formatNumber(TopDisease?.data?.[6]?.pct_total_preg_disease) ||
+                  0
+                }%`}
+                isLoading={loadingTopDisease}
+                styles="bg-[#008E87] h-[106px] col-span-7"
+                size="s"
+              />
+              <Card8Disease
+                title={TopDisease?.data?.[5]?.disease_desc || "Rank 6"}
+                value={
+                  formatNumber(TopDisease?.data?.[5]?.total_preg_disease) || "0"
+                }
+                pct={`${
+                  formatNumber(TopDisease?.data?.[5]?.pct_total_preg_disease) ||
+                  0
+                }%`}
+                isLoading={loadingTopDisease}
+                styles="bg-[#00A2B3] h-[160px] col-span-7"
+                size="m"
+              />
+              <Card8Disease
+                title={TopDisease?.data?.[4]?.disease_desc || "Rank 5"}
+                value={
+                  formatNumber(TopDisease?.data?.[4]?.total_preg_disease) || "0"
+                }
+                pct={`${
+                  formatNumber(TopDisease?.data?.[4]?.pct_total_preg_disease) ||
+                  0
+                }%`}
+                isLoading={loadingTopDisease}
+                styles="bg-[#EC407A] h-[160px] col-span-5"
+                size="m"
+              />
+              <Card8Disease
+                title={TopDisease?.data?.[3]?.disease_desc || "Rank 4"}
+                value={
+                  formatNumber(TopDisease?.data?.[3]?.total_preg_disease) || "0"
+                }
+                pct={`${
+                  formatNumber(TopDisease?.data?.[3]?.pct_total_preg_disease) ||
+                  0
+                }%`}
+                isLoading={loadingTopDisease}
+                styles="bg-[#ADBB38] h-[130px] col-span-12"
+                size="l"
+              />
+              <Card8Disease
+                title={TopDisease?.data?.[2]?.disease_desc || "Rank 3"}
+                value={
+                  formatNumber(TopDisease?.data?.[2]?.total_preg_disease) || "0"
+                }
+                pct={`${
+                  formatNumber(TopDisease?.data?.[2]?.pct_total_preg_disease) ||
+                  0
+                }%`}
+                isLoading={loadingTopDisease}
+                styles="bg-[#A72787] h-[180px] col-span-12"
+                size="l"
+              />
             </div>
           </div>
         </div>
