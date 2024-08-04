@@ -2,6 +2,8 @@
 
 import React from "react";
 import { useState } from "react";
+import { IoMdArrowBack } from "react-icons/io";
+import AnalisisANC from "./analisisAnc";
 import {
   graphOptions1,
   graphOptions2,
@@ -38,6 +40,14 @@ import {
 import Card8Disease from "@/components/card8Disease";
 
 export default function Anc() {
+  const [active, setActive] = useState("Layanan ANC");
+  const [analisis, setAnalisis] = useState(false);
+  const handleDataFromChild = (data: boolean) => {
+    setAnalisis(data);
+  };
+  const handleAnalisis = () => {
+    setAnalisis(false);
+  };
   const filterState = useState({
     // tahun: 2023,
     tahun: new Date().getFullYear(),
@@ -287,12 +297,47 @@ export default function Anc() {
         desc={`Dashboard ini menampilkan:\nmonitoring capaian Indikator ANC berdasarkan data yang dikirim oleh faskes ke SATUSEHAT`}
         space={true}
       />
+      {analisis && (
+        <div className="flex justify-between items-center w-full my-8">
+          <div
+            className="bg-primary flex h-9 rounded-[50px] justify-center items-center px-2 whitespace-nowrap  cursor-pointer"
+            onClick={handleAnalisis}
+          >
+            <IoMdArrowBack size={25} color="white" />
+            <p className="font-bold text-white pl-1">
+              Kembali ke halaman utama
+            </p>
+          </div>
+          <div>
+            <div className="flex bg-gray-100 rounded-xl w-max">
+              <button
+                onClick={() => setActive("Layanan ANC")}
+                className={`${
+                  active === "Layanan ANC" ? "bg-white shadow" : ""
+                } m-2 p-2 w-52 rounded-xl font-bold text-[#505581] transition`}
+              >
+                Layanan ANC
+              </button>
+              <button
+                onClick={() => setActive("Intervensi & Morbiditas")}
+                className={`${
+                  active === "Intervensi & Morbiditas" ? "bg-white shadow" : ""
+                } m-2 p-2 w-52 rounded-xl font-bold text-[#505581] transition`}
+              >
+                Intervensi & Morbiditas
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
       <FilterSummaryImmunizationAnc filterState={filterState} />
+      {analisis && <AnalisisANC />}
       <SectionHeader
         title="Jumlah Sasaran Ibu Hamil"
         subtitle="Ringkasan berisi jumlah sasaran ibu hamil dan cakupan ibu hamil yang
             sudah mendapatkan layanan pemeriksaan"
         btn="Halaman Analisis"
+        onDataSubmit={handleDataFromChild}
       />
       <div className="w-full grid grid-cols-2 gap-2 mt-6">
         <Scorecard1
