@@ -50,7 +50,8 @@ const HomeView = () => {
           : filter.provinsi
             ? filter.provinsi
             : "All",
-    // kewilayahan_type: filter.kewilayahan_type
+    kewilayahan_type: filter.kewilayahan_type
+    
   };
 
   const filterTotalUniqueQuery = {

@@ -166,6 +166,13 @@ export const publicImmunizationApi = apiWithTag.injectEndpoints({
       }),
       providesTags: ["public-immunization"],
     }),
+    getListFaskes: build.query({
+      query: (options = {}) => ({
+        url: `${API_URL}/v1/public-immunization/get-list-faskes`,
+        params: options,
+      }),
+      providesTags: ["public-immunization"],
+    }),
   }),
 });
 
@@ -191,5 +198,6 @@ export const {
   useGetTotalUniqueBiasCompleteQuery,
   useGetTotalUniqueBiasQuery,
   useGetTotalUniqueT2CompleteQuery,
-  useGetTotalUniqueWusQuery
+  useGetTotalUniqueWusQuery,
+  useGetListFaskesQuery
 } = publicImmunizationApi;
