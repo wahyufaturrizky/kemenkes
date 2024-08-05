@@ -485,6 +485,13 @@ export const babyImmunizationApi = apiWithTag.injectEndpoints({
       }),
       providesTags: ["bayi-immunization"],
     }),
+    getListFaskes: build.query({
+      query: (options = {}) => ({
+        url: `${API_URL}/v1/bayi-immunization/get-list-faskes`,
+        params: options,
+      }),
+      providesTags: ["bayi-immunization"],
+    }),
   }),
 });
 
@@ -558,4 +565,5 @@ export const {
   useGetTotalHighestScopeByVaccineTypeQuery,
   useGetTotalLowestScopeByVaccineTypeQuery,
   useGetTotalScopeByVaccineTypeQuery,
+  useGetListFaskesQuery
 } = babyImmunizationApi;
