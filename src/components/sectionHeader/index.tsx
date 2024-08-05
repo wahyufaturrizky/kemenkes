@@ -5,13 +5,21 @@ interface SectionHeaderProps {
   title: string;
   subtitle: string;
   btn?: string;
+  onDataSubmit?: (data: boolean) => void;
 }
 
 const SectionHeader: React.FC<SectionHeaderProps> = ({
   title,
   subtitle,
   btn,
+  onDataSubmit,
 }) => {
+  const handleClick = (value: boolean) => {
+    if (onDataSubmit) {
+      // Memeriksa apakah onDataSubmit ada sebelum memanggilnya
+      onDataSubmit(value);
+    }
+  };
   return (
     <div className="w-full mt-10">
       <div className="flex justify-between">
@@ -20,7 +28,10 @@ const SectionHeader: React.FC<SectionHeaderProps> = ({
           <p className="font-medium">{subtitle}</p>
         </div>
         {btn && (
-          <div className="bg-primary w-[181px] flex h-9 rounded-[50px] justify-center items-center px-2 whitespace-nowrap cursor-pointer">
+          <div
+            className="bg-primary w-[181px] flex h-9 rounded-[50px] justify-center items-center px-2 whitespace-nowrap cursor-pointer"
+            onClick={() => handleClick(true)}
+          >
             <IoMdArrowForward size={25} color="white" />
             <p className="font-bold text-white pl-1">{btn}</p>
           </div>
