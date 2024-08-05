@@ -33,7 +33,7 @@ const HomeView = () => {
     tipe_umur: 1,
     jenis_kelamin: 1,
     wilayah: "All",
-    wilayah1: "province",
+    wilayah1: "All",
     kewilayahan_type: 0
   })
   const [filter] = filterState
