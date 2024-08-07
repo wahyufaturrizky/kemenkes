@@ -223,6 +223,31 @@ const Wus = () => {
         ? "province"
         : "All",
     kewilayahan_type: filter.kewilayahan_type,
+    faskes_parent_id:
+      filter.faskes !== ""
+        ? filter.kecamatan
+        : filter.provinsi !== "" &&
+          filter.kabkota !== "" &&
+          filter.kecamatan === undefined
+        ? filter.provinsi
+        : filter.provinsi !== "" &&
+          filter.kabkota !== "" &&
+          filter.kecamatan !== ""
+        ? filter.kabkota
+        : filter.provinsi !== "" && filter.kabkota !== ""
+        ? filter.provinsi
+        : filter.provinsi !== ""
+        ? filter.provinsi
+        : "All",
+    faskes_id: filter.faskes
+      ? filter.faskes
+      : filter.kecamatan
+      ? filter.kecamatan
+      : filter.kabkota
+      ? filter.kabkota
+      : filter.provinsi
+      ? filter.provinsi
+      : "All"
   };
 
   const filterDistributionStatusPregnant = {
