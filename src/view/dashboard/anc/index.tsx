@@ -41,16 +41,23 @@ import {
 import Card8Disease from "@/components/card8Disease";
 import TabsBias from "@/components/tabsBias";
 import FilterSummaryImmunizationWus from "@/view/home/components/FilterWus";
+import TableAnc from "./tableAnc";
 
 export default function Anc() {
   const [active, setActive] = useState(false);
   const [analisis, setAnalisis] = useState(false);
+  const [isTableData, setIsTableData] = useState(false);
   const handleDataFromChild = (data: boolean) => {
     setAnalisis(data);
   };
   const handleAnalisis = () => {
     setAnalisis(false);
   };
+
+  const handleTable = () => {
+    setIsTableData(!isTableData);
+  };
+
   const filterState = useState({
     // tahun: 2023,
     tahun: new Date().getFullYear(),
@@ -334,17 +341,34 @@ export default function Anc() {
           </div>
         </div>
       )}
-      <TabsBias
-        data={dataTabBaduta}
-        variant="private"
-        value={filter.kewilayahan_type}
-        filterState={filterState}
-      />
+      {isTableData && (
+        <div className="flex justify-between items-center w-full my-8">
+          <div
+            className="bg-primary flex h-9 rounded-[50px] justify-center items-center px-2 whitespace-nowrap  cursor-pointer"
+            onClick={handleTable}
+          >
+            <IoMdArrowBack size={25} color="white" />
+            <p className="font-bold text-white pl-1">
+              Kembali ke halaman utama
+            </p>
+          </div>
+        </div>
+      )}
+      {!isTableData && (
+        <TabsBias
+          data={dataTabBaduta}
+          variant="private"
+          value={filter.kewilayahan_type}
+          filterState={filterState}
+        />
+      )}
       <div className="w-full">
         <FilterSummaryImmunizationWus filterState={filterState} />
       </div>
       {analisis ? (
         <AnalisisANC btn={active} filterState={filterState} />
+      ) : isTableData ? (
+        <TableAnc />
       ) : (
         <div>
           <SectionHeader
@@ -360,6 +384,7 @@ export default function Anc() {
               total={formatNumber(SasaranIbuHamil?.data?.total || "0")}
               direction="l"
               isLoading={isLoadingTotalImmunization}
+              onClick={handleTable}
             />
             <Scorecard1
               title="Ibu Hamil Tercatat"
@@ -367,6 +392,7 @@ export default function Anc() {
               pct={`${formatNumber(IbuHamilTercatat?.data?.pct) || 0}%`}
               direction="r"
               isLoading={isLoadingIbuHamilTercatat}
+              onClick={handleTable}
             />
           </div>
           <SectionHeader
