@@ -23,6 +23,7 @@ import {
   ancGraphOptions7,
   ancGtaphOptions5,
   dataMonth,
+  dataTabBaduta,
 } from "@/utils/constants";
 import FilterSummaryImmunizationAnc from "@/view/home/components/FilterAnc";
 import { formatNumber } from "@/helpers";
@@ -38,6 +39,8 @@ import {
   useGetTopDiseaseQuery,
 } from "@/lib/services/anc";
 import Card8Disease from "@/components/card8Disease";
+import TabsBias from "@/components/tabsBias";
+import FilterSummaryImmunizationWus from "@/view/home/components/FilterWus";
 
 export default function Anc() {
   const [active, setActive] = useState(false);
@@ -129,6 +132,7 @@ export default function Anc() {
     ...regionType,
     ...faskesId,
     ...faksesParentId,
+    kewilayahan_type: filter.kewilayahan_type,
   };
 
   const createFilter = (
@@ -330,9 +334,17 @@ export default function Anc() {
           </div>
         </div>
       )}
-      <FilterSummaryImmunizationAnc filterState={filterState} />
+      <TabsBias
+        data={dataTabBaduta}
+        variant="private"
+        value={filter.kewilayahan_type}
+        filterState={filterState}
+      />
+      <div className="w-full">
+        <FilterSummaryImmunizationWus filterState={filterState} />
+      </div>
       {analisis ? (
-        <AnalisisANC btn={active} />
+        <AnalisisANC btn={active} filterState={filterState} />
       ) : (
         <div>
           <SectionHeader
