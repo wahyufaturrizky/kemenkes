@@ -12,6 +12,7 @@ import {
   Navbar,
   Sidebar,
   Spin,
+  Tabs,
 } from "@/components";
 import {
   ChildSummaryImmunization,
@@ -89,6 +90,7 @@ import {
 } from "@/lib/services/baby-immunization";
 import {
   dataMonths,
+  dataTabBaduta,
   trendTypeOptions,
   vaccineTypeBabyOptionsNew,
   vaccineTypeOptions,
@@ -120,6 +122,7 @@ const RoutineBabyImmunization = () => {
     wilayah1: "province",
     wilayah1a: "All",
     faskes_parent: "",
+    kewilayahan_type: 0,
   });
   const [filter] = filterState;
 
@@ -146,6 +149,7 @@ const RoutineBabyImmunization = () => {
       : filter.kabkota
       ? filter.kabkota
       : filter.provinsi && filter.provinsi,
+    kewilayahan_type: filter.kewilayahan_type,
   };
 
   const [rergionTypeGraph1, setRegionTypeGraph1] = useState("province");
@@ -645,7 +649,12 @@ const RoutineBabyImmunization = () => {
         <div className="flex gap-6">
           <Sidebar />
           <div>
-            <div className="py-4"></div>
+            <Tabs
+              data={dataTabBaduta}
+              variant="private"
+              value={filter.kewilayahan_type}
+              filterState={filterState}
+            />
             <div className="flex flex-col gap-4 text-sm">
               <div className="font-bold text-primary-1 text-xl md:text-3xl">
                 Imunisasi Rutin Bayi
