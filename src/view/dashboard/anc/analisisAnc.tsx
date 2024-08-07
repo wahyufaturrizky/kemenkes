@@ -20,17 +20,29 @@ import {
   dataMonth,
 } from "@/utils/constants";
 import { formatNumber } from "@/helpers";
+import SectionHeader from "@/components/sectionHeader";
+import Card8Disease from "@/components/card8Disease";
+import { Filter1 } from "../bias/FilterBias";
+import GraphAnc from "@/components/graphAnc";
 interface AnalisisProps {
   btn: boolean;
+  filterState: object;
 }
-const AnalisisAnc: React.FC<AnalisisProps> = ({ btn }) => {
+const AnalisisAnc: React.FC<AnalisisProps> = ({ btn, filterState }) => {
   const totalData = ancGraphOptions1.map((option) => option.ya + option.tidak);
   return (
     <>
       <div className="px-4 container  ">
         {btn === false ? (
           <>
-            <div className="h-[600px]">
+            <GraphAnc
+              title="Analisis Pemeriksaan dan Tatalaksana Anemia pada Ibu Hami"
+              subtitle="Jumlah dan persentase ibu hamil yang melakukan kunjungan ANC dalam periode waktu dan wilayah tertentu"
+            />
+            <div className="w-full mt-10 mb-5">
+              <Filter1 filterState={filterState} dataBias={[]} />
+            </div>
+            <div className="h-[600px] my-5">
               <GraphEchartsAnc
                 graphOptions={graphOptions4(
                   [
@@ -324,6 +336,207 @@ const AnalisisAnc: React.FC<AnalisisProps> = ({ btn }) => {
                   ancGraphOptions3?.map((r: any) => r.label)
                 )}
               />
+            </div>
+            <SectionHeader
+              title="Analisis Mordibilitas Ibu Hami"
+              subtitle="Jumlah dan persentase penyakit yang dialami Ibu Hamil"
+            />
+            <div className="mx-14 my-11 grid grid-cols-8 gap-3">
+              <div className="w-full h-5 col-span-5 grid gap-3">
+                <div className="grid grid-cols-5 gap-3 h-[200px]">
+                  {/* <div className="col-span-3 h-full bg-[#F38739]"></div> */}
+                  <Card8Disease
+                    title={"Rank 4"}
+                    value={formatNumber(113578) || "0"}
+                    pct={`${formatNumber(9) || 0}%`}
+                    styles="col-span-3 h-full bg-[#F38739]"
+                    size="l"
+                  />
+                  <Card8Disease
+                    title={"Rank 5"}
+                    value={formatNumber(113578) || "0"}
+                    pct={`${formatNumber(8) || 0}%`}
+                    styles="col-span-2 h-full bg-[#F36639]"
+                    size="l"
+                  />
+                  {/* <div className="col-span-2 h-full bg-[#F36639]"></div> */}
+                </div>
+                <div className="grid grid-cols-4 gap-3 h-[300px]">
+                  <Card8Disease
+                    title={"Rank 2"}
+                    value={formatNumber(113578) || "0"}
+                    pct={`${formatNumber(8) || 0}%`}
+                    styles="col-span-2 h-full bg-[#F3B239]"
+                    size="l"
+                  />
+                  <Card8Disease
+                    title={"Rank 3"}
+                    value={formatNumber(113578) || "0"}
+                    pct={`${formatNumber(8) || 0}%`}
+                    styles="col-span-2 h-full bg-[#F3CA39]"
+                    size="l"
+                  />
+                  {/* <div className="col-span-2 h-full bg-[#F3B239]"></div> */}
+                  {/* <div className="col-span-2 h-full bg-[#F3CA39]"></div> */}
+                </div>
+                {/* <div className="h-[197px] bg-[#CF3E53]"></div> */}
+                <Card8Disease
+                  title={"Rank 1"}
+                  value={formatNumber(113578) || "0"}
+                  pct={`${formatNumber(8) || 0}%`}
+                  styles="h-[197px] bg-[#CF3E53]"
+                  size="l"
+                />
+              </div>
+              <div className="w-full h-5 col-span-3 gap-3 grid">
+                <div className="grid grid-cols-12 h-44 gap-3">
+                  <div className="col-span-7 h-[175px] w-full">
+                    {/* <div className="w-[33.33%] bg-[#27A790] h-full"></div> */}
+                    {/* <div className="w-[33.33%] bg-[#27A790] h-full"></div> */}
+                    {/* <div className="w-[33.33%] bg-[#27A790] h-full"></div> */}
+                    <div className="w-full h-full grid grid-cols-12 gap-3">
+                      <Card8Disease
+                        title={"Rank 15"}
+                        value={formatNumber(113578) || "0"}
+                        pct={`${formatNumber(8) || 0}%`}
+                        styles="col-span-4 bg-[#27A790] h-full"
+                        size="xs"
+                      />
+                      <Card8Disease
+                        title={"Rank 15"}
+                        value={formatNumber(113578) || "0"}
+                        pct={`${formatNumber(8) || 0}%`}
+                        styles="col-span-4 bg-[#27A790] h-full"
+                        size="xs"
+                      />
+                      <Card8Disease
+                        title={"Rank 15"}
+                        value={formatNumber(113578) || "0"}
+                        pct={`${formatNumber(8) || 0}%`}
+                        styles="col-span-4 bg-[#27A790] h-full"
+                        size="xs"
+                      />
+                    </div>
+                  </div>
+                  <div className="col-span-5 h-[175px] w-full">
+                    <div className="w-full h-full grid grid-cols-12 gap-3">
+                      <Card8Disease
+                        title={"Rank 15"}
+                        value={formatNumber(113578) || "0"}
+                        pct={`${formatNumber(8) || 0}%`}
+                        styles="col-span-4 bg-[#223D82] h-full"
+                        size="xxs"
+                      />
+                      <Card8Disease
+                        title={"Rank 15"}
+                        value={formatNumber(113578) || "0"}
+                        pct={`${formatNumber(8) || 0}%`}
+                        styles="col-span-4 bg-[#223D82] h-full"
+                        size="xxs"
+                      />
+                      <Card8Disease
+                        title={"Rank 15"}
+                        value={formatNumber(113578) || "0"}
+                        pct={`${formatNumber(8) || 0}%`}
+                        styles="col-span-4 bg-[#223D82] h-full"
+                        size="xxs"
+                      />
+                    </div>
+                  </div>
+                </div>
+                <div className="grid grid-cols-10 h-[175px] gap-3">
+                  <div className="col-span-8 h-44 w-full">
+                    {/* <div className="w-[33.33%] bg-[#5F27A7] h-full"></div>
+                    <div className="w-[33.33%] bg-[#5F27A7] h-full"></div>
+                    <div className="w-[33.33%] bg-[#5F27A7] h-full"></div> */}
+                    <div className="w-full h-full grid grid-cols-12 gap-3">
+                      <Card8Disease
+                        title={"Rank 15"}
+                        value={formatNumber(113578) || "0"}
+                        pct={`${formatNumber(8) || 0}%`}
+                        styles="col-span-4 bg-[#5F27A7] h-full"
+                        size="s"
+                      />
+                      <Card8Disease
+                        title={"Rank 15"}
+                        value={formatNumber(113578) || "0"}
+                        pct={`${formatNumber(8) || 0}%`}
+                        styles="col-span-4 bg-[#5F27A7] h-full"
+                        size="s"
+                      />
+                      <Card8Disease
+                        title={"Rank 15"}
+                        value={formatNumber(113578) || "0"}
+                        pct={`${formatNumber(8) || 0}%`}
+                        styles="col-span-4 bg-[#5F27A7] h-full"
+                        size="s"
+                      />
+                    </div>
+                  </div>
+                  <div className="col-span-2 h-44 w-full flex gap-3">
+                    {/* <div className="w-full bg-[#27A790] h-full"></div> */}
+                    <Card8Disease
+                      title={"Rank 15"}
+                      value={formatNumber(113578) || "0"}
+                      pct={`${formatNumber(8) || 0}%`}
+                      styles="w-full bg-[#27A790] h-full"
+                      size="xs"
+                    />
+                  </div>
+                </div>
+                <div className="grid grid-cols-10 h-44 gap-3">
+                  <div className="col-span-4 h-[175px] w-full flex gap-3">
+                    {/* <div className="w-full bg-[#A7276C] h-full"></div> */}
+                    <Card8Disease
+                      title={"Rank 15"}
+                      value={formatNumber(113578) || "0"}
+                      pct={`${formatNumber(8) || 0}%`}
+                      styles="w-full bg-[#A7276C] h-full"
+                      size="m"
+                    />
+                  </div>
+                  <div className="col-span-6 h-[175px] w-full flex gap-3">
+                    {/* <div className="w-[50%] bg-[#A72787] h-full"></div>
+                    <div className="w-[50%] bg-[#A72787] h-full"></div> */}
+                    <Card8Disease
+                      title={"Rank 15"}
+                      value={formatNumber(113578) || "0"}
+                      pct={`${formatNumber(8) || 0}%`}
+                      styles="w-[50%] bg-[#A72787] h-full"
+                      size="s"
+                    />
+                    <Card8Disease
+                      title={"Rank 15"}
+                      value={formatNumber(113578) || "0"}
+                      pct={`${formatNumber(8) || 0}%`}
+                      styles="w-[50%] bg-[#A72787] h-full"
+                      size="s"
+                    />
+                  </div>
+                </div>
+                <div className="grid grid-cols-10 h-[160px] gap-3">
+                  <div className="col-span-6 h-full w-full">
+                    {/* <div className="w-full bg-[#A7276C] h-full"></div> */}
+                    <Card8Disease
+                      title={"Rank 15"}
+                      value={formatNumber(113578) || "0"}
+                      pct={`${formatNumber(8) || 0}%`}
+                      styles="w-full bg-[#00A2B3] h-full"
+                      size="m"
+                    />
+                  </div>
+                  <div className="col-span-4 h-full w-full">
+                    {/* <div className="w-full bg-[#A72787] h-full"></div> */}
+                    <Card8Disease
+                      title={"Rank 15"}
+                      value={formatNumber(113578) || "0"}
+                      pct={`${formatNumber(8) || 0}%`}
+                      styles="w-full bg-[#EC407A] h-full"
+                      size="s"
+                    />
+                  </div>
+                </div>
+              </div>
             </div>
           </>
         )}
