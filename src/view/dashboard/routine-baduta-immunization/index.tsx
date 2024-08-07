@@ -180,7 +180,7 @@ const RoutineBadutaImmunization = () => {
     data: getPercentageTotalImmunizationQuery,
     isFetching: isLoadingPercentageTotalImmunizationQuery,
   } = useGetPercentageTotalImmunizationQuery(
-    { ...filterQueryGraphPercentage, vaccine_type: filter.tipe_vaksin1 },
+    { ...filterQueryGraphPercentage, vaccine_type: filter.tipe_vaksin1, faskes_id: regionIdQuery === 'All' ? undefined : regionIdQuery },
     optionQuery
   );
   const {
