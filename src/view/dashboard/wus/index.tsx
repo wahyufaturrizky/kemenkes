@@ -1022,7 +1022,8 @@ const Wus = () => {
                         (
                           getDistributionStatusPregnantChartQuery?.data?.[0]
                             ?.result || []
-                        )?.map((r: any) => r?.vaccine) || []
+                        )?.map((r: any) => r?.vaccine) || [],
+                        getDistributionStatusPregnantChartQuery?.data ?? []
                       )}
                     />
                   </div>

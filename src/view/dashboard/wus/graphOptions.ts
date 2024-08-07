@@ -202,7 +202,7 @@ export const graphOptions7 = (series: any[], xData: any[]) => {
   };
   return option;
 };
-export const graphOptions8 = (series: any[], xData: any[]) => {
+export const graphOptions8 = (series: any[], xData: any[], querydata: any[]) => {
   const option = {
     color: "#2E90FA",
     tooltip: {
@@ -210,9 +210,23 @@ export const graphOptions8 = (series: any[], xData: any[]) => {
       axisPointer: {
         type: "shadow",
       },
-      valueFormatter: function (value: any) {
-        return `${formatNumber(value)}%`;
+      formatter: function (params: any) {
+        let tooltipContent = `<div style="min-width: 250px;">${params[0].axisValueLabel}<br/>`;
+        params.forEach((item: any) => {
+          if (item.seriesName === "WUS Tidak Hamil") {
+            tooltipContent += `${item.marker} ${item.seriesName} <span style="float: right;"><strong>${formatNumber(item.value)}%</strong></span><br/>`;
+            tooltipContent += `${item.marker} Jumlah penyuntikan <span style="float: right;"><strong>${formatNumber(querydata?.[0]?.result?.[item.dataIndex]?.total)}</strong></span><br/>`
+          } else {
+            tooltipContent += `${item.marker} ${item.seriesName} <span style="float: right;"><strong>${formatNumber(item.value)}%</strong></span><br/>`;
+            tooltipContent += `${item.marker} Jumlah penyuntikan <span style="float: right;"><strong>${formatNumber(querydata?.[1]?.result?.[item.dataIndex]?.total)}</strong></span><br/>`
+          }
+        });
+        tooltipContent += `</div>`;
+        return tooltipContent;
       },
+      // valueFormatter: function (value: any) {
+      //   return `${formatNumber(value)}%`;
+      // },
       // formatter: function (params: any) {
       //   // Define your status data array or object, replace this with your actual data
       //   const statusData = ["T1", "T2", "T3", "T4", "T5", "T2+", "Td"];
