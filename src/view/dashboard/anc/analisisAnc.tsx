@@ -36,148 +36,411 @@ const AnalisisAnc: React.FC<AnalisisProps> = ({ btn, filterState }) => {
         {btn === false ? (
           <>
             <GraphAnc
-              title="Analisis Pemeriksaan dan Tatalaksana Anemia pada Ibu Hami"
+              title="Analisis Pemeriksaan dan Tatalaksana Anemia pada Ibu Hamil"
               subtitle="Jumlah dan persentase ibu hamil yang melakukan kunjungan ANC dalam periode waktu dan wilayah tertentu"
+              filter={<Filter1 filterState={filterState} dataBias={[]} />}
+              graphOptions={graphOptions4(
+                [
+                  {
+                    name: "Jumlah",
+                    data:
+                      (ancGraphOptions4 || [])?.map((r: any) => r?.value) || [],
+                    type: "bar",
+                    label: {
+                      show: false,
+                    },
+                  },
+                  {
+                    name: "Persentase",
+                    data:
+                      (ancGraphOptions4 || [])?.map((r: any) => r?.pct) || [],
+                    type: "line",
+                    label: {
+                      show: true,
+                      precision: 1,
+                      formatter: (params: any) =>
+                        `${formatNumber(params.value)}%`,
+                    },
+                  },
+                ],
+                dataMonth?.map((r) => r.label)
+              )}
             />
-            <div className="w-full mt-10 mb-5">
-              <Filter1 filterState={filterState} dataBias={[]} />
-            </div>
-            <div className="h-[600px] my-5">
-              <GraphEchartsAnc
-                graphOptions={graphOptions4(
-                  [
-                    {
-                      name: "Jumlah",
-                      data:
-                        (ancGraphOptions4 || [])?.map((r: any) => r?.value) ||
-                        [],
-                      type: "bar",
-                      label: {
-                        show: false,
+            <GraphAnc
+              title="Indikator Kesehatan Ibu Hamil per Wilayah"
+              subtitle="Jumlah dan persentase indikator morbiditas dan indikator program ibu hamil"
+              filter={<Filter1 filterState={filterState} dataBias={[]} />}
+              graphOptions={graphOptions5(
+                [
+                  {
+                    name: "Jumlah Bumil Anemia",
+                    data:
+                      (ancGtaphOptions5 || [])?.map((r: any) => r?.jumlah) ||
+                      [],
+                    type: "bar",
+                    label: {
+                      show: false,
+                    },
+                  },
+                  {
+                    name: "% Bumil Anemia",
+                    data:
+                      (ancGtaphOptions5 || [])?.map(
+                        (r: any) => r?.persentase_bumil_anemia
+                      ) || [],
+                    type: "line",
+                    label: {
+                      show: false,
+                      // precision: 1,
+                      // formatter: (params: any) =>
+                      //   `${formatNumber(params.value)}%`,
+                    },
+                  },
+                  {
+                    name: "Cakupan % Nasional Anemia",
+                    data:
+                      (ancGtaphOptions5 || [])?.map(
+                        (r: any) => r?.persentase_nasional
+                      ) || [],
+                    type: "line",
+                    label: {
+                      show: false,
+                      // precision: 1,
+                      // formatter: (params: any) =>
+                      //   `${formatNumber(params.value)}%`,
+                    },
+                  },
+                ],
+                ancGtaphOptions5?.map((r) => r.region)
+              )}
+            />
+            <GraphAnc
+              title="Capaian Kunjungan ANC Ibu Hamil"
+              subtitle="Jumlah dan persentase kunjungan ANC ibu hamil"
+              graphOptions={graphOptions6(
+                [
+                  {
+                    name: "Melaksanakan Kunjungan ANC",
+                    type: "bar",
+                    stack: "total",
+                    label: {
+                      show: true,
+                      formatter: (params: any) => {
+                        const total = totalData[params.dataIndex];
+                        const value = params.value;
+                        const percentage = ((value / total) * 100).toFixed(2); // Calculate percentage and format it to 2 decimal places
+                        return `${params.value}%`;
                       },
                     },
-                    {
-                      name: "Persentase",
-                      data:
-                        (ancGraphOptions4 || [])?.map((r: any) => r?.pct) || [],
-                      type: "line",
-                      label: {
-                        show: true,
-                        precision: 1,
-                        formatter: (params: any) =>
-                          `${formatNumber(params.value)}%`,
+                    emphasis: {
+                      focus: "series",
+                    },
+                    itemStyle: {
+                      color: "#00B3AC",
+                    },
+                    data:
+                      (ancGraphOptions6 || [])?.map((r: any) => r?.pct) || [],
+                  },
+                ],
+                ancGraphOptions6?.map((r: any) => r.label) || []
+              )}
+            />
+            <GraphAnc
+              title="Capaian Program Layanan ANC Ibu Hamil"
+              subtitle="Jumlah dan persentase program layanan ANC ibu hamil"
+              graphOptions={graphOptions6(
+                [
+                  {
+                    name: "Melaksanakan Layanan Kesehatan Ibu Hamil",
+                    type: "bar",
+                    stack: "total",
+                    label: {
+                      show: true,
+                      formatter: (params: any) => {
+                        const total = totalData[params.dataIndex];
+                        const value = params.value;
+                        const percentage = ((value / total) * 100).toFixed(2); // Calculate percentage and format it to 2 decimal places
+                        return `${params.value}%`;
                       },
                     },
-                  ],
-                  dataMonth?.map((r) => r.label)
-                )}
-              />
-            </div>
-            <div className="h-[600px]">
-              <GraphEchartsAnc
-                graphOptions={graphOptions5(
-                  [
-                    {
-                      name: "Jumlah Bumil Anemia",
-                      data:
-                        (ancGtaphOptions5 || [])?.map((r: any) => r?.jumlah) ||
-                        [],
-                      type: "bar",
-                      label: {
-                        show: false,
-                      },
+                    emphasis: {
+                      focus: "series",
                     },
-                    {
-                      name: "% Bumil Anemia",
-                      data:
-                        (ancGtaphOptions5 || [])?.map(
-                          (r: any) => r?.persentase_bumil_anemia
-                        ) || [],
-                      type: "line",
-                      label: {
-                        show: false,
-                        // precision: 1,
-                        // formatter: (params: any) =>
-                        //   `${formatNumber(params.value)}%`,
-                      },
+                    itemStyle: {
+                      color: "#00B3AC",
                     },
-                    {
-                      name: "Cakupan % Nasional Anemia",
-                      data:
-                        (ancGtaphOptions5 || [])?.map(
-                          (r: any) => r?.persentase_nasional
-                        ) || [],
-                      type: "line",
-                      label: {
-                        show: false,
-                        // precision: 1,
-                        // formatter: (params: any) =>
-                        //   `${formatNumber(params.value)}%`,
-                      },
+                    data:
+                      (ancGraphOptions6 || [])?.map((r: any) => r?.pct) || [],
+                  },
+                ],
+                ancGraphOptions6?.map((r: any) => r.label) || []
+              )}
+            />
+            <GraphAnc
+              title="Detail Capaian Program Layanan Ibu Hamil per Tiap Layanan 10T"
+              subtitle="Jumlah dan persentase detail Ibu Hamil per kategori 4T"
+              graphOptions={graphOptions4(
+                [
+                  {
+                    name: "Jumlah",
+                    data:
+                      (ancGraphOptions4 || [])?.map((r: any) => r?.value) || [],
+                    type: "bar",
+                    label: {
+                      show: false,
                     },
-                  ],
-                  ancGtaphOptions5?.map((r) => r.region)
-                )}
-              />
-            </div>
-            <div className="h-[600px]">
-              <GraphEchartsAnc
-                graphOptions={graphOptions6(
-                  [
-                    {
-                      name: "Melaksanakan Kunjungan ANC",
-                      type: "bar",
-                      stack: "total",
-                      label: {
-                        show: true,
-                        formatter: (params: any) => {
-                          const total = totalData[params.dataIndex];
-                          const value = params.value;
-                          const percentage = ((value / total) * 100).toFixed(2); // Calculate percentage and format it to 2 decimal places
-                          return `${params.value}%`;
-                        },
-                      },
-                      emphasis: {
-                        focus: "series",
-                      },
-                      itemStyle: {
-                        color: "#00B3AC",
-                      },
-                      data:
-                        (ancGraphOptions6 || [])?.map((r: any) => r?.pct) || [],
+                  },
+                  {
+                    name: "Persentase",
+                    data:
+                      (ancGraphOptions4 || [])?.map((r: any) => r?.pct) || [],
+                    type: "line",
+                    label: {
+                      show: true,
+                      precision: 1,
+                      formatter: (params: any) =>
+                        `${formatNumber(params.value)}%`,
                     },
-                  ],
-                  ancGraphOptions6?.map((r: any) => r.label) || []
-                )}
-              />
-            </div>
-            <div className="h-[600px]">
-              <GraphEchartsAnc
-                graphOptions={graphOptions7(
-                  [
-                    {
-                      name: "Sasaran",
-                      type: "bar",
-                      barWidth: "50%",
-                      data:
-                        ancGraphOptions7?.map((r: any) => r?.total || 0) || [],
-                    },
-                    {
-                      name: "Persentase",
-                      type: "line",
-                      barWidth: "50%",
-                      data:
-                        ancGraphOptions7?.map((r: any) => r?.pct || 0) || [],
-                    },
-                  ],
-                  ancGraphOptions7?.map((r: any) => r.label)
-                )}
-              />
-            </div>
+                  },
+                ],
+                dataMonth?.map((r) => r.label)
+              )}
+            />
+            <GraphAnc
+              title="Jumlah dan Persentase Detail Ibu Hamil Per Kategori 4T"
+              subtitle="Jumlah dan persentase detail Ibu Hamil per kategori 4T"
+              graphTitle="Jumlah Total Ibu Hamil dengan 4T: dari 20.000 Ibu Hamil"
+              graphOptions={graphOptions7(
+                [
+                  {
+                    name: "Sasaran",
+                    type: "bar",
+                    barWidth: "50%",
+                    data:
+                      ancGraphOptions7?.map((r: any) => r?.total || 0) || [],
+                  },
+                  {
+                    name: "Persentase",
+                    type: "line",
+                    barWidth: "50%",
+                    data: ancGraphOptions7?.map((r: any) => r?.pct || 0) || [],
+                  },
+                ],
+                ancGraphOptions7?.map((r: any) => r.label)
+              )}
+            />
           </>
         ) : (
           <>
-            <div className="h-[600px] ">
+            <GraphAnc
+              title="Jumlah % Persentase Cakupan  Program Ibu Hamil"
+              subtitle="Jumlah dan persentase pemeriksaan dan tatalaksana anemia bagi ibu hamil"
+              graphOptions={graphOptions1(
+                [
+                  {
+                    name: "Ya",
+                    type: "bar",
+                    stack: "total",
+                    label: {
+                      show: true,
+                      formatter: (params: any) => {
+                        const total = totalData[params.dataIndex];
+                        const value = params.value;
+                        const percentage = ((value / total) * 100).toFixed(2); // Calculate percentage and format it to 2 decimal places
+                        return `${percentage}%`;
+                      },
+                    },
+                    emphasis: {
+                      focus: "series",
+                    },
+                    itemStyle: {
+                      color: "#00B3AC",
+                    },
+                    data: ancGraphOptions1?.map((r: any) => r?.ya || 0) || [],
+                  },
+                  {
+                    name: "Tidak",
+                    type: "bar",
+                    stack: "total",
+                    label: {
+                      show: true,
+                      formatter: (params: any) => {
+                        const total = totalData[params.dataIndex];
+                        const value = params.value;
+                        const percentage = ((value / total) * 100).toFixed(2); // Calculate percentage and format it to 2 decimal places
+                        return `${percentage}%`;
+                      },
+                    },
+                    emphasis: {
+                      focus: "series",
+                    },
+                    itemStyle: {
+                      color: "#BC2A3F",
+                    },
+                    data:
+                      ancGraphOptions1?.map((r: any) => r?.tidak || 0) || [],
+                  },
+                ],
+                ancGraphOptions1?.map((r: any) => r.label) || []
+              )}
+            />
+            <GraphAnc
+              title="Analisis Sebaran Ibu Hamil KEK dan Pemberian Makanan Tambahan"
+              subtitle="Jumlah dan persentase ibu hamil KEK dan intervensi pemberian makanan tambahan"
+              graphOptions={graphOptions1(
+                [
+                  {
+                    name: "Ya",
+                    type: "bar",
+                    stack: "total",
+                    label: {
+                      show: true,
+                      formatter: (params: any) => {
+                        const total = totalData[params.dataIndex];
+                        const value = params.value;
+                        const percentage = ((value / total) * 100).toFixed(2); // Calculate percentage and format it to 2 decimal places
+                        return `${percentage}%`;
+                      },
+                    },
+                    emphasis: {
+                      focus: "series",
+                    },
+                    itemStyle: {
+                      color: "#00B3AC",
+                    },
+                    data: ancGraphOptions1?.map((r: any) => r?.ya || 0) || [],
+                  },
+                  {
+                    name: "Tidak",
+                    type: "bar",
+                    stack: "total",
+                    label: {
+                      show: true,
+                      formatter: (params: any) => {
+                        const total = totalData[params.dataIndex];
+                        const value = params.value;
+                        const percentage = ((value / total) * 100).toFixed(2); // Calculate percentage and format it to 2 decimal places
+                        return `${percentage}%`;
+                      },
+                    },
+                    emphasis: {
+                      focus: "series",
+                    },
+                    itemStyle: {
+                      color: "#BC2A3F",
+                    },
+                    data:
+                      ancGraphOptions1?.map((r: any) => r?.tidak || 0) || [],
+                  },
+                ],
+                ancGraphOptions1?.map((r: any) => r.label) || []
+              )}
+            />
+            <GraphAnc
+              title="Analisis Perbandingan Ibu Hamil Anemia dengan Mendapatkan dan Mengonsumsi TTD"
+              subtitle="Jumlah dan persentase ibu hamil anemia dibandingkan ibu hamil mendapatkan dan mengonsumsi TTD"
+              graphOptions={graphOptions2(
+                [
+                  {
+                    name: "Anemia",
+                    type: "bar",
+                    color: "#00968E",
+                    barGap: 0,
+                    // label: labelOption,
+                    emphasis: {
+                      focus: "series",
+                    },
+                    data:
+                      ancGraphOptions2?.map((r: any) => r?.anemia || 0) || [],
+                  },
+                  {
+                    name: "Mendapatkan TTD",
+                    type: "bar",
+                    color: "#04DACF",
+                    // label: labelOption,
+                    emphasis: {
+                      focus: "series",
+                    },
+                    data:
+                      ancGraphOptions2?.map((r: any) => r?.dapatTtd || 0) || [],
+                  },
+                  {
+                    name: "Mengonsumsi TTD",
+                    type: "bar",
+                    color: "#737373",
+                    // label: labelOption,
+                    emphasis: {
+                      focus: "series",
+                    },
+                    data:
+                      ancGraphOptions2?.map((r: any) => r?.konsumsiTtd || 0) ||
+                      [],
+                  },
+                ],
+                ancGraphOptions2?.map((r: any) => r.region)
+              )}
+            />
+            <GraphAnc
+              title="Analisis Ibu KEK dan Mendapatkan PMT dengan Target RPJMN 2024 Ibu Hamil KEK"
+              subtitle="Jumlah dan persentase Ibu Hamil KEK dan mendapatkan PMT dengan target RPJMN untuk ibu hamil KEK"
+              graphOptions={graphOptions2(
+                [
+                  {
+                    name: "Anemia",
+                    type: "bar",
+                    color: "#00968E",
+                    barGap: 0,
+                    // label: labelOption,
+                    emphasis: {
+                      focus: "series",
+                    },
+                    data:
+                      ancGraphOptions2?.map((r: any) => r?.anemia || 0) || [],
+                  },
+                  {
+                    name: "Mendapatkan TTD",
+                    type: "bar",
+                    color: "#04DACF",
+                    // label: labelOption,
+                    emphasis: {
+                      focus: "series",
+                    },
+                    data:
+                      ancGraphOptions2?.map((r: any) => r?.dapatTtd || 0) || [],
+                  },
+                  {
+                    name: "Mengonsumsi TTD",
+                    type: "line",
+                    color: "#BC2A3F",
+                    // label: labelOption,
+                    emphasis: {
+                      focus: "series",
+                    },
+                    data:
+                      ancGraphOptions2?.map((r: any) => r?.konsumsiTtd || 0) ||
+                      [],
+                  },
+                ],
+                ancGraphOptions2?.map((r: any) => r.region)
+              )}
+            />
+            <GraphAnc
+              title="Analisis Ibu Hamil Komplikasi dan Dirujuk"
+              subtitle="Jumlah dan persentase Ibu Hamil komplikasi dan dirujuk"
+              graphOptions={graphOptions3(
+                [
+                  {
+                    name: "Direct",
+                    type: "bar",
+                    barWidth: "50%",
+                    data:
+                      ancGraphOptions3?.map((r: any) => r?.value || 0) || [],
+                  },
+                ],
+                ancGraphOptions3?.map((r: any) => r.label)
+              )}
+            />
+            {/* <div className="h-[600px] ">
               <GraphEchartsAnc
                 graphOptions={graphOptions1(
                   [
@@ -228,8 +491,8 @@ const AnalisisAnc: React.FC<AnalisisProps> = ({ btn, filterState }) => {
                   ancGraphOptions1?.map((r: any) => r.label) || []
                 )}
               />
-            </div>
-            <div className="h-[600px]">
+            </div> */}
+            {/* <div className="h-[600px]">
               <GraphEchartsAnc
                 graphOptions={graphOptions2(
                   [
@@ -274,8 +537,8 @@ const AnalisisAnc: React.FC<AnalisisProps> = ({ btn, filterState }) => {
                   ancGraphOptions2?.map((r: any) => r.region)
                 )}
               />
-            </div>
-            <div className="h-[600px]">
+            </div> */}
+            {/* <div className="h-[600px]">
               <GraphEchartsAnc
                 graphOptions={graphOptions2(
                   [
@@ -320,8 +583,8 @@ const AnalisisAnc: React.FC<AnalisisProps> = ({ btn, filterState }) => {
                   ancGraphOptions2?.map((r: any) => r.region)
                 )}
               />
-            </div>
-            <div className="h-[600px]">
+            </div> */}
+            {/* <div className="h-[600px]">
               <GraphEchartsAnc
                 graphOptions={graphOptions3(
                   [
@@ -336,7 +599,7 @@ const AnalisisAnc: React.FC<AnalisisProps> = ({ btn, filterState }) => {
                   ancGraphOptions3?.map((r: any) => r.label)
                 )}
               />
-            </div>
+            </div> */}
             <SectionHeader
               title="Analisis Mordibilitas Ibu Hami"
               subtitle="Jumlah dan persentase penyakit yang dialami Ibu Hamil"
