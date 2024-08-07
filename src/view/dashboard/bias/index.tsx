@@ -816,6 +816,9 @@ const Bias = () => {
                 graph={
                   <div className="my-4 p-4 md:p-8 border rounded-lg">
                     <GraphRoutineImmunizationCoverageTrend
+                      opts={{
+                        height: 500
+                      }}
                       title={
                         <div className="font-bold md:text-2xl">
                           Data{" "}
