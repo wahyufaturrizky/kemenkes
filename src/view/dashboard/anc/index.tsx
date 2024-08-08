@@ -42,6 +42,8 @@ import Card8Disease from "@/components/card8Disease";
 import TabsBias from "@/components/tabsBias";
 import FilterSummaryImmunizationWus from "@/view/home/components/FilterWus";
 import TableAnc from "./tableAnc";
+import { Select } from "@/components";
+import Map from "@/components/map";
 
 export default function Anc() {
   const [active, setActive] = useState(false);
@@ -487,7 +489,6 @@ export default function Anc() {
               isLoading={isLoadingFourT}
               color="#D9EF82"
             />
-
             <Scorecard3
               title="USG"
               subtitle="KMK trimester 3"
@@ -496,7 +497,6 @@ export default function Anc() {
               isLoading={isLoadingUsg}
               color="#A8DFF1"
             />
-
             <Scorecard3
               title="KMK"
               subtitle="dirujuk"
@@ -658,6 +658,7 @@ export default function Anc() {
               isLoading={isLoadingTt}
               color="#D9EF82"
             />
+            #00B1A9
             <Scorecard3
               title="Laboratorium"
               subtitle="termasuk anemia & skrining triple eliminasi"
@@ -829,6 +830,31 @@ export default function Anc() {
             </div>
           </div>
           {/* Morbiditas */}
+
+          {/* Start peta sebaran */}
+          <SectionHeader
+            title="Peta Sebaran Prevalensi"
+            subtitle="Peta sebaran prevalensi berdasarkan indikator ibu hamil"
+          />
+          <div className="w-full mt-5 p-4 border border-[#D6D6D6] rounded-2xl">
+            <div className="flex justify-between items-center mb-5">
+              <div className="flex gap-6 items-center">
+                <div className="w-[400px]">
+                  <Select placeholder="Pilih Indikator" />
+                </div>
+                <div className="w-[400px]">
+                  <Select placeholder="Pilih Indikator" />
+                </div>
+              </div>
+              <div>
+                <button className="border border-[#00B1A9] text-[#00B1A9] px-2 py-1 rounded-md">
+                  <span className="font-semibold text-sm">Unduh</span>
+                </button>
+              </div>
+            </div>
+            {/* <Map /> */}
+          </div>
+          {/* End of peta sebaran */}
         </div>
       )}
     </div>

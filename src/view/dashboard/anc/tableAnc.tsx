@@ -1,4 +1,72 @@
+import { DownloadButton, InputSearch, Select, TableData } from "@/components";
+import {
+  getCoreRowModel,
+  useReactTable,
+  createColumnHelper,
+} from "@tanstack/react-table";
+import { useState } from "react";
+import { FiArrowDownCircle } from "react-icons/fi";
+
+type Data = {
+  province: string;
+  city: string;
+  kecamatan: string;
+  kelurahan_desa: string;
+  jumlah_hamil: number;
+  percentase_hamil: number;
+};
+
+const defaultData: Data[] = [
+  {
+    province: "DKI Jakarta",
+    city: "Jakarta Utara",
+    kecamatan: "Tebet",
+    kelurahan_desa: "Desa Mawar Indah",
+    jumlah_hamil: 511.0,
+    percentase_hamil: 9.0,
+  },
+  {
+    province: "DKI Jakarta",
+    city: "Kota Jakarta Timur",
+    kecamatan: "Kecamatan Cempaka",
+    kelurahan_desa: "Kelurahan Cempaka Timur",
+    jumlah_hamil: 423.8,
+    percentase_hamil: 9.0,
+  },
+];
+
+const columnHelper = createColumnHelper<Data>();
+
+const columns = [
+  columnHelper.accessor("province", {
+    cell: (info) => info.getValue(),
+  }),
+  columnHelper.accessor("city", {
+    cell: (info) => info.getValue(),
+  }),
+  columnHelper.accessor("kecamatan", {
+    cell: (info) => info.getValue(),
+  }),
+  columnHelper.accessor("kelurahan_desa", {
+    cell: (info) => info.getValue(),
+  }),
+  columnHelper.accessor("jumlah_hamil", {
+    cell: (info) => info.getValue(),
+  }),
+  columnHelper.accessor("percentase_hamil", {
+    cell: (info) => info.getValue(),
+  }),
+];
+
 const TableAnc = () => {
+  const [data, _setData] = useState(() => [...defaultData]);
+
+  const tableInstance = useReactTable({
+    columns,
+    data,
+    getCoreRowModel: getCoreRowModel(),
+  });
+
   return (
     <div className="mt-5 w-full">
       <div>
@@ -12,56 +80,29 @@ const TableAnc = () => {
       <div>
         <p>Februari 2024</p>
       </div>
-      <div className="mt-5 w-full flex justify-between items-center">
-        <div>
-            
+      <div className="mt-5 w-full flex justify-between items-center mb-4">
+        <div className="flex gap-3 items-center">
+          <DownloadButton text="Download" />
+          <div className="flex items-center gap-[7px]">
+            <p className="text-sm font-semibold">Show</p>
+            <select
+              name=""
+              id=""
+              className="border border-[#D6D6D6] py-[5px] px-[16px] rounded-xl"
+            >
+              <option value="">10</option>
+              <option value="">20</option>
+              <option value="">30</option>
+            </select>
+            <p className="text-sm font-semibold">Entries</p>
+          </div>
         </div>
-        <div></div>
+        <div className="flex items-center gap-[7px]">
+          <p className="text-sm font-semibold">Search</p>
+          <InputSearch />
+        </div>
       </div>
-      <div className="px-5 py-10 border border-[#D6D6D6] rounded-[40px]">
-        <table className="min-w-full bg-white">
-          <thead>
-            <tr className="bg-[#F5F5F5]">
-              <th className="py-3 px-6 text-[#737373] font-semibold">No</th>
-              <th className="py-3 px-6 text-[#737373] font-semibold">
-                Provinsi
-              </th>
-              <th className="py-3 px-6 text-[#737373] font-semibold">
-                Kab/Kota
-              </th>
-              <th className="py-3 px-6 text-[#737373] font-semibold">
-                Kecamatan
-              </th>
-              <th className="py-3 px-6 text-[#737373] font-semibold">
-                Kelurahan/Desa
-              </th>
-              <th className="py-3 px-6 text-[#737373] font-semibold">
-                Jumlah Ibu Hamil K1 Akses
-              </th>
-              <th className="py-3 px-6 text-[#737373] font-semibold">
-                % Ibu Hamil K1 Akses
-              </th>
-            </tr>
-          </thead>
-          <tbody className="text-gray-700">
-            <tr>
-              <td className="py-3 px-6 border-gray-200">1</td>
-              <td className="py-3 px-6 border-gray-200">
-                DKI Jakarta
-              </td>
-              <td className="py-3 px-6 border-gray-200">
-                Jakarta Utara
-              </td>
-              <td className="py-3 px-6 border-gray-200">Tebet</td>
-              <td className="py-3 px-6 border-gray-200">
-                Desa Mawar Indah
-              </td>
-              <td className="py-3 px-6 border-gray-200">511.010</td>
-              <td className="py-3 px-6 border-gray-200">9.0</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
+      <TableData tableInstance={tableInstance} />
     </div>
   );
 };
