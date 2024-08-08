@@ -7,6 +7,7 @@ interface Scorecard1Props {
   pct?: string;
   direction: string;
   isLoading: boolean;
+  onClick: () => void;
 }
 
 const Scorecard1: React.FC<Scorecard1Props> = ({
@@ -15,10 +16,12 @@ const Scorecard1: React.FC<Scorecard1Props> = ({
   pct,
   direction,
   isLoading,
+  onClick,
 }) => {
   return (
     <div
-      className={`h-44 bg-primary rounded-${direction}-xl px-5 py-[10px] flex flex-col justify-between text-white relative`}
+      className={`h-44 bg-primary rounded-${direction}-xl px-5 py-[10px] flex flex-col justify-between text-white relative cursor-pointer`}
+      onClick={onClick}
     >
       {isLoading && (
         <div className="absolute w-full h-full flex justify-center items-center">
