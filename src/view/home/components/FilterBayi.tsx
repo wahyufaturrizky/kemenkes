@@ -19,6 +19,7 @@ import {
   standardOptionSameLabel,
   standardOptions,
 } from "@/helpers";
+import { useGetListFaskesQuery } from "@/lib/services/baby-immunization";
 interface FilterProps {
   filterState?: any;
 }
@@ -54,6 +55,20 @@ const FilterSummaryImmunizationBayi: React.FC<FilterProps> = ({
     },
     {
       skip: !filter.provinsi && !filter.kabkota,
+      refetchOnMountOrArgChange: true,
+    }
+  );
+
+  const { data: getListFaskes } = useGetListFaskesQuery(
+    {
+      kewilayahan_type: filter.kewilayahan_type,
+      year: filter.tahun,
+      month: filter.bulan,
+      faskes_parent_id: filter.kecamatan,
+    },
+
+    {
+      skip: !filter.provinsi && !filter.kabkota && !filter.kecamatan,
       refetchOnMountOrArgChange: true,
     }
   );
@@ -248,12 +263,12 @@ const FilterSummaryImmunizationBayi: React.FC<FilterProps> = ({
           </>
         ) : (
           <div>
-            {/* <Select
+            <Select
               placeholder="Desa/Kelurahan"
               options={standardOptions(
-                getVillage?.data || [],
-                "faskesName",
-                "faskesId"
+                getListFaskes?.data || [],
+                "faskes_name",
+                "faskes_id"
               )}
               onChange={(e: any) => {
                 setFilter({
@@ -264,14 +279,14 @@ const FilterSummaryImmunizationBayi: React.FC<FilterProps> = ({
               value={
                 filter.faskes
                   ? standardOptions(
-                    getVillage?.data || [],
-                    "faskesName",
-                    "faskesId"
+                    getListFaskes?.data || [],
+                    "faskes_name",
+                    "faskes_id"
                   )?.find((f) => f.value === filter.faskes)
                   : filter.faskes
               }
               isDisabled={!filter.kecamatan}
-            /> */}
+            />
           </div>
         )}
       </div>

@@ -14,6 +14,7 @@ import {
 interface FilterProps {
   filterState: any;
   data?: any;
+  showFilter?: boolean;
 }
 export const Filter1: React.FC<FilterProps> = ({ filterState, data }) => {
   const [filter, setFilter] = filterState || useState({});
@@ -200,103 +201,159 @@ export const Filter3: React.FC<FilterProps> = ({ filterState, data }) => {
     </div>
   );
 };
-export const Filter4: React.FC<FilterProps> = ({ filterState, data }) => {
+export const Filter4: React.FC<FilterProps> = ({ filterState, data, showFilter }) => {
   const [filter, setFilter] = filterState || useState({});
   return (
     <div className="flex flex-wrap justify-between items-center gap-4 sm:mt-20 md:mt-0 mb-8">
-      <div className="flex gap-4">
-        <div>
-          <Select
-            options={vaccineTypeBabyOptionsNew}
-            onChange={(e: any) => {
-              setFilter({
-                ...filter,
-                tipe_vaksin4: e ? e.value : "IMUNISASI DASAR LENGKAP",
+      {showFilter ?? (
+        <div className="flex gap-4">
+          <div>
+            <Select
+              options={vaccineTypeBabyOptionsNew}
+              onChange={(e: any) => {
+                setFilter({
+                  ...filter,
+                  tipe_vaksin4: e ? e.value : "IMUNISASI DASAR LENGKAP",
+                });
+              }}
+              value={
+                filter.tipe_vaksin3
+                  ? vaccineTypeBabyOptionsNew?.find(
+                    (f) => f.value === filter.tipe_vaksin4
+                  )
+                  : filter.tipe_vaksin3
+              }
+            />
+          </div>
+        </div>
+      )}
+      {showFilter ? (
+        <div className="flex gap-4">
+          <div
+            onClick={async () => {
+              const ideal = data?.map((r: any) => `${r.pct_ideal.toString()}%`);
+              const non_ideal = data?.map(
+                (r: any) => `${r.pct_non_ideal.toString()}%`
+              );
+              const header = data?.map((r: any) => r.vaccine_name);
+              const body = [ideal, non_ideal];
+              const verticalHeader = ["Usia Ideal", "Usia Non Ideal"];
+              const fileName =
+                "Grafik Cakupan Imunisasi pada Bayi berdasarkan Usia Pemberian Imunisasi";
+              await downloadFile({
+                header,
+                body,
+                verticalHeader,
+                fileName,
               });
             }}
-            value={
-              filter.tipe_vaksin3
-                ? vaccineTypeBabyOptionsNew?.find(
-                  (f) => f.value === filter.tipe_vaksin4
-                )
-                : filter.tipe_vaksin3
-            }
-          />
-        </div>
-      </div>
-      <div className="flex gap-4">
-        <div
-          onClick={async () => {
-            const ideal = data?.map((r: any) => `${r.pct_ideal.toString()}%`);
-            const non_ideal = data?.map(
-              (r: any) => `${r.pct_non_ideal.toString()}%`
-            );
-            const header = data?.map((r: any) => r.vaccine_name);
-            const body = [ideal, non_ideal];
-            const verticalHeader = ["Usia Ideal", "Usia Non Ideal"];
-            const fileName =
-              "Grafik Cakupan Imunisasi pada Bayi berdasarkan Usia Pemberian Imunisasi";
-            await downloadFile({
-              header,
-              body,
-              verticalHeader,
-              fileName,
-            });
-          }}
-        >
-          <Button text="Unduh" variant="outlined" />
-        </div>
+          >
+            <Button text="Unduh" variant="outlined" />
+          </div>
 
-      </div>
+        </div>
+      ) : (
+        <div className="flex justify-end w-full gap-4">
+          <div
+            onClick={async () => {
+              const ideal = data?.map((r: any) => `${r.pct_ideal.toString()}%`);
+              const non_ideal = data?.map(
+                (r: any) => `${r.pct_non_ideal.toString()}%`
+              );
+              const header = data?.map((r: any) => r.vaccine_name);
+              const body = [ideal, non_ideal];
+              const verticalHeader = ["Usia Ideal", "Usia Non Ideal"];
+              const fileName =
+                "Grafik Cakupan Imunisasi pada Bayi berdasarkan Usia Pemberian Imunisasi";
+              await downloadFile({
+                header,
+                body,
+                verticalHeader,
+                fileName,
+              });
+            }}
+          >
+            <Button text="Unduh" variant="outlined" />
+          </div>
+
+        </div>
+      )}
     </div>
   );
 };
-export const Filter5: React.FC<FilterProps> = ({ filterState, data }) => {
+export const Filter5: React.FC<FilterProps> = ({ filterState, data, showFilter }) => {
   const [filter, setFilter] = filterState || useState({});
   return (
     <div className="flex flex-wrap justify-between items-center gap-4 sm:mt-20 md:mt-0 mb-8">
-      <div className="flex gap-4">
-        <div>
-          <Select
-            options={vaccineTypeBabyOptionsNew}
-            onChange={(e: any) => {
-              setFilter({
-                ...filter,
-                tipe_vaksin5: e ? e.value : "IMUNISASI DASAR LENGKAP",
+      {showFilter ?? (
+        <div className="flex gap-4">
+          <div>
+            <Select
+              options={vaccineTypeBabyOptionsNew}
+              onChange={(e: any) => {
+                setFilter({
+                  ...filter,
+                  tipe_vaksin5: e ? e.value : "IMUNISASI DASAR LENGKAP",
+                });
+              }}
+              value={
+                filter.tipe_vaksin5
+                  ? vaccineTypeBabyOptionsNew?.find(
+                    (f) => f.value === filter.tipe_vaksin5
+                  )
+                  : filter.tipe_vaksin5
+              }
+            />
+          </div>
+        </div>
+      )}
+      {showFilter ? (
+        <div className="flex gap-4">
+          <div
+            onClick={async () => {
+              const male = data?.map((r: any) => `${r.pct_male.toString()}%`);
+              const female = data?.map((r: any) => `${r.pct_female.toString()}%`);
+              const header = data?.map((r: any) => r.vaccine_name);
+              const body = [male, female];
+              const verticalHeader = ["Laki-laki", "Perempuan"];
+              const fileName =
+                "Grafik Distribusi Imunisasi pada Bayi Berdasarkan Jenis Kelamin";
+              await downloadFile({
+                header,
+                body,
+                verticalHeader,
+                fileName,
               });
             }}
-            value={
-              filter.tipe_vaksin5
-                ? vaccineTypeBabyOptionsNew?.find(
-                  (f) => f.value === filter.tipe_vaksin5
-                )
-                : filter.tipe_vaksin5
-            }
-          />
-        </div>
-      </div>
-      <div className="flex gap-4">
-        <div
-          onClick={async () => {
-            const male = data?.map((r: any) => `${r.pct_male.toString()}%`);
-            const female = data?.map((r: any) => `${r.pct_female.toString()}%`);
-            const header = data?.map((r: any) => r.vaccine_name);
-            const body = [male, female];
-            const verticalHeader = ["Laki-laki", "Perempuan"];
-            const fileName =
-              "Grafik Distribusi Imunisasi pada Bayi Berdasarkan Jenis Kelamin";
-            await downloadFile({
-              header,
-              body,
-              verticalHeader,
-              fileName,
-            });
-          }}
-        >
-          <Button text="Unduh" variant="outlined" />
-        </div>
+          >
+            <Button text="Unduh" variant="outlined" />
+          </div>
 
-      </div>
+        </div>
+      ) : (
+        <div className="flex justify-end w-full gap-4">
+          <div
+            onClick={async () => {
+              const male = data?.map((r: any) => `${r.pct_male.toString()}%`);
+              const female = data?.map((r: any) => `${r.pct_female.toString()}%`);
+              const header = data?.map((r: any) => r.vaccine_name);
+              const body = [male, female];
+              const verticalHeader = ["Laki-laki", "Perempuan"];
+              const fileName =
+                "Grafik Distribusi Imunisasi pada Bayi Berdasarkan Jenis Kelamin";
+              await downloadFile({
+                header,
+                body,
+                verticalHeader,
+                fileName,
+              });
+            }}
+          >
+            <Button text="Unduh" variant="outlined" />
+          </div>
+
+        </div>
+      )}
     </div>
   );
 };

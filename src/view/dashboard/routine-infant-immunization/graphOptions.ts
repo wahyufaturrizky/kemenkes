@@ -87,7 +87,7 @@ export const graphOptions1 = (series: any[], legend: any[]) => {
   return option;
 };
 
-export const graphOptions2 = (series: any[]) => {
+export const graphOptions2 = (series: any[], showYAxis?: boolean) => {
   const option: EChartsOptionProps = {
     color: ["#00B1A9", "#EAAA08", "#8ECCFF"],
     grid: { containLabel: true },
@@ -136,7 +136,7 @@ export const graphOptions2 = (series: any[]) => {
     },
     yAxis: {
       type: "value",
-      show: false,
+      show: showYAxis ?? false,
     },
     series: series,
   };
@@ -265,6 +265,11 @@ export const graphOptions5 = (series: any[], xData: any[]) => {
     xAxis: {
       type: "category",
       data: upperCaseLegend,
+      axisLabel: {
+        show: true,
+        interval: 0,
+        rotate: 45,
+      },
     },
     yAxis: {
       type: "value",

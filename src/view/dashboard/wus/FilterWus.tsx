@@ -465,34 +465,6 @@ export const Filter4: React.FC<FilterProps2> = ({ filterState, dataWus }) => {
         </div>
       </div>
       <div className="flex gap-4">
-        <div>
-          <Select
-            placeholder="Status Kehamilan"
-            options={standardOptions(
-              getWomenCategory?.data || [],
-              "womenCategoryName",
-              "womenCategoryId"
-            )}
-            onChange={(e: any) => {
-              setFilter({
-                ...filter,
-                women_category_status_T_Pregnant: e?.value ?? "All",
-              });
-            }}
-            value={
-              filter.women_category_status_T_Pregnant
-                ? standardOptions(
-                    getWomenCategory?.data || [],
-                    "womenCategoryName",
-                    "womenCategoryId"
-                  )?.find(
-                    (f) => f.value === filter.women_category_status_T_Pregnant
-                  )
-                : filter.women_category_status_T_Pregnant
-            }
-            // isDisabled={!filter.bulan}
-          />
-        </div>
         <div onClick={downloadFile}>
           <Button text="Unduh" variant="outlined" />
         </div>
