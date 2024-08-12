@@ -242,10 +242,11 @@ export const graphOptions4 = (series: any[], legend: any[]) => {
           if (item.seriesName === "Jumlah") {
             tooltipContent += `${item.marker} ${item.seriesName} <span style="float: right;"><strong>${item.value}</strong></span><br/>`;
           } else {
-            tooltipContent += `${item.marker} ${item.seriesName
-              } <span style="float: right;"><strong>${formatNumber(
-                item.value
-              )}%</strong></span><br/>`;
+            tooltipContent += `${item.marker} ${
+              item.seriesName
+            } <span style="float: right;"><strong>${formatNumber(
+              item.value
+            )}%</strong></span><br/>`;
           }
         });
         tooltipContent += `</div>`;
@@ -280,7 +281,7 @@ export const graphOptions4 = (series: any[], legend: any[]) => {
         // name: "% Target Cakupan",
         position: "right",
         axisLabel: {
-          formatter: (value: any) => `${formatNumber(value)}`
+          formatter: (value: any) => `${formatNumber(value)}`,
         },
         min: 0,
         max: 100,
@@ -315,10 +316,11 @@ export const graphOptions5 = (series: any[], legend: any[]) => {
           if (item.seriesName === "Jumlah Bumil Anemia") {
             tooltipContent += `${item.marker} ${item.seriesName} <span style="float: right;"><strong>${item.value}</strong></span><br/>`;
           } else {
-            tooltipContent += `${item.marker} ${item.seriesName
-              } <span style="float: right;"><strong>${formatNumber(
-                item.value
-              )}%</strong></span><br/>`;
+            tooltipContent += `${item.marker} ${
+              item.seriesName
+            } <span style="float: right;"><strong>${formatNumber(
+              item.value
+            )}%</strong></span><br/>`;
           }
         });
         tooltipContent += `</div>`;
@@ -358,7 +360,7 @@ export const graphOptions5 = (series: any[], legend: any[]) => {
         // name: "% Target Cakupan",
         position: "right",
         axisLabel: {
-          formatter: (value: any) => `${formatNumber(value)}%`
+          formatter: (value: any) => `${formatNumber(value)}%`,
         },
         min: 0,
         max: 100,
@@ -394,10 +396,11 @@ export const graphOptions6 = (series: any[], yData: any[]) => {
       formatter: function (params: any) {
         let tooltipContent = `<div style="min-width: 350px;">${params[0].axisValueLabel}<br/>`;
         params.forEach((item: any) => {
-          tooltipContent += `${item.marker} ${item.seriesName
-            } <span style="float: right;"><strong>${formatNumber(
-              item.value
-            )}%</strong></span><br/>`;
+          tooltipContent += `${item.marker} ${
+            item.seriesName
+          } <span style="float: right;"><strong>${formatNumber(
+            item.value
+          )}%</strong></span><br/>`;
         });
         tooltipContent += `</div>`;
         return tooltipContent;
@@ -416,7 +419,7 @@ export const graphOptions6 = (series: any[], yData: any[]) => {
     xAxis: {
       type: "value",
       axisLabel: {
-        formatter: (value: any) => `${formatNumber(value)}%`
+        formatter: (value: any) => `${formatNumber(value)}%`,
       },
     },
     yAxis: {
@@ -442,10 +445,10 @@ export const graphOptions7 = (series: any[], label: any[]) => {
         return params.dataIndex === 0
           ? "#60D3AA"
           : params.dataIndex === 1
-            ? "#00B3AC"
-            : params.dataIndex === 2
-              ? "#00968E"
-              : "#00A2B3";
+          ? "#00B3AC"
+          : params.dataIndex === 2
+          ? "#00968E"
+          : "#00A2B3";
       },
       // #00B3AC
     },
@@ -460,10 +463,11 @@ export const graphOptions7 = (series: any[], label: any[]) => {
           if (item.seriesName === "Sasaran") {
             tooltipContent += `${item.marker} ${item.seriesName} <span style="float: right;"><strong>${item.value}</strong></span><br/>`;
           } else {
-            tooltipContent += `${item.marker} ${item.seriesName
-              } <span style="float: right;"><strong>${formatNumber(
-                item.value
-              )}%</strong></span><br/>`;
+            tooltipContent += `${item.marker} ${
+              item.seriesName
+            } <span style="float: right;"><strong>${formatNumber(
+              item.value
+            )}%</strong></span><br/>`;
           }
         });
         tooltipContent += `</div>`;
@@ -530,7 +534,7 @@ export const graphOptions7 = (series: any[], label: any[]) => {
         // name: "% Target Cakupan",
         position: "right",
         axisLabel: {
-          formatter: (value: any) => `${formatNumber(value)}%`
+          formatter: (value: any) => `${formatNumber(value)}%`,
         },
         min: 0,
         max: 100,
@@ -540,5 +544,87 @@ export const graphOptions7 = (series: any[], label: any[]) => {
     series: extendedSeries,
   };
 
+  return option;
+};
+
+export const graphOptions8 = (
+  series: any[],
+  label: any[]
+): EChartsOptionProps => {
+  const option: EChartsOptionProps = {
+    tooltip: {
+      trigger: "axis",
+      axisPointer: {
+        type: "shadow",
+      },
+      formatter: (params: any) => {
+        const total = params.reduce(
+          (sum: number, item: any) => sum + item.value,
+          0
+        );
+        return params
+          .map((item: any) => {
+            const percent = ((item.value / total) * 100).toFixed(2);
+            return `${item.seriesName}: ${percent}%`;
+          })
+          .join("<br/>");
+      },
+    },
+    legend: {},
+    grid: {
+      left: "3%",
+      right: "4%",
+      bottom: "3%",
+      containLabel: true,
+    },
+    xAxis: {
+      type: "value",
+    },
+    yAxis: {
+      type: "category",
+      data: ["Ibu Nifas Vit A", "Ibu Nifas KF4", "Ibu Bersalin di Faskes"],
+    },
+    series: [
+      {
+        name: "Ibu Nifas Vit A",
+        type: "bar",
+        stack: "total",
+        label: {
+          show: true,
+          formatter: (params: any) => `${params.value}%`,
+        },
+        emphasis: {
+          focus: "series",
+        },
+        data: [80, 15], // Example data adjusted to three categories
+      },
+      {
+        name: "Ibu Nifas KF4",
+        type: "bar",
+        stack: "total",
+        label: {
+          show: true,
+          formatter: (params: any) => `${params.value}%`,
+        },
+        emphasis: {
+          focus: "series",
+        },
+        data: [90, 10], // Example data adjusted to three categories
+      },
+      {
+        name: "Ibu Bersalin di Faskes",
+        type: "bar",
+        stack: "total",
+        label: {
+          show: true,
+          formatter: (params: any) => `${params.value}%`,
+        },
+        emphasis: {
+          focus: "series",
+        },
+        data: [95, 5], // Example data adjusted to three categories
+      },
+    ],
+  };
   return option;
 };
