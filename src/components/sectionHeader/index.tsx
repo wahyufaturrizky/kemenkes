@@ -3,7 +3,7 @@ import { IoMdArrowForward } from "react-icons/io";
 
 interface SectionHeaderProps {
   title: string;
-  subtitle: string;
+  subtitle?: string;
   btn?: string;
   onDataSubmit?: (data: boolean) => void;
 }
