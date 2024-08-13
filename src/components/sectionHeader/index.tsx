@@ -23,8 +23,8 @@ const SectionHeader: React.FC<SectionHeaderProps> = ({
   return (
     <div className="w-full mt-10">
       <div className="flex justify-between">
-        <div>
-          <h1 className="text-2xl  text-[#424242] font-bold">{title}</h1>
+        <div className="text-[#505581]">
+          <h1 className="text-2xl font-bold">{title}</h1>
           <p className="font-medium">{subtitle}</p>
         </div>
         {btn && (

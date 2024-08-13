@@ -192,7 +192,7 @@ export const filterLocationOptions = [
   },
 ];
 
-"unknown vaccine type\n please refer to following list:\nIMUNISASI DASAR LENGKAP\nHB 0\nBCG\nPOLIO 1\nPOLIO 2\nPOLIO 3\nPOLIO 4\nCAMPAK RUBELA\nDPT-HB-Hib 1\nDPT-HB-Hib 2\nDPT-HB-Hib 3\nJE\nDPT-HB-Hib 4\nIPV 1\nIPV 2\nPCV 1\nPCV 2\nPCV 3\nROTAVIRUS 1\nROTAVIRUS 2\nROTAVIRUS 3\nCAMPAK RUBELA 2\nIMUNISASI BADUTA LENGKAP"
+("unknown vaccine type\n please refer to following list:\nIMUNISASI DASAR LENGKAP\nHB 0\nBCG\nPOLIO 1\nPOLIO 2\nPOLIO 3\nPOLIO 4\nCAMPAK RUBELA\nDPT-HB-Hib 1\nDPT-HB-Hib 2\nDPT-HB-Hib 3\nJE\nDPT-HB-Hib 4\nIPV 1\nIPV 2\nPCV 1\nPCV 2\nPCV 3\nROTAVIRUS 1\nROTAVIRUS 2\nROTAVIRUS 3\nCAMPAK RUBELA 2\nIMUNISASI BADUTA LENGKAP");
 
 export const vaccineTypeKejarOptions = [
   {
@@ -943,3 +943,10 @@ export const ancGraphOptions7 = [
 ];
 
 // anc end
+
+// inc data placeholder
+export const incGraphOptions1 = [
+  { label: "Ibu Nifas Vit A", pct: 80 },
+  { label: "Ibu Nifas KF4", pct: 90 },
+  { label: "Ibu Bersalin di Faskes", pct: 95 },
+];

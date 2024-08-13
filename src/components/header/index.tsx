@@ -18,11 +18,11 @@ const Header: React.FC<HeaderComp> = ({ title, subtitle, desc, space }) => {
   };
   return (
     <>
-      <div className="h-[61px] flex justify-between items-center w-full">
+      <div className="h-[61px] flex justify-between items-center w-full mb-[10px]">
         <Image alt="satusehat" src={kemenkesLogo.src} width={112} height={50} />
         <Image alt="satusehat" src={dtoLogo.src} width={162} height={40} />
       </div>
-      <div className="grid grid-cols-3 w-full  bg-[#EBEBEB]">
+      <div className="grid grid-cols-3 w-full bg-[#EBEBEB]">
         <div className="md:col-span-2 col-span-3 bg-primary h-[180px] md:pl-[60px] px-1 text-white flex flex-col justify-center">
           <h1 className="text-5xl font-bold">{formatTeks(title)}</h1>
           <p className="font-bold leading-8">{subtitle}</p>
