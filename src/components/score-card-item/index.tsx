@@ -8,6 +8,7 @@ interface ScoreCardItemProps {
   percentage: string;
   isLoading: boolean;
   className?: string;
+  onClick?: () => void;
 }
 
 const ScoreCardItem: React.FC<ScoreCardItemProps> = ({
@@ -16,10 +17,12 @@ const ScoreCardItem: React.FC<ScoreCardItemProps> = ({
   percentage,
   isLoading,
   className,
+  onClick,
 }) => {
   return (
     <div
       className={`h-44 bg-primary px-5 py-[10px] flex flex-col justify-between text-white ${className}`}
+      onClick={onClick}
     >
       {isLoading && (
         <div className="absolute w-full h-full flex justify-center items-center">
