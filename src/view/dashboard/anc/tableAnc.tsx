@@ -69,16 +69,18 @@ const TableAnc = () => {
 
   return (
     <div className="mt-5 w-full">
-      <div>
-        <h1 className="text-xl leading-10 font-medium">
-          Tabel Jumlah Ibu Hamil K1 Akses: Nasional
-        </h1>
-        <p className="text-[32px] leading-10 font-bold text-[#00B8AE]">
-          Total 117.000 <span className=" text-xl">Ibu Hamil</span>
-        </p>
-      </div>
-      <div>
-        <p>Februari 2024</p>
+      <div className="flex justify-between items-end">
+        <div>
+          <h1 className="text-xl leading-10 font-medium">
+            Tabel Jumlah Ibu Hamil K1 Akses: Nasional
+          </h1>
+          <p className="text-[32px] leading-10 font-bold text-[#00B8AE]">
+            Total 117.000 <span className=" text-xl">Ibu Hamil</span>
+          </p>
+        </div>
+        <div>
+          <p>Februari 2024</p>
+        </div>
       </div>
       <div className="mt-5 w-full flex justify-between items-center mb-4">
         <div className="flex gap-3 items-center">
