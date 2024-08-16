@@ -22,6 +22,13 @@ import {
   useReactTable,
 } from "@tanstack/react-table";
 import IndividualData from "./IndividualData";
+// import MapComponent from "@/components/map-component";
+import dynamic from "next/dynamic";
+import "leaflet/dist/leaflet.css";
+
+const MapComponent = dynamic(() => import("@/components/map-component"), {
+  ssr: false,
+});
 
 type Data = {
   province: string;
@@ -198,7 +205,9 @@ export default function IncPnc() {
               title="Peta Sebaran"
               subtitle="Peta sebarna capaian indikator ibu bersalin dan ibu nifas"
             />
-            <div className="mt-5 border border-[#D6D6D6] p-[13px]"></div>
+            <div className="mt-5 border border-[#D6D6D6] p-[13px] h-[450px]">
+              <MapComponent />
+            </div>
           </section>
 
           <section className="container mt-10">
