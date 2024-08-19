@@ -43,7 +43,13 @@ import TabsBias from "@/components/tabsBias";
 import FilterSummaryImmunizationWus from "@/view/home/components/FilterWus";
 import TableAnc from "./tableAnc";
 import { Select } from "@/components";
-import Map from "@/components/map";
+// import MapComponent from "@/components/map-component";
+import dynamic from "next/dynamic";
+import "leaflet/dist/leaflet.css";
+
+const MapComponent = dynamic(() => import("@/components/map-component"), {
+  ssr: false,
+});
 
 export default function Anc() {
   const [active, setActive] = useState(false);
@@ -841,6 +847,9 @@ export default function Anc() {
               </div>
             </div>
             {/* <Map /> */}
+            <div className="h-[470px]">
+              <MapComponent />
+            </div>
           </div>
           {/* End of peta sebaran */}
         </div>
