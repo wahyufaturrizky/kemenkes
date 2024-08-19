@@ -8,7 +8,7 @@ const apiWithTag = baseApi.enhanceEndpoints({
 export const ancImmunizationApi = apiWithTag.injectEndpoints({
   overrideExisting: true,
   endpoints: (build) => ({
-    getTotalImmunization: build.query({
+    getTotalImmunizationAnc: build.query({
       query: (options = {}) => ({
         url: `${API_URL}/v1/anc-immunization/total`,
         params: options,
@@ -25,5 +25,5 @@ export const ancImmunizationApi = apiWithTag.injectEndpoints({
   }),
 });
 
-export const { useGetTotalImmunizationQuery, useGetTopDiseaseQuery } =
+export const { useGetTotalImmunizationAncQuery, useGetTopDiseaseQuery } =
   ancImmunizationApi;

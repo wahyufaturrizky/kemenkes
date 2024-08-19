@@ -35,7 +35,7 @@ import Scorecard2 from "@/components/scorecard2";
 import Scorecard3 from "@/components/scorecard3";
 import { IoMdInformationCircleOutline } from "react-icons/io";
 import {
-  useGetTotalImmunizationQuery,
+  useGetTotalImmunizationAncQuery,
   useGetTopDiseaseQuery,
 } from "@/lib/services/anc";
 import Card8Disease from "@/components/card8Disease";
@@ -193,103 +193,91 @@ export default function Anc() {
 
   // SCORECARD
   const { data: SasaranIbuHamil, isFetching: isLoadingTotalImmunization } =
-    useGetTotalImmunizationQuery(filterSasaranIbuHamil, optionQuery);
+    useGetTotalImmunizationAncQuery(filterSasaranIbuHamil, optionQuery);
   const { data: IbuHamilTercatat, isFetching: isLoadingIbuHamilTercatat } =
-    useGetTotalImmunizationQuery(filterIbuHamilTercatat, optionQuery);
-  const { data: K1, isFetching: isLoadingK1 } = useGetTotalImmunizationQuery(
+    useGetTotalImmunizationAncQuery(filterIbuHamilTercatat, optionQuery);
+  const { data: K1, isFetching: isLoadingK1 } = useGetTotalImmunizationAncQuery(
     filterK1,
     optionQuery
   );
   const { data: K1Akses, isFetching: isLoadingK1Akses } =
-    useGetTotalImmunizationQuery(filterK1Akses, optionQuery);
+    useGetTotalImmunizationAncQuery(filterK1Akses, optionQuery);
   const { data: K1Murni, isFetching: isLoadingK1Murni } =
-    useGetTotalImmunizationQuery(filterK1Murni, optionQuery);
+    useGetTotalImmunizationAncQuery(filterK1Murni, optionQuery);
   const { data: K1Usg, isFetching: isLoadingK1Usg } =
-    useGetTotalImmunizationQuery(filterK1Usg, optionQuery);
-  const { data: K4, isFetching: isLoadingK4 } = useGetTotalImmunizationQuery(
+    useGetTotalImmunizationAncQuery(filterK1Usg, optionQuery);
+  const { data: K4, isFetching: isLoadingK4 } = useGetTotalImmunizationAncQuery(
     filterK4,
     optionQuery
   );
-  const { data: K5, isFetching: isLoadingK5 } = useGetTotalImmunizationQuery(
+  const { data: K5, isFetching: isLoadingK5 } = useGetTotalImmunizationAncQuery(
     filterK5,
     optionQuery
   );
   const { data: K5Usg, isFetching: isLoadingK5Usg } =
-    useGetTotalImmunizationQuery(filterK5Usg, optionQuery);
-  const { data: K6, isFetching: isLoadingK6 } = useGetTotalImmunizationQuery(
+    useGetTotalImmunizationAncQuery(filterK5Usg, optionQuery);
+  const { data: K6, isFetching: isLoadingK6 } = useGetTotalImmunizationAncQuery(
     filterK6,
     optionQuery
   );
   const { data: TenT, isFetching: isLoadingTenT } =
-    useGetTotalImmunizationQuery(filterTenT, optionQuery);
+    useGetTotalImmunizationAncQuery(filterTenT, optionQuery);
   const { data: FourT, isFetching: isLoadingFourT } =
-    useGetTotalImmunizationQuery(filterFourT, optionQuery);
-  const { data: Usg, isFetching: isLoadingUsg } = useGetTotalImmunizationQuery(
-    filterUsg,
-    optionQuery
-  );
-  const { data: Kmk, isFetching: isLoadingKmk } = useGetTotalImmunizationQuery(
-    filterKmk,
-    optionQuery
-  );
-  const { data: Kek, isFetching: isLoadingKek } = useGetTotalImmunizationQuery(
-    filterKek,
-    optionQuery
-  );
+    useGetTotalImmunizationAncQuery(filterFourT, optionQuery);
+  const { data: Usg, isFetching: isLoadingUsg } =
+    useGetTotalImmunizationAncQuery(filterUsg, optionQuery);
+  const { data: Kmk, isFetching: isLoadingKmk } =
+    useGetTotalImmunizationAncQuery(filterKmk, optionQuery);
+  const { data: Kek, isFetching: isLoadingKek } =
+    useGetTotalImmunizationAncQuery(filterKek, optionQuery);
   const { data: KekRcv, isFetching: isLoadingKekRcv } =
-    useGetTotalImmunizationQuery(filterKekRcv, optionQuery);
+    useGetTotalImmunizationAncQuery(filterKekRcv, optionQuery);
   const { data: KekCns, isFetching: isLoadingKekCns } =
-    useGetTotalImmunizationQuery(filterKekCns, optionQuery);
+    useGetTotalImmunizationAncQuery(filterKekCns, optionQuery);
   const { data: KekPmt, isFetching: isLoadingKekPmt } =
-    useGetTotalImmunizationQuery(filterKekPmt, optionQuery);
-  const { data: Hb, isFetching: isLoadingHb } = useGetTotalImmunizationQuery(
+    useGetTotalImmunizationAncQuery(filterKekPmt, optionQuery);
+  const { data: Hb, isFetching: isLoadingHb } = useGetTotalImmunizationAncQuery(
     filterHb,
     optionQuery
   );
   const { data: AnemiaRcv, isFetching: isLoadingAnemiaRcv } =
-    useGetTotalImmunizationQuery(filterAnemiaRcv, optionQuery);
+    useGetTotalImmunizationAncQuery(filterAnemiaRcv, optionQuery);
   const { data: AnemiaInc, isFetching: isLoadingAnemiaInc } =
-    useGetTotalImmunizationQuery(filterAnemiaInc, optionQuery);
+    useGetTotalImmunizationAncQuery(filterAnemiaInc, optionQuery);
   const { data: AnemiaRef, isFetching: isLoadingAnemiaRef } =
-    useGetTotalImmunizationQuery(filterAnemiaRef, optionQuery);
+    useGetTotalImmunizationAncQuery(filterAnemiaRef, optionQuery);
   const { data: TTdRcv, isFetching: isLoadingTTdRcv } =
-    useGetTotalImmunizationQuery(filterTTdRcv, optionQuery);
+    useGetTotalImmunizationAncQuery(filterTTdRcv, optionQuery);
   const { data: TTdCns, isFetching: isLoadingTTdCns } =
-    useGetTotalImmunizationQuery(filterTTdCns, optionQuery);
+    useGetTotalImmunizationAncQuery(filterTTdCns, optionQuery);
   const { data: Class, isFetching: isLoadingClass } =
-    useGetTotalImmunizationQuery(filterClass, optionQuery);
-  const { data: Td, isFetching: isLoadingTd } = useGetTotalImmunizationQuery(
+    useGetTotalImmunizationAncQuery(filterClass, optionQuery);
+  const { data: Td, isFetching: isLoadingTd } = useGetTotalImmunizationAncQuery(
     filterTd,
     optionQuery
   );
-  const { data: Kia, isFetching: isLoadingKia } = useGetTotalImmunizationQuery(
-    filterKia,
-    optionQuery
-  );
+  const { data: Kia, isFetching: isLoadingKia } =
+    useGetTotalImmunizationAncQuery(filterKia, optionQuery);
   const { data: Diukur, isFetching: isLoadingDiukur } =
-    useGetTotalImmunizationQuery(filterDiukur, optionQuery);
+    useGetTotalImmunizationAncQuery(filterDiukur, optionQuery);
   const { data: TekananDarah, isFetching: isLoadingTekananDarah } =
-    useGetTotalImmunizationQuery(filterTekananDarah, optionQuery);
+    useGetTotalImmunizationAncQuery(filterTekananDarah, optionQuery);
   const { data: Lila, isFetching: isLoadingLila } =
-    useGetTotalImmunizationQuery(filterLila, optionQuery);
+    useGetTotalImmunizationAncQuery(filterLila, optionQuery);
   const { data: TinggiFundus, isFetching: isLoadingTinggiFundus } =
-    useGetTotalImmunizationQuery(filterTinggiFundus, optionQuery);
-  const { data: Djj, isFetching: isLoadingDjj } = useGetTotalImmunizationQuery(
-    filterDjj,
-    optionQuery
-  );
-  const { data: Tt, isFetching: isLoadingTt } = useGetTotalImmunizationQuery(
+    useGetTotalImmunizationAncQuery(filterTinggiFundus, optionQuery);
+  const { data: Djj, isFetching: isLoadingDjj } =
+    useGetTotalImmunizationAncQuery(filterDjj, optionQuery);
+  const { data: Tt, isFetching: isLoadingTt } = useGetTotalImmunizationAncQuery(
     filterTt,
     optionQuery
   );
-  const { data: Lab, isFetching: isLoadingLab } = useGetTotalImmunizationQuery(
-    filterLab,
-    optionQuery
-  );
+  const { data: Lab, isFetching: isLoadingLab } =
+    useGetTotalImmunizationAncQuery(filterLab, optionQuery);
   const { data: Tatalaksana, isFetching: isLoadingTatalaksana } =
-    useGetTotalImmunizationQuery(filterTatalaksana, optionQuery);
+    useGetTotalImmunizationAncQuery(filterTatalaksana, optionQuery);
   const { data: Konseling, isFetching: isLoadingKonseling } =
-    useGetTotalImmunizationQuery(filterKonseling, optionQuery);
+    useGetTotalImmunizationAncQuery(filterKonseling, optionQuery);
 
   // SCORECARD
 
