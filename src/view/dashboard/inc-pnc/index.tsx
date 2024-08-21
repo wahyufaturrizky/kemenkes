@@ -25,6 +25,8 @@ import IndividualData from "./IndividualData";
 // import MapComponent from "@/components/map-component";
 import dynamic from "next/dynamic";
 import "leaflet/dist/leaflet.css";
+import { useGetScoreCardQuery } from "@/lib/services/pnc";
+import FilterSection from "./FilterSection";
 
 const MapComponent = dynamic(() => import("@/components/map-component"), {
   ssr: false,
@@ -82,6 +84,9 @@ const columns = [
 ];
 
 export default function IncPnc() {
+  const { data: dataScoreCard, isFetching: isFetchingDataScoreCard } =
+    useGetScoreCardQuery();
+
   const [data, _setData] = useState(() => [...defaultData]);
 
   const [showIndividualData, setShowIndividualData] = useState<boolean>(false);
@@ -110,7 +115,11 @@ export default function IncPnc() {
             space={false}
           />
 
-          <section className="container mt-[39px]">
+          <section className="mt-[39px]">
+            <FilterSection />
+          </section>
+
+          <section className="">
             <SectionHeader
               title="Layanan Ibu Bersalin"
               subtitle="Cakupan dan persentase ibu bersalin tercatat"
@@ -148,7 +157,7 @@ export default function IncPnc() {
             </div>
           </section>
 
-          <section className="container mt-10">
+          <section className="mt-10">
             <SectionHeader
               title="Layanan Ibu Nifas"
               subtitle="Cakupan dan persentase ibu nifas tercatat"
@@ -158,49 +167,60 @@ export default function IncPnc() {
                 <ScoreCardItem
                   className="rounded-l-xl"
                   title="Jumlah Sasaran Ibu Nifas"
-                  total="113.564"
-                  percentage="30"
-                  isLoading={false}
+                  total={formatNumber(
+                    dataScoreCard?.data?.total_postpartum_mother || "0"
+                  )}
+                  percentage="0"
+                  showPercent={false}
+                  isLoading={isFetchingDataScoreCard}
                 />
               </div>
-              <div className="w-[280px]">
+              {/* <div className="w-[280px]">
                 <ScoreCardItem
                   title="Ibu Nifas Tercatat"
                   total="113.564"
-                  percentage="30"
+                  percentage="0"
+                  showPercent={false}
                   isLoading={false}
                 />
-              </div>
+              </div> */}
               <div className="w-[280px]">
                 <ScoreCardItem
                   title="Ibu Nifas KF1"
-                  total="113.564"
-                  percentage="30"
-                  isLoading={false}
+                  total={formatNumber(
+                    dataScoreCard?.data?.total_postpartum_mother_kf4 || "0"
+                  )}
+                  percentage="0"
+                  showPercent={false}
+                  isLoading={isFetchingDataScoreCard}
                 />
               </div>
               <div className="w-[280px]">
                 <ScoreCardItem
                   className="rounded-r-xl"
                   title="Ibu Nifas Mendapatkan Vit A"
-                  total="113.564"
-                  percentage="30"
-                  isLoading={false}
+                  total={formatNumber(
+                    dataScoreCard?.data?.total_postpartum_mother_vit_a || "0"
+                  )}
+                  percentage="0"
+                  showPercent={false}
+                  isLoading={isFetchingDataScoreCard}
                 />
               </div>
-              <div className="w-[280px]">
+              {/* <div className="w-[280px]">
                 <ScoreCardItem
                   className="rounded-r-xl rounded-l-xl"
                   title="Ibu Nifas KF Lengkap"
                   total="113.564"
-                  percentage="30"
+                  percentage="0"
+                  showPercent={false}
                   isLoading={false}
                 />
-              </div>
+              </div> */}
             </div>
           </section>
 
-          <section className="container mt-10">
+          <section className="mt-10">
             <SectionHeader
               title="Peta Sebaran"
               subtitle="Peta sebarna capaian indikator ibu bersalin dan ibu nifas"
@@ -210,7 +230,7 @@ export default function IncPnc() {
             </div>
           </section>
 
-          <section className="container mt-10">
+          <section className="mt-10">
             <SectionHeader
               title="Jumlah dan Persentase Indikator Ibu Melahirkan, Ibu Nifas"
               subtitle="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
@@ -270,7 +290,7 @@ export default function IncPnc() {
             </div>
           </section>
 
-          <section className="container mt-10">
+          <section className="mt-10">
             <SectionHeader
               title="Jumlah Capaian Ibu Melahirkan dan Ibu Nifas yang Dilayani"
               subtitle="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
@@ -314,7 +334,7 @@ export default function IncPnc() {
             </div>
           </section>
 
-          <section className="container mt-10">
+          <section className="mt-10">
             <SectionHeader
               title="Jumlah % Persentase Program Ibu Melahirkan dan Ibu Nifas"
               subtitle="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
@@ -360,7 +380,7 @@ export default function IncPnc() {
             </div>
           </section>
 
-          <section className="container mt-10">
+          <section className="mt-10">
             <div className="flex justify-between items-center">
               <h1 className="text-xl leading-10 font-medium">
                 Tabel Jumlah Ibu Hamil K1 Akses: Nasional
