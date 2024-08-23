@@ -85,7 +85,7 @@ const columns = [
 
 export default function IncPnc() {
   const { data: dataScoreCard, isFetching: isFetchingDataScoreCard } =
-    useGetScoreCardQuery();
+    useGetScoreCardQuery({});
 
   const [data, _setData] = useState(() => [...defaultData]);
 
