@@ -8,6 +8,7 @@ interface ScoreCardItemProps {
   percentage: string;
   isLoading: boolean;
   className?: string;
+  showPercent?: boolean;
   onClick?: () => void;
 }
 
@@ -18,10 +19,11 @@ const ScoreCardItem: React.FC<ScoreCardItemProps> = ({
   isLoading,
   className,
   onClick,
+  showPercent,
 }) => {
   return (
     <div
-      className={`h-44 bg-primary px-5 py-[10px] flex flex-col justify-between text-white ${className}`}
+      className={`h-44 bg-primary px-5 py-[10px] flex flex-col justify-between text-white relative ${className}`}
       onClick={onClick}
     >
       {isLoading && (
@@ -35,7 +37,7 @@ const ScoreCardItem: React.FC<ScoreCardItemProps> = ({
       </div>
       <div className="flex justify-between">
         <p className="text-3xl font-bold">{total}</p>
-        <p className="text-2xl font-semibold">{percentage}%</p>
+        {showPercent && <p className="text-2xl font-semibold">{percentage}%</p>}
       </div>
     </div>
   );
