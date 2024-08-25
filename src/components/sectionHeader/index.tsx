@@ -1,11 +1,12 @@
 import React from "react";
-import { IoMdArrowForward } from "react-icons/io";
+import { IoMdArrowForward, IoMdInformationCircleOutline } from "react-icons/io";
 
 interface SectionHeaderProps {
   title: string;
   subtitle?: string;
   btn?: string;
   onDataSubmit?: (data: boolean) => void;
+  icon?: boolean;
 }
 
 const SectionHeader: React.FC<SectionHeaderProps> = ({
@@ -13,6 +14,7 @@ const SectionHeader: React.FC<SectionHeaderProps> = ({
   subtitle,
   btn,
   onDataSubmit,
+  icon,
 }) => {
   const handleClick = (value: boolean) => {
     if (onDataSubmit) {
@@ -24,7 +26,10 @@ const SectionHeader: React.FC<SectionHeaderProps> = ({
     <div className="w-full mt-10">
       <div className="flex justify-between">
         <div className="text-[#505581]">
-          <h1 className="text-2xl font-bold">{title}</h1>
+          <div className="flex items-center">
+            <h1 className="text-2xl font-bold mr-2">{title}</h1>
+            {icon && <IoMdInformationCircleOutline size={20} color="#00B1A9" />}
+          </div>
           <p className="font-medium">{subtitle}</p>
         </div>
         {btn && (

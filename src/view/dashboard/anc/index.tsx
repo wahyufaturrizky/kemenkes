@@ -194,7 +194,7 @@ export default function Anc() {
   const filterDjj = createFilter("djj", true);
   const filterTt = createFilter("tt", true);
   const filterLab = createFilter("lab", true);
-  const filterTatalaksana = createFilter("case_msg", true);
+  const filterTatalaksana = createFilter("case_mng", true);
   const filterKonseling = createFilter("counseling", true);
 
   // SCORECARD
@@ -652,7 +652,6 @@ export default function Anc() {
               isLoading={isLoadingTt}
               color="#D9EF82"
             />
-            #00B1A9
             <Scorecard3
               title="Laboratorium"
               subtitle="termasuk anemia & skrining triple eliminasi"
