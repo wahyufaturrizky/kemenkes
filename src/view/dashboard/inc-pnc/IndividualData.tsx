@@ -1,12 +1,31 @@
 import BackButton from "@/components/back-button";
 import DataItem from "@/components/data-item";
 import Header from "@/components/header";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { FaRegUserCircle } from "react-icons/fa";
-import { IoIosArrowUp, IoMdPerson } from "react-icons/io";
+import { IoIosArrowDown, IoIosArrowUp } from "react-icons/io";
 import { MdHistory } from "react-icons/md";
 
-const IndividualData = () => {
+interface IndividualDataProps {
+  handleBackClick?: () => void;
+}
+
+const IndividualData: React.FC<IndividualDataProps> = ({ handleBackClick = () => {} }) => {
+  const [showIdentitas, setShowIdentitas] = useState(false);
+  const [showRiwayatKehamilan, setShowRiwayatKehamilan] = useState(false);
+
+  const handleShowIdentitas = () => {
+    setShowIdentitas(!showIdentitas);
+  };
+
+  const handleShowRiwayatKehamilan = () => {
+    setShowRiwayatKehamilan(!showRiwayatKehamilan);
+  };
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
   return (
     <div>
       <Header
@@ -17,7 +36,7 @@ const IndividualData = () => {
       />
       <div className="p-5 border border-[#D6D6D6] rounded-[10px] mt-5">
         <div className="flex justify-between items-center">
-          <BackButton label="Kembali" onClick={() => {}} />
+          <BackButton label="Kembali" onClick={handleBackClick} />
           <h2 className="text-[#424242] text-2xl font-bold">
             Data Individu Ibu Melahirkan
           </h2>
@@ -33,24 +52,30 @@ const IndividualData = () => {
                   </span>
                 </div>
                 <div>
-                  <button>
-                    <IoIosArrowUp className="text-white" size={24} />
+                  <button onClick={handleShowIdentitas}>
+                    {showIdentitas ? (
+                      <IoIosArrowUp className="text-white" size={24} />
+                    ) : (
+                      <IoIosArrowDown className="text-white" size={24} />
+                    )}
                   </button>
                 </div>
               </div>
-              <div className="px-[20px] py-[12px]">
-                <DataItem label="Nama" value="Bayi Ny. Puff" />
-                <DataItem label="NIK" value="-" />
-                <DataItem label="TTL" value="Banyuwangi, 4 Des 2024" />
-                <DataItem label="Alamat" value="-" />
-                <DataItem label="No. Telp Rumah" value="-" />
-                <DataItem label="No. Telp Seluler" value="-" />
-                <DataItem label="Status Pernikahan" value="Menikah" />
-                <DataItem label="Memiliki Buku KIA" value="Ya" />
-                <DataItem label="BB Sebelum Hamil" value="40 kg" />
-                <DataItem label="TB" value="150 cm" />
-                <DataItem label="IMT Sebelum Hamil" value="20 kg/m2-normal" />
-              </div>
+              {showIdentitas && (
+                <div className="px-[20px] py-[12px]">
+                  <DataItem label="Nama" value="Bayi Ny. Puff" />
+                  <DataItem label="NIK" value="-" />
+                  <DataItem label="TTL" value="Banyuwangi, 4 Des 2024" />
+                  <DataItem label="Alamat" value="-" />
+                  <DataItem label="No. Telp Rumah" value="-" />
+                  <DataItem label="No. Telp Seluler" value="-" />
+                  <DataItem label="Status Pernikahan" value="Menikah" />
+                  <DataItem label="Memiliki Buku KIA" value="Ya" />
+                  <DataItem label="BB Sebelum Hamil" value="40 kg" />
+                  <DataItem label="TB" value="150 cm" />
+                  <DataItem label="IMT Sebelum Hamil" value="20 kg/m2-normal" />
+                </div>
+              )}
             </div>
             <div className="bg-primary bg-opacity-10 rounded-[20px] overflow-hidden">
               <div className="h-[49px] w-full bg-primary flex flex-row justify-between items-center px-[20px] py-[12px]">
@@ -61,21 +86,27 @@ const IndividualData = () => {
                   </span>
                 </div>
                 <div>
-                  <button>
-                    <IoIosArrowUp className="text-white" size={24} />
+                  <button onClick={handleShowRiwayatKehamilan}>
+                    {showRiwayatKehamilan ? (
+                      <IoIosArrowUp className="text-white" size={24} />
+                    ) : (
+                      <IoIosArrowDown className="text-white" size={24} />
+                    )}
                   </button>
                 </div>
               </div>
-              <div className="px-[20px] py-[12px]">
-                <DataItem
-                  label="Usia Kehamilan"
-                  value="7 Bulan 5 Hari (Trimester III)"
-                />
-                <DataItem label="Tanggal HPHT" value="11-02-2023" />
-                <DataItem label="Gravida" value="0" />
-                <DataItem label="Partus" value="0" />
-                <DataItem label="Abortus" value="1" />
-              </div>
+              {showRiwayatKehamilan && (
+                <div className="px-[20px] py-[12px]">
+                  <DataItem
+                    label="Usia Kehamilan"
+                    value="7 Bulan 5 Hari (Trimester III)"
+                  />
+                  <DataItem label="Tanggal HPHT" value="11-02-2023" />
+                  <DataItem label="Gravida" value="0" />
+                  <DataItem label="Partus" value="0" />
+                  <DataItem label="Abortus" value="1" />
+                </div>
+              )}
             </div>
           </div>
           <div className="col-span-3">
