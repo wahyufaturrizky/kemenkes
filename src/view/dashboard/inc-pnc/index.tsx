@@ -25,7 +25,10 @@ import IndividualData from "./IndividualData";
 // import MapComponent from "@/components/map-component";
 import dynamic from "next/dynamic";
 import "leaflet/dist/leaflet.css";
-import { useGetScoreCardQuery } from "@/lib/services/pnc";
+import {
+  useGetScopePostfarumQuery,
+  useGetScoreCardQuery,
+} from "@/lib/services/pnc";
 import FilterSection from "./FilterSection";
 
 const MapComponent = dynamic(() => import("@/components/map-component"), {
@@ -86,6 +89,7 @@ const columns = [
 export default function IncPnc() {
   const { data: dataScoreCard, isFetching: isFetchingDataScoreCard } =
     useGetScoreCardQuery({});
+  const { data: dataScopePostfarum } = useGetScopePostfarumQuery({});
 
   const [data, _setData] = useState(() => [...defaultData]);
 
