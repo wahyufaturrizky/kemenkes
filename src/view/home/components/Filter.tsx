@@ -26,9 +26,7 @@ interface FilterProps {
 
 const FilterSummaryImmunization: React.FC<FilterProps> = ({ filterState }) => {
   const [filter, setFilter] = filterState || useState({});
-  const { data: getProvince } = useGetProvinceQuery(
-    {}
-  );
+  const { data: getProvince } = useGetProvinceQuery({});
   const { data: getRegency } = useGetRegencyQuery(
     { provinsi: filter.provinsi },
     {
@@ -90,8 +88,8 @@ const FilterSummaryImmunization: React.FC<FilterProps> = ({ filterState }) => {
             value={
               filter.tahun
                 ? standardOptionSameLabel(
-                  generateYearsArray(1979, new Date().getFullYear())
-                )?.find((f) => f.value === filter.tahun)
+                    generateYearsArray(1979, new Date().getFullYear())
+                  )?.find((f) => f.value === filter.tahun)
                 : filter.tahun
             }
           />
@@ -125,7 +123,7 @@ const FilterSummaryImmunization: React.FC<FilterProps> = ({ filterState }) => {
             onChange={(e: any) => {
               setFilter({
                 ...filter,
-                wilayah: 'province',
+                wilayah: "province",
                 provinsi: e?.value,
                 kabkota: "",
                 kecamatan: "",
@@ -136,10 +134,10 @@ const FilterSummaryImmunization: React.FC<FilterProps> = ({ filterState }) => {
             value={
               filter.provinsi
                 ? standardOptions(
-                  getProvince?.data || [],
-                  "provinsi_name",
-                  "provinsi"
-                )?.find((f) => f.value === filter.provinsi)
+                    getProvince?.data || [],
+                    "provinsi_name",
+                    "provinsi"
+                  )?.find((f) => f.value === filter.provinsi)
                 : filter.provinsi
             }
             isDisabled={!filter.bulan}
@@ -156,7 +154,7 @@ const FilterSummaryImmunization: React.FC<FilterProps> = ({ filterState }) => {
             onChange={(e: any) => {
               setFilter({
                 ...filter,
-                wilayah: 'city',
+                wilayah: "city",
                 kabkota: e?.value,
                 kecamatan: "",
                 jenis_sarana: "",
@@ -166,10 +164,10 @@ const FilterSummaryImmunization: React.FC<FilterProps> = ({ filterState }) => {
             value={
               filter.kabkota
                 ? standardOptions(
-                  getRegency?.data || [],
-                  "kabkota_name",
-                  "kabkota"
-                )?.find((f) => f.value === filter.kabkota)
+                    getRegency?.data || [],
+                    "kabkota_name",
+                    "kabkota"
+                  )?.find((f) => f.value === filter.kabkota)
                 : filter.kabkota
             }
             isDisabled={!filter.provinsi}
@@ -186,7 +184,7 @@ const FilterSummaryImmunization: React.FC<FilterProps> = ({ filterState }) => {
             onChange={(e: any) => {
               setFilter({
                 ...filter,
-                wilayah: 'district',
+                wilayah: "district",
                 kecamatan: e?.value,
                 jenis_sarana: "",
                 faskes: "",
@@ -195,10 +193,10 @@ const FilterSummaryImmunization: React.FC<FilterProps> = ({ filterState }) => {
             value={
               filter.kecamatan
                 ? standardOptions(
-                  getSubDistrict?.data || [],
-                  "kecamatan_name",
-                  "kecamatan"
-                )?.find((f) => f.value === filter.kecamatan)
+                    getSubDistrict?.data || [],
+                    "kecamatan_name",
+                    "kecamatan"
+                  )?.find((f) => f.value === filter.kecamatan)
                 : filter.kecamatan
             }
             isDisabled={!filter.kabkota}
@@ -224,10 +222,10 @@ const FilterSummaryImmunization: React.FC<FilterProps> = ({ filterState }) => {
                 value={
                   filter.jenis_sarana
                     ? standardOptions(
-                      getFacilityOfType?.data || [],
-                      "jenis_sarana_name",
-                      "jenis_sarana"
-                    )?.find((f) => f.value === filter.jenis_sarana)
+                        getFacilityOfType?.data || [],
+                        "jenis_sarana_name",
+                        "jenis_sarana"
+                      )?.find((f) => f.value === filter.jenis_sarana)
                     : filter.jenis_sarana
                 }
                 isDisabled={!filter.kecamatan}
@@ -236,12 +234,23 @@ const FilterSummaryImmunization: React.FC<FilterProps> = ({ filterState }) => {
             <div>
               <Select
                 placeholder="Pilih Faskes"
-                options={standardOptions((getMedicalFacility?.data || []), "faskes_name", "faskes")}
-                onChange={(e: any) => { setFilter({ ...filter, wilayah: 'faskes', faskes: e?.value }) }}
-                value={filter.faskes ?
-                  standardOptions((getMedicalFacility?.data || []), "faskes_name", "faskes")
-                    ?.find((f) => f.value === filter.faskes)
-                  : filter.faskes}
+                options={standardOptions(
+                  getMedicalFacility?.data || [],
+                  "faskes_name",
+                  "faskes"
+                )}
+                onChange={(e: any) => {
+                  setFilter({ ...filter, wilayah: "faskes", faskes: e?.value });
+                }}
+                value={
+                  filter.faskes
+                    ? standardOptions(
+                        getMedicalFacility?.data || [],
+                        "faskes_name",
+                        "faskes"
+                      )?.find((f) => f.value === filter.faskes)
+                    : filter.faskes
+                }
                 isDisabled={!filter.jenis_sarana}
               />
             </div>
@@ -264,10 +273,10 @@ const FilterSummaryImmunization: React.FC<FilterProps> = ({ filterState }) => {
               value={
                 filter.faskes
                   ? standardOptions(
-                    getListFaskes?.data || [],
-                    "faskes_name",
-                    "faskes_id"
-                  )?.find((f) => f.value === filter.faskes)
+                      getListFaskes?.data || [],
+                      "faskes_name",
+                      "faskes_id"
+                    )?.find((f) => f.value === filter.faskes)
                   : filter.faskes
               }
               isDisabled={!filter.kecamatan}

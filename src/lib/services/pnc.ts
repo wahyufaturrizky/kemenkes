@@ -13,7 +13,14 @@ export const pncApi = apiWithTag.injectEndpoints({
       }),
       providesTags: ["pnc"],
     }),
+    getScopePostfarum: build.query({
+      query: (options = {}) => ({
+        url: `${API_URL}/v1/satusehat-pnc/scope-postpartum-based-region`,
+        params: options,
+      }),
+      providesTags: ["pnc"],
+    }),
   }),
 });
 
-export const { useGetScoreCardQuery } = pncApi;
+export const { useGetScoreCardQuery, useGetScopePostfarumQuery } = pncApi;
