@@ -13,6 +13,15 @@ import Progress from "@/components/progress";
 import ProgressCard1 from "@/components/progressCard1";
 import { graphOptions1, graphOptions2 } from "./graphOptions";
 import TableBayiBalita from "./tableBayiBalita";
+import {
+  useGetTotalKidsHavingMeasurementQuery,
+  useGetBalitaMinitoredMoreThan2Query,
+  useGetMeaserementResultQuery,
+  useGetNutritionGovernanceQuery,
+  useGetVisitationAnalyticQuery,
+  useGetVisitationFaskesQuery,
+  useGetAnaliticIndicatorQuery,
+} from "@/lib/services/bayi-balita";
 export default function BayiBalita() {
   const filterState = useState({
     tahun: new Date().getFullYear(),
@@ -35,6 +44,42 @@ export default function BayiBalita() {
     tren_type: "kumulatif",
   });
   const [filter] = filterState;
+
+  const dateQuery = {
+    year: filter.tahun,
+    month: filter.bulan,
+  };
+
+  const optionQuery = {
+    refetchOnMountOrArgChange: true,
+    skip:
+      !filter.tahun ||
+      (!filter.bulan &&
+        (!filter.provinsi || !filter.kabkota || !filter.kecamatan)),
+  };
+
+  const {
+    data: totalKidsMeasurement,
+    isFetching: isLoadingtotalKidsMeasurement,
+  } = useGetTotalKidsHavingMeasurementQuery(dateQuery, optionQuery);
+  const {
+    data: BalitaMinitoredMoreThan2,
+    isFetching: isLoadingBalitaMinitoredMoreThan2,
+  } = useGetBalitaMinitoredMoreThan2Query(dateQuery, optionQuery);
+  const { data: MeaserementResult, isFetching: isLoadingMeaserementResult } =
+    useGetMeaserementResultQuery(dateQuery, optionQuery);
+  const {
+    data: NutritionGovernance,
+    isFetching: isLoadingNutritionGovernance,
+  } = useGetNutritionGovernanceQuery(dateQuery, optionQuery);
+  const { data: VisitationAnalytic, isFetching: isLoadingVisitationAnalytic } =
+    useGetVisitationAnalyticQuery(dateQuery, optionQuery);
+  const { data: VisitationFaskes, isFetching: isLoadingVisitationFaskes } =
+    useGetVisitationFaskesQuery(dateQuery, optionQuery);
+  const { data: AnaliticIndicator, isFetching: isLoadingAnaliticIndicator } =
+    useGetAnaliticIndicatorQuery(dateQuery, optionQuery);
+
+  // console.log(AnaliticIndicator, "isi data");
 
   const ageChartOptions: any = {
     color: ["#008E87", "#CF3E53"],
