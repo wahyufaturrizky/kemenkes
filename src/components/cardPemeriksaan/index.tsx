@@ -21,7 +21,7 @@ const CardPemeriksaan: React.FC<card> = ({
   textBlue,
 }) => {
   return (
-    <div className="col-span-6 lg:col-span-4 rounded-2xl h-[370px] shadow-[0_3px_10px_rgb(0,0,0,0.2)] p-[34px] flex flex-col justify-between">
+    <div className="col-span-6 lg:col-span-4 rounded-2xl max-h-[800px] min-h-[420px] shadow-[0_3px_10px_rgb(0,0,0,0.2)] p-[34px] flex flex-col justify-between">
       <div>
         <p className="font-semibold text-xl">{label}</p>
         <div className="flex items-baseline">

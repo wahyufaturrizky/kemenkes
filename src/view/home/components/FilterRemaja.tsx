@@ -85,10 +85,49 @@ const FilterSummaryImmunizationRemaja: React.FC<FilterProps> = ({
     <div className="flex flex-col gap-2">
       <div>Filter</div>
       <div className="flex flex-wrap items-center gap-4">
-        <div>
+        {/* <div>
           <DateRangeSelect />
+        </div> */}
+        <div>
+          <Select
+            placeholder="Pilih Tahun"
+            options={standardOptionSameLabel(
+              generateYearsArray(1979, new Date().getFullYear())
+            )}
+            onChange={(e: any) => {
+              setFilter({
+                ...filter,
+                tahun: e?.value,
+              });
+            }}
+            value={
+              filter.tahun
+                ? standardOptionSameLabel(
+                    generateYearsArray(1979, new Date().getFullYear())
+                  )?.find((f) => f.value === filter.tahun)
+                : filter.tahun
+            }
+          />
         </div>
         <div>
+          <Select
+            placeholder="Pilih Bulan"
+            options={dataMonth}
+            onChange={(e: any) => {
+              setFilter({
+                ...filter,
+                bulan: e?.value,
+              });
+            }}
+            value={
+              filter.bulan
+                ? dataMonth?.find((f) => f.value === filter.bulan)
+                : filter.bulan
+            }
+            isDisabled={!filter.tahun}
+          />
+        </div>
+        {/* <div>
           <Select
             placeholder="Pilih Provinsi"
             options={standardOptions(
@@ -224,7 +263,7 @@ const FilterSummaryImmunizationRemaja: React.FC<FilterProps> = ({
         </div>
         <div>
           <Select placeholder="Sumber Data" isDisabled={!filter.kabkota} />
-        </div>
+        </div> */}
       </div>
     </div>
   );

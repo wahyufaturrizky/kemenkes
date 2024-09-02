@@ -13,6 +13,19 @@ import Progress from "@/components/progress";
 import CardPemeriksaan from "@/components/cardPemeriksaan";
 import { graphOptions1, graphOptions2, graphOptions3 } from "./graphOptions";
 import TableRemaja from "./tableRemaja";
+import {
+  useGetAnemiaScreeningQuery,
+  useGetBloodPresureQuery,
+  useGetBodyMassIndexAgeQuery,
+  useGetCigaretteSmokingQuery,
+  useGetFitnessQuery,
+  useGetHealthQuery,
+  useGetHearingQuery,
+  useGetMentalHealthQuery,
+  useGetNapzaScreeningQuery,
+  useGetSmokingQuery,
+  useGetVisionQuery,
+} from "@/lib/services/remaja";
 export default function Remaja() {
   const [activeTab, setActiveTab] = useState("Chart View");
 
@@ -20,8 +33,8 @@ export default function Remaja() {
     setActiveTab(tab);
   };
   const filterState = useState({
-    // tahun: 2023,
-    tahun: new Date().getFullYear(),
+    tahun: 2023,
+    // tahun: new Date().getFullYear(),
     bulan: dataMonth.find((r, i) => i === new Date().getMonth())?.value,
     provinsi: "",
     kabkota: "",
@@ -41,6 +54,81 @@ export default function Remaja() {
     tren_type: "kumulatif",
   });
   const [filter] = filterState;
+
+  const dateQuery = {
+    year: filter.tahun,
+    month: filter.bulan,
+  };
+
+  const optionQuery = {
+    refetchOnMountOrArgChange: true,
+    skip:
+      !filter.tahun ||
+      (!filter.bulan &&
+        (!filter.provinsi || !filter.kabkota || !filter.kecamatan)),
+  };
+
+  const { data: BodyMassIndexAge, isFetching: isLoadingBodyMassIndexAge } =
+    useGetBodyMassIndexAgeQuery(dateQuery, optionQuery);
+  const { data: BloodPresure, isFetching: isLoadingBloodPresure } =
+    useGetBloodPresureQuery(dateQuery, optionQuery);
+  const { data: Vision, isFetching: isLoadingVision } = useGetVisionQuery(
+    dateQuery,
+    optionQuery
+  );
+  const { data: Hearing, isFetching: isLoadingHearing } = useGetHearingQuery(
+    dateQuery,
+    optionQuery
+  );
+  const { data: MentalHealth, isFetching: isLoadingMentalHealth } =
+    useGetMentalHealthQuery(dateQuery, optionQuery);
+  const { data: NapzaScreening, isFetching: isLoadingNapzaScreening } =
+    useGetNapzaScreeningQuery(dateQuery, optionQuery);
+  const { data: Health, isFetching: isLoadingHealth } = useGetHealthQuery(
+    dateQuery,
+    optionQuery
+  );
+  const { data: Fitness, isFetching: isLoadingFitness } = useGetFitnessQuery(
+    dateQuery,
+    optionQuery
+  );
+  const { data: AnemiaScreening, isFetching: isLoadingAnemiaScreening } =
+    useGetAnemiaScreeningQuery(dateQuery, optionQuery);
+  const { data: Smoking, isFetching: isLoadingSmoking } = useGetSmokingQuery(
+    dateQuery,
+    optionQuery
+  );
+  const { data: CigaretteSmoking, isFetching: isLoadingCigaretteSmoking } =
+    useGetCigaretteSmokingQuery(dateQuery, optionQuery);
+
+  // const dataCard1: any = [];
+  // BodyMassIndexAge?.map((data: any) => {
+  //   dataCard1.push({
+  //     color:
+  //       data.bmi_category === "Gizi Baik"
+  //         ? "#27A762"
+  //         : data.bmi_category === "Gizi Kurang"
+  //         ? "#FFEE16"
+  //         : "#000000", // Warna default jika kategori tidak cocok
+  //     label: data.bmi_category,
+  //     value: data.value, // Sesuaikan sesuai dengan data Anda
+  //     percentage: data.percentage, // Sesuaikan sesuai dengan data Anda
+  //   });
+  // });
+
+  // const dataCard1: any = BodyMassIndexAge?.data?.map((data: any) => ({
+  //   color:
+  //     data.bmi_category === "Gizi Baik"
+  //       ? "#27A762"
+  //       : data.bmi_category === "Gizi Kurang"
+  //       ? "#FFEE16"
+  //       : "#000000", // Warna default jika kategori tidak cocok
+  //   label: data.bmi_category,
+  //   value: data.total, // Sesuaikan sesuai dengan data Anda
+  //   percentage: data.percentage, // Sesuaikan sesuai dengan data Anda
+  // }));
+
+  console.log(CigaretteSmoking, "isi data");
 
   const chartOptions: any = {
     tooltip: {
@@ -275,287 +363,204 @@ export default function Remaja() {
           label="IMT/U"
           value={7015619}
           pct="57.5"
-          data={[
-            {
-              color: "#27A762",
-              label: "Gizi Baik",
-              value: 5499024,
-              percentage: 78.4,
-            },
-            {
-              color: "#FFEE16",
-              label: "Gizi Kurang",
-              value: 1292674,
-              percentage: 18.4,
-            },
-            {
-              color: "#F3B239",
-              label: "Gizi Buruk",
-              value: 1292674,
-              percentage: 18.4,
-            },
-            {
-              color: "#FF8800",
-              label: "Gizi Lebih",
-              value: 1292674,
-
-              percentage: 18.4,
-            },
-            {
-              color: "#CF3E53",
-              label: "Obesitas",
-              value: 223911,
-              percentage: 3.2,
-            },
-          ]}
+          data={BodyMassIndexAge?.data?.map((data: any) => ({
+            color:
+              data.bmi_category === "Gizi Baik"
+                ? "#27A762"
+                : data.bmi_category === "Gizi Kurang"
+                ? "#FFEE16"
+                : data.bmi_category === "Gizi Buruk"
+                ? "#F3B239"
+                : data.bmi_category === "Gizi Lebih"
+                ? "#FF8800"
+                : data.bmi_category === "Obesitas"
+                ? "#CF3E53"
+                : "#000000", // Warna default jika kategori tidak cocok
+            label: data.bmi_category,
+            value: data.total, // Sesuaikan sesuai dengan data Anda
+            percentage: data.percentage, // Sesuaikan sesuai dengan data Anda
+          }))}
         />
         <CardPemeriksaan
           label="Tekanan Darah"
           value={7015619}
           pct="57.5"
-          data={[
-            {
-              color: "#27A762",
-              label: "Gizi Baik",
-              value: 5499024,
-              percentage: 78.4,
-            },
-            {
-              color: "#FFEE16",
-              label: "Gizi Kurang",
-              value: 1292674,
-              percentage: 18.4,
-            },
-            {
-              color: "#F3B239",
-              label: "Gizi Buruk",
-              value: 1292674,
-              percentage: 18.4,
-            },
-            {
-              color: "#FF8800",
-              label: "Gizi Lebih",
-              value: 1292674,
-
-              percentage: 18.4,
-            },
-            {
-              color: "#CF3E53",
-              label: "Obesitas",
-              value: 223911,
-              percentage: 3.2,
-            },
-          ]}
+          data={BloodPresure?.data?.map((data: any) => ({
+            color:
+              data.hypertension_risk === "Hipertensi Tingkat 1"
+                ? "#FF8800"
+                : data.hypertension_risk === "Hipertensi Tingkat 2"
+                ? "#CF3E53"
+                : data.hypertension_risk === "Gizi Buruk"
+                ? "#F3B239"
+                : data.hypertension_risk === "Gizi Lebih"
+                ? "#FF8800"
+                : data.hypertension_risk === "Obesitas"
+                ? "#CF3E53"
+                : "#000000", // Warna default jika kategori tidak cocok
+            label: data.hypertension_risk,
+            value: data.total, // Sesuaikan sesuai dengan data Anda
+            percentage: data.percentage, // Sesuaikan sesuai dengan data Anda
+          }))}
         />
         <CardPemeriksaan
           label="Skrining Penglihatan"
           value={7015619}
           pct="57.5"
-          data={[
-            {
-              color: "#27A762",
-              label: "Normal",
-              value: 5499024,
-              percentage: 78.4,
-            },
-            {
-              color: "#CF3E53",
-              label: "Bermasalah",
-              value: 223911,
-              percentage: 30.2,
-            },
-          ]}
+          data={Vision?.data?.map((data: any) => ({
+            color:
+              data.vision === "Normal"
+                ? "#27A762"
+                : data.vision === "Gizi Kurang"
+                ? "#FFEE16"
+                : data.vision === "Gizi Buruk"
+                ? "#F3B239"
+                : data.vision === "Gizi Lebih"
+                ? "#FF8800"
+                : data.vision === "Obesitas"
+                ? "#CF3E53"
+                : "#000000", // Warna default jika kategori tidak cocok
+            label: data.vision,
+            value: data.total, // Sesuaikan sesuai dengan data Anda
+            percentage: data.percentage, // Sesuaikan sesuai dengan data Anda
+          }))}
         />
         <CardPemeriksaan
           label="Pendengaran"
           value={7015619}
           pct="57.5"
-          data={[
-            {
-              color: "#27A762",
-              label: "Normal",
-              value: 5499024,
-              percentage: 78.4,
-            },
-            {
-              color: "#CF3E53",
-              label: "Bermasalah",
-              value: 223911,
-              percentage: 30.2,
-            },
-          ]}
+          data={Hearing?.data?.map((data: any) => ({
+            color:
+              data.hearing === "Normal"
+                ? "#27A762"
+                : data.hearing === "Bermasalah"
+                ? "#CF3E53"
+                : "#000000",
+            label: data.hearing,
+            value: data.total,
+            percentage: data.percentage,
+          }))}
         />
         <CardPemeriksaan
           label="Skrining Kesehatan Jiwa"
           value={7015619}
           pct="57.5"
-          data={[
-            {
-              color: "#27A762",
-              label: "Normal",
-              value: 5499024,
-              percentage: 78.4,
-            },
-            {
-              color: "#FFEE16",
-              label: "Borderline",
-              value: 1292674,
-              percentage: 18.4,
-            },
-            {
-              color: "#CF3E53",
-              label: "Abnormal",
-              value: 223911,
-              percentage: 3.2,
-            },
-          ]}
+          data={MentalHealth?.data?.map((data: any) => ({
+            color:
+              data.mental_health === "Normal"
+                ? "#27A762"
+                : data.mental_health === "Borderline"
+                ? "#FFEE16"
+                : data.mental_health === "Abnormal"
+                ? "#CF3E53"
+                : "#000000",
+            label: data.mental_health,
+            value: data.total,
+            percentage: data.percentage,
+          }))}
         />
         <CardPemeriksaan
           label="Skrining Napza"
           value={7015619}
           pct="57.5"
-          data={[
-            {
-              color: "#27A762",
-              label: "Tidak Beresiko Napza",
-              value: 5499024,
-              percentage: 78.4,
-            },
-            {
-              color: "#CF3E53",
-              label: "Memiliki Resiko Napza",
-              value: 223911,
-              percentage: 30.2,
-            },
-          ]}
+          data={NapzaScreening?.data?.map((data: any) => ({
+            color:
+              data.napza_risk === "Tidak Beresiko Napza"
+                ? "#27A762"
+                : data.napza_risk === "Beresiko Napza"
+                ? "#CF3E53"
+                : "#000000",
+            label: data.napza_risk,
+            value: data.total,
+            percentage: data.percentage,
+          }))}
         />
         <CardPemeriksaan
           label="Kesehatan Gigi & Mulut"
           value={7015619}
           pct="57.5"
-          data={[
-            {
-              color: "#27A762",
-              label: "Gigi dan Gusi Sehat",
-              value: 5499024,
-              percentage: 78.4,
-            },
-            {
-              color: "#CF3E53",
-              label: "Memiliki Masalah Gigi/Mulut",
-              value: 223911,
-              percentage: 30.2,
-            },
-          ]}
+          data={Health?.data?.map((data: any) => ({
+            color:
+              data.health === "Tidak Beresiko Napza"
+                ? "#27A762"
+                : data.health === "Beresiko Napza"
+                ? "#CF3E53"
+                : "#000000",
+            label: data.health,
+            value: data.total,
+            percentage: data.percentage,
+          }))}
         />
         <CardPemeriksaan
           label="Kebugaran"
           value={7015619}
           pct="57.5"
-          data={[
-            {
-              color: "#27A762",
-              label: "Baik Sekali",
-              value: 5499024,
-              percentage: 78.4,
-            },
-            {
-              color: "#FFEE16",
-              label: "Baik",
-              value: 1292674,
-              percentage: 18.4,
-            },
-            {
-              color: "#F3B239",
-              label: "Cukup",
-              value: 1292674,
-              percentage: 18.4,
-            },
-            {
-              color: "#FF8800",
-              label: "Kurang",
-              value: 1292674,
-
-              percentage: 18.4,
-            },
-            {
-              color: "#CF3E53",
-              label: "Kurang Sekali",
-              value: 223911,
-              percentage: 3.2,
-            },
-          ]}
+          data={Fitness?.data?.map((data: any) => ({
+            color:
+              data.fitness === "Baik"
+                ? "#32DE81"
+                : data.fitness === "Cukup"
+                ? "#FFEE16"
+                : data.fitness === "Kurang"
+                ? "#FF8800"
+                : "#000000",
+            label: data.fitness,
+            value: data.total,
+            percentage: data.percentage,
+          }))}
         />
         <CardPemeriksaan
           label="Skiring Anemia"
           value={7015619}
           pct="57.5"
-          data={[
-            {
-              color: "#27A762",
-              label: "Tidak Anemia",
-              value: 5499024,
-              percentage: 78.4,
-            },
-            {
-              color: "#F3B239",
-              label: "Anemia Ringan",
-              value: 1292674,
-              percentage: 18.4,
-            },
-            {
-              color: "#FF8800",
-              label: "Anemia Sedang",
-              value: 1292674,
-
-              percentage: 18.4,
-            },
-            {
-              color: "#CF3E53",
-              label: "Anemia Berat",
-              value: 223911,
-              percentage: 3.2,
-            },
-          ]}
+          data={AnemiaScreening?.data?.map((data: any) => ({
+            color:
+              data.anemia_risk === "Tidak Anemia"
+                ? "#27A762"
+                : data.anemia_risk === "Anemia Ringan"
+                ? "#FFEE16"
+                : data.anemia_risk === "Anemia Sedang"
+                ? "#F3B239"
+                : data.anemia_risk === "Anemia Berat"
+                ? "#CF3E53"
+                : "#000000",
+            label: data.anemia_risk,
+            value: data.total,
+            percentage: data.percentage,
+          }))}
           textBlue
         />
         <CardPemeriksaan
           label="Faktor Risiko Merokok"
           value={7015619}
           pct="57.5"
-          data={[
-            {
-              color: "#27A762",
-              label: "Tidak Merokok",
-              value: 5499024,
-              percentage: 78.4,
-            },
-            {
-              color: "#CF3E53",
-              label: "Merokok",
-              value: 223911,
-              percentage: 30.2,
-            },
-          ]}
+          data={Smoking?.data?.map((data: any) => ({
+            color:
+              data.smoking === "Tidak Merokok"
+                ? "#27A762"
+                : data.smoking === "Merokok"
+                ? "#CF3E53"
+                : "#000000",
+            label: data.smoking,
+            value: data.total,
+            percentage: data.percentage,
+          }))}
         />
         <CardPemeriksaan
           label="Paparan Asap Rokok"
           value={7015619}
           pct="57.5"
-          data={[
-            {
-              color: "#27A762",
-              label: "Tidak Merokok",
-              value: 5499024,
-              percentage: 78.4,
-            },
-            {
-              color: "#CF3E53",
-              label: "Merokok",
-              value: 223911,
-              percentage: 30.2,
-            },
-          ]}
+          data={CigaretteSmoking?.data?.map((data: any) => ({
+            color:
+              data.cigarette_smoking === "Tidak Terpapar"
+                ? "#27A762"
+                : data.cigarette_smoking === "Terpapar"
+                ? "#CF3E53"
+                : "#000000",
+            label: data.cigarette_smoking,
+            value: data.total,
+            percentage: data.percentage,
+          }))}
           textBlue
         />
       </div>
