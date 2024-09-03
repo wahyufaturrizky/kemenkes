@@ -128,7 +128,7 @@ export default function Remaja() {
   //   percentage: data.percentage, // Sesuaikan sesuai dengan data Anda
   // }));
 
-  console.log(CigaretteSmoking, "isi data");
+  // console.log(CigaretteSmoking, "isi data");
 
   const chartOptions: any = {
     tooltip: {

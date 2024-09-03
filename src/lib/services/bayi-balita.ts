@@ -38,7 +38,7 @@ export const bayiBalitaApi = apiWithTag.injectEndpoints({
     }),
     getVisitationAnalytic: build.query({
       query: (options = {}) => ({
-        url: `${API_URL}/v1/bayi-balita/visitation-analytict`,
+        url: `${API_URL}/v1/bayi-balita/visitation-analytic`,
         params: options,
       }),
       providesTags: ["bayi-balita"],
@@ -52,7 +52,7 @@ export const bayiBalitaApi = apiWithTag.injectEndpoints({
     }),
     getAnaliticIndicator: build.query({
       query: (options = {}) => ({
-        url: `${API_URL}/v1/bayi-balita/balita-visitation-faskes`,
+        url: `${API_URL}/v1/bayi-balita/analytic-indicator?column=TB/U&analytic_type=waktu`,
         params: options,
       }),
       providesTags: ["bayi-balita"],

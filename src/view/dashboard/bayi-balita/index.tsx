@@ -22,9 +22,11 @@ import {
   useGetVisitationFaskesQuery,
   useGetAnaliticIndicatorQuery,
 } from "@/lib/services/bayi-balita";
+import { formatNumber } from "@/helpers";
 export default function BayiBalita() {
   const filterState = useState({
-    tahun: new Date().getFullYear(),
+    tahun: 2023,
+    // tahun: new Date().getFullYear(),
     bulan: dataMonth.find((r, i) => i === new Date().getMonth())?.value,
     provinsi: "",
     kabkota: "",
@@ -79,7 +81,74 @@ export default function BayiBalita() {
   const { data: AnaliticIndicator, isFetching: isLoadingAnaliticIndicator } =
     useGetAnaliticIndicatorQuery(dateQuery, optionQuery);
 
-  // console.log(AnaliticIndicator, "isi data");
+  // const data1 = MeaserementResult?.data?.weight_per_age.map((data: any) => ({
+  //   color:
+  //     data.weight_category === "Adekuat"
+  //       ? "#CF3E53"
+  //       : data.weight_category === "Tidak Adekuat"
+  //       ? "#3BC6BE"
+  //       : "#000000",
+  //   label: data.weight_category,
+  //   value: formatNumber(data.total),
+  //   percentage: formatNumber(data.percentage),
+  // }));
+
+  // console.log(VisitationAnalytic, "isi data1");
+
+  const klinikData: any = [];
+  const praktekMandiriData: any = [];
+  const puskesmasData: any = [];
+  const rumahSakitData: any = [];
+
+  const normalData: any = [];
+  const pendekData: any = [];
+  const sangatPendekData: any = [];
+  const tinggiData: any = [];
+  const stuntingData: any = [];
+
+  VisitationFaskes?.data?.forEach((item: any) => {
+    switch (item.faskes_type) {
+      case "Klinik":
+        klinikData.push(item.total_visitation);
+        break;
+      case "Praktek Mandiri":
+        praktekMandiriData.push(item.total_visitation);
+        break;
+      case "Puskesmas":
+        puskesmasData.push(item.total_visitation);
+        break;
+      case "Rumah Sakit":
+        rumahSakitData.push(item.total_visitation);
+        break;
+    }
+  });
+
+  AnaliticIndicator?.data?.forEach((item: any) => {
+    switch (item.indicator) {
+      case "Normal":
+        stuntingData.push(item.percentage);
+        normalData.push(item.total);
+        break;
+      case "Pendek":
+        pendekData.push(item.total);
+        break;
+      case "Sangat Pendek":
+        sangatPendekData.push(item.total);
+        break;
+      case "Tinggi":
+        tinggiData.push(item.total);
+        break;
+    }
+  });
+
+  const rawData = [
+    klinikData,
+    praktekMandiriData,
+    puskesmasData,
+    rumahSakitData,
+  ];
+
+  // console.log(normalData, "isi  normal");
 
   const ageChartOptions: any = {
     color: ["#008E87", "#CF3E53"],
@@ -120,8 +189,12 @@ export default function BayiBalita() {
   };
 
   const chartOptions: any = {
+    color: ["#3BC6BE", "#CF3E53"],
     tooltip: {
       trigger: "item",
+      formatter: function (params: any) {
+        return `${params.name}: ${params.value.toLocaleString("id-ID")}`;
+      },
     },
     legend: {
       top: "5%",
@@ -130,7 +203,7 @@ export default function BayiBalita() {
     },
     series: [
       {
-        name: "Access From",
+        name: "Total",
         type: "pie",
         top: "-180px",
         radius: ["40%", "50%"],
@@ -139,19 +212,29 @@ export default function BayiBalita() {
           show: false,
           position: "center",
         },
-        emphasis: {
-          label: {
-            show: true,
-            fontSize: 40,
-            fontWeight: "bold",
-          },
-        },
+        // emphasis: {
+        //   label: {
+        //     show: true,
+        //     fontSize: 40,
+        //     fontWeight: "bold",
+        //   },
+        // },
         labelLine: {
           show: false,
         },
         data: [
-          { value: 65, name: "Laki-laki" },
-          { value: 35, name: "Perempuan" },
+          {
+            value:
+              VisitationAnalytic?.data?.referred_stunting?.[0]
+                ?.total_visitation,
+            name: "Laki-laki",
+          },
+          {
+            value:
+              VisitationAnalytic?.data?.referred_stunting?.[1]
+                ?.total_visitation,
+            name: "Perempuan",
+          },
         ],
       },
     ],
@@ -159,6 +242,12 @@ export default function BayiBalita() {
 
   const chartOptions2: any = {
     color: ["#006A65"],
+    tooltip: {
+      trigger: "item",
+      formatter: function (params: any) {
+        return `${params.marker} ${params.name}: ${formatNumber(params.value)}`;
+      },
+    },
     xAxis: {
       type: "category",
       data: dataMonth.map((data: any) => data.label.slice(0, 3)),
@@ -171,7 +260,9 @@ export default function BayiBalita() {
     },
     series: [
       {
-        data: [2, 3, 4, 5, 6, 7, 8, 9, 10, 1, 2, 3],
+        data: VisitationAnalytic?.data?.monthly_trend?.map(
+          (data: any) => data.total_visitation_in_million
+        ),
         type: "line",
       },
     ],
@@ -222,14 +313,14 @@ export default function BayiBalita() {
     ], // Data keempat
   ];
 
-  const rawData = [
-    [100, 302, 301, 334, 390, 330, 320, 340, 360, 380, 400, 420], // Data pertama
-    [320, 132, 101, 134, 90, 230, 210, 220, 240, 260, 280, 300], // Data kedua
-    [220, 182, 191, 234, 290, 330, 310, 320, 340, 360, 380, 400], // Data ketiga
-    [150, 212, 201, 154, 190, 330, 410, 420, 440, 460, 480, 500], // Data keempat
-    [820, 832, 901, 934, 1290, 1330, 1320, 1340, 1360, 1380, 1400, 1420], // Data kelima
-  ];
-  const totalData = rawData[0].map((_, idx) =>
+  // const rawData = [
+  //   [100, 302, 301, 334, 390, 330, 320, 340, 360, 380, 400, 420], // Data pertama
+  //   [320, 132, 101, 134, 90, 230, 210, 220, 240, 260, 280, 300], // Data kedua
+  //   [220, 182, 191, 234, 290, 330, 310, 320, 340, 360, 380, 400], // Data ketiga
+  //   [150, 212, 201, 154, 190, 330, 410, 420, 440, 460, 480, 500], // Data keempat
+  //   [820, 832, 901, 934, 1290, 1330, 1320, 1340, 1360, 1380, 1400, 1420], // Data kelima
+  // ];
+  const totalData = rawData[0].map((_: any, idx: number) =>
     rawData.reduce((sum, data) => sum + data[idx], 0)
   );
 
@@ -403,74 +494,6 @@ export default function BayiBalita() {
     },
     series,
   };
-
-  // const chartOptions4: any = {
-  //   tooltip: {
-  //     trigger: "axis",
-  //     axisPointer: {
-  //       type: "shadow",
-  //     },
-  //   },
-  //   legend: {
-  //     data: ["Perempuan", "Laki-laki"],
-  //     bottom: 0,
-  //   },
-  //   grid: {
-  //     left: "3%",
-  //     right: "4%",
-  //     bottom: "10%",
-  //     containLabel: true,
-  //   },
-  //   xAxis: {
-  //     type: "value",
-  //     min: 0,
-  //     max: 100,
-  //     axisLabel: {
-  //       formatter: "{value}%",
-  //       color: "#888",
-  //     },
-  //   },
-  //   yAxis: {
-  //     type: "category",
-  //     data: ["Tinggi", "Normal", "Pendek", "Sangat Pendek"],
-  //     axisLabel: {
-  //       color: "#444",
-  //       fontWeight: "bold",
-  //     },
-  //   },
-  //   series: [
-  //     {
-  //       name: "Perempuan",
-  //       type: "bar",
-  //       stack: "total",
-  //       label: {
-  //         show: true,
-  //         position: "insideLeft",
-  //         formatter: "{c}%",
-  //         color: "#fff",
-  //       },
-  //       data: [55, 40, 60, 70],
-  //       itemStyle: {
-  //         color: "#D84B4B", // color for "Perempuan"
-  //       },
-  //     },
-  //     {
-  //       name: "Laki-laki",
-  //       type: "bar",
-  //       stack: "total",
-  //       label: {
-  //         show: true,
-  //         position: "insideRight",
-  //         formatter: "{c}%",
-  //         color: "#fff",
-  //       },
-  //       data: [45, 60, 40, 30],
-  //       itemStyle: {
-  //         color: "#00A2A2", // color for "Laki-laki"
-  //       },
-  //     },
-  //   ],
-  // };
 
   const chartOptions4 = {
     tooltip: {
@@ -654,9 +677,9 @@ export default function BayiBalita() {
         <ProgressCard1
           title="Total Anak Mendapatkan Pengukuran"
           sub="&ge; 2 kali/ tahun"
-          total={9000}
-          pct={70}
-          pct2={2}
+          total={totalKidsMeasurement?.data?.number_of_kids_this_month}
+          pct={75}
+          pct2={totalKidsMeasurement?.data?.difference_number_of_kids_pct}
           data={[
             {
               color: "#CF3E53",
@@ -674,9 +697,11 @@ export default function BayiBalita() {
         />
         <ProgressCard1
           title="Total Anak Mendapatkan Pengukuran"
-          total={9000}
-          pct={70}
-          pct2={2}
+          total={BalitaMinitoredMoreThan2?.data?.number_of_patients_this_month}
+          pct={75}
+          pct2={
+            BalitaMinitoredMoreThan2?.data?.difference_number_of_patients_pct
+          }
           data={[
             {
               color: "#CF3E53",
@@ -702,113 +727,156 @@ export default function BayiBalita() {
           <p className="font-bold text-2xl">Hasil Pengukuran</p>
           <div className="mt-[21px]">
             <Progress
-              data={[
-                {
-                  color: "#CF3E53",
-                  label: "Perempuan",
-                  value: 5500,
-                  percentage: 70,
-                },
-                {
-                  color: "#3BC6BE",
-                  label: "Laki-laki",
-                  value: 3500,
-                  percentage: 30,
-                },
-              ]}
+              data={MeaserementResult?.data?.weight_gain.map((data: any) => ({
+                color:
+                  data.weight_gain_status === "Adekuat"
+                    ? "#CF3E53"
+                    : data.weight_gain_status === "Tidak Adekuat"
+                    ? "#3BC6BE"
+                    : "#000000",
+                label: data.weight_gain_status,
+                value: data.total,
+                percentage: data.percentage,
+              }))}
               title={"Kenaikan Berat Badan"}
             />
             <Progress
-              data={[
-                {
-                  color: "#CF3E53",
-                  label: "Perempuan",
-                  value: 5500,
-                  percentage: 70,
-                },
-                {
-                  color: "#FFB0AA",
-                  label: "Perempuan",
-                  value: 5500,
-                  percentage: 70,
-                },
-                {
-                  color: "#3BC6BE",
-                  label: "Laki-laki",
-                  value: 3500,
-                  percentage: 30,
-                },
-                {
-                  color: "#FFB0AA",
-                  label: "Laki-laki",
-                  value: 3500,
-                  percentage: 30,
-                },
-              ]}
+              data={MeaserementResult?.data?.weight_per_age.map(
+                (data: any) => ({
+                  color:
+                    data.weight_category === "BB kurang"
+                      ? "#CF3E53"
+                      : data.weight_category === "BB normal"
+                      ? "#FFB0AA"
+                      : data.weight_category === "BB Sangat Kurang"
+                      ? "#3BC6BE"
+                      : data.weight_category === "Risiko BB lebih"
+                      ? "#FFDC9A"
+                      : "#000000",
+                  label: data.weight_category,
+                  value: data.total,
+                  percentage: data.percentage,
+                })
+              )}
               title={"BB/U"}
             />
             <Progress
-              data={[
-                {
-                  color: "#CF3E53",
-                  label: "Perempuan",
-                  value: 5500,
-                  percentage: 70,
-                },
-                {
-                  color: "#FFB0AA",
-                  label: "Perempuan",
-                  value: 5500,
-                  percentage: 70,
-                },
-                {
-                  color: "#3BC6BE",
-                  label: "Laki-laki",
-                  value: 3500,
-                  percentage: 30,
-                },
-                {
-                  color: "#00626D",
-                  label: "Laki-laki",
-                  value: 3500,
-                  percentage: 30,
-                },
-              ]}
+              data={MeaserementResult?.data?.height_per_age.map(
+                (data: any) => ({
+                  color:
+                    data.height_category === "Normal"
+                      ? "#CF3E53"
+                      : data.height_category === "Pendek"
+                      ? "#FFB0AA"
+                      : data.height_category === "Sangat Pendek"
+                      ? "#3BC6BE"
+                      : data.height_category === "Tinggi"
+                      ? "#00626D"
+                      : "#000000",
+                  label: data.height_category,
+                  value: data.total,
+                  percentage: data.percentage,
+                })
+              )}
               title={"TB/U"}
             />
             <Progress
-              data={[
-                {
-                  color: "#CF3E53",
-                  label: "Perempuan",
-                  value: 5500,
-                  percentage: 70,
-                },
-                {
-                  color: "#FFB0AA",
-                  label: "Perempuan",
-                  value: 5500,
-                  percentage: 70,
-                },
-                {
-                  color: "#3BC6BE",
-                  label: "Laki-laki",
-                  value: 3500,
-                  percentage: 30,
-                },
-                {
-                  color: "#00626D",
-                  label: "Laki-laki",
-                  value: 3500,
-                  percentage: 30,
-                },
-              ]}
-              title={"TB/U"}
+              data={MeaserementResult?.data?.weight_per_height.map(
+                (data: any) => ({
+                  color:
+                    data.nutrition_category === "Gizi Baik"
+                      ? "#CF3E53"
+                      : data.nutrition_category === "Gizi Buruk"
+                      ? "#FFB0AA"
+                      : data.nutrition_category === "Gizi Kurang"
+                      ? "#3BC6BE"
+                      : data.nutrition_category === "Gizi Lebih"
+                      ? "#FFDC9A"
+                      : data.nutrition_category === "Obesitas"
+                      ? "#FFB55A"
+                      : data.nutrition_category === "Risiko Gizi Lebih"
+                      ? "#FF8800"
+                      : "#000000",
+                  label: data.nutrition_category,
+                  value: data.total,
+                  percentage: data.percentage,
+                })
+              )}
+              title={"BB/TB"}
             />
           </div>
         </div>
         <div className="col-span-4 rounded-xl border border-[#D6D6D6] h-[300px] py-6 px-8 text-[#505581]">
-          <p className="font-bold text-2xl">Hasil Pengukuran</p>
+          <p className="font-bold text-2xl">Tata Laksana Gizi</p>
+          <div className="mt-[21px]">
+            <Progress
+              data={NutritionGovernance?.data?.weight_lack_mt.map(
+                (data: any) => ({
+                  color:
+                    data.mp_asi_status === "Mendapat MPASI"
+                      ? "#CF3E53"
+                      : data.mp_asi_status === "Tidak Mendapat MPASI"
+                      ? "#3BC6BE"
+                      : "#000000",
+                  label: data.mp_asi_status,
+                  value: data.total,
+                  percentage: data.percentage,
+                })
+              )}
+              title={"Balita BB Kurang Mendapat MT"}
+            />
+            <Progress
+              data={NutritionGovernance?.data?.nutrition_lack_mt.map(
+                (data: any) => ({
+                  color:
+                    data.mp_asi_status === "Mendapat MPASI"
+                      ? "#CF3E53"
+                      : data.mp_asi_status === "Tidak Mendapat MPASI"
+                      ? "#3BC6BE"
+                      : "#000000",
+                  label: data.mp_asi_status,
+                  value: data.total,
+                  percentage: data.percentage,
+                })
+              )}
+              title={"Balita Gizi Kurang Mendapat MT"}
+            />
+            <Progress
+              data={NutritionGovernance?.data?.referred_stunting.map(
+                (data: any) => ({
+                  color:
+                    data.referring_status === "Dirujuk"
+                      ? "#CF3E53"
+                      : data.referring_status === "Tidak Dirujuk"
+                      ? "#3BC6BE"
+                      : "#000000",
+                  label: data.referring_status,
+                  value: data.total,
+                  percentage: data.percentage,
+                })
+              )}
+              title={"Balita Stunting Dirujuk"}
+            />
+            <Progress
+              data={NutritionGovernance?.data?.balita_get_vit_a.map(
+                (data: any) => ({
+                  color:
+                    data.status_vit_a === "Mendapatkan Vitamin A"
+                      ? "#CF3E53"
+                      : data.status_vit_a === "Tidak Mendapatkan Vitamin A"
+                      ? "#3BC6BE"
+                      : "#000000",
+                  label: data.status_vit_a,
+                  value: data.total,
+                  percentage: data.percentage,
+                })
+              )}
+              title={"Balita Mendapat Vitamin A"}
+            />
+          </div>
+        </div>
+        {/* <div className="col-span-4 rounded-xl border border-[#D6D6D6] h-[300px] py-6 px-8 text-[#505581]">
+          <p className="font-bold text-2xl">Indikator Lainnya</p>
           <div className="mt-[21px]">
             <Progress
               data={[
@@ -915,116 +983,7 @@ export default function BayiBalita() {
               title={"TB/U"}
             />
           </div>
-        </div>
-        <div className="col-span-4 rounded-xl border border-[#D6D6D6] h-[300px] py-6 px-8 text-[#505581]">
-          <p className="font-bold text-2xl">Hasil Pengukuran</p>
-          <div className="mt-[21px]">
-            <Progress
-              data={[
-                {
-                  color: "#CF3E53",
-                  label: "Perempuan",
-                  value: 5500,
-                  percentage: 70,
-                },
-                {
-                  color: "#3BC6BE",
-                  label: "Laki-laki",
-                  value: 3500,
-                  percentage: 30,
-                },
-              ]}
-              title={"Kenaikan Berat Badan"}
-            />
-            <Progress
-              data={[
-                {
-                  color: "#CF3E53",
-                  label: "Perempuan",
-                  value: 5500,
-                  percentage: 70,
-                },
-                {
-                  color: "#FFB0AA",
-                  label: "Perempuan",
-                  value: 5500,
-                  percentage: 70,
-                },
-                {
-                  color: "#3BC6BE",
-                  label: "Laki-laki",
-                  value: 3500,
-                  percentage: 30,
-                },
-                {
-                  color: "#FFB0AA",
-                  label: "Laki-laki",
-                  value: 3500,
-                  percentage: 30,
-                },
-              ]}
-              title={"BB/U"}
-            />
-            <Progress
-              data={[
-                {
-                  color: "#CF3E53",
-                  label: "Perempuan",
-                  value: 5500,
-                  percentage: 70,
-                },
-                {
-                  color: "#FFB0AA",
-                  label: "Perempuan",
-                  value: 5500,
-                  percentage: 70,
-                },
-                {
-                  color: "#3BC6BE",
-                  label: "Laki-laki",
-                  value: 3500,
-                  percentage: 30,
-                },
-                {
-                  color: "#00626D",
-                  label: "Laki-laki",
-                  value: 3500,
-                  percentage: 30,
-                },
-              ]}
-              title={"TB/U"}
-            />
-            <Progress
-              data={[
-                {
-                  color: "#CF3E53",
-                  label: "Perempuan",
-                  value: 5500,
-                  percentage: 70,
-                },
-                {
-                  color: "#FFB0AA",
-                  label: "Perempuan",
-                  value: 5500,
-                  percentage: 70,
-                },
-                {
-                  color: "#3BC6BE",
-                  label: "Laki-laki",
-                  value: 3500,
-                  percentage: 30,
-                },
-                {
-                  color: "#00626D",
-                  label: "Laki-laki",
-                  value: 3500,
-                  percentage: 30,
-                },
-              ]}
-              title={"TB/U"}
-            />
-          </div>
-        </div>
+        </div> */}
       </div>
       <SectionHeader title="Analisis Bayi/Balita" />
       <div className="mt-5 grid grid-cols-12 gap-6 w-full">
@@ -1034,7 +993,9 @@ export default function BayiBalita() {
               <div className="absolute top-3 right-3">
                 <IoMdInformationCircleOutline size={24} color="white" />
               </div>
-              <p className="text-4xl font-normal">11,037,458</p>
+              <p className="text-4xl font-normal">
+                {formatNumber(VisitationAnalytic?.data?.total_visitation)}
+              </p>
               <p className="text-xl font-normal">Kunjungan</p>
             </div>
             <div className="rounded-2xl row-span-7 border border-[#D6D6D6] px-4 py-8 flex flex-col justify-between">
@@ -1043,17 +1004,46 @@ export default function BayiBalita() {
               </p>
               <div className="grid grid-cols-12 gap-3">
                 <div className="col-span-4 text-center">
-                  <p className="text-[#3BC6BE] font-semibold mb-7">Laki-laki</p>
-                  <p className="font-semibold text-[#616161]">34,753,536</p>
-                  <p className="font-light text-[#616161]">(41.5%)</p>
+                  <p className="text-[#3BC6BE] font-semibold mb-7">
+                    {VisitationAnalytic?.data?.referred_stunting?.[0]?.gender}
+                  </p>
+                  <p className="font-semibold text-[#616161]">
+                    {" "}
+                    {formatNumber(
+                      VisitationAnalytic?.data?.referred_stunting?.[0]
+                        ?.total_visitation
+                    )}
+                  </p>
+                  <p className="font-light text-[#616161]">
+                    ({" "}
+                    {formatNumber(
+                      VisitationAnalytic?.data?.referred_stunting?.[0]
+                        ?.percentage
+                    )}
+                    %)
+                  </p>
                 </div>
                 <div className="col-span-4 h-full">
                   <GraphEcharts graphOptions={chartOptions} />
                 </div>
                 <div className="col-span-4 text-center">
-                  <p className="text-[#CF3E53] font-semibold mb-7">Perempuan</p>
-                  <p className="font-semibold text-[#616161]">34,753,536</p>
-                  <p className="font-light text-[#616161]">(41.5%)</p>
+                  <p className="text-[#CF3E53] font-semibold mb-7">
+                    {VisitationAnalytic?.data?.referred_stunting?.[1]?.gender}
+                  </p>
+                  <p className="font-semibold text-[#616161]">
+                    {formatNumber(
+                      VisitationAnalytic?.data?.referred_stunting?.[1]
+                        ?.total_visitation
+                    )}
+                  </p>
+                  <p className="font-light text-[#616161]">
+                    (
+                    {formatNumber(
+                      VisitationAnalytic?.data?.referred_stunting?.[1]
+                        ?.percentage
+                    )}
+                    %)
+                  </p>
                 </div>
               </div>
             </div>
@@ -1089,7 +1079,7 @@ export default function BayiBalita() {
         <GraphEcharts
           graphOptions={graphOptions1([
             {
-              name: "Direct",
+              name: "Klinik",
               type: "bar",
               stack: "total",
               barWidth: "60%",
@@ -1102,7 +1092,7 @@ export default function BayiBalita() {
               data: rawData[0],
             },
             {
-              name: "Mail Ad",
+              name: "Praktek Mandiri",
               type: "bar",
               stack: "total",
               barWidth: "60%",
@@ -1115,7 +1105,7 @@ export default function BayiBalita() {
               data: rawData[1],
             },
             {
-              name: "Affiliate Ad",
+              name: "Puskesmas",
               type: "bar",
               stack: "total",
               barWidth: "60%",
@@ -1128,7 +1118,7 @@ export default function BayiBalita() {
               data: rawData[2],
             },
             {
-              name: "Video Ad",
+              name: "Rumah Sakit",
               type: "bar",
               stack: "total",
               barWidth: "60%",
