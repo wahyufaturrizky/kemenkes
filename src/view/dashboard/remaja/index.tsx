@@ -26,6 +26,7 @@ import {
   useGetSmokingQuery,
   useGetVisionQuery,
 } from "@/lib/services/remaja";
+import { formatNumber } from "@/helpers";
 export default function Remaja() {
   const [activeTab, setActiveTab] = useState("Chart View");
 
@@ -129,7 +130,7 @@ export default function Remaja() {
   // }));
 
   // console.log(CigaretteSmoking, "isi data");
-
+  const isBrowser = typeof window !== "undefined";
   const chartOptions: any = {
     tooltip: {
       trigger: "item",
@@ -143,20 +144,20 @@ export default function Remaja() {
       {
         name: "Access From",
         type: "pie",
-        top: "-180px",
+        top: isBrowser && window?.innerWidth >= 2500 ? "-120px" : "-180px",
         radius: ["40%", "50%"],
         avoidLabelOverlap: false,
         label: {
           show: false,
           position: "center",
         },
-        emphasis: {
-          label: {
-            show: true,
-            fontSize: 40,
-            fontWeight: "bold",
-          },
-        },
+        // emphasis: {
+        //   label: {
+        //     show: true,
+        //     fontSize: 40,
+        //     fontWeight: "bold",
+        //   },
+        // },
         labelLine: {
           show: false,
         },
@@ -170,6 +171,12 @@ export default function Remaja() {
 
   const chartOptions2: any = {
     color: ["#006A65"],
+    tooltip: {
+      trigger: "item",
+      formatter: function (params: any) {
+        return `${params.marker} ${params.name}: ${formatNumber(params.value)}`;
+      },
+    },
     xAxis: {
       type: "category",
       data: dataMonth.map((data: any) => data.label.slice(0, 3)),
@@ -282,7 +289,7 @@ export default function Remaja() {
       </div>
       <SectionHeader title="Jumlah Anak Usia Sekolah dan Remaja Mendapatkan Layanan Kesehatan" />
       <div className="mt-5 grid grid-cols-12 gap-6 w-full">
-        <div className="h-[388px] lg:col-span-5 col-span-12">
+        <div className="h-[600px] lg:col-span-5 col-span-12">
           <div className="grid grid-rows-12 h-full gap-6">
             <div className="rounded-2xl row-span-5 bg-[#006A65] text-white pl-10 flex flex-col justify-center relative">
               <div className="absolute top-3 right-3">
@@ -303,7 +310,7 @@ export default function Remaja() {
                   <p className="font-semibold text-[#616161]">34,753,536</p>
                   <p className="font-light text-[#616161]">(41.5%)</p>
                 </div>
-                <div className="col-span-4">
+                <div className="col-span-4 h-[100px]">
                   <GraphEcharts graphOptions={chartOptions} />
                 </div>
                 <div className="col-span-4 text-center">
@@ -333,7 +340,7 @@ export default function Remaja() {
             </div>
           </div>
         </div>
-        <div className="h-[388px] lg:col-span-7 col-span-12 rounded-2xl border border-[#D6D6D6] py-8 pl-8 pr-2">
+        <div className="h-[600px] lg:col-span-7 col-span-12 rounded-2xl border border-[#D6D6D6] py-8 pl-8 pr-2">
           <div className="flex justify-between">
             <p className="font-semibold text-xl">
               Tren Bulanan Jumlah{" "}
@@ -346,13 +353,13 @@ export default function Remaja() {
               <Select placeholder="Bulanan" />
             </div>
           </div>
-          <div className="relative h-[230px]">
-            <p className="[writing-mode:vertical-rl] [transform:rotate(180deg)] absolute top-20 left-4 font-semibold text-xs text-[#616161]">
+          <div className="relative h-[full] ">
+            <p className="[writing-mode:vertical-rl] [transform:rotate(180deg)] absolute top-28 left-4 font-semibold text-xs text-[#616161]">
               Kunjungan [juta]
             </p>
-            <GraphEcharts graphOptions={chartOptions2} opts={{ height: 250 }} />
+            <GraphEcharts graphOptions={chartOptions2} opts={{ height: 400 }} />
           </div>
-          <div className="w-full flex justify-end">
+          <div className="w-full flex justify-end items-end mt-20">
             <DownloadButton text="Unduh Excel" />
           </div>
         </div>
