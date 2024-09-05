@@ -244,7 +244,7 @@ export default function IncPnc() {
                 subtitle="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
               />
               <div className="bg-white shadow-md mt-5 rounded-2xl p-[21px]">
-                <div className="w-[335px]">
+                <div className="w-[335px] mb-4">
                   <Select placeholder="Indikator Ibu Bersalin & Nifas" />
                 </div>
                 <div className="h-[650px]">
