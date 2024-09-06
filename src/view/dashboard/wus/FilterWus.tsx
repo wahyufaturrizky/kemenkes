@@ -106,7 +106,7 @@ export const Filter1: React.FC<FilterProps2> = ({ filterState, dataWus }) => {
             onChange={(e: any) => {
               setFilter({
                 ...filter,
-                status_type_daerah: e?.value ?? "t1",
+                status_type_daerah: e?.value ?? "t2plus",
               });
             }}
             value={
@@ -236,7 +236,7 @@ export const Filter2: React.FC<FilterProps2> = ({ filterState, dataWus }) => {
             onChange={(e: any) => {
               setFilter({
                 ...filter,
-                status_type_kumulatif: e?.value ?? "t1",
+                status_type_kumulatif: e?.value ?? "t2plus",
               });
             }}
             value={
