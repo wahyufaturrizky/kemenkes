@@ -27,6 +27,7 @@ import {
   useGetVisionQuery,
 } from "@/lib/services/remaja";
 import { formatNumber } from "@/helpers";
+import { Filter1 } from "./filterRemaja";
 export default function Remaja() {
   const [activeTab, setActiveTab] = useState("Chart View");
 
@@ -573,7 +574,7 @@ export default function Remaja() {
       </div>
       <SectionHeader title="Capaian Skrining Kesehatan Usia Sekolah dan Remaja" />
       <div className="w-full h-[600px]">
-        <div className="flex justify-between items-center mt-5">
+        {/* <div className="flex justify-between items-center mt-5">
           <div>
             <div className="mb-3">
               <DownloadButton text="Unduh Excel" />
@@ -608,7 +609,8 @@ export default function Remaja() {
               )}
             </button>
           </div>
-        </div>
+        </div> */}
+        <Filter1 filterState={filterState} data={[]} />
         <GraphEcharts
           graphOptions={graphOptions1(
             [

@@ -858,6 +858,22 @@ export default function BayiBalita() {
               title={"Balita Stunting Dirujuk"}
             />
             <Progress
+              data={NutritionGovernance?.data?.malnutrition_gets_treatment.map(
+                (data: any) => ({
+                  color:
+                    data.treatment_status === "Dapat TataLaksana"
+                      ? "#CF3E53"
+                      : data.treatment_status === "Tidak Dapat Tatalaksana"
+                      ? "#3BC6BE"
+                      : "#000000",
+                  label: data.treatment_status,
+                  value: data.total,
+                  percentage: data.percentage,
+                })
+              )}
+              title={"Balita Gizi buruk Mendapat Tatalaksana"}
+            />
+            <Progress
               data={NutritionGovernance?.data?.balita_get_vit_a.map(
                 (data: any) => ({
                   color:
