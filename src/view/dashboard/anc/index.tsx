@@ -46,6 +46,8 @@ import { Select } from "@/components";
 // import MapComponent from "@/components/map-component";
 import dynamic from "next/dynamic";
 import "leaflet/dist/leaflet.css";
+import MapAnc2 from "@/components/mapAnc2";
+import { Filter1 } from "./FilterAnc";
 
 const MapComponent = dynamic(() => import("@/components/map-component"), {
   ssr: false,
@@ -79,13 +81,15 @@ export default function Anc() {
     wilayah2: "PROVINSI",
     wilayah_name: "Provinsi",
     kewilayahan_type: 0,
-    tipe_vaksin: "bias",
-    nama_vaksin: "BIAS  Lengkap",
-    tipe_vaksin2: "bias",
-    tipe_vaksin3: "bias",
-    tipe_vaksin4: "bias",
-    tipe_vaksin5: "bias",
-    tren_type: "kumulatif",
+    indikator: "Indikator Program",
+    subIndikator: "Persentase Ibu Hamil K1",
+    // tipe_vaksin: "bias",
+    // nama_vaksin: "BIAS  Lengkap",
+    // tipe_vaksin2: "bias",
+    // tipe_vaksin3: "bias",
+    // tipe_vaksin4: "bias",
+    // tipe_vaksin5: "bias",
+    // tren_type: "kumulatif",
   });
   const [filter] = filterState;
   const optionQuery = {
@@ -832,12 +836,13 @@ export default function Anc() {
           <div className="w-full mt-5 p-4 border border-[#D6D6D6] rounded-2xl">
             <div className="flex justify-between items-center mb-5">
               <div className="flex gap-6 items-center">
-                <div className="w-[400px]">
+                {/* <div className="w-[400px]">
                   <Select placeholder="Pilih Indikator" />
                 </div>
                 <div className="w-[400px]">
                   <Select placeholder="Pilih Indikator" />
-                </div>
+                </div> */}
+                <Filter1 filterState={filterState} />
               </div>
               <div>
                 <button className="border border-[#00B1A9] text-[#00B1A9] px-2 py-1 rounded-md">
@@ -847,7 +852,8 @@ export default function Anc() {
             </div>
             {/* <Map /> */}
             <div className="h-[470px]">
-              <MapComponent />
+              {/* <MapComponent /> */}
+              <MapAnc2 />
             </div>
           </div>
           {/* End of peta sebaran */}

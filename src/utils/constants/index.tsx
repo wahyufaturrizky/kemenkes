@@ -950,3 +950,128 @@ export const incGraphOptions1 = [
   { label: "Ibu Nifas KF4", pct: 90 },
   { label: "Ibu Bersalin di Faskes", pct: 95 },
 ];
+
+export const indikatorAnc = [
+  {
+    label: "Indikator Program",
+    value: "Indikator Program",
+  },
+  {
+    label: "Indikator Mordibilitas",
+    value: "Indikator Mordibilitas",
+  },
+];
+export const subIndikatorAnc = [
+  {
+    label: "Persentase Ibu Hamil K1",
+    value: "Persentase Ibu Hamil K1",
+  },
+  {
+    label: "Persentase Ibu Hamil K1 Murni",
+    value: "Persentase Ibu Hamil K1 Murni",
+  },
+  {
+    label: "Persentase Ibu Hamil yang sudah melakukan K1 Akses",
+    value: "Persentase Ibu Hamil yang sudah melakukan K1 Akses",
+  },
+  {
+    label: "Persentase Ibu Hamil yang sudah melakukan K1 dengan USG",
+    value: "Persentase Ibu Hamil yang sudah melakukan K1 dengan USG",
+  },
+  {
+    label: "Persentase Ibu Hamil yang sudah melakukan K4",
+    value: "Persentase Ibu Hamil yang sudah melakukan K4",
+  },
+  {
+    label: "Persentase Ibu Hamil yang sudah melakukan K5",
+    value: "Persentase Ibu Hamil yang sudah melakukan K5",
+  },
+  {
+    label: "Persentase Ibu Hamil yang sudah melakukan K5 dengan USG",
+    value: "Persentase Ibu Hamil yang sudah melakukan K5 dengan USG",
+  },
+  {
+    label: "Persentase Ibu Hamil yang sudah melakukan K6",
+    value: "Persentase Ibu Hamil yang sudah melakukan K6",
+  },
+  {
+    label: "Persentase Ibu Hamil KEK",
+    value: "Persentase Ibu Hamil KEK",
+  },
+  {
+    label: "Persentase Ibu Hamil KEK mendapat tambahan asupan gizi",
+    value: "Persentase Ibu Hamil KEK mendapat tambahan asupan gizi",
+  },
+  {
+    label: "Persentase Ibu Hamil KEK mengonsumsi tambahan asupan gizi",
+    value: "Persentase Ibu Hamil KEK mengonsumsi tambahan asupan gizi",
+  },
+  {
+    label: "Persentase Ibu Hamil KEK mengonsumsi tambahan asupan gizi",
+    value: "Persentase Ibu Hamil KEK mengonsumsi tambahan asupan gizi",
+  },
+  {
+    label:
+      "Persentase Ibu Hamil KEK mendapat PMT Lokal dengan penambahan berat badan",
+    value:
+      "Persentase Ibu Hamil KEK mendapat PMT Lokal dengan penambahan berat badan",
+  },
+  {
+    label:
+      "Persentase Ibu Hamil melakukan pemeriksaan dengan USG dengan Kecil Massa Kehamilan (KMK) di trimester 3(K4/K5/K6)",
+    value:
+      "Persentase Ibu Hamil melakukan pemeriksaan dengan USG dengan Kecil Massa Kehamilan (KMK) di trimester 3(K4/K5/K6)",
+  },
+  {
+    label:
+      "Persentase Ibu Hamil Kecil Massa Kehamilan (KMK) di trimester 3 yang dirujuk",
+    value:
+      "Persentase Ibu Hamil Kecil Massa Kehamilan (KMK) di trimester 3 yang dirujuk",
+  },
+  {
+    label:
+      "Persentase Ibu Hamil Konsumsi TTD selama kehamilan minimal 90 tablet",
+    value:
+      "Persentase Ibu Hamil Konsumsi TTD selama kehamilan minimal 90 tablet",
+  },
+  {
+    label: "Persentase Ibu Hamil Diperiksa HB",
+    value: "Persentase Ibu Hamil Diperiksa HB",
+  },
+  {
+    label: "Persentase Ibu Hamil Anemia Ringan yang mendapat terapi TTD Oral",
+    value: "Persentase Ibu Hamil Anemia Ringan yang mendapat terapi TTD Oral",
+  },
+  {
+    label: "Persentase Ibu Hamil Anemia Ringan yang mengalami kenaikan HB",
+    value: "Persentase Ibu Hamil Anemia Ringan yang mengalami kenaikan HB",
+  },
+  {
+    label: "Persentase Ibu Hamil Anemia Ringan yang mengalami kenaikan HB",
+    value: "Persentase Ibu Hamil Anemia Ringan yang mengalami kenaikan HB",
+  },
+  {
+    label: "Persentase Ibu Hamil Anemia Sedang dan Berat yang dirujuk ke FKRTL",
+    value: "Persentase Ibu Hamil Anemia Sedang dan Berat yang dirujuk ke FKRTL",
+  },
+  {
+    label: "Persentase Ibu Hamil Memiliki Buku KIA",
+    value: "Persentase Ibu Hamil Memiliki Buku KIA",
+  },
+  {
+    label: "Persentase Ibu Hamil Mengikuti Kelas Ibu Hamil minimal 4x",
+    value: "Persentase Ibu Hamil Mengikuti Kelas Ibu Hamil minimal 4x",
+  },
+  {
+    label: "Persentase Ibu Hamil 4T",
+    value: "Persentase Ibu Hamil 4T",
+  },
+  {
+    label: "Persentase Ibu Hamil mendapatkan Td",
+    value: "Persentase Ibu Hamil mendapatkan Td",
+  },
+  {
+    label: "Persentase Ibu Hamil 10T",
+    value: "Persentase Ibu Hamil 10T",
+  },
+];

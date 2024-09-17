@@ -30,6 +30,8 @@ import {
   useGetScoreCardQuery,
 } from "@/lib/services/pnc";
 import FilterSection from "./FilterSection";
+import MapEChartsAnc from "@/components/map-echarts-anc";
+import MapAnc2 from "@/components/mapAnc2";
 
 const MapComponent = dynamic(() => import("@/components/map-component"), {
   ssr: false,
@@ -234,7 +236,8 @@ export default function IncPnc() {
                 subtitle="Peta sebarna capaian indikator ibu bersalin dan ibu nifas"
               />
               <div className="mt-5 rounded-xl border border-[#D6D6D6] p-[13px] h-[550px]">
-                <MapComponent />
+                {/* <MapComponent /> */}
+                <MapAnc2 />
               </div>
             </section>
 
