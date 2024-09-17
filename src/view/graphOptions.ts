@@ -19,6 +19,7 @@ export const graphOptions1 = (series: any[], legend: any[]) => {
       data: serie.data.slice().reverse(),
     };
   });
+
   const option: EChartsOptionProps = {
     color: ["#00B1A9"],
     grid: { containLabel: true },
@@ -39,6 +40,10 @@ export const graphOptions1 = (series: any[], legend: any[]) => {
     yAxis: {
       type: "category",
       data: reversedLegend,
+      axisLine: {
+        onZero: false,
+      },
+      offset: 8,
     },
     xAxis: {
       type: "value",
@@ -48,8 +53,10 @@ export const graphOptions1 = (series: any[], legend: any[]) => {
     },
     series: reversedSeries,
   };
+
   return option;
 };
+
 export const graphOptions2 = (series: any[]) => {
   const option: EChartsOptionProps = {
     color: ["#EAAA08", "#8ECCFF", "#00B1A9"],

@@ -123,15 +123,27 @@ const FilterSummaryImmunization: React.FC<FilterProps> = ({ filterState }) => {
               "provinsi"
             )}
             onChange={(e: any) => {
-              setFilter({
-                ...filter,
-                wilayah: 'province',
-                provinsi: e?.value,
-                kabkota: "",
-                kecamatan: "",
-                jenis_sarana: "",
-                faskes: "",
-              });
+              if (e?.value) {
+                setFilter({
+                  ...filter,
+                  wilayah: "province",
+                  provinsi: e?.value,
+                  kabkota: "",
+                  kecamatan: "",
+                  jenis_sarana: "",
+                  faskes: "",
+                });
+              } else {
+                setFilter({
+                  ...filter,
+                  wilayah: "All",
+                  provinsi: "",
+                  kabkota: "",
+                  kecamatan: "",
+                  jenis_sarana: "",
+                  faskes: "",
+                });
+              }
             }}
             value={
               filter.provinsi
@@ -154,14 +166,25 @@ const FilterSummaryImmunization: React.FC<FilterProps> = ({ filterState }) => {
               "kabkota"
             )}
             onChange={(e: any) => {
-              setFilter({
-                ...filter,
-                wilayah: 'city',
-                kabkota: e?.value,
-                kecamatan: "",
-                jenis_sarana: "",
-                faskes: "",
-              });
+              if (e?.value) {
+                setFilter({
+                  ...filter,
+                  wilayah: "city",
+                  kabkota: e?.value,
+                  kecamatan: "",
+                  jenis_sarana: "",
+                  faskes: "",
+                });
+              } else {
+                setFilter({
+                  ...filter,
+                  wilayah: "province",
+                  kabkota: "",
+                  kecamatan: "",
+                  jenis_sarana: "",
+                  faskes: "",
+                });
+              }
             }}
             value={
               filter.kabkota
@@ -184,13 +207,23 @@ const FilterSummaryImmunization: React.FC<FilterProps> = ({ filterState }) => {
               "kecamatan"
             )}
             onChange={(e: any) => {
-              setFilter({
-                ...filter,
-                wilayah: 'district',
-                kecamatan: e?.value,
-                jenis_sarana: "",
-                faskes: "",
-              });
+              if (e?.value) {
+                setFilter({
+                  ...filter,
+                  wilayah: "district",
+                  kecamatan: e?.value,
+                  jenis_sarana: "",
+                  faskes: "",
+                });
+              } else {
+                setFilter({
+                  ...filter,
+                  wilayah: "city",
+                  kecamatan: "",
+                  jenis_sarana: "",
+                  faskes: "",
+                });
+              }
             }}
             value={
               filter.kecamatan
