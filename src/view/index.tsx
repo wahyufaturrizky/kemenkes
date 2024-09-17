@@ -8,8 +8,8 @@ import { Banner, BannerHighlightFooter, BannerText, GraphEcharts, Navbar, Sideba
 import { ChildSummaryImmunization, FilterSummaryImmunization, GraphAddOn, GraphRoutineImmunizationCoverageTrend, RoutineImmunizationCoverageTrendGraph, SummaryImmunization, TotalSummaryImmunization } from "@/view/home";
 import { Filter1, Filter2 } from "@/view/Filter";
 import { graphOptions1, graphOptions2 } from "@/view/graphOptions";
-import { dataMonths, dataTabBaduta, trendTypeOptions } from "@/utils/constants";
-import { formatNumber, standardOptions } from "@/helpers";
+import { dataMonths, dataTabBaduta, regionOptions, trendTypeOptions } from "@/utils/constants";
+import { formatNumber, regionParser, standardOptions } from "@/helpers";
 import { openSans } from "@/assets/fonts";
 import { FiPlus } from "react-icons/fi";
 import { useRouter } from "next/navigation";
@@ -51,7 +51,7 @@ const HomeView = () => {
             ? filter.provinsi
             : "All",
     kewilayahan_type: filter.kewilayahan_type
-    
+
   };
 
   const filterTotalUniqueQuery = {
@@ -74,7 +74,7 @@ const HomeView = () => {
   }
   const filterChart2Query = {
     ...dataQuery,
-    region_type: filter.wilayah1 !== 'All' ? filter.wilayah1 : filter.wilayah,
+    region_type: filter.wilayah1 !== 'All' ? filter.wilayah1 : regionParser(regionOptions, filter.wilayah),
     vaccine_type: filter.tipe_vaksin1
   }
 
@@ -458,7 +458,6 @@ const HomeView = () => {
                             900
                     }}
                     graphOptions={graphOptions1([{
-                      // @ts-ignore
                       name: "Target Cakupan per Daerah = 100%",
                       data:
                         (
@@ -486,10 +485,18 @@ const HomeView = () => {
                       name: "Target",
                       type: "line",
                       color: "#CD4243",
-                      data: (
-                        getTotalChartProvinceQuery?.data ||
-                        []
-                      )?.map((r: any) => r?.threshold) || [],
+                      data:
+                        (
+                          getTotalChartProvinceQuery?.data ||
+                          []
+                        )?.map((r: any) => r?.threshold) || [],
+                      label: {
+                        show: true,
+                        precision: 1,
+                        position: "right",
+                        formatter: (params: any) =>
+                          `${params.value}% (${formatNumber(((getTotalChartProvinceQuery?.data)?.map((r: any) => parseFloat(r?.threshold) / parseFloat(r?.pct) * parseFloat(r?.total))?.reverse())[params?.dataIndex])})`,
+                      },
                     }
                     ]
                       , (
