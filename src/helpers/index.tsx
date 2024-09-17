@@ -77,3 +77,14 @@ export function removeEmptyValue(object: object) {
   });
   return value;
 }
+
+export function regionParser(
+  opts: Array<{ label: string, value: string }>,
+  wilayah1: string
+): string {
+  const idx = opts.findIndex(opt => opt.value === wilayah1);
+  if (idx !== -1 && idx < opts.length - 1) {
+    return opts[idx + 1].value
+  }
+  return "All";
+}
