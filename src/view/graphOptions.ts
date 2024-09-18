@@ -39,6 +39,10 @@ export const graphOptions1 = (series: any[], legend: any[]) => {
     yAxis: {
       type: "category",
       data: reversedLegend,
+      axisLine: {
+        onZero: false,
+      },
+      offset: 8,
     },
     xAxis: {
       type: "value",
