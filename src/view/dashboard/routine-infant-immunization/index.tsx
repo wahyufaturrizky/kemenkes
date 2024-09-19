@@ -102,8 +102,7 @@ import ChildSummaryImmunizationZeroDose from "@/view/home/components/ChildSummar
 
 const RoutineBabyImmunization = () => {
   const filterState = useState({
-    tahun: 2023,
-    // tahun: new Date().getFullYear(),
+    tahun: new Date().getFullYear(),
     bulan: dataMonths.find((r, i) => i === new Date().getMonth())?.value,
     provinsi: "",
     kabkota: "",
