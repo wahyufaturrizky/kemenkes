@@ -22,7 +22,7 @@ const GraphECharts: React.FC<GraphEChartsProps> = ({ graphOptions, opts }) => {
   useEffect(() => {
     if (graphOptions.series) setOption(graphOptions);
   }, [graphOptions]);
-  return <ReactECharts option={option} opts={opts} />;
+  return <ReactECharts option={option} opts={opts} style={{ height: '100%', width: '100%' }} />;
 };
 
 export default GraphECharts;

@@ -35,6 +35,15 @@ export const graphOptions3 = (series: any[], legend: any[]) => {
     xAxis: {
       type: "category",
       data: upperCaseLegend,
+      axisLine: {
+        onZero: false,
+      },
+      offset: 8,
+      axisLabel: {
+        show: true,
+        interval: 0,
+        rotate: 45,
+      },
       // axisLabel: {
       //   rotate: 90, // Kurangi rotasi label sumbu X agar lebih terbaca
       //   // interval: 0, // Atur interval label sumbu X (0 menampilkan semua label)
@@ -78,12 +87,18 @@ export const graphOptions3 = (series: any[], legend: any[]) => {
 };
 
 export const graphOptions4 = (series: any[], xData: any[]) => {
-  const filteredSeries = series?.filter((s) => s.name !== "Total");
+  const filteredSeries = series?.filter((s) => !s.name.includes("Total"));
   const upperCaseLegend = (xData || [])?.map((item) => item.toUpperCase());
 
   const option: EChartsOptionProps = {
     color: ["#00B1A9", "#FAC515"],
-    grid: { containLabel: true },
+    grid: {
+      top: '5%',
+      bottom: '15%',
+      left: '5%',
+      right: '5%',
+      containLabel: true
+    },
     tooltip: {
       trigger: "axis",
       formatter: function (params: any) {
@@ -91,21 +106,16 @@ export const graphOptions4 = (series: any[], xData: any[]) => {
         params.forEach((item: any) => {
           if (item.seriesName === "Total") {
             // Menggunakan data asli untuk "Total" dalam tooltip
-            const originalData = series.find((serie) => serie.name === "Total")
-              .data[params[0].dataIndex];
-            tooltipContent += `${item.marker} ${item.seriesName
-              } <span style="float: right;"><strong>${formatNumber(
-                originalData
-              )}</strong></span><br/>`;
+            const originalData = series.find((serie) => serie.name === "Total").data[params[0].dataIndex];
+            tooltipContent += `${item.marker} ${item.seriesName} <span style="float: right;"><strong>${formatNumber(originalData)}</strong></span><br/>`;
+          } else if (item.seriesName.includes("Total")) {
+            tooltipContent += `${item.marker} ${item.seriesName} <span style="float: right;"><strong>${formatNumber(item.value)}</strong></span><br/>`;
           } else if (item.seriesName === "Cakupan") {
             // Menggunakan format untuk "Cakupan"
             tooltipContent += `${item.marker} ${item.seriesName} <span style="float: right;"><strong>${item.value}</strong></span><br/>`;
           } else {
             // Menggunakan format persentase untuk lainnya
-            tooltipContent += `${item.marker} ${item.seriesName
-              } <span style="float: right;"><strong>${formatNumber(
-                item.value
-              )}%</strong></span><br/>`;
+            tooltipContent += `${item.marker} ${item.seriesName} <span style="float: right;"><strong>${formatNumber(item.value)}%</strong></span><br/>`;
           }
         });
         tooltipContent += `</div>`;
@@ -128,13 +138,37 @@ export const graphOptions4 = (series: any[], xData: any[]) => {
         rotate: 45,
       },
     },
-    yAxis: {
-      type: "value",
-      axisLabel: {
-        formatter: (value: any) => `${formatNumber(value)}%`
+    yAxis: [
+      {
+        type: "value",
+        position: "left",
+        axisLabel: {
+          formatter: (value: any) => `${formatNumber(value)}`
+        },
       },
-    },
-    series: series,
+      {
+        type: "value",
+        position: "right",
+        axisLabel: {
+          formatter: (value: any) => `${formatNumber(value)}%`
+        },
+        min: 0,
+        max: 100,
+        // Menyembunyikan sumbu y kedua
+      },
+    ],
+    series: series.map((s) => {
+      if (s.name.includes("Total")) {
+        return {
+          ...s,
+          yAxisIndex: 1, // Menggunakan sumbu y pertama untuk "Cakupan"
+        };
+      }
+      return {
+        ...s,
+        yAxisIndex: 0, // Menggunakan sumbu y kedua untuk persentase
+      };
+    }),
   };
   return option;
 };

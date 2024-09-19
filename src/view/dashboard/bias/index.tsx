@@ -956,10 +956,8 @@ const Bias = () => {
                         />
                       }
                       variant="private"
-                      filterState={filterState}
                       filterComp={
                         <Filter3
-                          filterState={filterState}
                           dataBias={getChartScope?.data}
                         />
                       }
