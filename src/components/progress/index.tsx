@@ -1,3 +1,4 @@
+import { formatNumber } from "@/helpers";
 import React, { useState, useEffect, useRef, MouseEvent } from "react";
 import { IoMdInformationCircleOutline } from "react-icons/io";
 
@@ -33,7 +34,9 @@ const Progress: React.FC<ProgressProps> = ({ data, styles, title }) => {
     data: DataSection,
     event: MouseEvent<HTMLDivElement>
   ) => {
-    const tooltipContent = `${data.label}: ${data.value} (${data.percentage}%)`;
+    const tooltipContent = `${data.label}: ${formatNumber(
+      data.value
+    )} (${formatNumber(data.percentage)}%)`;
 
     if (progressBarRef.current) {
       const progressBarRect = progressBarRef.current.getBoundingClientRect();
@@ -93,7 +96,7 @@ const Progress: React.FC<ProgressProps> = ({ data, styles, title }) => {
             display: "flex",
           }}
         >
-          {dataSections.map((section, index) => (
+          {dataSections?.map((section, index) => (
             <div
               key={index}
               style={{

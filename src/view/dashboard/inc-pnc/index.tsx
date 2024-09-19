@@ -25,8 +25,13 @@ import IndividualData from "./IndividualData";
 // import MapComponent from "@/components/map-component";
 import dynamic from "next/dynamic";
 import "leaflet/dist/leaflet.css";
-import { useGetScoreCardQuery } from "@/lib/services/pnc";
+import {
+  useGetScopePostfarumQuery,
+  useGetScoreCardQuery,
+} from "@/lib/services/pnc";
 import FilterSection from "./FilterSection";
+import MapEChartsAnc from "@/components/map-echarts-anc";
+import MapAnc2 from "@/components/mapAnc2";
 
 const MapComponent = dynamic(() => import("@/components/map-component"), {
   ssr: false,
@@ -85,7 +90,8 @@ const columns = [
 
 export default function IncPnc() {
   const { data: dataScoreCard, isFetching: isFetchingDataScoreCard } =
-    useGetScoreCardQuery();
+    useGetScoreCardQuery({});
+  const { data: dataScopePostfarum } = useGetScopePostfarumQuery({});
 
   const [data, _setData] = useState(() => [...defaultData]);
 
@@ -230,7 +236,8 @@ export default function IncPnc() {
                 subtitle="Peta sebarna capaian indikator ibu bersalin dan ibu nifas"
               />
               <div className="mt-5 rounded-xl border border-[#D6D6D6] p-[13px] h-[550px]">
-                <MapComponent />
+                {/* <MapComponent /> */}
+                <MapAnc2 />
               </div>
             </section>
 
@@ -240,7 +247,7 @@ export default function IncPnc() {
                 subtitle="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
               />
               <div className="bg-white shadow-md mt-5 rounded-2xl p-[21px]">
-                <div className="w-[335px]">
+                <div className="w-[335px] mb-4">
                   <Select placeholder="Indikator Ibu Bersalin & Nifas" />
                 </div>
                 <div className="h-[650px]">

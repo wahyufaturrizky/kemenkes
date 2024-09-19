@@ -3,14 +3,14 @@ import DataItem from "@/components/data-item";
 import Header from "@/components/header";
 import React, { useEffect, useState } from "react";
 import { FaRegUserCircle } from "react-icons/fa";
-import { IoIosArrowDown, IoIosArrowUp, IoMdPerson } from "react-icons/io";
+import { IoIosArrowDown, IoIosArrowUp } from "react-icons/io";
 import { MdHistory } from "react-icons/md";
 
 interface IndividualDataProps {
   handleBackClick?: () => void;
 }
 
-const IndividualData: React.FC<IndividualDataProps> = ({ handleBackClick }) => {
+const IndividualData: React.FC<IndividualDataProps> = ({ handleBackClick = () => {} }) => {
   const [showIdentitas, setShowIdentitas] = useState(false);
   const [showRiwayatKehamilan, setShowRiwayatKehamilan] = useState(false);
 

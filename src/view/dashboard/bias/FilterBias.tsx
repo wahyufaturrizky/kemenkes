@@ -25,6 +25,10 @@ interface FilterProps {
   dataBias: any;
 }
 
+interface DownloadProps {
+  dataBias: any;
+}
+
 function formatNumberString(numStr: string) {
   // Mengganti koma dengan titik untuk format desimal
   numStr = numStr.replace(",", ".");
@@ -200,7 +204,7 @@ export const Filter2: React.FC<FilterProps> = ({ filterState, dataBias }) => {
     </div>
   );
 };
-export const Filter3: React.FC<FilterProps> = ({ filterState, dataBias }) => {
+export const Filter3: React.FC<DownloadProps> = ({ dataBias }) => {
   const header = dataBias?.map((r: any) => r.vaccine.toUpperCase());
   const pct = dataBias?.map(
     (r: any) => `${r.pct?.toFixed(2).replace(".", ",")} %`
@@ -216,39 +220,9 @@ export const Filter3: React.FC<FilterProps> = ({ filterState, dataBias }) => {
       "Imunisasi pada Anak Usia Sekolah"
     );
   };
-  const [filter, setFilter] = filterState || useState({});
-  const { data: getjenisVaksin } = useGetListVaccineQuery({});
 
   return (
     <div className="flex flex-wrap justify-between items-center gap-4 sm:mt-20 md:mt-0 mb-8">
-      <div className="flex gap-4">
-        <div>
-          <Select
-            placeholder="Jenis Vaksin"
-            options={standardOptions(
-              getjenisVaksin?.data || [],
-              "vaccine_name",
-              "vaccine_id"
-            )}
-            onChange={(e: any) => {
-              setFilter({
-                ...filter,
-                tipe_vaksin3: e?.value ?? "bias",
-              });
-            }}
-            value={
-              filter.tipe_vaksin3
-                ? standardOptions(
-                  getjenisVaksin?.data || [],
-                  "vaccine_name",
-                  "vaccine_id"
-                )?.find((f) => f.value === filter.tipe_vaksin3)
-                : filter.tipe_vaksin3
-            }
-          // isDisabled={!filter.bulan}
-          />
-        </div>
-      </div>
       <div className="flex gap-4">
         <div onClick={handleDownload}>
           <Button text="Unduh" variant="outlined" />

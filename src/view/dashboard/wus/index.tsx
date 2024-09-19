@@ -65,8 +65,8 @@ const Wus = () => {
     tren_type: "kumulatif",
 
     //
-    status_type_daerah: "t1",
-    status_type_kumulatif: "t1",
+    status_type_daerah: "t2plus",
+    status_type_kumulatif: "t2plus",
     women_category_daerah: "All",
     women_category_kumulatif: "All",
     women_category_status_T: "All"
@@ -631,7 +631,7 @@ const Wus = () => {
                         <div className="font-bold md:text-2xl">
                           Data Cakupan Status{" "}
                           <b className="text-primary-2">
-                            {filter.status_type_daerah.toUpperCase()}
+                            {filter.status_type_daerah === "t2plus" ? "T2+" : filter.status_type_daerah.toUpperCase()}
                           </b>{" "}
                           pada Provinsi di{" "}
                           <b className="text-primary-2">Indonesia</b> Selama
