@@ -69,7 +69,7 @@ const GraphRoutineImmunizationCoverageTrendBias: React.FC<
           <div>
             {threshold}
             <div className="flex-grow">
-              <div className="relative flex justify-center items-center h-full">
+              <div className="relative flex justify-center items-center  h-[600px]">
                 {isLoading && <Spin />}
                 {graphOptions ? (
                   <div className="w-full h-full overflow-scroll" id="graphhhh">

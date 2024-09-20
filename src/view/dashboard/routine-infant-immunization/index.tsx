@@ -102,7 +102,6 @@ import ChildSummaryImmunizationZeroDose from "@/view/home/components/ChildSummar
 
 const RoutineBabyImmunization = () => {
   const filterState = useState({
-    // tahun: 2023,
     tahun: new Date().getFullYear(),
     bulan: dataMonths.find((r, i) => i === new Date().getMonth())?.value,
     provinsi: "",
@@ -136,19 +135,19 @@ const RoutineBabyImmunization = () => {
     region_type: filter.faskes
       ? "faskes"
       : filter.kecamatan
-      ? "district"
-      : filter.kabkota
-      ? "city"
-      : filter.provinsi
-      ? "province"
-      : "All",
+        ? "district"
+        : filter.kabkota
+          ? "city"
+          : filter.provinsi
+            ? "province"
+            : "All",
     faskes_id: filter.faskes
       ? filter.faskes
       : filter.kecamatan
-      ? filter.kecamatan
-      : filter.kabkota
-      ? filter.kabkota
-      : filter.provinsi && filter.provinsi,
+        ? filter.kecamatan
+        : filter.kabkota
+          ? filter.kabkota
+          : filter.provinsi && filter.provinsi,
     kewilayahan_type: filter.kewilayahan_type,
   };
 
@@ -158,12 +157,12 @@ const RoutineBabyImmunization = () => {
     filter.faskes
       ? setRegionTypeGraph1("faskes")
       : filter.kecamatan
-      ? setRegionTypeGraph1("district")
-      : filter.kabkota
-      ? setRegionTypeGraph1("city")
-      : filter.provinsi
-      ? setRegionTypeGraph1("province")
-      : setRegionTypeGraph1("All");
+        ? setRegionTypeGraph1("district")
+        : filter.kabkota
+          ? setRegionTypeGraph1("city")
+          : filter.provinsi
+            ? setRegionTypeGraph1("province")
+            : setRegionTypeGraph1("All");
   }, [filter.faskes, filter.kecamatan, filter.kabkota, filter.provinsi]);
 
   useEffect(() => {
@@ -180,12 +179,12 @@ const RoutineBabyImmunization = () => {
       faskes_parent: filter.faskes
         ? filter.faskes
         : filter.kecamatan
-        ? filter.kecamatan
-        : filter.kabkota
-        ? filter.kabkota
-        : filter.provinsi
-        ? filter.provinsi
-        : "",
+          ? filter.kecamatan
+          : filter.kabkota
+            ? filter.kabkota
+            : filter.provinsi
+              ? filter.provinsi
+              : "",
       // faskes_parent: filter.faskes_parent,
     }),
     [rergionTypeGraph1, filter, dateQuery]
@@ -198,12 +197,12 @@ const RoutineBabyImmunization = () => {
       faskes_parent: filter.faskes
         ? filter.faskes
         : filter.kecamatan
-        ? filter.kecamatan
-        : filter.kabkota
-        ? filter.kabkota
-        : filter.provinsi
-        ? filter.provinsi
-        : "",
+          ? filter.kecamatan
+          : filter.kabkota
+            ? filter.kabkota
+            : filter.provinsi
+              ? filter.provinsi
+              : "",
       // faskes_parent: filter.faskes_parent,
     }),
     [rergionTypeGraph1, filter, dateQuery]
@@ -213,22 +212,22 @@ const RoutineBabyImmunization = () => {
     filter.wilayah === "faskes"
       ? filter.faskes
       : filter.wilayah === "district"
-      ? filter.kecamatan
-      : filter.wilayah === "city"
-      ? filter.kabkota
-      : filter.wilayah === "province"
-      ? filter.provinsi
-      : "All";
+        ? filter.kecamatan
+        : filter.wilayah === "city"
+          ? filter.kabkota
+          : filter.wilayah === "province"
+            ? filter.provinsi
+            : "All";
 
   const faskesIdQuery = filter.faskes
     ? filter.faskes
     : filter.kecamatan
-    ? filter.kecamatan
-    : filter.kabkota
-    ? filter.kabkota
-    : filter.provinsi
-    ? filter.provinsi
-    : "All";
+      ? filter.kecamatan
+      : filter.kabkota
+        ? filter.kabkota
+        : filter.provinsi
+          ? filter.provinsi
+          : "All";
 
   const filterCumulativeScope = {
     ...dateQuery,
@@ -1184,14 +1183,13 @@ const RoutineBabyImmunization = () => {
                     classNameValue="text-4xl text-white"
                     title="Persentase Left Out"
                     contentTooltip={<>Persentase Left Out</>}
-                    value={`${
-                      getLeftoutPercentage?.data
-                        ? formatNumber(
-                            getLeftoutPercentage?.data?.[0]
-                              ?.left_out_percentage || 0
-                          )
-                        : "0"
-                    }%`}
+                    value={`${getLeftoutPercentage?.data
+                      ? formatNumber(
+                        getLeftoutPercentage?.data?.[0]
+                          ?.left_out_percentage || 0
+                      )
+                      : "0"
+                      }%`}
                     total={getLeftoutPercentage?.data?.[0]?.total || "0"}
                     target={
                       formatNumber(getLeftoutPercentage?.data?.[0]?.target) ||
@@ -1216,13 +1214,12 @@ const RoutineBabyImmunization = () => {
                       </span>
                     }
                     contentTooltip={<>Persentase Drop Out DPT-HB-Hib</>}
-                    value={`${
-                      getDropout?.data
-                        ? formatNumber(
-                            getDropout?.data?.[0]?.drop_out_percentage || 0
-                          )
-                        : "0"
-                    }%`}
+                    value={`${getDropout?.data
+                      ? formatNumber(
+                        getDropout?.data?.[0]?.drop_out_percentage || 0
+                      )
+                      : "0"
+                      }%`}
                     total={getDropout?.data?.[0]?.total || "0"}
                     target={formatNumber(getDropout?.data?.[0]?.target) || "0"}
                     subtitle={" dari "}
@@ -1244,14 +1241,13 @@ const RoutineBabyImmunization = () => {
                       </span>
                     }
                     contentTooltip={<>Persentase Drop Out Campak Rubela</>}
-                    value={`${
-                      getDropoutRubela?.data
-                        ? formatNumber(
-                            getDropoutRubela?.data?.[0]?.drop_out_percentage ||
-                              0
-                          )
-                        : "0"
-                    }%`}
+                    value={`${getDropoutRubela?.data
+                      ? formatNumber(
+                        getDropoutRubela?.data?.[0]?.drop_out_percentage ||
+                        0
+                      )
+                      : "0"
+                      }%`}
                     total={getDropoutRubela?.data?.[0]?.total || "0"}
                     target={
                       formatNumber(getDropoutRubela?.data?.[0]?.target) || "0"
@@ -1273,8 +1269,8 @@ const RoutineBabyImmunization = () => {
                     value={
                       getNumberZero?.data
                         ? formatNumber(
-                            getNumberZero?.data?.[0]?.number_of_zero_dose || 0
-                          )
+                          getNumberZero?.data?.[0]?.number_of_zero_dose || 0
+                        )
                         : "0"
                     }
                   />
@@ -1310,7 +1306,7 @@ const RoutineBabyImmunization = () => {
                         //   (r) => r.value === filter.tipe_vaksin1
                         // )?.label
                         filter.tipe_vaksin1
-                      } dari 34 provinsi di Indonesia`}
+                        } dari 34 provinsi di Indonesia`}
                       addOn={
                         <GraphAddOn
                           dataCard={
@@ -1368,8 +1364,8 @@ const RoutineBabyImmunization = () => {
                                 return filter.wilayah1 === "province" ||
                                   filter.wilayah1 === "city"
                                   ? `${valueWithComma}% (${formatNumber(
-                                      totalData
-                                    )})`
+                                    totalData
+                                  )})`
                                   : `(${formatNumber(totalData)})`;
                               },
                             },
@@ -1443,15 +1439,13 @@ const RoutineBabyImmunization = () => {
                           <b className="text-primary-2">{filter.tahun}</b>
                         </div>
                       }
-                      subTitle={`Grafik menampilkan tren cakupan ${
-                        trendTypeOptions.find(
-                          (r) => r.value === filter.jenis_tren
-                        )?.label
-                      } penerima ${
-                        vaccineTypeOptions.find(
+                      subTitle={`Grafik menampilkan tren cakupan ${trendTypeOptions.find(
+                        (r) => r.value === filter.jenis_tren
+                      )?.label
+                        } penerima ${vaccineTypeOptions.find(
                           (r) => r.value === filter.tipe_vaksin2
                         )?.label
-                      } pada bayi selama tahun ${filter.tahun}`}
+                        } pada bayi selama tahun ${filter.tahun}`}
                       variant="private"
                       filterState={filterState}
                       filterComp={
@@ -1555,7 +1549,7 @@ const RoutineBabyImmunization = () => {
                               (r: any) =>
                                 (((r?.percentage || 0) / 100) *
                                   (r?.total * 100)) /
-                                  r?.percentage || 0
+                                r?.percentage || 0
                             ) || [],
                           type: "bar",
                           label: {
@@ -1743,9 +1737,9 @@ const RoutineBabyImmunization = () => {
                 graph={
                   <div className="my-4 p-4 md:p-8 border rounded-lg">
                     <GraphRoutineImmunizationCoverageTrend
-                    opts={{
-                      height: 550
-                    }}
+                      opts={{
+                        height: 550
+                      }}
                       layout="vertical"
                       title={
                         <div className="font-bold md:text-2xl">
@@ -1801,6 +1795,15 @@ const RoutineBabyImmunization = () => {
                             type: "bar",
                           },
                           {
+                            name: "Usia Ideal Total",
+                            data:
+                              (
+                                getGraphImmunizationAge?.data?.[0]
+                                  ?.vaccine_list || []
+                              )?.map((r: any) => r?.ytd_ideal) || [],
+                            type: "line",
+                          },
+                          {
                             name: "Usia Non Ideal",
                             data:
                               (
@@ -1808,6 +1811,16 @@ const RoutineBabyImmunization = () => {
                                   ?.vaccine_list || []
                               )?.map((r: any) => r?.pct_non_ideal) || [],
                             type: "bar",
+                          },
+                          {
+                            name: "Usia Non Ideal Total",
+                            data:
+                              (
+                                getGraphImmunizationAge?.data?.[0]
+                                  ?.vaccine_list || []
+                              )?.map((r: any) => r?.ytd_non_ideal) || [],
+                            type: "line",
+                            itemStyle: { opacity: 0 },
                           },
                         ],
                         (

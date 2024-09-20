@@ -6,7 +6,7 @@ import ReactDatePicker, {
   registerLocale,
   ReactDatePickerProps,
 } from "react-datepicker";
-import id from "date-fns/locale/id";
+import { id } from "date-fns/locale/id";
 
 // @ts-ignore
 registerLocale("id", id);
