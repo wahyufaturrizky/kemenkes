@@ -32,6 +32,7 @@ import {
 import FilterSection from "./FilterSection";
 import MapEChartsAnc from "@/components/map-echarts-anc";
 import MapAnc2 from "@/components/mapAnc2";
+import TableAnalisis from "@/components/tableAnalisis";
 
 const MapComponent = dynamic(() => import("@/components/map-component"), {
   ssr: false,
@@ -394,15 +395,15 @@ export default function IncPnc() {
             </section>
 
             <section className="mt-10">
-              <div className="flex justify-between items-center">
+              {/* <div className="flex justify-between items-center">
                 <h1 className="text-xl leading-10 font-medium">
                   Tabel Jumlah Ibu Hamil K1 Akses: Nasional
                 </h1>
                 <p className="text-[14px] font-semibold">
                   19 Mei 2024 - 20 Mei 2024
                 </p>
-              </div>
-              <div className="mt-5 w-full flex justify-between items-center mb-4">
+              </div> */}
+              {/* <div className="mt-5 w-full flex justify-between items-center mb-4">
                 <div className="flex gap-3 items-center">
                   <DownloadButton text="Download" />
                   <div className="flex items-center gap-[7px]">
@@ -423,8 +424,112 @@ export default function IncPnc() {
                   <p className="text-sm font-semibold">Search</p>
                   <InputSearch />
                 </div>
-              </div>
-              <TableData tableInstance={tableInstance} />
+              </div> */}
+              {/* <TableData tableInstance={tableInstance} /> */}
+              <TableAnalisis
+                title="Tabel Agregat Kesehatan Ibu Melahirkan dan Ibu Nifas"
+                column={[
+                  "Provinsi",
+                  "Kab/Kota",
+                  "Kecamatan",
+                  "Desa/Kelurahan",
+                  "Jumlah Sasaran Bumil",
+                  "Jumlah Bumil Tercatat",
+                  "Jumlah",
+                ]}
+                dataTable={[
+                  {
+                    Provinsi: "Maluku",
+                    "Kab/Kota": "Ambon",
+                    Kecamatan: "Sirimau",
+                    "Desa/Kelurahan": "Desa Batu Merah",
+                    "Jumlah Sasaran Bumil": 1200,
+                    "Jumlah Bumil Tercatat": 600,
+                    Jumlah: 600,
+                  },
+                  {
+                    Provinsi: "Maluku",
+                    "Kab/Kota": "Ambon",
+                    Kecamatan: "Baguala",
+                    "Desa/Kelurahan": "Desa Lateri",
+                    "Jumlah Sasaran Bumil": 900,
+                    "Jumlah Bumil Tercatat": 450,
+                    Jumlah: 450,
+                  },
+                  {
+                    Provinsi: "Maluku",
+                    "Kab/Kota": "Maluku Tengah",
+                    Kecamatan: "Salahutu",
+                    "Desa/Kelurahan": "Desa Tulehu",
+                    "Jumlah Sasaran Bumil": 800,
+                    "Jumlah Bumil Tercatat": 400,
+                    Jumlah: 400,
+                  },
+                  {
+                    Provinsi: "Maluku",
+                    "Kab/Kota": "Maluku Tengah",
+                    Kecamatan: "Leihitu",
+                    "Desa/Kelurahan": "Desa Hitu",
+                    "Jumlah Sasaran Bumil": 1000,
+                    "Jumlah Bumil Tercatat": 500,
+                    Jumlah: 500,
+                  },
+                  {
+                    Provinsi: "Maluku",
+                    "Kab/Kota": "Buru",
+                    Kecamatan: "Namlea",
+                    "Desa/Kelurahan": "Desa Namlea",
+                    "Jumlah Sasaran Bumil": 1100,
+                    "Jumlah Bumil Tercatat": 550,
+                    Jumlah: 550,
+                  },
+                  {
+                    Provinsi: "Maluku",
+                    "Kab/Kota": "Buru",
+                    Kecamatan: "Waelata",
+                    "Desa/Kelurahan": "Desa Waelo",
+                    "Jumlah Sasaran Bumil": 700,
+                    "Jumlah Bumil Tercatat": 350,
+                    Jumlah: 350,
+                  },
+                  {
+                    Provinsi: "Maluku",
+                    "Kab/Kota": "Seram Bagian Barat",
+                    Kecamatan: "Kairatu",
+                    "Desa/Kelurahan": "Desa Kairatu",
+                    "Jumlah Sasaran Bumil": 950,
+                    "Jumlah Bumil Tercatat": 475,
+                    Jumlah: 475,
+                  },
+                  {
+                    Provinsi: "Maluku",
+                    "Kab/Kota": "Seram Bagian Barat",
+                    Kecamatan: "Taniwel",
+                    "Desa/Kelurahan": "Desa Taniwel",
+                    "Jumlah Sasaran Bumil": 800,
+                    "Jumlah Bumil Tercatat": 400,
+                    Jumlah: 400,
+                  },
+                  {
+                    Provinsi: "Maluku",
+                    "Kab/Kota": "Maluku Tenggara",
+                    Kecamatan: "Kei Kecil",
+                    "Desa/Kelurahan": "Desa Langgur",
+                    "Jumlah Sasaran Bumil": 1000,
+                    "Jumlah Bumil Tercatat": 500,
+                    Jumlah: 500,
+                  },
+                  {
+                    Provinsi: "Maluku",
+                    "Kab/Kota": "Maluku Tenggara",
+                    Kecamatan: "Kei Kecil Barat",
+                    "Desa/Kelurahan": "Desa Ohoidertutu",
+                    "Jumlah Sasaran Bumil": 850,
+                    "Jumlah Bumil Tercatat": 425,
+                    Jumlah: 425,
+                  },
+                ]}
+              />
             </section>
           </div>
         </>
