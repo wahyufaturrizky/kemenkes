@@ -8,7 +8,7 @@ RUN npm install
 
 COPY . ./
 
-RUN yarn build
+RUN npm run build
 RUN rm .env.development
 RUN rm .env.production
 

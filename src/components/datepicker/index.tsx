@@ -3,7 +3,7 @@
 import styles from './datepicker.module.css'
 import { LuCalendarDays } from "react-icons/lu";
 import ReactDatePicker, { registerLocale, ReactDatePickerProps } from 'react-datepicker'
-import id from 'date-fns/locale/id'
+import { id } from 'date-fns/locale/id'
 
 // @ts-ignore
 registerLocale('id', id);
