@@ -555,7 +555,7 @@ const RoutineBabyImmunization = () => {
   ];
   const dataGraphRegionalRoutineImmunizationCoverageTrend4 = [
     {
-      title: `3 Imunisasi dengan Penerima Usia Perempuan Terbanyak`,
+      title: `3 Imunisasi dengan Penerima Perempuan Terbanyak`,
       value: getMostImmunizationTypeMale?.data?.map((r: any, i: number) => (
         <li key={i + "max"}>
           {i + 1}. {r.vaksin}
@@ -564,7 +564,7 @@ const RoutineBabyImmunization = () => {
       isLoading: isLoadingMostImmunizationTypeMale,
     },
     {
-      title: `3 Imunisasi dengan Penerima Usia Susulan Terbanyak`,
+      title: `3 Imunisasi dengan Penerima Laki-Laki Terbanyak`,
       value: getMostImmunizationTypFemale?.data?.map((r: any, i: number) => (
         <li key={i + "max"}>
           {i + 1}. {r.vaksin}
@@ -580,8 +580,8 @@ const RoutineBabyImmunization = () => {
       trigger: "item",
       formatter: (params: any) => {
         const value = params.data.value;
-        const formattedValue = value?.toFixed(2).replace(".", ",");
-        return `${params.marker} ${params.name}: <span style="float: right; margin-left: 8px;"><strong>${formattedValue}%</strong></span><br/>`;
+        const formattedValue = value;
+        return `${params.marker} ${params.name}: <span style="float: right; margin-left: 8px;"><strong>${formattedValue}</strong></span><br/>`;
       },
     },
     legend: {
@@ -593,7 +593,7 @@ const RoutineBabyImmunization = () => {
       {
         name: "% cakupan",
         type: "pie",
-        radius: "50%",
+        radius: "100%",
         label: {
           show: true,
           position: "inner",
@@ -610,11 +610,11 @@ const RoutineBabyImmunization = () => {
         },
         data: [
           {
-            value: getAverageGender?.data?.[0]?.pct_male,
+            value: getAverageGender?.data?.[0]?.ytd_male_all,
             name: "Laki-laki",
           },
           {
-            value: getAverageGender?.data?.[0]?.pct_female,
+            value: getAverageGender?.data?.[0]?.ytd_female_all,
             name: "Perempuan",
           },
         ],
@@ -1795,15 +1795,6 @@ const RoutineBabyImmunization = () => {
                             type: "bar",
                           },
                           {
-                            name: "Usia Ideal Total",
-                            data:
-                              (
-                                getGraphImmunizationAge?.data?.[0]
-                                  ?.vaccine_list || []
-                              )?.map((r: any) => r?.ytd_ideal) || [],
-                            type: "line",
-                          },
-                          {
                             name: "Usia Non Ideal",
                             data:
                               (
@@ -1812,20 +1803,11 @@ const RoutineBabyImmunization = () => {
                               )?.map((r: any) => r?.pct_non_ideal) || [],
                             type: "bar",
                           },
-                          {
-                            name: "Usia Non Ideal Total",
-                            data:
-                              (
-                                getGraphImmunizationAge?.data?.[0]
-                                  ?.vaccine_list || []
-                              )?.map((r: any) => r?.ytd_non_ideal) || [],
-                            type: "line",
-                            itemStyle: { opacity: 0 },
-                          },
                         ],
                         (
                           getGraphImmunizationAge?.data?.[0]?.vaccine_list || []
-                        )?.map((r: any) => r?.vaccine_name) || []
+                        )?.map((r: any) => r?.vaccine_name) || [],
+                        getGraphImmunizationAge?.data?.[0]?.vaccine_list || []
                       )}
                     />
                   </div>
@@ -1936,7 +1918,8 @@ const RoutineBabyImmunization = () => {
                         (
                           getGraphImmunizationGender?.data?.[0]?.vaccine_list ||
                           []
-                        )?.map((r: any) => r?.vaccine_name) || []
+                        )?.map((r: any) => r?.vaccine_name) || [],
+                        getGraphImmunizationGender?.data?.[0]?.vaccine_list || []
                       )}
                     />
                   </div>
