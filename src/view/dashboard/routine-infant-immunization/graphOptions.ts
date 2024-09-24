@@ -220,7 +220,7 @@ export const graphOptions4 = (series: any[], xData: any[]) => {
   };
   return option;
 };
-export const graphOptions5 = (series: any[], xData: any[]) => {
+export const graphOptions5 = (series: any[], xData: any[], rData: any[] = []) => {
   const filteredSeries = series?.filter((s) => s.name !== "Total");
   const upperCaseLegend = (xData || [])?.map((item) => item.toUpperCase());
 
@@ -231,7 +231,7 @@ export const graphOptions5 = (series: any[], xData: any[]) => {
       trigger: "axis",
       formatter: function (params: any) {
         let tooltipContent = `<div style="min-width: 350px;">${params[0].axisValueLabel}<br/>`;
-        params.forEach((item: any) => {
+        params.forEach((item: any, i: any) => {
           if (item.seriesName === "Total") {
             // Menggunakan data asli untuk "Total" dalam tooltip
             const originalData = series.find((serie) => serie.name === "Total")
@@ -249,6 +249,7 @@ export const graphOptions5 = (series: any[], xData: any[]) => {
               } <span style="float: right;"><strong>${formatNumber(
                 item.value
               )}%</strong></span><br/>`;
+            tooltipContent += `${item.marker} Total ${item.seriesName} <span style="float: right;"><strong>${formatNumber(rData[item.dataIndex][i === 0 ? "ytd_male" : "ytd_female"])}</strong></span><br/>`;
           }
         });
         tooltipContent += `</div>`;
@@ -273,6 +274,8 @@ export const graphOptions5 = (series: any[], xData: any[]) => {
     },
     yAxis: {
       type: "value",
+      min: 0,
+      max: 100,
       axisLabel: {
         formatter: (value: any) => `${formatNumber(value)}%`
       },
