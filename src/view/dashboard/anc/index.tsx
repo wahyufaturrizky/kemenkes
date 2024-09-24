@@ -588,13 +588,13 @@ export default function Anc() {
             />
             <Scorecard3
               title="Anemia"
-              status="Ringan & Berat"
+              status="Sedang & Berat"
               subtitle="mendapata rujukan ke FKRTL"
               value={formatNumber(AnemiaRef?.data?.total || "0")}
               pct={`${formatNumber(AnemiaRef?.data?.pct) || 0}%`}
               isLoading={isLoadingAnemiaRef}
               color="#60D3AA"
-              onClick={() => handleTable("Anemia Ringan & Berat")}
+              onClick={() => handleTable("Anemia Sedang & Berat")}
             />
             <Scorecard3
               title="TTD"
@@ -681,13 +681,13 @@ export default function Anc() {
               }
             />
             <Scorecard3
-              title="Djj"
+              title="DJJ"
               subtitle="Presentasi dan denyut jantung"
               value={formatNumber(Djj?.data?.total || "0")}
               pct={`${formatNumber(Djj?.data?.pct) || 0}%`}
               isLoading={isLoadingDjj}
               color="#FB5EA2"
-              onClick={() => handleTable("Djj Presentasi dan denyut jantung")}
+              onClick={() => handleTable("DJJ Presentasi dan denyut jantung")}
             />
             <Scorecard3
               title="Imunisasi TT"
