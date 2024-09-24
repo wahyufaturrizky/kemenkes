@@ -57,6 +57,7 @@ export default function Anc() {
   const [active, setActive] = useState(false);
   const [analisis, setAnalisis] = useState(false);
   const [isTableData, setIsTableData] = useState(false);
+  const [titleTable, setTiltleTable] = useState("");
   const handleDataFromChild = (data: boolean) => {
     setAnalisis(data);
   };
@@ -64,7 +65,8 @@ export default function Anc() {
     setAnalisis(false);
   };
 
-  const handleTable = () => {
+  const handleTable = (data: any) => {
+    setTiltleTable(data);
     setIsTableData(!isTableData);
   };
 
@@ -83,15 +85,12 @@ export default function Anc() {
     kewilayahan_type: 0,
     indikator: "Indikator Program",
     subIndikator: "Persentase Ibu Hamil K1",
-    // tipe_vaksin: "bias",
-    // nama_vaksin: "BIAS  Lengkap",
-    // tipe_vaksin2: "bias",
-    // tipe_vaksin3: "bias",
-    // tipe_vaksin4: "bias",
-    // tipe_vaksin5: "bias",
-    // tren_type: "kumulatif",
+    filterCakupan: "Nasional",
+    provinsiName: "",
   });
   const [filter] = filterState;
+
+  // console.log(filter, "isi filter");
   const optionQuery = {
     refetchOnMountOrArgChange: true,
     skip:
@@ -200,6 +199,8 @@ export default function Anc() {
   const filterLab = createFilter("lab", true);
   const filterTatalaksana = createFilter("case_mng", true);
   const filterKonseling = createFilter("counseling", true);
+
+  // console.log(filter, "isi filter");
 
   // SCORECARD
   const { data: SasaranIbuHamil, isFetching: isLoadingTotalImmunization } =
@@ -345,7 +346,7 @@ export default function Anc() {
         <div className="flex justify-between items-center w-full my-8">
           <div
             className="bg-primary flex h-9 rounded-[50px] justify-center items-center px-2 whitespace-nowrap  cursor-pointer"
-            onClick={handleTable}
+            onClick={() => handleTable("")}
           >
             <IoMdArrowBack size={25} color="white" />
             <p className="font-bold text-white pl-1">
@@ -363,12 +364,12 @@ export default function Anc() {
         />
       )}
       <div className="w-full">
-        <FilterSummaryImmunizationWus filterState={filterState} />
+        <FilterSummaryImmunizationAnc filterState={filterState} />
       </div>
       {analisis ? (
         <AnalisisANC btn={active} filterState={filterState} />
       ) : isTableData ? (
-        <TableAnc />
+        <TableAnc title={titleTable} filter={filter.filterCakupan} />
       ) : (
         <div>
           <SectionHeader
@@ -384,7 +385,7 @@ export default function Anc() {
               total={formatNumber(SasaranIbuHamil?.data?.total || "0")}
               direction="l"
               isLoading={isLoadingTotalImmunization}
-              onClick={handleTable}
+              onClick={() => handleTable("Sasaran Ibu Hamil")}
             />
             <Scorecard1
               title="Ibu Hamil Tercatat"
@@ -392,7 +393,7 @@ export default function Anc() {
               pct={`${formatNumber(IbuHamilTercatat?.data?.pct) || 0}%`}
               direction="r"
               isLoading={isLoadingIbuHamilTercatat}
-              onClick={handleTable}
+              onClick={() => handleTable("Ibu Hamil Tercatat")}
             />
           </div>
           <SectionHeader
@@ -406,6 +407,7 @@ export default function Anc() {
               pct={`${formatNumber(K1?.data?.pct) || 0}%`}
               isLoading={isLoadingK1}
               className="rounded-l-xl"
+              onClick={() => handleTable("K1")}
             />
             <Scorecard2
               title="K1"
@@ -414,6 +416,7 @@ export default function Anc() {
               pct={`${formatNumber(K1Akses?.data?.pct) || 0}%`}
               isLoading={isLoadingK1Akses}
               className="rounded-r-xl lg:rounded-none"
+              onClick={() => handleTable("K1 Akses")}
             />
 
             <Scorecard2
@@ -423,6 +426,7 @@ export default function Anc() {
               pct={`${formatNumber(K1Murni?.data?.pct) || 0}%`}
               isLoading={isLoadingK1Murni}
               className="rounded-l-xl lg:rounded-none"
+              onClick={() => handleTable("K1 Murni")}
             />
 
             <Scorecard2
@@ -432,6 +436,7 @@ export default function Anc() {
               pct={`${formatNumber(K1Usg?.data?.pct) || 0}%`}
               isLoading={isLoadingK1Usg}
               className="rounded-r-xl"
+              onClick={() => handleTable("K1 USG")}
             />
 
             <Scorecard2
@@ -440,6 +445,7 @@ export default function Anc() {
               pct={`${formatNumber(K4?.data?.pct) || 0}%`}
               isLoading={isLoadingK4}
               className="rounded-l-xl"
+              onClick={() => handleTable("K4")}
             />
 
             <Scorecard2
@@ -448,6 +454,7 @@ export default function Anc() {
               pct={`${formatNumber(K5?.data?.pct) || 0}%`}
               isLoading={isLoadingK5}
               className="rounded-r-xl lg:rounded-none"
+              onClick={() => handleTable("K5")}
             />
 
             <Scorecard2
@@ -457,6 +464,7 @@ export default function Anc() {
               pct={`${formatNumber(K5Usg?.data?.pct) || 0}%`}
               isLoading={isLoadingK5Usg}
               className="rounded-l-xl lg:rounded-none"
+              onClick={() => handleTable("K5 USG")}
             />
 
             <Scorecard2
@@ -465,6 +473,7 @@ export default function Anc() {
               pct={`${formatNumber(K6?.data?.pct) || 0}%`}
               isLoading={isLoadingK6}
               className="rounded-r-xl"
+              onClick={() => handleTable("K6")}
             />
           </div>
           <SectionHeader
@@ -478,6 +487,7 @@ export default function Anc() {
               pct={`${formatNumber(TenT?.data?.pct) || 0}%`}
               isLoading={isLoadingTenT}
               color="#9CEE8C"
+              onClick={() => handleTable("10T")}
             />
             <Scorecard3
               title="4T"
@@ -486,6 +496,11 @@ export default function Anc() {
               pct={`${formatNumber(FourT?.data?.pct) || 0}%`}
               isLoading={isLoadingFourT}
               color="#D9EF82"
+              onClick={() =>
+                handleTable(
+                  "4T terlalu muda, terlalu tua, terlalu dekat, terlalu banyak"
+                )
+              }
             />
             <Scorecard3
               title="USG"
@@ -494,6 +509,7 @@ export default function Anc() {
               pct={`${formatNumber(Usg?.data?.pct) || 0}%`}
               isLoading={isLoadingUsg}
               color="#A8DFF1"
+              onClick={() => handleTable("USG KMK trimester 3")}
             />
             <Scorecard3
               title="KMK"
@@ -502,6 +518,7 @@ export default function Anc() {
               pct={`${formatNumber(Kmk?.data?.pct) || 0}%`}
               isLoading={isLoadingKmk}
               color="#FF9899"
+              onClick={() => handleTable("KMK dirujuk")}
             />
             <Scorecard3
               title="KEK"
@@ -509,6 +526,7 @@ export default function Anc() {
               pct={`${formatNumber(Kek?.data?.pct) || 0}%`}
               isLoading={isLoadingKek}
               color="#EE534F"
+              onClick={() => handleTable("KEK")}
             />
             <Scorecard3
               title="KEK"
@@ -517,6 +535,7 @@ export default function Anc() {
               pct={`${formatNumber(KekRcv?.data?.pct) || 0}%`}
               isLoading={isLoadingKekRcv}
               color="#EE534F"
+              onClick={() => handleTable("KEK mendapat tambahan gizi")}
             />
             <Scorecard3
               title="KEK"
@@ -525,6 +544,7 @@ export default function Anc() {
               pct={`${formatNumber(KekCns?.data?.pct) || 0}%`}
               isLoading={isLoadingKekCns}
               color="#EE534F"
+              onClick={() => handleTable("KEK mengonsumsi tambahan gizi")}
             />
             <Scorecard3
               title="KEK"
@@ -533,6 +553,9 @@ export default function Anc() {
               pct={`${formatNumber(KekPmt?.data?.pct) || 0}%`}
               isLoading={isLoadingKekPmt}
               color="#EE534F"
+              onClick={() =>
+                handleTable("KEK mendapat PMT lokal dengan penambahan berat")
+              }
             />
             <Scorecard3
               title="Hb"
@@ -541,6 +564,7 @@ export default function Anc() {
               pct={`${formatNumber(Hb?.data?.pct) || 0}%`}
               isLoading={isLoadingHb}
               color="#C282FA"
+              onClick={() => handleTable("Hb diperiksa")}
             />
             <Scorecard3
               title="Anemia"
@@ -550,6 +574,7 @@ export default function Anc() {
               pct={`${formatNumber(AnemiaRcv?.data?.pct) || 0}%`}
               isLoading={isLoadingAnemiaRcv}
               color="#60D3AA"
+              onClick={() => handleTable("Anemia mendapat terapi TTD oral")}
             />
             <Scorecard3
               title="Anemia"
@@ -559,15 +584,17 @@ export default function Anc() {
               pct={`${formatNumber(AnemiaInc?.data?.pct) || 0}%`}
               isLoading={isLoadingAnemiaInc}
               color="#60D3AA"
+              onClick={() => handleTable("Anemia Ringan")}
             />
             <Scorecard3
               title="Anemia"
-              status="Ringan & Berat"
+              status="Sedang & Berat"
               subtitle="mendapata rujukan ke FKRTL"
               value={formatNumber(AnemiaRef?.data?.total || "0")}
               pct={`${formatNumber(AnemiaRef?.data?.pct) || 0}%`}
               isLoading={isLoadingAnemiaRef}
               color="#60D3AA"
+              onClick={() => handleTable("Anemia Sedang & Berat")}
             />
             <Scorecard3
               title="TTD"
@@ -576,6 +603,7 @@ export default function Anc() {
               pct={`${formatNumber(TTdRcv?.data?.pct) || 0}%`}
               isLoading={isLoadingTTdRcv}
               color="#ABC337"
+              onClick={() => handleTable("TTD mendapat 90 tablet")}
             />
             <Scorecard3
               title="TTD"
@@ -584,6 +612,7 @@ export default function Anc() {
               pct={`${formatNumber(TTdCns?.data?.pct) || 0}%`}
               isLoading={isLoadingTTdCns}
               color="#ABC337"
+              onClick={() => handleTable("TTD mengonsumsi 90 tablet")}
             />
             <Scorecard3
               title="Kelas"
@@ -592,6 +621,9 @@ export default function Anc() {
               pct={`${formatNumber(Class?.data?.pct) || 0}%`}
               isLoading={isLoadingClass}
               color="#F6CADD"
+              onClick={() =>
+                handleTable("Kelas mengikuti kelas ibu hamil min. 4x")
+              }
             />
             <Scorecard3
               title="Td"
@@ -600,6 +632,7 @@ export default function Anc() {
               pct={`${formatNumber(Td?.data?.pct) || 0}%`}
               isLoading={isLoadingTd}
               color="#505581"
+              onClick={() => handleTable("Td mendapat imunisasi Td")}
             />
             <Scorecard3
               title="Buku KIA"
@@ -608,6 +641,7 @@ export default function Anc() {
               pct={`${formatNumber(Kia?.data?.pct) || 0}%`}
               isLoading={isLoadingKia}
               color="#8FA5B2"
+              onClick={() => handleTable("Buku KIA memiliki buku KIA")}
             />
             <Scorecard3
               title="Diukur"
@@ -616,6 +650,7 @@ export default function Anc() {
               pct={`${formatNumber(Diukur?.data?.pct) || 0}%`}
               isLoading={isLoadingDiukur}
               color="#5874D7"
+              onClick={() => handleTable("Diukur berat badan dan tinggi badan")}
             />
             <Scorecard3
               title="Tekanan Darah"
@@ -623,6 +658,7 @@ export default function Anc() {
               pct={`${formatNumber(TekananDarah?.data?.pct) || 0}%`}
               isLoading={isLoadingTekananDarah}
               color="#DB3A3A"
+              onClick={() => handleTable("Tekanan Darah")}
             />
             <Scorecard3
               title="Diukur LiLA"
@@ -631,6 +667,7 @@ export default function Anc() {
               pct={`${formatNumber(Lila?.data?.pct) || 0}%`}
               isLoading={isLoadingLila}
               color="#5874D7"
+              onClick={() => handleTable("Diukur LiLA Lingkar Lengan Atas")}
             />
             <Scorecard3
               title="Tinggi Fundus"
@@ -639,14 +676,18 @@ export default function Anc() {
               pct={`${formatNumber(TinggiFundus?.data?.pct) || 0}%`}
               isLoading={isLoadingTinggiFundus}
               color="#5874D7"
+              onClick={() =>
+                handleTable("Tinggi Fundus Penilaian usia/besar janin")
+              }
             />
             <Scorecard3
-              title="Djj"
+              title="DJJ"
               subtitle="Presentasi dan denyut jantung"
               value={formatNumber(Djj?.data?.total || "0")}
               pct={`${formatNumber(Djj?.data?.pct) || 0}%`}
               isLoading={isLoadingDjj}
               color="#FB5EA2"
+              onClick={() => handleTable("DJJ Presentasi dan denyut jantung")}
             />
             <Scorecard3
               title="Imunisasi TT"
@@ -655,6 +696,9 @@ export default function Anc() {
               pct={`${formatNumber(Tt?.data?.pct) || 0}%`}
               isLoading={isLoadingTt}
               color="#D9EF82"
+              onClick={() =>
+                handleTable("Imunisasi TT Imunisasi Tetanus Taksoid")
+              }
             />
             <Scorecard3
               title="Laboratorium"
@@ -663,6 +707,11 @@ export default function Anc() {
               pct={`${formatNumber(Lab?.data?.pct) || 0}%`}
               isLoading={isLoadingLab}
               color="#60D3AA"
+              onClick={() =>
+                handleTable(
+                  "Laboratorium termasuk anemia & skrining triple eliminasi"
+                )
+              }
             />
             <Scorecard3
               title="Tatalaksana Kasus"
@@ -670,6 +719,7 @@ export default function Anc() {
               pct={`${formatNumber(Tatalaksana?.data?.pct) || 0}%`}
               isLoading={isLoadingTatalaksana}
               color="#8FA5B2"
+              onClick={() => handleTable("Tatalaksana Kasus")}
             />
             <Scorecard3
               title="Konseling"
@@ -678,6 +728,7 @@ export default function Anc() {
               pct={`${formatNumber(Konseling?.data?.pct) || 0}%`}
               isLoading={isLoadingKonseling}
               color="#F6CADD"
+              onClick={() => handleTable("Konseling Temu Wicara")}
             />
           </div>
           <SectionHeader

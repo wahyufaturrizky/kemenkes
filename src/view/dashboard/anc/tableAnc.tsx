@@ -8,57 +8,62 @@ import { useState } from "react";
 import { FiArrowDownCircle } from "react-icons/fi";
 
 type Data = {
-  province: string;
-  city: string;
+  Provinsi: string;
+  Kabkota: string;
   kecamatan: string;
-  kelurahan_desa: string;
-  jumlah_hamil: number;
-  percentase_hamil: number;
+  "Desa/Kelurahan": string;
+  jumlah: number;
+  persentase: number;
 };
 
 const defaultData: Data[] = [
   {
-    province: "DKI Jakarta",
-    city: "Jakarta Utara",
+    Provinsi: "DKI Jakarta",
+    Kabkota: "Jakarta Utara",
     kecamatan: "Tebet",
-    kelurahan_desa: "Desa Mawar Indah",
-    jumlah_hamil: 511.0,
-    percentase_hamil: 9.0,
+    "Desa/Kelurahan": "Desa Mawar Indah",
+    jumlah: 511.0,
+    persentase: 9.0,
   },
   {
-    province: "DKI Jakarta",
-    city: "Kota Jakarta Timur",
+    Provinsi: "DKI Jakarta",
+    Kabkota: "Kota Jakarta Timur",
     kecamatan: "Kecamatan Cempaka",
-    kelurahan_desa: "Kelurahan Cempaka Timur",
-    jumlah_hamil: 423.8,
-    percentase_hamil: 9.0,
+    "Desa/Kelurahan": "Kelurahan Cempaka Timur",
+    jumlah: 423.8,
+    persentase: 9.0,
   },
 ];
 
 const columnHelper = createColumnHelper<Data>();
 
 const columns = [
-  columnHelper.accessor("province", {
+  columnHelper.accessor("Provinsi", {
     cell: (info) => info.getValue(),
   }),
-  columnHelper.accessor("city", {
+  columnHelper.accessor("Kabkota", {
     cell: (info) => info.getValue(),
   }),
   columnHelper.accessor("kecamatan", {
     cell: (info) => info.getValue(),
   }),
-  columnHelper.accessor("kelurahan_desa", {
+  columnHelper.accessor("Desa/Kelurahan", {
     cell: (info) => info.getValue(),
   }),
-  columnHelper.accessor("jumlah_hamil", {
+  columnHelper.accessor("jumlah", {
     cell: (info) => info.getValue(),
   }),
-  columnHelper.accessor("percentase_hamil", {
+  columnHelper.accessor("persentase", {
     cell: (info) => info.getValue(),
   }),
 ];
 
-const TableAnc = () => {
+interface tableProps {
+  title: string;
+  filter: string;
+}
+
+const TableAnc: React.FC<tableProps> = ({ title, filter }) => {
   const [data, _setData] = useState(() => [...defaultData]);
 
   const tableInstance = useReactTable({
@@ -72,7 +77,7 @@ const TableAnc = () => {
       <div className="flex justify-between items-end">
         <div>
           <h1 className="text-xl leading-10 font-medium">
-            Tabel Jumlah Ibu Hamil K1 Akses: Nasional
+            Tabel Jumlah Ibu Hamil {title}: {filter}
           </h1>
           <p className="text-[32px] leading-10 font-bold text-[#00B8AE]">
             Total 117.000 <span className=" text-xl">Ibu Hamil</span>

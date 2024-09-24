@@ -128,6 +128,8 @@ const FilterSummaryImmunizationAnc: React.FC<FilterProps> = ({
                 kecamatan: "",
                 faskes: "",
                 wilayah: e?.value ? "city" : "province",
+                provinsiName: e?.label,
+                filterCakupan: e?.label === undefined ? "Nasional" : e.label,
               });
             }}
             value={
@@ -157,6 +159,7 @@ const FilterSummaryImmunizationAnc: React.FC<FilterProps> = ({
                 kecamatan: "",
                 faskes: "",
                 wilayah: e?.value ? "district" : "city",
+                filterCakupan: e === null ? filter.provinsiName : e?.label,
               });
             }}
             value={
