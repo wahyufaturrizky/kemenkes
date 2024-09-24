@@ -9,6 +9,7 @@ interface Scorecard3Props {
   color: string;
   status?: string;
   isLoading: boolean;
+  onClick: () => void;
 }
 const Scorecard3: React.FC<Scorecard3Props> = ({
   title,
@@ -18,6 +19,7 @@ const Scorecard3: React.FC<Scorecard3Props> = ({
   color,
   status = "",
   isLoading,
+  onClick,
 }) => {
   const formatTeks = (text: string) => {
     return text?.split("\n").map((line, index) => (
@@ -28,7 +30,10 @@ const Scorecard3: React.FC<Scorecard3Props> = ({
     ));
   };
   return (
-    <div className="h-44 text-[#505581]  flex flex-col justify-between py-5 pr-3 pl-[22px] rounded-xl border-t-8 border-r-8 border-[#00000080] relative">
+    <div
+      className="h-44 text-[#505581]  flex flex-col justify-between py-5 pr-3 pl-[22px] rounded-xl border-t-8 border-r-8 border-[#00000080] relative cursor-pointer"
+      onClick={onClick}
+    >
       {isLoading && (
         <div className="absolute top-[38%] left-[45%]">
           <Spin />

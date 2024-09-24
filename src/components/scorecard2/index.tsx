@@ -8,6 +8,7 @@ interface Scorecard2Props {
   value: string;
   className?: string;
   isLoading: boolean;
+  onClick: () => void;
 }
 const Scorecard2: React.FC<Scorecard2Props> = ({
   title,
@@ -16,10 +17,12 @@ const Scorecard2: React.FC<Scorecard2Props> = ({
   value,
   className,
   isLoading,
+  onClick,
 }) => {
   return (
     <div
-      className={`h-44 bg-primary grid grid-cols-2 p-5 text-white ${className} relative`}
+      className={`h-44 bg-primary grid grid-cols-2 p-5 text-white ${className} relative cursor-pointer`}
+      onClick={onClick}
     >
       {isLoading && (
         <div className="absolute w-full h-full flex justify-center items-center">
