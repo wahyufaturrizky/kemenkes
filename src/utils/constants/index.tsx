@@ -282,11 +282,7 @@ export const vaccineTypeKejarOptions = [
   {
     label: "CAMPAK RUBELA 2",
     value: "22",
-  },
-  {
-    label: "IMUNISASI BADUTA LENGKAP",
-    value: "23",
-  },
+  }
 ];
 export const vaccineTypeBabyOptions = [
   {

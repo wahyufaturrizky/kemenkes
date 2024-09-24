@@ -69,7 +69,7 @@ const Wus = () => {
     status_type_kumulatif: "t2plus",
     women_category_daerah: "All",
     women_category_kumulatif: "All",
-    women_category_status_T: "All"
+    women_category_status_T: "All",
   });
 
   const [filter] = filterState;
@@ -247,7 +247,7 @@ const Wus = () => {
       ? filter.kabkota
       : filter.provinsi
       ? filter.provinsi
-      : "All"
+      : "All",
   };
 
   const filterDistributionStatusPregnant = {
@@ -631,7 +631,9 @@ const Wus = () => {
                         <div className="font-bold md:text-2xl">
                           Data Cakupan Status{" "}
                           <b className="text-primary-2">
-                            {filter.status_type_daerah === "t2plus" ? "T2+" : filter.status_type_daerah.toUpperCase()}
+                            {filter.status_type_daerah === "t2plus"
+                              ? "T2+"
+                              : filter.status_type_daerah.toUpperCase()}
                           </b>{" "}
                           pada Provinsi di{" "}
                           <b className="text-primary-2">Indonesia</b> Selama
@@ -734,6 +736,22 @@ const Wus = () => {
                                 getTotalImmunizationTotalCumulativeCoverageQuery?.data ||
                                 []
                               )?.map((r: any) => r?.pct_target_threshold) || [],
+                            label: {
+                              show: true,
+                              precision: 1,
+                              position: "right",
+                              formatter: (params: any) =>
+                                `${parseFloat(params.value).toFixed(2)}% (${formatNumber(
+                                  (getTotalImmunizationTotalCumulativeCoverageQuery?.data
+                                    ?.map(
+                                      (r: any) =>
+                                        (parseFloat(r?.pct_target_threshold) /
+                                          parseFloat(r?.ytd_pct_total)) *
+                                        parseFloat(r?.ytd_total)
+                                    )
+                                    ?.reverse())[params?.dataIndex]
+                                )})`,
+                            },
                           },
                           {
                             name: "Total Penerima",
@@ -763,7 +781,7 @@ const Wus = () => {
                 }
               />
             </div>
-            
+
             <div className="py-4 pb-12">
               <RoutineImmunizationCoverageTrendGraph
                 title="Grafik Tren Cakupan Kumulatif atau Bulanan Penerima Imunisasi WUS "
@@ -772,7 +790,7 @@ const Wus = () => {
                   <div className="my-4 p-4 md:p-8 border rounded-lg">
                     <GraphRoutineImmunizationCoverageTrend
                       opts={{
-                        height: 550
+                        height: 550,
                       }}
                       title={
                         <div className="font-bold md:text-2xl">
@@ -787,7 +805,9 @@ const Wus = () => {
                           </b>{" "}
                           Jumlah Penerima, Cakupan, dan Target Cakupan{" "}
                           <b className="text-primary-2">
-                            {filter.status_type_kumulatif === 't2plus' ? 'T2+' : filter.status_type_kumulatif?.toUpperCase()}
+                            {filter.status_type_kumulatif === "t2plus"
+                              ? "T2+"
+                              : filter.status_type_kumulatif?.toUpperCase()}
                           </b>{" "}
                           pada Wanita Usia Subur atau Ibu Hamil Selama Tahun{" "}
                           <b className="text-primary-2">{filter.tahun}</b>
@@ -847,82 +867,83 @@ const Wus = () => {
                       isLoading={
                         isLoadingImmunizationTotalCumulativeCoverageRecipientsQuery
                       }
-                      graphOptions={graphOptions2([
-                        {
-                          name: "% Cakupan",
-                          data:
-                            (
-                              getTotalImmunizationTotalCumulativeCoverageRecipientsQuery?.data ||
-                              []
-                            )?.map(
-                              (r: any) =>
-                                ((r?.pct_total || 0) / 100) *
-                                ((r?.total * 100) / r?.pct_total || 0)
-                            ) || [],
-                          type: "line",
-                          label: {
-                            show: true,
-                            precision: 1,
-                            formatter: (params: any) =>
-                              `${formatNumber(
-                                (getTotalImmunizationTotalCumulativeCoverageRecipientsQuery?.data ||
-                                  [])[params.dataIndex]?.pct_total
-                              )}%`,
+                      graphOptions={graphOptions2(
+                        [
+                          {
+                            name: "% Cakupan",
+                            data:
+                              (
+                                getTotalImmunizationTotalCumulativeCoverageRecipientsQuery?.data ||
+                                []
+                              )?.map(
+                                (r: any) =>
+                                  ((r?.pct_total || 0) / 100) *
+                                  ((r?.total * 100) / r?.pct_total || 0)
+                              ) || [],
+                            type: "line",
+                            label: {
+                              show: true,
+                              precision: 1,
+                              formatter: (params: any) =>
+                                `${formatNumber(
+                                  (getTotalImmunizationTotalCumulativeCoverageRecipientsQuery?.data ||
+                                    [])[params.dataIndex]?.pct_total
+                                )}%`,
+                            },
+                            additionalData:
+                              (
+                                getTotalImmunizationTotalCumulativeCoverageRecipientsQuery?.data ||
+                                []
+                              )?.map((r: any) => r?.pct_total || 0) || [],
                           },
-                          additionalData:
-                            (
-                              getTotalImmunizationTotalCumulativeCoverageRecipientsQuery?.data ||
-                              []
-                            )?.map((r: any) => r?.pct_total || 0) || [],
-                        },
-                        {
-                          name: "% Target Cakupan",
-                          data:
-                            (
-                              getTotalImmunizationTotalCumulativeCoverageRecipientsQuery?.data ||
-                              []
-                            )?.map(
-                              (r: any) =>
-                                ((r?.pct_target_threshold || 0) / 100) *
-                                ((r?.total * 100) / r?.pct_total || 0)
-                            ) || [],
-                          type: "line",
-                          label: {
-                            show: true,
-                            precision: 1,
-                            formatter: (params: any) =>
-                              `${formatNumber(
-                                (getTotalImmunizationTotalCumulativeCoverageRecipientsQuery?.data ||
-                                  [])[params.dataIndex]?.pct_target_threshold
-                              )}%`,
+                          {
+                            name: "% Target Cakupan",
+                            data:
+                              (
+                                getTotalImmunizationTotalCumulativeCoverageRecipientsQuery?.data ||
+                                []
+                              )?.map(
+                                (r: any) =>
+                                  ((r?.pct_target_threshold || 0) / 100) *
+                                  ((r?.total * 100) / r?.pct_total || 0)
+                              ) || [],
+                            type: "line",
+                            label: {
+                              show: true,
+                              precision: 1,
+                              formatter: (params: any) =>
+                                `${formatNumber(
+                                  (getTotalImmunizationTotalCumulativeCoverageRecipientsQuery?.data ||
+                                    [])[params.dataIndex]?.pct_target_threshold
+                                )}%`,
+                            },
+                            tooltip: {
+                              show: false,
+                            },
                           },
-                          tooltip: {
-                            show: false,
+                          {
+                            name: "Jumlah Penerima Imunisasi",
+                            data:
+                              (
+                                getTotalImmunizationTotalCumulativeCoverageRecipientsQuery?.data ||
+                                []
+                              )?.map(
+                                (r: any) =>
+                                  (((r?.pct_total || 0) / 100) *
+                                    (r?.total * 100)) /
+                                    r?.pct_total || 0
+                              ) || [],
+                            type: "bar",
+                            label: {
+                              show: true,
+                              precision: 1,
+                              formatter: (params: any) =>
+                                `${formatNumber(params.value || 0)}`,
+                            },
                           },
-                        },
-                        {
-                          name: "Jumlah Penerima Imunisasi",
-                          data:
-                            (
-                              getTotalImmunizationTotalCumulativeCoverageRecipientsQuery?.data ||
-                              []
-                            )?.map(
-                              (r: any) =>
-                                (((r?.pct_total || 0) / 100) *
-                                  (r?.total * 100)) /
-                                  r?.pct_total || 0
-                            ) || [],
-                          type: "bar",
-                          label: {
-                            show: true,
-                            precision: 1,
-                            formatter: (params: any) =>
-                              `${formatNumber(params.value || 0)}`,
-                          },
-                        },
-                      ],
-                      true
-                    )}
+                        ],
+                        true
+                      )}
                     />
                   </div>
                 }
@@ -936,7 +957,7 @@ const Wus = () => {
                   <div className="my-4 p-4 md:p-8 border rounded-lg">
                     <GraphRoutineImmunizationCoverageTrend
                       opts={{
-                        height: 550
+                        height: 550,
                       }}
                       title={<></>}
                       subTitle={``}
@@ -984,7 +1005,7 @@ const Wus = () => {
                       title={<></>}
                       subTitle={``}
                       opts={{
-                        height: 550
+                        height: 550,
                       }}
                       variant="private"
                       filterState={filterState}
