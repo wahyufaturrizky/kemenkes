@@ -220,7 +220,7 @@ const HomeView = () => {
   const dataTotalSummaryImmunization: any = [
     {
       className: `${openSans.className}`,
-      title: "Jumlah Provinsi dengan cakupan imunisasi rutin tertinggi",
+      title: "Jumlah Provinsi yang Memenuhi Target",
       value: formatNumber(getTotalProvinceExceedTargetQuery?.data?.total || 0),
       percent: getTotalProvinceExceedTargetQuery?.data?.presentase || 0,
       target: "total provinsi",
@@ -236,7 +236,7 @@ const HomeView = () => {
     },
     {
       className: `${openSans.className}`,
-      title: "Jumlah Provinsi dengan cakupan imunisasi rutin tertinggi",
+      title: "Jumlah Provinsi yang Memenuhi Target",
       value: getTotalHighestScopeQuery?.data?.wilayah_desc || '',
       percent: getTotalHighestScopeQuery?.data?.presentase || 0,
       target: "target imunisasi rutin",
@@ -252,7 +252,7 @@ const HomeView = () => {
     },
     {
       className: `${openSans.className}`,
-      title: "Jumlah Provinsi dengan cakupan imunisasi rutin tertinggi",
+      title: "Jumlah Provinsi yang Memenuhi Target",
       value: `${formatNumber(getTotalCityExceedTargetQuery?.data?.total || 0)} Kab/Kota`,
       percent: getTotalCityExceedTargetQuery?.data?.presentase || 0,
       target: "total kabupaten/kota",

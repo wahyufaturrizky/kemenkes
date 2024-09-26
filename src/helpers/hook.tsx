@@ -1,4 +1,4 @@
-import * as XLSX from 'xlsx';
+import { API_URL } from "./config";
 
 interface DownloadFileType {
   header: string[]
@@ -7,40 +7,45 @@ interface DownloadFileType {
   fileName: string
 }
 
-export const downloadFile = async (
-  { header, body, verticalHeader, fileName }: DownloadFileType
-) => {
-  // Create a new workbook
-  const wb = XLSX.utils.book_new();
+export const downloadFile = async ({
+  header, body, verticalHeader, fileName
+}: DownloadFileType) => {
+  const url = `${API_URL}/v1/csv/download`;
 
-  // Prepare the data
-  let data = body;
-  if (verticalHeader) {
-    data = data.map((row: any, index: any) => [verticalHeader[index], ...row]);
+  const data = {
+    header: header,
+    body: body,
+    verticalHeader: verticalHeader,
+    fileName: fileName,
+  };
+  try {
+    const response = await fetch(url, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
+    });
+
+    if (!response.ok) {
+      throw new Error("Network response was not ok");
+    }
+
+    const blob = await response.blob();
+
+    const downloadUrl = window.URL.createObjectURL(blob);
+
+    const a = document.createElement("a");
+    a.href = downloadUrl;
+    a.download = `${data.fileName}.xlsx`;
+
+    document.body.appendChild(a);
+
+    a.click();
+
+    document.body.removeChild(a);
+    window.URL.revokeObjectURL(downloadUrl);
+  } catch (error) {
+    console.error("There was a problem with the fetch operation:", error);
   }
-  if (header) {
-    data.unshift(header);
-  }
-
-  // Create a worksheet
-  const ws = XLSX.utils.aoa_to_sheet(data);
-
-  // Add the worksheet to the workbook
-  XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
-
-  // Generate the Excel file
-  const excelBuffer = XLSX.write(wb, { bookType: 'xlsx', type: 'array' });
-
-  // Create a Blob from the buffer
-  const blob = new Blob([excelBuffer], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
-
-  // Create a download link and trigger the download
-  const url = window.URL.createObjectURL(blob);
-  const a = document.createElement('a');
-  a.href = url;
-  a.download = `${fileName}.xlsx`;
-  a.click();
-
-  // Clean up
-  window.URL.revokeObjectURL(url);
 };
