@@ -410,7 +410,7 @@ const RoutineBadutaImmunization = () => {
   ];
   const dataGraphRegionalRoutineImmunizationCoverageTrend4 = [
     {
-      title: `3 Imunisasi dengan Penerima Usia Perempuan Terbanyak`,
+      title: `3 Imunisasi dengan Penerima Perempuan Terbanyak`,
       value: getImmunizationWithHighetMaleRecivientQuery?.data?.map(
         (r: any, i: number) => (
           <li key={i + "max"}>
@@ -421,7 +421,7 @@ const RoutineBadutaImmunization = () => {
       isFetching: isLoadingImmunizationWithHighetMaleRecivientQuery,
     },
     {
-      title: `3 Imunisasi dengan Penerima Usia Susulan Terbanyak`,
+      title: `3 Imunisasi dengan Penerima Laki-Laki Terbanyak`,
       value: getImmunizationWithHighetFemaleRecivientQuery?.data?.map(
         (r: any, i: number) => (
           <li key={i + "max"}>
@@ -452,7 +452,7 @@ const RoutineBadutaImmunization = () => {
       {
         name: "Access From",
         type: "pie",
-        radius: "50%",
+        radius: "100%",
         label: {
           show: true,
           position: "inner",
