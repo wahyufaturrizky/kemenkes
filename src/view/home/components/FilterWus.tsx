@@ -86,15 +86,23 @@ const FilterSummaryImmunizationWus: React.FC<FilterProps> = ({
       <div className="flex flex-wrap items-center gap-4">
         <div>
           <Select
-            placeholder="Pilih Tahun"
+            placeholder="Tahun"
             options={standardOptionSameLabel(
               generateYearsArray(1979, new Date().getFullYear())
             )}
             onChange={(e: any) => {
-              setFilter({
-                ...filter,
-                tahun: e?.value,
-              });
+              if (e?.value) {
+                setFilter({
+                  ...filter,
+                  tahun: e?.value,
+                });
+              } else {
+                setFilter({
+                  ...filter,
+                  tahun: "",
+                  bulan: ""
+                })
+              }
             }}
             value={
               filter.tahun
@@ -107,7 +115,7 @@ const FilterSummaryImmunizationWus: React.FC<FilterProps> = ({
         </div>
         <div>
           <Select
-            placeholder="Pilih Bulan"
+            placeholder="Bulan"
             options={dataMonth}
             onChange={(e: any) => {
               setFilter({
@@ -125,7 +133,7 @@ const FilterSummaryImmunizationWus: React.FC<FilterProps> = ({
         </div>
         <div>
           <Select
-            placeholder="Pilih Provinsi"
+            placeholder="Provinsi"
             options={standardOptions(
               getProvince?.data || [],
               "provinsi_name",
@@ -155,7 +163,7 @@ const FilterSummaryImmunizationWus: React.FC<FilterProps> = ({
         </div>
         <div>
           <Select
-            placeholder="Pilih Kabupaten/Kota"
+            placeholder="Kabupaten/Kota"
             options={standardOptions(
               getRegency?.data || [],
               "kabkota_name",
@@ -184,7 +192,7 @@ const FilterSummaryImmunizationWus: React.FC<FilterProps> = ({
         </div>
         <div>
           <Select
-            placeholder="Pilih Kecamatan"
+            placeholder="Kecamatan"
             options={standardOptions(
               getSubDistrict?.data || [],
               "kecamatan_name",
@@ -214,7 +222,7 @@ const FilterSummaryImmunizationWus: React.FC<FilterProps> = ({
           <>
             <div>
               <Select
-                placeholder="Pilih Jenis Faskes"
+                placeholder="Jenis Faskes"
                 options={standardOptions(
                   getFacilityOfType?.data || [],
                   "jenis_sarana_name",
@@ -241,7 +249,7 @@ const FilterSummaryImmunizationWus: React.FC<FilterProps> = ({
             </div>
             <div>
               <Select
-                placeholder="Pilih Faskes"
+                placeholder="Faskes"
                 options={standardOptions(
                   getMedicalFacility?.data || [],
                   "faskes_name",
@@ -267,7 +275,7 @@ const FilterSummaryImmunizationWus: React.FC<FilterProps> = ({
           <div>
             <Select
               placeholder={
-                "Pilih  Desa/Kelurahan"
+                "Desa/Kelurahan"
               }
               options={standardOptions(
                 getListFaskes?.data || [],
