@@ -107,12 +107,12 @@ export default function Anc() {
     region_type: filter.faskes
       ? "village"
       : filter.kecamatan
-      ? "district"
-      : filter.kabkota
-      ? "city"
-      : filter.provinsi
-      ? "province"
-      : "All",
+        ? "district"
+        : filter.kabkota
+          ? "city"
+          : filter.provinsi
+            ? "province"
+            : "All",
   };
 
   const faksesParentId = {
@@ -122,28 +122,28 @@ export default function Anc() {
         : filter.provinsi !== "" &&
           filter.kabkota !== "" &&
           filter.kecamatan === undefined
-        ? filter.provinsi
-        : filter.provinsi !== "" &&
-          filter.kabkota !== "" &&
-          filter.kecamatan !== ""
-        ? filter.kabkota
-        : filter.provinsi !== "" && filter.kabkota !== ""
-        ? filter.provinsi
-        : filter.provinsi !== ""
-        ? filter.provinsi
-        : "All",
+          ? filter.provinsi
+          : filter.provinsi !== "" &&
+            filter.kabkota !== "" &&
+            filter.kecamatan !== ""
+            ? filter.kabkota
+            : filter.provinsi !== "" && filter.kabkota !== ""
+              ? filter.provinsi
+              : filter.provinsi !== ""
+                ? filter.provinsi
+                : "All",
   };
 
   const faskesId = {
     faskes_id: filter.faskes
       ? filter.faskes
       : filter.kecamatan
-      ? filter.kecamatan
-      : filter.kabkota
-      ? filter.kabkota
-      : filter.provinsi
-      ? filter.provinsi
-      : "All",
+        ? filter.kecamatan
+        : filter.kabkota
+          ? filter.kabkota
+          : filter.provinsi
+            ? filter.provinsi
+            : "All",
   };
 
   const filterTotal = {
@@ -323,17 +323,15 @@ export default function Anc() {
             <div className="flex bg-gray-100 rounded-xl w-max">
               <button
                 onClick={() => setActive(false)}
-                className={`${
-                  active === false ? "bg-white shadow" : ""
-                } m-2 p-2 w-52 rounded-xl font-bold text-[#505581] transition`}
+                className={`${active === false ? "bg-white shadow" : ""
+                  } m-2 p-2 w-52 rounded-xl font-bold text-[#505581] transition`}
               >
                 Layanan ANC
               </button>
               <button
                 onClick={() => setActive(true)}
-                className={`${
-                  active === true ? "bg-white shadow" : ""
-                } m-2 p-2 w-52 rounded-xl font-bold text-[#505581] transition`}
+                className={`${active === true ? "bg-white shadow" : ""
+                  } m-2 p-2 w-52 rounded-xl font-bold text-[#505581] transition`}
               >
                 Intervensi & Morbiditas
               </button>
@@ -362,7 +360,7 @@ export default function Anc() {
           filterState={filterState}
         />
       )}
-      <div className="w-full">
+      <div style={{ display: 'flex', justifyContent: 'flex-start' }} className="w-full">
         <FilterSummaryImmunizationWus filterState={filterState} />
       </div>
       {analisis ? (
@@ -704,11 +702,10 @@ export default function Anc() {
                       formatNumber(TopDisease?.data?.[1]?.total_preg_disease) ||
                       "0"
                     }
-                    pct={`${
-                      formatNumber(
-                        TopDisease?.data?.[1]?.pct_total_preg_disease
-                      ) || 0
-                    }%`}
+                    pct={`${formatNumber(
+                      TopDisease?.data?.[1]?.pct_total_preg_disease
+                    ) || 0
+                      }%`}
                     styles="h-[200px] bg-[#F3B239] mb-3"
                     size="l"
                     isLoading={loadingTopDisease}
@@ -720,11 +717,10 @@ export default function Anc() {
                     formatNumber(TopDisease?.data?.[0]?.total_preg_disease) ||
                     "0"
                   }
-                  pct={`${
-                    formatNumber(
-                      TopDisease?.data?.[0]?.pct_total_preg_disease
-                    ) || 0
-                  }%`}
+                  pct={`${formatNumber(
+                    TopDisease?.data?.[0]?.pct_total_preg_disease
+                  ) || 0
+                    }%`}
                   isLoading={loadingTopDisease}
                   styles="h-[400px] bg-[#CF3E53]"
                   size="l"
@@ -738,11 +734,10 @@ export default function Anc() {
                       formatNumber(TopDisease?.data?.[7]?.total_preg_disease) ||
                       "0"
                     }
-                    pct={`${
-                      formatNumber(
-                        TopDisease?.data?.[7]?.pct_total_preg_disease
-                      ) || 0
-                    }%`}
+                    pct={`${formatNumber(
+                      TopDisease?.data?.[7]?.pct_total_preg_disease
+                    ) || 0
+                      }%`}
                     isLoading={loadingTopDisease}
                     styles="bg-[#00B8AE] h-[106px] col-span-5"
                     size="s"
@@ -753,11 +748,10 @@ export default function Anc() {
                       formatNumber(TopDisease?.data?.[6]?.total_preg_disease) ||
                       "0"
                     }
-                    pct={`${
-                      formatNumber(
-                        TopDisease?.data?.[6]?.pct_total_preg_disease
-                      ) || 0
-                    }%`}
+                    pct={`${formatNumber(
+                      TopDisease?.data?.[6]?.pct_total_preg_disease
+                    ) || 0
+                      }%`}
                     isLoading={loadingTopDisease}
                     styles="bg-[#008E87] h-[106px] col-span-7"
                     size="s"
@@ -768,11 +762,10 @@ export default function Anc() {
                       formatNumber(TopDisease?.data?.[5]?.total_preg_disease) ||
                       "0"
                     }
-                    pct={`${
-                      formatNumber(
-                        TopDisease?.data?.[5]?.pct_total_preg_disease
-                      ) || 0
-                    }%`}
+                    pct={`${formatNumber(
+                      TopDisease?.data?.[5]?.pct_total_preg_disease
+                    ) || 0
+                      }%`}
                     isLoading={loadingTopDisease}
                     styles="bg-[#00A2B3] h-[160px] col-span-7"
                     size="m"
@@ -783,11 +776,10 @@ export default function Anc() {
                       formatNumber(TopDisease?.data?.[4]?.total_preg_disease) ||
                       "0"
                     }
-                    pct={`${
-                      formatNumber(
-                        TopDisease?.data?.[4]?.pct_total_preg_disease
-                      ) || 0
-                    }%`}
+                    pct={`${formatNumber(
+                      TopDisease?.data?.[4]?.pct_total_preg_disease
+                    ) || 0
+                      }%`}
                     isLoading={loadingTopDisease}
                     styles="bg-[#EC407A] h-[160px] col-span-5"
                     size="m"
@@ -798,11 +790,10 @@ export default function Anc() {
                       formatNumber(TopDisease?.data?.[3]?.total_preg_disease) ||
                       "0"
                     }
-                    pct={`${
-                      formatNumber(
-                        TopDisease?.data?.[3]?.pct_total_preg_disease
-                      ) || 0
-                    }%`}
+                    pct={`${formatNumber(
+                      TopDisease?.data?.[3]?.pct_total_preg_disease
+                    ) || 0
+                      }%`}
                     isLoading={loadingTopDisease}
                     styles="bg-[#ADBB38] h-[130px] col-span-12"
                     size="l"
@@ -813,11 +804,10 @@ export default function Anc() {
                       formatNumber(TopDisease?.data?.[2]?.total_preg_disease) ||
                       "0"
                     }
-                    pct={`${
-                      formatNumber(
-                        TopDisease?.data?.[2]?.pct_total_preg_disease
-                      ) || 0
-                    }%`}
+                    pct={`${formatNumber(
+                      TopDisease?.data?.[2]?.pct_total_preg_disease
+                    ) || 0
+                      }%`}
                     isLoading={loadingTopDisease}
                     styles="bg-[#A72787] h-[180px] col-span-12"
                     size="l"
