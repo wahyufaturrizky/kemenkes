@@ -439,8 +439,8 @@ const RoutineBadutaImmunization = () => {
       trigger: "item",
       formatter: (params: any) => {
         const value = params.data.value;
-        const formattedValue = value?.toFixed(2).replace(".", ",");
-        return `${params.marker} ${params.name}: <span style="float: right; margin-left: 8px;"><strong>${formattedValue}%</strong></span><br/>`;
+        const formattedValue = formatNumber(value?.toFixed(2).replace(".", ","));
+        return `${params.marker} ${params.name}: <span style="float: right; margin-left: 8px;"><strong>${formattedValue}</strong></span><br/>`;
       },
     },
     legend: {
@@ -469,11 +469,11 @@ const RoutineBadutaImmunization = () => {
         },
         data: [
           {
-            value: getAverageImmunizationByGenderQuery?.data?.pct_male,
+            value: getAverageImmunizationByGenderQuery?.data?.ytd_male_all,
             name: "Laki-laki",
           },
           {
-            value: getAverageImmunizationByGenderQuery?.data?.pct_female,
+            value: getAverageImmunizationByGenderQuery?.data?.ytd_female_all,
             name: "Perempuan",
           },
         ],
@@ -808,53 +808,54 @@ const RoutineBadutaImmunization = () => {
                                 ? 15000
                                 : 900,
                       }}
-                      graphOptions={graphOptions1([{
-                        // @ts-ignore
-                        name: "Target Cakupan per Daerah = 100%",
-                        data:
-                          (
-                            getPercentageTotalImmunizationQuery?.data ||
-                            []
-                          )?.map((r: any) => ({
-                            value: r?.percentage,
-                            itemStyle: {
-                              color:
-                                r.faskes_desc === "All"
-                                  ? "#2D9CED"
-                                  : undefined,
+                      graphOptions={graphOptions1(
+                        [
+                          {
+                            // @ts-ignore
+                            name: "Persentase Cakupan per Daerah",
+                            data:
+                              (
+                                getPercentageTotalImmunizationQuery?.data ||
+                                []
+                              )?.map((r: any) => ({
+                                value: r?.percentage,
+                                itemStyle: {
+                                  color:
+                                    r.faskes_desc === "All"
+                                      ? "#2D9CED"
+                                      : undefined,
+                                },
+                              })) || [],
+                            type: "bar",
+                            label: {
+                              show: true,
+                              precision: 1,
+                              position: "right",
+                              formatter: (params: any) =>
+                                `${formatNumber(params.value)}% (${formatNumber(((getPercentageTotalImmunizationQuery?.data)?.map((r: any) => r?.total)?.reverse())[params?.dataIndex])})`,
                             },
-                          })) || [],
-                        type: "bar",
-                        label: {
-                          show: true,
-                          precision: 1,
-                          position: "right",
-                          formatter: (params: any) =>
-                            `${formatNumber(params.value)}% (${formatNumber(((getPercentageTotalImmunizationQuery?.data)?.map((r: any) => r?.total)?.reverse())[params?.dataIndex])})`,
-                        },
-                      },
-                      {
-                        name: "Target",
-                        type: "line",
-                        color: "#CD4243",
-                        data: (
-                          _.uniqBy(getPercentageTotalImmunizationQuery?.data, "faskes_desc") ||
-                          []
-                        )?.map((r: any) => r?.threshold) || [],
-                        label: {
-                          show: true,
-                          precision: 1,
-                          position: "right",
-                          formatter: (params: any) =>
-                            `${formatNumber(params.value)}%`,
-                        },
+                          },
+                          {
+                            name: "Target",
+                            type: "line",
+                            color: "#CD4243",
+                            data: (
+                              _.uniqBy(getPercentageTotalImmunizationQuery?.data, "faskes_desc") ||
+                              []
+                            )?.map((r: any) => r?.threshold) || [],
+                            label: {
+                              show: true,
+                              precision: 1,
+                              position: "right",
+                              formatter: (params: any) =>
+                                `${formatNumber(params.value)}%`,
+                            },
+                          }
+                        ],
+                        (_.uniqBy(getPercentageTotalImmunizationQuery?.data, "faskes_desc") || [])?.map((r: any) => r?.faskes_desc === "All" ? "Nasional" : r?.faskes_desc),
+                        getPercentageTotalImmunizationQuery?.data || []
+                      )
                       }
-                      ]
-                        , (
-                          _.uniqBy(getPercentageTotalImmunizationQuery?.data, "faskes_desc") ||
-                          []
-                        )?.map((r: any) => r?.faskes_desc === "All" ? "Nasional" : r?.faskes_desc)
-                      )}
                     />
                   </div>
                 }
@@ -1201,28 +1202,31 @@ const RoutineBadutaImmunization = () => {
                       opts={{
                         height: 500
                       }}
-                      graphOptions={graphOptions5([
-                        {
-                          name: "Laki-laki",
-                          data: aliasSummaryImmunizationPerGenderQuery?.map((r: any) => r?.pct_male) || [],
-                          type: 'bar',
-                          label: {
-                            show: true,
-                            precision: 1,
-                            formatter: (params: any) => `${formatNumber(params.value || 0)}%`
-                          }
-                        },
-                        {
-                          name: "Perempuan",
-                          data: aliasSummaryImmunizationPerGenderQuery?.map((r: any) => r?.pct_female) || [],
-                          type: 'bar',
-                          label: {
-                            show: true,
-                            precision: 1,
-                            formatter: (params: any) => `${formatNumber(params.value || 0)}%`
-                          }
-                        },
-                      ], aliasSummaryImmunizationPerGenderQuery?.map((r: any) => r?.vaccine_name)
+                      graphOptions={graphOptions5(
+                        [
+                          {
+                            name: "Laki-laki",
+                            data: aliasSummaryImmunizationPerGenderQuery?.map((r: any) => r?.pct_male) || [],
+                            type: 'bar',
+                            label: {
+                              show: true,
+                              precision: 1,
+                              formatter: (params: any) => `${formatNumber(params.value || 0)}%`
+                            }
+                          },
+                          {
+                            name: "Perempuan",
+                            data: aliasSummaryImmunizationPerGenderQuery?.map((r: any) => r?.pct_female) || [],
+                            type: 'bar',
+                            label: {
+                              show: true,
+                              precision: 1,
+                              formatter: (params: any) => `${formatNumber(params.value || 0)}%`
+                            }
+                          },
+                        ],
+                        aliasSummaryImmunizationPerGenderQuery?.map((r: any) => r?.vaccine_name),
+                        aliasSummaryImmunizationPerGenderQuery || []
                       )}
                     />
                   </div>
