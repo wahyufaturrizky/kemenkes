@@ -1,21 +1,33 @@
-FROM node:20.14-alpine3.19
-
+# Build stage
+FROM node:18-alpine AS builder
 WORKDIR /app
-COPY package*.json .
-
+COPY package*.json ./
 RUN npm ci
+COPY . .
+RUN npm run build
 
-COPY . ./
+# Production stage
+FROM node:18-alpine AS runner
+WORKDIR /app
 
-RUN npm run build && \
-    rm .env.development .env.production
+ENV NODE_ENV production
 
-# Create a non-root user called 'appuser'
-# Change ownership of the binary to the non-root user
-RUN adduser -D -g '' appuser && \
-    chown appuser:appuser /app
+RUN addgroup -g 1001 -S nodejs
+RUN adduser -S nextjs -u 1001
 
-# Switch to the non-root user
-USER appuser
+# Copy only necessary files from build stage
+COPY --from=builder /app/next.config.mjs ./
+COPY --from=builder /app/public ./public
+COPY --from=builder /app/package.json ./package.json
 
-CMD [ "npm","start" ]
+# Copy the built app
+COPY --from=builder --chown=nextjs:nodejs /app/.next/standalone ./
+COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
+
+USER nextjs
+
+EXPOSE 3000
+
+ENV PORT 3000
+
+CMD ["node", "server.js"]
