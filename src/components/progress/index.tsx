@@ -105,6 +105,8 @@ const Progress: React.FC<ProgressProps> = ({ data, styles, title }) => {
                 cursor: "pointer",
               }}
               onClick={(e) => handleClick(section, e)}
+              onMouseOver={(e) => handleClick(section, e)}
+              onMouseOut={() => setTooltip({ visible: false, content: "", position: 0 })}
             />
           ))}
         </div>

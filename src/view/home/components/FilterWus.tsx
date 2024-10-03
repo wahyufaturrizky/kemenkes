@@ -19,10 +19,15 @@ import {
 
 interface FilterProps {
   filterState?: any;
+  setVisitationAnalyticLocalQuery?:  React.Dispatch<React.SetStateAction<{
+      year: number;
+      month: string | undefined;
+  }>>
 }
 
 const FilterSummaryImmunizationWus: React.FC<FilterProps> = ({
   filterState,
+  setVisitationAnalyticLocalQuery
 }) => {
   const [filter, setFilter] = filterState || useState({});
   const { data: getProvince } = useGetProvinceQuery({});
@@ -122,6 +127,10 @@ const FilterSummaryImmunizationWus: React.FC<FilterProps> = ({
                 ...filter,
                 bulan: e?.value,
               });
+              setVisitationAnalyticLocalQuery?.({
+                year: filter.tahun,
+                month: e?.value
+              })
             }}
             value={
               filter.bulan
