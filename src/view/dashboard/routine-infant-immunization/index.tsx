@@ -135,19 +135,19 @@ const RoutineBabyImmunization = () => {
     region_type: filter.faskes
       ? "faskes"
       : filter.kecamatan
-        ? "district"
-        : filter.kabkota
-          ? "city"
-          : filter.provinsi
-            ? "province"
-            : "All",
+      ? "district"
+      : filter.kabkota
+      ? "city"
+      : filter.provinsi
+      ? "province"
+      : "All",
     faskes_id: filter.faskes
       ? filter.faskes
       : filter.kecamatan
-        ? filter.kecamatan
-        : filter.kabkota
-          ? filter.kabkota
-          : filter.provinsi && filter.provinsi,
+      ? filter.kecamatan
+      : filter.kabkota
+      ? filter.kabkota
+      : filter.provinsi && filter.provinsi,
     kewilayahan_type: filter.kewilayahan_type,
   };
 
@@ -157,18 +157,16 @@ const RoutineBabyImmunization = () => {
     filter.faskes
       ? setRegionTypeGraph1("faskes")
       : filter.kecamatan
-        ? setRegionTypeGraph1("district")
-        : filter.kabkota
-          ? setRegionTypeGraph1("city")
-          : filter.provinsi
-            ? setRegionTypeGraph1("province")
-            : setRegionTypeGraph1("All");
+      ? setRegionTypeGraph1("district")
+      : filter.kabkota
+      ? setRegionTypeGraph1("city")
+      : filter.provinsi
+      ? setRegionTypeGraph1("province")
+      : setRegionTypeGraph1("All");
   }, [filter.faskes, filter.kecamatan, filter.kabkota, filter.provinsi]);
 
   useEffect(() => {
-    filter.wilayah1
-      ? setRegionTypeGraph1(filter.wilayah1)
-      : setRegionTypeGraph1("province");
+    filter.wilayah1 ? setRegionTypeGraph1(filter.wilayah1) : setRegionTypeGraph1("province");
   }, [filter.wilayah1]);
 
   const filterGraph1 = useMemo(
@@ -179,12 +177,12 @@ const RoutineBabyImmunization = () => {
       faskes_parent: filter.faskes
         ? filter.faskes
         : filter.kecamatan
-          ? filter.kecamatan
-          : filter.kabkota
-            ? filter.kabkota
-            : filter.provinsi
-              ? filter.provinsi
-              : "",
+        ? filter.kecamatan
+        : filter.kabkota
+        ? filter.kabkota
+        : filter.provinsi
+        ? filter.provinsi
+        : "",
       // faskes_parent: filter.faskes_parent,
     }),
     [rergionTypeGraph1, filter, dateQuery]
@@ -197,12 +195,12 @@ const RoutineBabyImmunization = () => {
       faskes_parent: filter.faskes
         ? filter.faskes
         : filter.kecamatan
-          ? filter.kecamatan
-          : filter.kabkota
-            ? filter.kabkota
-            : filter.provinsi
-              ? filter.provinsi
-              : "",
+        ? filter.kecamatan
+        : filter.kabkota
+        ? filter.kabkota
+        : filter.provinsi
+        ? filter.provinsi
+        : "",
       // faskes_parent: filter.faskes_parent,
     }),
     [rergionTypeGraph1, filter, dateQuery]
@@ -212,22 +210,22 @@ const RoutineBabyImmunization = () => {
     filter.wilayah === "faskes"
       ? filter.faskes
       : filter.wilayah === "district"
-        ? filter.kecamatan
-        : filter.wilayah === "city"
-          ? filter.kabkota
-          : filter.wilayah === "province"
-            ? filter.provinsi
-            : "All";
+      ? filter.kecamatan
+      : filter.wilayah === "city"
+      ? filter.kabkota
+      : filter.wilayah === "province"
+      ? filter.provinsi
+      : "All";
 
   const faskesIdQuery = filter.faskes
     ? filter.faskes
     : filter.kecamatan
-      ? filter.kecamatan
-      : filter.kabkota
-        ? filter.kabkota
-        : filter.provinsi
-          ? filter.provinsi
-          : "All";
+    ? filter.kecamatan
+    : filter.kabkota
+    ? filter.kabkota
+    : filter.provinsi
+    ? filter.provinsi
+    : "All";
 
   const filterCumulativeScope = {
     ...dateQuery,
@@ -267,8 +265,7 @@ const RoutineBabyImmunization = () => {
     refetchOnMountOrArgChange: true,
     skip:
       !filter.tahun ||
-      (!filter.bulan &&
-        (!filter.provinsi || !filter.kabkota || !filter.kecamatan)),
+      (!filter.bulan && (!filter.provinsi || !filter.kabkota || !filter.kecamatan)),
   };
   const optionQueryGraph = {
     refetchOnMountOrArgChange: true,
@@ -281,94 +278,110 @@ const RoutineBabyImmunization = () => {
   };
   const optionQueryTotal = {
     refetchOnMountOrArgChange: true,
-    skip:
-      !filter.wilayah ||
-      !filter.tipe_vaksin1 ||
-      !filter.tipe_vaksin2 ||
-      !filter.tipe_vaksin3,
+    skip: !filter.wilayah || !filter.tipe_vaksin1 || !filter.tipe_vaksin2 || !filter.tipe_vaksin3,
   };
 
   // scorecard start
-  const {
-    data: getTotalImmunizationQuery,
-    isLoading: isLoadingTotalImmunizationQuery,
-  } = useGetTotalImmunizationQuery(filterQuery, optionQuery);
-  const {
-    data: getScopeCompleteBase,
-    isLoading: isLoadingScopeCompleteBaseQuery,
-  } = useGetScopeCommpleteBaseQuery(filterQuery, optionQuery);
-  const { data: getScopeHb0, isLoading: isLoadingScopeHb0Query } =
-    useGetScopeHb0Query(filterQuery, optionQuery);
-  const { data: getScopeBcg, isLoading: isLoadingScopeBcgQuery } =
-    useGetScopeBcgQuery(filterQuery, optionQuery);
-  const { data: getScopePolio1, isLoading: isLoadingScopePolio1Query } =
-    useGetScopePolio1Query(filterQuery, optionQuery);
-  const { data: getScopePolio2, isLoading: isLoadingScopePolio2Query } =
-    useGetScopePolio2Query(filterQuery, optionQuery);
-  const { data: getScopePolio3, isLoading: isLoadingScopePolio3Query } =
-    useGetScopePolio3Query(filterQuery, optionQuery);
-  const { data: getScopePolio4, isLoading: isLoadingScopePolio4Query } =
-    useGetScopePolio4Query(filterQuery, optionQuery);
+  const { data: getTotalImmunizationQuery, isLoading: isLoadingTotalImmunizationQuery } =
+    useGetTotalImmunizationQuery(filterQuery, optionQuery);
+  const { data: getScopeCompleteBase, isLoading: isLoadingScopeCompleteBaseQuery } =
+    useGetScopeCommpleteBaseQuery(filterQuery, optionQuery);
+  const { data: getScopeHb0, isLoading: isLoadingScopeHb0Query } = useGetScopeHb0Query(
+    filterQuery,
+    optionQuery
+  );
+  const { data: getScopeBcg, isLoading: isLoadingScopeBcgQuery } = useGetScopeBcgQuery(
+    filterQuery,
+    optionQuery
+  );
+  const { data: getScopePolio1, isLoading: isLoadingScopePolio1Query } = useGetScopePolio1Query(
+    filterQuery,
+    optionQuery
+  );
+  const { data: getScopePolio2, isLoading: isLoadingScopePolio2Query } = useGetScopePolio2Query(
+    filterQuery,
+    optionQuery
+  );
+  const { data: getScopePolio3, isLoading: isLoadingScopePolio3Query } = useGetScopePolio3Query(
+    filterQuery,
+    optionQuery
+  );
+  const { data: getScopePolio4, isLoading: isLoadingScopePolio4Query } = useGetScopePolio4Query(
+    filterQuery,
+    optionQuery
+  );
   const { data: getScopeDptHbHib1, isLoading: isLoadingScopeDptHbHib1Query } =
     useGetScopeDptHbHib1Query(filterQuery, optionQuery);
   const { data: getScopeDptHbHib2, isLoading: isLoadingScopeDptHbHib2Query } =
     useGetScopeDptHbHib2Query(filterQuery, optionQuery);
   const { data: getScopeDptHbHib3, isLoading: isLoadingScopeDptHbHib3Query } =
     useGetScopeDptHbHib3Query(filterQuery, optionQuery);
-  const { data: getScopeRubela, isLoading: isLoadingScopeRubelaQuery } =
-    useGetScopeRubelaQuery(filterQuery, optionQuery);
-  const { data: getScopePcv1, isLoading: isLoadingScopePcv1Query } =
-    useGetScopePcv1Query(filterQuery, optionQuery);
-  const { data: getScopePcv2, isLoading: isLoadingScopePcv2Query } =
-    useGetScopePcv2Query(filterQuery, optionQuery);
-  const { data: getScopeIpv1, isLoading: isLoadingScopeIpv1Query } =
-    useGetScopeIpv1Query(filterQuery, optionQuery);
-  const { data: getScopeIpv2, isLoading: isLoadingScopeIpv2Query } =
-    useGetScopeIpv2Query(filterQuery, optionQuery);
-  const { data: getScopeIpv1Diy, isLoading: isLoadingScopeIpv1DiyQuery } =
-    useGetScopeIpv1DiyQuery(filterQuery, optionQuery);
-  const { data: getScopeIpv2Diy, isLoading: isLoadingScopeIpv2DiyQuery } =
-    useGetScopeIpv2DiyQuery(filterQuery, optionQuery);
-  const { data: getScopeIpv3Diy, isLoading: isLoadingScopeIpv3DiyQuery } =
-    useGetScopeIpv3DiyQuery(filterQuery, optionQuery);
+  const { data: getScopeRubela, isLoading: isLoadingScopeRubelaQuery } = useGetScopeRubelaQuery(
+    filterQuery,
+    optionQuery
+  );
+  const { data: getScopePcv1, isLoading: isLoadingScopePcv1Query } = useGetScopePcv1Query(
+    filterQuery,
+    optionQuery
+  );
+  const { data: getScopePcv2, isLoading: isLoadingScopePcv2Query } = useGetScopePcv2Query(
+    filterQuery,
+    optionQuery
+  );
+  const { data: getScopeIpv1, isLoading: isLoadingScopeIpv1Query } = useGetScopeIpv1Query(
+    filterQuery,
+    optionQuery
+  );
+  const { data: getScopeIpv2, isLoading: isLoadingScopeIpv2Query } = useGetScopeIpv2Query(
+    filterQuery,
+    optionQuery
+  );
+  const { data: getScopeIpv1Diy, isLoading: isLoadingScopeIpv1DiyQuery } = useGetScopeIpv1DiyQuery(
+    filterQuery,
+    optionQuery
+  );
+  const { data: getScopeIpv2Diy, isLoading: isLoadingScopeIpv2DiyQuery } = useGetScopeIpv2DiyQuery(
+    filterQuery,
+    optionQuery
+  );
+  const { data: getScopeIpv3Diy, isLoading: isLoadingScopeIpv3DiyQuery } = useGetScopeIpv3DiyQuery(
+    filterQuery,
+    optionQuery
+  );
   const { data: getScopeRotavirus1, isLoading: isLoadingScopeRotavirus1Query } =
     useGetScopeRotavirus1Query(filterQuery, optionQuery);
   const { data: getScopeRotavirus2, isLoading: isLoadingScopeRotavirus2Query } =
     useGetScopeRotavirus2Query(filterQuery, optionQuery);
   const { data: getScopeRotavirus3, isLoading: isLoadingScopeRotavirus3Query } =
     useGetScopeRotavirus3Query(filterQuery, optionQuery);
-  const { data: getScopeJe, isLoading: isLoadingScopeJeQuery } =
-    useGetScopeJeQuery(filterQuery, optionQuery);
-  const {
-    data: getLeftoutPercentage,
-    isLoading: isLoadingLeftoutPercentageQuery,
-  } = useGetLeftoutPercentageQuery(filterQuery, optionQuery);
-  const { data: getDropout, isLoading: isLoadingDropoutQuery } =
-    useGetDropoutQuery(filterQuery, optionQuery);
+  const { data: getScopeJe, isLoading: isLoadingScopeJeQuery } = useGetScopeJeQuery(
+    filterQuery,
+    optionQuery
+  );
+  const { data: getLeftoutPercentage, isLoading: isLoadingLeftoutPercentageQuery } =
+    useGetLeftoutPercentageQuery(filterQuery, optionQuery);
+  const { data: getDropout, isLoading: isLoadingDropoutQuery } = useGetDropoutQuery(
+    filterQuery,
+    optionQuery
+  );
   const { data: getDropoutRubela, isLoading: isLoadingDropoutRubelaQuery } =
     useGetDropoutRubelaQuery(filterQuery, optionQuery);
-  const { data: getNumberZero, isLoading: isLoadingNumberZeroQuery } =
-    useGetNumberZeroQuery(filterQuery, optionQuery);
+  const { data: getNumberZero, isLoading: isLoadingNumberZeroQuery } = useGetNumberZeroQuery(
+    filterQuery,
+    optionQuery
+  );
 
   // scorecard end
 
   // grafik 1 start
-  const {
-    data: getTotalBayiImmunizationScope,
-    isLoading: isLoadingTotalBayiImmunizationScope,
-  } = useGetTotalBayiImmunizationScopeQuery(filterGraph1a, optionQuery);
-  const {
-    data: getHighestScopeImmunization,
-    isLoading: isLoadingHighestScopeImmunization,
-  } = useGetHighestScopeImmunizationQuery(filterGraph1, optionQuery);
-  const {
-    data: getLowestScopeImmunization,
-    isLoading: isLoadingLowestScopeImmunization,
-  } = useGetLowestScopeImmunizationQuery(filterGraph1, optionQuery);
-  const {
-    data: getGraphImmunizationScope,
-    isLoading: isLoadingGraphImmunizationScope,
-  } = useGetGraphImmunizationScopeQuery(filterGraph1, optionQuery);
+  const { data: getTotalBayiImmunizationScope, isLoading: isLoadingTotalBayiImmunizationScope } =
+    useGetTotalBayiImmunizationScopeQuery(filterGraph1a, optionQuery);
+  const { data: getHighestScopeImmunization, isLoading: isLoadingHighestScopeImmunization } =
+    useGetHighestScopeImmunizationQuery(filterGraph1, optionQuery);
+  const { data: getLowestScopeImmunization, isLoading: isLoadingLowestScopeImmunization } =
+    useGetLowestScopeImmunizationQuery(filterGraph1, optionQuery);
+  const { data: getGraphImmunizationScope, isLoading: isLoadingGraphImmunizationScope } =
+    useGetGraphImmunizationScopeQuery(filterGraph1, optionQuery);
 
   // grafik 1 end
 
@@ -376,65 +389,68 @@ const RoutineBabyImmunization = () => {
   const {
     data: getCumulativeScopeImmunizationQuery,
     isLoading: isLoadingCumulativeScopeImmunizationQuery,
-  } = useGetCumulativeScopeImmunizationQuery(
-    filterCumulativeScope,
-    optionQuery
-  );
+  } = useGetCumulativeScopeImmunizationQuery(filterCumulativeScope, optionQuery);
   const {
     data: getTotalCumulativeScopeImmunization,
     isLoading: isLoadingTotalCumulativeScopeImmunization,
-  } = useGetTotalCumulativeScopeImmunizationQuery(
-    filterCumulativeScope,
-    optionQuery
-  );
+  } = useGetTotalCumulativeScopeImmunizationQuery(filterCumulativeScope, optionQuery);
 
   // grafik 2 end
 
   // grafik 3 start
   const { data: getTotalCompleteBase, isLoading: isLoadingTotalCompleteBase } =
     useGetTotalCompleteBaseQuery(filterTotalBayi, optionQuery);
-  const { data: getHighestScope, isLoading: isLoadingHighestScope } =
-    useGetHighestScopeQuery(filterTotalBayi, optionQuery);
-  const { data: getLowestScope, isLoading: isLoadingLowestScope } =
-    useGetLowestScopeQuery(filterTotalBayi, optionQuery);
-  const { data: getTypeSuspase, isLoading: isLoadingTypeSuspase } =
-    useGetTypeSuspaseQuery(filterTotalBayi, optionQuery);
-  const { data: getGraphScope, isLoading: isLoadingGraphScope } =
-    useGetGraphScopeQuery(filterGraph3, optionQuery);
+  const { data: getHighestScope, isLoading: isLoadingHighestScope } = useGetHighestScopeQuery(
+    filterTotalBayi,
+    optionQuery
+  );
+  const { data: getLowestScope, isLoading: isLoadingLowestScope } = useGetLowestScopeQuery(
+    filterTotalBayi,
+    optionQuery
+  );
+  const { data: getTypeSuspase, isLoading: isLoadingTypeSuspase } = useGetTypeSuspaseQuery(
+    filterTotalBayi,
+    optionQuery
+  );
+  const { data: getGraphScope, isLoading: isLoadingGraphScope } = useGetGraphScopeQuery(
+    filterGraph3,
+    optionQuery
+  );
 
   // grafik 4 start
-  const { data: getNonIdealAge, isLoading: isLoadingNonIdealAge } =
-    useGetNonIdealAgeQuery(filterAge, optionQuery);
-  const { data: getIdealAge, isLoading: isLoadingIdealAge } =
-    useGetIdealAgeQuery(filterAge, optionQuery);
-  const {
-    data: getGraphImmunizationAge,
-    isLoading: isLoadingGraphImmunizationAge,
-  } = useGetGraphImmunizationAgeQuery({
-    ...dateQuery,
-    region_type: regionIdQuery,
-    faskes_id: faskesIdQuery
-  }, optionQuery);
+  const { data: getNonIdealAge, isLoading: isLoadingNonIdealAge } = useGetNonIdealAgeQuery(
+    filterAge,
+    optionQuery
+  );
+  const { data: getIdealAge, isLoading: isLoadingIdealAge } = useGetIdealAgeQuery(
+    filterAge,
+    optionQuery
+  );
+  const { data: getGraphImmunizationAge, isLoading: isLoadingGraphImmunizationAge } =
+    useGetGraphImmunizationAgeQuery(
+      {
+        ...dateQuery,
+        region_type: regionIdQuery,
+        faskes_id: faskesIdQuery,
+      },
+      optionQuery
+    );
   const aliasSummaryImmunizationByAgeQuery = Object.entries(
     getGraphImmunizationAge?.data?.[0] || []
   ).map(([key, value]) => ({ label: key, value: value }));
   // grafik 4 end
 
   // grafik 5 start
-  const { data: getAverageGender, isLoading: isLoadingAverageGender } =
-    useGetAverageGenderQuery(filterGender, optionQuery);
-  const {
-    data: getMostImmunizationTypeMale,
-    isLoading: isLoadingMostImmunizationTypeMale,
-  } = useGetMostImmunizationTypeMaleQuery(filterGender, optionQuery);
-  const {
-    data: getMostImmunizationTypFemale,
-    isLoading: isLoadingMostImmunizationTypeFemale,
-  } = useGetMostImmunizationTypeFemaleQuery(filterGender, optionQuery);
-  const {
-    data: getGraphImmunizationGender,
-    isLoading: isLoadingGraphImmunizationGender,
-  } = useGetGraphImmunizationGenderQuery(filterGender, optionQuery);
+  const { data: getAverageGender, isLoading: isLoadingAverageGender } = useGetAverageGenderQuery(
+    filterGender,
+    optionQuery
+  );
+  const { data: getMostImmunizationTypeMale, isLoading: isLoadingMostImmunizationTypeMale } =
+    useGetMostImmunizationTypeMaleQuery(filterGender, optionQuery);
+  const { data: getMostImmunizationTypFemale, isLoading: isLoadingMostImmunizationTypeFemale } =
+    useGetMostImmunizationTypeFemaleQuery(filterGender, optionQuery);
+  const { data: getGraphImmunizationGender, isLoading: isLoadingGraphImmunizationGender } =
+    useGetGraphImmunizationGenderQuery(filterGender, optionQuery);
   const aliasGraphImmunizationGenderQuery = Object.entries(
     getGraphImmunizationGender?.data?.[0] || []
   ).map(([key, value]) => ({ label: key, value: value }));
@@ -443,14 +459,7 @@ const RoutineBabyImmunization = () => {
   const dataGraphRegionalRoutineImmunizationCoverageTrend1 = [
     {
       title: `Total Cakupan Imunisasi Rutin Lengkap Nasional Tahun ${filter.tahun}`,
-      value: (
-        <div>
-          {formatNumber(
-            getTotalBayiImmunizationScope?.data?.[0]?.percentage || 0
-          )}
-          %
-        </div>
-      ),
+      value: <div>{formatNumber(getTotalBayiImmunizationScope?.data?.[0]?.percentage || 0)}%</div>,
       regional: <></>,
       isLoading: isLoadingTotalBayiImmunizationScope,
     },
@@ -478,48 +487,27 @@ const RoutineBabyImmunization = () => {
   const dataGraphRegionalRoutineImmunizationCoverageTrend2 = [
     {
       // title: `Cakupan ${filterTotalBayi.vaccine_type}`,
-      title: `Cakupan ${vaccineTypeBabyOptionsNew.find((type) => type.value === filterTotalBayi.vaccine_type)?.label}`,
-      value: (
-        <div>
-          {formatNumber(getTotalCompleteBase?.data?.[0]?.percentage || 0)}%
-        </div>
-      ),
+      title: `Cakupan ${
+        vaccineTypeBabyOptionsNew.find((type) => type.value === filterTotalBayi.vaccine_type)?.label
+      }`,
+      value: <div>{formatNumber(getTotalCompleteBase?.data?.[0]?.percentage || 0)}%</div>,
       regional: (
-        <div>
-          Jumlah Cakupan:{" "}
-          {formatNumber(getTotalCompleteBase?.data?.[0]?.total || 0)}
-        </div>
+        <div>Jumlah Cakupan: {formatNumber(getTotalCompleteBase?.data?.[0]?.total || 0)}</div>
       ),
       isLoading: isLoadingTotalCompleteBase,
     },
     {
       title: `Cakupan Imunisasi Tertinggi`,
       value: <div>{getHighestScope?.data?.vaksin || ""}</div>,
-      regional: (
-        <div>
-          Jumlah Cakupan: {formatNumber(getHighestScope?.data?.total || 0)}
-        </div>
-      ),
-      threshold: (
-        <div>
-          % Cakupan: {formatNumber(getHighestScope?.data?.percentage || 0)}%
-        </div>
-      ),
+      regional: <div>Jumlah Cakupan: {formatNumber(getHighestScope?.data?.total || 0)}</div>,
+      threshold: <div>% Cakupan: {formatNumber(getHighestScope?.data?.percentage || 0)}%</div>,
       isLoading: isLoadingHighestScope,
     },
     {
       title: `Cakupan Imunisasi Terendah`,
       value: <div>{getLowestScope?.data?.vaksin}</div>,
-      regional: (
-        <div>
-          Jumlah Cakupan: {formatNumber(getLowestScope?.data?.total || 0)}
-        </div>
-      ),
-      threshold: (
-        <div>
-          % Cakupan: {formatNumber(getLowestScope?.data?.percentage || 0)}%
-        </div>
-      ),
+      regional: <div>Jumlah Cakupan: {formatNumber(getLowestScope?.data?.total || 0)}</div>,
+      threshold: <div>% Cakupan: {formatNumber(getLowestScope?.data?.percentage || 0)}%</div>,
       isLoading: isLoadingLowestScope,
     },
   ];
@@ -527,8 +515,7 @@ const RoutineBabyImmunization = () => {
     {
       title: (
         <div className="font-bold text-xl">
-          3 Imunisasi dengan Penerima{" "}
-          <b style={{ color: "#EBB220" }}>Usia Non Ideal</b> Terbanyak
+          3 Imunisasi dengan Penerima <b style={{ color: "#EBB220" }}>Usia Non Ideal</b> Terbanyak
         </div>
       ),
       value: getNonIdealAge?.data?.map((r: any, i: number) => (
@@ -541,8 +528,7 @@ const RoutineBabyImmunization = () => {
     {
       title: (
         <div className="font-bold text-xl">
-          3 Imunisasi dengan Penerima{" "}
-          <b style={{ color: "#00B1A9" }}>Usia Ideal</b> Terbanyak
+          3 Imunisasi dengan Penerima <b style={{ color: "#00B1A9" }}>Usia Ideal</b> Terbanyak
         </div>
       ),
       value: getIdealAge?.data?.map((r: any, i: number) => (
@@ -636,9 +622,7 @@ const RoutineBabyImmunization = () => {
             text={
               <BannerText
                 highlight={`Dasbor Program Imunisasi Rutin`}
-                highlightFooter={
-                  <BannerHighlightFooter look="567" comment="145" share="24" />
-                }
+                highlightFooter={<BannerHighlightFooter look="567" comment="145" share="24" />}
               />
             }
           />
@@ -659,9 +643,8 @@ const RoutineBabyImmunization = () => {
                 Imunisasi Rutin Bayi
               </div>
               <div>
-                Menampilkan data cakupan imunisasi rutin bayi berdasarkan jenis
-                imunisasi, cakupan daerah, usia pemberian, dan jenis kelamin
-                bayi.
+                Menampilkan data cakupan imunisasi rutin bayi berdasarkan jenis imunisasi, cakupan
+                daerah, usia pemberian, dan jenis kelamin bayi.
               </div>
             </div>
             <div className="pt-6">
@@ -674,9 +657,8 @@ const RoutineBabyImmunization = () => {
                 Ringkasan Data Cakupan Imunisasi Rutin Bayi
               </div>
               <div>
-                Ringkasan berisi data total penerima imunisasi rutin bayi dan
-                jenis imunisasi rutin bayi terhadap target cakupan yang sudah
-                ditentukan.
+                Ringkasan berisi data total penerima imunisasi rutin bayi dan jenis imunisasi rutin
+                bayi terhadap target cakupan yang sudah ditentukan.
               </div>
               <div className="gap-4 grid grid-cols-1 sm:grid-cols-3 md:grid-cols-4 mt-4">
                 <div className="relative flex justify-center items-center">
@@ -687,9 +669,7 @@ const RoutineBabyImmunization = () => {
                     classNameTitle="text-white"
                     classNameValue="text-4xl text-white"
                     title="Total Penerima Imunisasi Bayi"
-                    value={formatNumber(
-                      getTotalImmunizationQuery?.data?.[0]?.total || 0
-                    )}
+                    value={formatNumber(getTotalImmunizationQuery?.data?.[0]?.total || 0)}
                   />
                 </div>
                 <div className="relative flex justify-center items-center">
@@ -698,14 +678,9 @@ const RoutineBabyImmunization = () => {
                     className="px-4 border rounded-lg"
                     title="Imunisasi Dasar Lengkap"
                     contentTooltip={<>Imunisasi Dasar Lengkap</>}
-                    value={formatNumber(
-                      getScopeCompleteBase?.data?.[0]?.total || 0
-                    )}
+                    value={formatNumber(getScopeCompleteBase?.data?.[0]?.total || 0)}
                     percent={getScopeCompleteBase?.data?.[0]?.percentage || "0"}
-                    target={
-                      formatNumber(getScopeCompleteBase?.data?.[0].target) ||
-                      "0"
-                    }
+                    target={formatNumber(getScopeCompleteBase?.data?.[0].target) || "0"}
                     subtitle={" dari "}
                   />
                 </div>
@@ -714,12 +689,7 @@ const RoutineBabyImmunization = () => {
                   <ChildSummaryImmunization
                     className="px-4 border rounded-lg"
                     titleIcon={
-                      <Image
-                        alt="satusehat"
-                        src={VaccinateNudge.src}
-                        width={24}
-                        height={24}
-                      />
+                      <Image alt="satusehat" src={VaccinateNudge.src} width={24} height={24} />
                     }
                     title={"HB - 0"}
                     value={formatNumber(getScopeHb0?.data?.[0]?.total) || "0"}
@@ -733,12 +703,7 @@ const RoutineBabyImmunization = () => {
                   <ChildSummaryImmunization
                     className="px-4 border rounded-lg"
                     titleIcon={
-                      <Image
-                        alt="satusehat"
-                        src={VaccinateNudge.src}
-                        width={24}
-                        height={24}
-                      />
+                      <Image alt="satusehat" src={VaccinateNudge.src} width={24} height={24} />
                     }
                     title={"BCG"}
                     value={formatNumber(getScopeBcg?.data?.[0]?.total) || "0"}
@@ -752,21 +717,12 @@ const RoutineBabyImmunization = () => {
                   <ChildSummaryImmunization
                     className="px-4 border rounded-lg"
                     titleIcon={
-                      <Image
-                        alt="satusehat"
-                        src={VaccinateNudge.src}
-                        width={24}
-                        height={24}
-                      />
+                      <Image alt="satusehat" src={VaccinateNudge.src} width={24} height={24} />
                     }
                     title={"Polio 1"}
-                    value={
-                      formatNumber(getScopePolio1?.data?.[0]?.total) || "0"
-                    }
+                    value={formatNumber(getScopePolio1?.data?.[0]?.total) || "0"}
                     percent={getScopePolio1?.data?.[0]?.percentage || "0"}
-                    target={
-                      formatNumber(getScopePolio1?.data?.[0]?.target) || "0"
-                    }
+                    target={formatNumber(getScopePolio1?.data?.[0]?.target) || "0"}
                     subtitle={" dari "}
                   />
                 </div>
@@ -775,21 +731,12 @@ const RoutineBabyImmunization = () => {
                   <ChildSummaryImmunization
                     className="px-4 border rounded-lg"
                     titleIcon={
-                      <Image
-                        alt="satusehat"
-                        src={VaccinateNudge.src}
-                        width={24}
-                        height={24}
-                      />
+                      <Image alt="satusehat" src={VaccinateNudge.src} width={24} height={24} />
                     }
                     title={"Polio 2"}
-                    value={
-                      formatNumber(getScopePolio2?.data?.[0]?.total) || "0"
-                    }
+                    value={formatNumber(getScopePolio2?.data?.[0]?.total) || "0"}
                     percent={getScopePolio2?.data?.[0]?.percentage || "0"}
-                    target={
-                      formatNumber(getScopePolio2?.data?.[0]?.target) || "0"
-                    }
+                    target={formatNumber(getScopePolio2?.data?.[0]?.target) || "0"}
                     subtitle={" dari "}
                   />
                 </div>
@@ -798,21 +745,12 @@ const RoutineBabyImmunization = () => {
                   <ChildSummaryImmunization
                     className="px-4 border rounded-lg"
                     titleIcon={
-                      <Image
-                        alt="satusehat"
-                        src={VaccinateNudge.src}
-                        width={24}
-                        height={24}
-                      />
+                      <Image alt="satusehat" src={VaccinateNudge.src} width={24} height={24} />
                     }
                     title={"Polio 3"}
-                    value={
-                      formatNumber(getScopePolio3?.data?.[0]?.total) || "0"
-                    }
+                    value={formatNumber(getScopePolio3?.data?.[0]?.total) || "0"}
                     percent={getScopePolio3?.data?.[0]?.percentage || "0"}
-                    target={
-                      formatNumber(getScopePolio3?.data?.[0]?.target) || "0"
-                    }
+                    target={formatNumber(getScopePolio3?.data?.[0]?.target) || "0"}
                     subtitle={" dari "}
                   />
                 </div>
@@ -821,21 +759,12 @@ const RoutineBabyImmunization = () => {
                   <ChildSummaryImmunization
                     className="px-4 border rounded-lg"
                     titleIcon={
-                      <Image
-                        alt="satusehat"
-                        src={VaccinateNudge.src}
-                        width={24}
-                        height={24}
-                      />
+                      <Image alt="satusehat" src={VaccinateNudge.src} width={24} height={24} />
                     }
                     title={"Polio 4"}
-                    value={
-                      formatNumber(getScopePolio4?.data?.[0]?.total) || "0"
-                    }
+                    value={formatNumber(getScopePolio4?.data?.[0]?.total) || "0"}
                     percent={getScopePolio4?.data?.[0]?.percentage || "0"}
-                    target={
-                      formatNumber(getScopePolio4?.data?.[0]?.target) || "0"
-                    }
+                    target={formatNumber(getScopePolio4?.data?.[0]?.target) || "0"}
                     subtitle={" dari "}
                   />
                 </div>
@@ -844,21 +773,12 @@ const RoutineBabyImmunization = () => {
                   <ChildSummaryImmunization
                     className="px-4 border rounded-lg"
                     titleIcon={
-                      <Image
-                        alt="satusehat"
-                        src={VaccinateNudge.src}
-                        width={24}
-                        height={24}
-                      />
+                      <Image alt="satusehat" src={VaccinateNudge.src} width={24} height={24} />
                     }
                     title={"DPT-HB-Hib 1"}
-                    value={
-                      formatNumber(getScopeDptHbHib1?.data?.[0]?.total) || "0"
-                    }
+                    value={formatNumber(getScopeDptHbHib1?.data?.[0]?.total) || "0"}
                     percent={getScopeDptHbHib1?.data?.[0]?.percentage || "0"}
-                    target={
-                      formatNumber(getScopeDptHbHib1?.data?.[0]?.target) || "0"
-                    }
+                    target={formatNumber(getScopeDptHbHib1?.data?.[0]?.target) || "0"}
                     subtitle={" dari "}
                   />
                 </div>
@@ -867,21 +787,12 @@ const RoutineBabyImmunization = () => {
                   <ChildSummaryImmunization
                     className="px-4 border rounded-lg"
                     titleIcon={
-                      <Image
-                        alt="satusehat"
-                        src={VaccinateNudge.src}
-                        width={24}
-                        height={24}
-                      />
+                      <Image alt="satusehat" src={VaccinateNudge.src} width={24} height={24} />
                     }
                     title={"DPT-HB-Hib 2"}
-                    value={
-                      formatNumber(getScopeDptHbHib2?.data?.[0]?.total) || "0"
-                    }
+                    value={formatNumber(getScopeDptHbHib2?.data?.[0]?.total) || "0"}
                     percent={getScopeDptHbHib2?.data?.[0]?.percentage || "0"}
-                    target={
-                      formatNumber(getScopeDptHbHib2?.data?.[0]?.target) || "0"
-                    }
+                    target={formatNumber(getScopeDptHbHib2?.data?.[0]?.target) || "0"}
                     subtitle={" dari "}
                   />
                 </div>
@@ -890,21 +801,12 @@ const RoutineBabyImmunization = () => {
                   <ChildSummaryImmunization
                     className="px-4 border rounded-lg"
                     titleIcon={
-                      <Image
-                        alt="satusehat"
-                        src={VaccinateNudge.src}
-                        width={24}
-                        height={24}
-                      />
+                      <Image alt="satusehat" src={VaccinateNudge.src} width={24} height={24} />
                     }
                     title={"DPT-HB-Hib 3"}
-                    value={
-                      formatNumber(getScopeDptHbHib3?.data?.[0]?.total) || "0"
-                    }
+                    value={formatNumber(getScopeDptHbHib3?.data?.[0]?.total) || "0"}
                     percent={getScopeDptHbHib3?.data?.[0]?.percentage || "0"}
-                    target={
-                      formatNumber(getScopeDptHbHib3?.data?.[0]?.target) || "0"
-                    }
+                    target={formatNumber(getScopeDptHbHib3?.data?.[0]?.target) || "0"}
                     subtitle={" dari "}
                   />
                 </div>
@@ -913,21 +815,12 @@ const RoutineBabyImmunization = () => {
                   <ChildSummaryImmunization
                     className="px-4 border rounded-lg"
                     titleIcon={
-                      <Image
-                        alt="satusehat"
-                        src={VaccinateNudge.src}
-                        width={24}
-                        height={24}
-                      />
+                      <Image alt="satusehat" src={VaccinateNudge.src} width={24} height={24} />
                     }
                     title={"Campak Rubela"}
-                    value={
-                      formatNumber(getScopeRubela?.data?.[0]?.total) || "0"
-                    }
+                    value={formatNumber(getScopeRubela?.data?.[0]?.total) || "0"}
                     percent={getScopeRubela?.data?.[0]?.percentage || "0"}
-                    target={
-                      formatNumber(getScopeRubela?.data?.[0]?.target) || "0"
-                    }
+                    target={formatNumber(getScopeRubela?.data?.[0]?.target) || "0"}
                     subtitle={" dari "}
                   />
                 </div>
@@ -936,19 +829,12 @@ const RoutineBabyImmunization = () => {
                   <ChildSummaryImmunization
                     className="px-4 border rounded-lg"
                     titleIcon={
-                      <Image
-                        alt="satusehat"
-                        src={VaccinateNudge.src}
-                        width={24}
-                        height={24}
-                      />
+                      <Image alt="satusehat" src={VaccinateNudge.src} width={24} height={24} />
                     }
                     title={"PCV 1"}
                     value={formatNumber(getScopePcv1?.data?.[0]?.total) || "0"}
                     percent={getScopePcv1?.data?.[0]?.percentage || "0"}
-                    target={
-                      formatNumber(getScopePcv1?.data?.[0]?.target) || "0"
-                    }
+                    target={formatNumber(getScopePcv1?.data?.[0]?.target) || "0"}
                     subtitle={" dari "}
                   />
                 </div>
@@ -957,19 +843,12 @@ const RoutineBabyImmunization = () => {
                   <ChildSummaryImmunization
                     className="px-4 border rounded-lg"
                     titleIcon={
-                      <Image
-                        alt="satusehat"
-                        src={VaccinateNudge.src}
-                        width={24}
-                        height={24}
-                      />
+                      <Image alt="satusehat" src={VaccinateNudge.src} width={24} height={24} />
                     }
                     title={"PCV 2"}
                     value={formatNumber(getScopePcv2?.data?.[0]?.total) || "0"}
                     percent={getScopePcv2?.data?.[0]?.percentage || "0"}
-                    target={
-                      formatNumber(getScopePcv2?.data?.[0]?.target) || "0"
-                    }
+                    target={formatNumber(getScopePcv2?.data?.[0]?.target) || "0"}
                     subtitle={" dari "}
                   />
                 </div>
@@ -978,19 +857,12 @@ const RoutineBabyImmunization = () => {
                   <ChildSummaryImmunization
                     className="px-4 border rounded-lg"
                     titleIcon={
-                      <Image
-                        alt="satusehat"
-                        src={VaccinateNudge.src}
-                        width={24}
-                        height={24}
-                      />
+                      <Image alt="satusehat" src={VaccinateNudge.src} width={24} height={24} />
                     }
                     title={"IPV 1"}
                     value={formatNumber(getScopeIpv1?.data?.[0]?.total) || "0"}
                     percent={getScopeIpv1?.data?.[0]?.percentage || "0"}
-                    target={
-                      formatNumber(getScopeIpv1?.data?.[0]?.target) || "0"
-                    }
+                    target={formatNumber(getScopeIpv1?.data?.[0]?.target) || "0"}
                     subtitle={" dari "}
                   />
                 </div>
@@ -999,19 +871,12 @@ const RoutineBabyImmunization = () => {
                   <ChildSummaryImmunization
                     className="px-4 border rounded-lg"
                     titleIcon={
-                      <Image
-                        alt="satusehat"
-                        src={VaccinateNudge.src}
-                        width={24}
-                        height={24}
-                      />
+                      <Image alt="satusehat" src={VaccinateNudge.src} width={24} height={24} />
                     }
                     title={"IPV 2"}
                     value={formatNumber(getScopeIpv2?.data?.[0]?.total) || "0"}
                     percent={getScopeIpv2?.data?.[0]?.percentage || "0"}
-                    target={
-                      formatNumber(getScopeIpv2?.data?.[0]?.target) || "0"
-                    }
+                    target={formatNumber(getScopeIpv2?.data?.[0]?.target) || "0"}
                     subtitle={" dari "}
                   />
                 </div>
@@ -1020,21 +885,12 @@ const RoutineBabyImmunization = () => {
                   <ChildSummaryImmunization
                     className="px-4 border rounded-lg"
                     titleIcon={
-                      <Image
-                        alt="satusehat"
-                        src={VaccinateNudge.src}
-                        width={24}
-                        height={24}
-                      />
+                      <Image alt="satusehat" src={VaccinateNudge.src} width={24} height={24} />
                     }
                     title={"IPV 1 DIY"}
-                    value={
-                      formatNumber(getScopeIpv1Diy?.data?.[0]?.total) || "0"
-                    }
+                    value={formatNumber(getScopeIpv1Diy?.data?.[0]?.total) || "0"}
                     percent={getScopeIpv1Diy?.data?.[0]?.percentage || "0"}
-                    target={
-                      formatNumber(getScopeIpv1Diy?.data?.[0]?.target) || "0"
-                    }
+                    target={formatNumber(getScopeIpv1Diy?.data?.[0]?.target) || "0"}
                     subtitle={" dari "}
                   />
                 </div>
@@ -1043,21 +899,12 @@ const RoutineBabyImmunization = () => {
                   <ChildSummaryImmunization
                     className="px-4 border rounded-lg"
                     titleIcon={
-                      <Image
-                        alt="satusehat"
-                        src={VaccinateNudge.src}
-                        width={24}
-                        height={24}
-                      />
+                      <Image alt="satusehat" src={VaccinateNudge.src} width={24} height={24} />
                     }
                     title={"IPV 2 DIY"}
-                    value={
-                      formatNumber(getScopeIpv2Diy?.data?.[0]?.total) || "0"
-                    }
+                    value={formatNumber(getScopeIpv2Diy?.data?.[0]?.total) || "0"}
                     percent={getScopeIpv2Diy?.data?.[0]?.percentage || "0"}
-                    target={
-                      formatNumber(getScopeIpv2Diy?.data?.[0]?.target) || "0"
-                    }
+                    target={formatNumber(getScopeIpv2Diy?.data?.[0]?.target) || "0"}
                     subtitle={" dari "}
                   />
                 </div>
@@ -1066,21 +913,12 @@ const RoutineBabyImmunization = () => {
                   <ChildSummaryImmunization
                     className="px-4 border rounded-lg"
                     titleIcon={
-                      <Image
-                        alt="satusehat"
-                        src={VaccinateNudge.src}
-                        width={24}
-                        height={24}
-                      />
+                      <Image alt="satusehat" src={VaccinateNudge.src} width={24} height={24} />
                     }
                     title={"IPV 3 DIY"}
-                    value={
-                      formatNumber(getScopeIpv3Diy?.data?.[0]?.total) || "0"
-                    }
+                    value={formatNumber(getScopeIpv3Diy?.data?.[0]?.total) || "0"}
                     percent={getScopeIpv3Diy?.data?.[0]?.percentage || "0"}
-                    target={
-                      formatNumber(getScopeIpv3Diy?.data?.[0]?.target) || "0"
-                    }
+                    target={formatNumber(getScopeIpv3Diy?.data?.[0]?.target) || "0"}
                     subtitle={" dari "}
                   />
                 </div>
@@ -1089,21 +927,12 @@ const RoutineBabyImmunization = () => {
                   <ChildSummaryImmunization
                     className="px-4 border rounded-lg"
                     titleIcon={
-                      <Image
-                        alt="satusehat"
-                        src={VaccinateNudge.src}
-                        width={24}
-                        height={24}
-                      />
+                      <Image alt="satusehat" src={VaccinateNudge.src} width={24} height={24} />
                     }
                     title={"Rotavirus 1"}
-                    value={
-                      formatNumber(getScopeRotavirus1?.data?.[0]?.total) || "0"
-                    }
+                    value={formatNumber(getScopeRotavirus1?.data?.[0]?.total) || "0"}
                     percent={getScopeRotavirus1?.data?.[0]?.percentage || "0"}
-                    target={
-                      formatNumber(getScopeRotavirus1?.data?.[0]?.target) || "0"
-                    }
+                    target={formatNumber(getScopeRotavirus1?.data?.[0]?.target) || "0"}
                     subtitle={" dari "}
                   />
                 </div>
@@ -1112,21 +941,12 @@ const RoutineBabyImmunization = () => {
                   <ChildSummaryImmunization
                     className="px-4 border rounded-lg"
                     titleIcon={
-                      <Image
-                        alt="satusehat"
-                        src={VaccinateNudge.src}
-                        width={24}
-                        height={24}
-                      />
+                      <Image alt="satusehat" src={VaccinateNudge.src} width={24} height={24} />
                     }
                     title={"Rotavirus 2"}
-                    value={
-                      formatNumber(getScopeRotavirus2?.data?.[0]?.total) || "0"
-                    }
+                    value={formatNumber(getScopeRotavirus2?.data?.[0]?.total) || "0"}
                     percent={getScopeRotavirus2?.data?.[0]?.percentage || "0"}
-                    target={
-                      formatNumber(getScopeRotavirus2?.data?.[0]?.target) || "0"
-                    }
+                    target={formatNumber(getScopeRotavirus2?.data?.[0]?.target) || "0"}
                     subtitle={" dari "}
                   />
                 </div>
@@ -1135,21 +955,12 @@ const RoutineBabyImmunization = () => {
                   <ChildSummaryImmunization
                     className="px-4 border rounded-lg"
                     titleIcon={
-                      <Image
-                        alt="satusehat"
-                        src={VaccinateNudge.src}
-                        width={24}
-                        height={24}
-                      />
+                      <Image alt="satusehat" src={VaccinateNudge.src} width={24} height={24} />
                     }
                     title={"Rotavirus 3"}
-                    value={
-                      formatNumber(getScopeRotavirus3?.data?.[0]?.total) || "0"
-                    }
+                    value={formatNumber(getScopeRotavirus3?.data?.[0]?.total) || "0"}
                     percent={getScopeRotavirus3?.data?.[0]?.percentage || "0"}
-                    target={
-                      formatNumber(getScopeRotavirus3?.data?.[0]?.target) || "0"
-                    }
+                    target={formatNumber(getScopeRotavirus3?.data?.[0]?.target) || "0"}
                     subtitle={" dari "}
                   />
                 </div>
@@ -1158,12 +969,7 @@ const RoutineBabyImmunization = () => {
                   <ChildSummaryImmunization
                     className="px-4 border rounded-lg"
                     titleIcon={
-                      <Image
-                        alt="satusehat"
-                        src={VaccinateNudge.src}
-                        width={24}
-                        height={24}
-                      />
+                      <Image alt="satusehat" src={VaccinateNudge.src} width={24} height={24} />
                     }
                     title={"JE"}
                     value={formatNumber(getScopeJe?.data?.[0]?.total) || "0"}
@@ -1183,18 +989,13 @@ const RoutineBabyImmunization = () => {
                     classNameValue="text-4xl text-white"
                     title="Persentase Left Out"
                     contentTooltip={<>Persentase Left Out</>}
-                    value={`${getLeftoutPercentage?.data
-                      ? formatNumber(
-                        getLeftoutPercentage?.data?.[0]
-                          ?.left_out_percentage || 0
-                      )
-                      : "0"
-                      }%`}
+                    value={`${
+                      getLeftoutPercentage?.data
+                        ? formatNumber(getLeftoutPercentage?.data?.[0]?.left_out_percentage || 0)
+                        : "0"
+                    }%`}
                     total={getLeftoutPercentage?.data?.[0]?.total || "0"}
-                    target={
-                      formatNumber(getLeftoutPercentage?.data?.[0]?.target) ||
-                      "0"
-                    }
+                    target={formatNumber(getLeftoutPercentage?.data?.[0]?.target) || "0"}
                     subtitle={" dari "}
                     showLine={false}
                   />
@@ -1207,19 +1008,16 @@ const RoutineBabyImmunization = () => {
                     classNameTitle="text-white"
                     classNameValue="text-4xl text-white"
                     title={
-                      <span
-                        style={{ whiteSpace: "pre-line", display: "block" }}
-                      >
+                      <span style={{ whiteSpace: "pre-line", display: "block" }}>
                         {"Persentase Drop Out \nDPT-HB-Hib"}
                       </span>
                     }
                     contentTooltip={<>Persentase Drop Out DPT-HB-Hib</>}
-                    value={`${getDropout?.data
-                      ? formatNumber(
-                        getDropout?.data?.[0]?.drop_out_percentage || 0
-                      )
-                      : "0"
-                      }%`}
+                    value={`${
+                      getDropout?.data
+                        ? formatNumber(getDropout?.data?.[0]?.drop_out_percentage || 0)
+                        : "0"
+                    }%`}
                     total={getDropout?.data?.[0]?.total || "0"}
                     target={formatNumber(getDropout?.data?.[0]?.target) || "0"}
                     subtitle={" dari "}
@@ -1234,24 +1032,18 @@ const RoutineBabyImmunization = () => {
                     classNameTitle="text-white"
                     classNameValue="text-4xl text-white"
                     title={
-                      <span
-                        style={{ whiteSpace: "pre-line", display: "block" }}
-                      >
+                      <span style={{ whiteSpace: "pre-line", display: "block" }}>
                         {"Persentase Drop Out \nCampak Rubela"}
                       </span>
                     }
                     contentTooltip={<>Persentase Drop Out Campak Rubela</>}
-                    value={`${getDropoutRubela?.data
-                      ? formatNumber(
-                        getDropoutRubela?.data?.[0]?.drop_out_percentage ||
-                        0
-                      )
-                      : "0"
-                      }%`}
+                    value={`${
+                      getDropoutRubela?.data
+                        ? formatNumber(getDropoutRubela?.data?.[0]?.drop_out_percentage || 0)
+                        : "0"
+                    }%`}
                     total={getDropoutRubela?.data?.[0]?.total || "0"}
-                    target={
-                      formatNumber(getDropoutRubela?.data?.[0]?.target) || "0"
-                    }
+                    target={formatNumber(getDropoutRubela?.data?.[0]?.target) || "0"}
                     subtitle={" dari "}
                     showLine={false}
                   />
@@ -1268,9 +1060,7 @@ const RoutineBabyImmunization = () => {
                     contentTooltip={<>Jumlah Zero Dose</>}
                     value={
                       getNumberZero?.data
-                        ? formatNumber(
-                          getNumberZero?.data?.[0]?.number_of_zero_dose || 0
-                        )
+                        ? formatNumber(getNumberZero?.data?.[0]?.number_of_zero_dose || 0)
                         : "0"
                     }
                   />
@@ -1296,9 +1086,8 @@ const RoutineBabyImmunization = () => {
                             } */}
                             {filter.tipe_vaksin1}
                           </b>{" "}
-                          pada Provinsi di{" "}
-                          <b className="text-primary-2">Indonesia</b> Selama
-                          Tahun <b className="text-primary-2">{filter.tahun}</b>
+                          pada Provinsi di <b className="text-primary-2">Indonesia</b> Selama Tahun{" "}
+                          <b className="text-primary-2">{filter.tahun}</b>
                         </div>
                       }
                       subTitle={`Grafik menampilkan hasil cakupan ${
@@ -1306,13 +1095,9 @@ const RoutineBabyImmunization = () => {
                         //   (r) => r.value === filter.tipe_vaksin1
                         // )?.label
                         filter.tipe_vaksin1
-                        } dari 34 provinsi di Indonesia`}
+                      } dari 34 provinsi di Indonesia`}
                       addOn={
-                        <GraphAddOn
-                          dataCard={
-                            dataGraphRegionalRoutineImmunizationCoverageTrend1
-                          }
-                        />
+                        <GraphAddOn dataCard={dataGraphRegionalRoutineImmunizationCoverageTrend1} />
                       }
                       variant="private"
                       filterState={filterState}
@@ -1332,17 +1117,12 @@ const RoutineBabyImmunization = () => {
                             // @ts-ignore
                             name: "Persentase",
                             data:
-                              (getGraphImmunizationScope?.data || [])?.map(
-                                (r: any) => ({
-                                  value: r?.percentage,
-                                  itemStyle: {
-                                    color:
-                                      r.faskes_desc === "All"
-                                        ? "#2D9CED"
-                                        : undefined,
-                                  },
-                                })
-                              ) || [],
+                              (getGraphImmunizationScope?.data || [])?.map((r: any) => ({
+                                value: r?.percentage,
+                                itemStyle: {
+                                  color: r.faskes_desc === "All" ? "#2D9CED" : undefined,
+                                },
+                              })) || [],
                             type: "bar",
                             label: {
                               show: true,
@@ -1350,22 +1130,14 @@ const RoutineBabyImmunization = () => {
                               position: "right",
                               // formatter: (params: any) => `${params.value}%`,
                               formatter: (params: any) => {
-                                const reversedData = (
-                                  getGraphImmunizationScope?.data || []
-                                )
+                                const reversedData = (getGraphImmunizationScope?.data || [])
                                   .slice()
                                   .reverse(); // Membuat salinan dan membalik urutan
-                                const totalData =
-                                  reversedData[params.dataIndex]?.total;
-                                const valueWithComma = params?.value
-                                  ?.toString()
-                                  .replace(".", ",");
+                                const totalData = reversedData[params.dataIndex]?.total;
+                                const valueWithComma = params?.value?.toString().replace(".", ",");
 
-                                return filter.wilayah1 === "province" ||
-                                  filter.wilayah1 === "city"
-                                  ? `${valueWithComma}% (${formatNumber(
-                                    totalData
-                                  )})`
+                                return filter.wilayah1 === "province" || filter.wilayah1 === "city"
+                                  ? `${valueWithComma}% (${formatNumber(totalData)})`
                                   : `(${formatNumber(totalData)})`;
                               },
                             },
@@ -1384,9 +1156,8 @@ const RoutineBabyImmunization = () => {
                             type: "line",
                             color: "#FAC515",
                             data:
-                              (getGraphImmunizationScope?.data || [])?.map(
-                                (r: any) => r?.total
-                              ) || [],
+                              (getGraphImmunizationScope?.data || [])?.map((r: any) => r?.total) ||
+                              [],
                             show: false, // Menyembunyikan seri secara default
                             itemStyle: {
                               opacity: 0, // Mengatur opacity item menjadi 0 untuk menyembunyikan item
@@ -1417,35 +1188,23 @@ const RoutineBabyImmunization = () => {
                   <div className="my-4 p-4 md:p-8 border rounded-lg">
                     <GraphRoutineImmunizationCoverageTrend
                       opts={{
-                        height: 500
+                        height: 500,
                       }}
                       title={
                         <div className="font-bold md:text-2xl">
-                          Data{" "}
-                          {
-                            trendTypeOptions.find(
-                              (r) => r.value === filter.jenis_tren
-                            )?.label
-                          }{" "}
+                          Data {trendTypeOptions.find((r) => r.value === filter.jenis_tren)?.label}{" "}
                           Jumlah Penerima, Cakupan, dan Target Cakupan{" "}
                           <b className="text-primary-2">
-                            {
-                              vaccineTypeOptions.find(
-                                (r) => r.value === filter.tipe_vaksin2
-                              )?.label
-                            }
+                            {vaccineTypeOptions.find((r) => r.value === filter.tipe_vaksin2)?.label}
                           </b>{" "}
-                          pada Bayi Selama Tahun{" "}
-                          <b className="text-primary-2">{filter.tahun}</b>
+                          pada Bayi Selama Tahun <b className="text-primary-2">{filter.tahun}</b>
                         </div>
                       }
-                      subTitle={`Grafik menampilkan tren cakupan ${trendTypeOptions.find(
-                        (r) => r.value === filter.jenis_tren
-                      )?.label
-                        } penerima ${vaccineTypeOptions.find(
-                          (r) => r.value === filter.tipe_vaksin2
-                        )?.label
-                        } pada bayi selama tahun ${filter.tahun}`}
+                      subTitle={`Grafik menampilkan tren cakupan ${
+                        trendTypeOptions.find((r) => r.value === filter.jenis_tren)?.label
+                      } penerima ${
+                        vaccineTypeOptions.find((r) => r.value === filter.tipe_vaksin2)?.label
+                      } pada bayi selama tahun ${filter.tahun}`}
                       variant="private"
                       filterState={filterState}
                       filterComp={
@@ -1456,34 +1215,25 @@ const RoutineBabyImmunization = () => {
                       }
                       threshold={
                         <div className="relative flex justify-center items-center">
-                          {isLoadingTotalCumulativeScopeImmunization && (
-                            <Spin />
-                          )}
+                          {isLoadingTotalCumulativeScopeImmunization && <Spin />}
                           <div className="p-2 sm:w-32 md:w-64 h-fit">
                             <div className="text-sm">
                               Total cakupan{" "}
-                              {
-                                trendTypeOptions.find(
-                                  (r) => r.value === filter.jenis_tren
-                                )?.label
-                              }{" "}
+                              {trendTypeOptions.find((r) => r.value === filter.jenis_tren)?.label}{" "}
                               pada bulan{" "}
-                              {dataMonths?.find((f) => f.value === filter.bulan)
-                                ?.label || ""}{" "}
-                              tahun {filter.tahun}
+                              {dataMonths?.find((f) => f.value === filter.bulan)?.label || ""} tahun{" "}
+                              {filter.tahun}
                             </div>
                             <div className="py-2 font-bold text-3xl text-primary">
                               {formatNumber(
-                                getTotalCumulativeScopeImmunization?.data?.[0]
-                                  ?.percentage || 0
+                                getTotalCumulativeScopeImmunization?.data?.[0]?.percentage || 0
                               )}
                               %
                             </div>
                             <div>
                               Jumlah Imunisasi Bayi Lengkap:{" "}
                               {formatNumber(
-                                getTotalCumulativeScopeImmunization?.data?.[0]
-                                  ?.total || 0
+                                getTotalCumulativeScopeImmunization?.data?.[0]?.total || 0
                               )}
                             </div>
                           </div>
@@ -1494,9 +1244,7 @@ const RoutineBabyImmunization = () => {
                         {
                           name: "% Cakupan",
                           data:
-                            (
-                              getCumulativeScopeImmunizationQuery?.data || []
-                            )?.map(
+                            (getCumulativeScopeImmunizationQuery?.data || [])?.map(
                               (r: any) =>
                                 ((r?.percentage || 0) / 100) *
                                 ((r?.total * 100) / r?.percentage || 0)
@@ -1507,21 +1255,19 @@ const RoutineBabyImmunization = () => {
                             precision: 1,
                             formatter: (params: any) =>
                               `${formatNumber(
-                                (getCumulativeScopeImmunizationQuery?.data ||
-                                  [])[params.dataIndex]?.percentage
+                                (getCumulativeScopeImmunizationQuery?.data || [])[params.dataIndex]
+                                  ?.percentage
                               )}%`,
                           },
                           additionalData:
-                            (
-                              getCumulativeScopeImmunizationQuery?.data || []
-                            )?.map((r: any) => r?.percentage || 0) || [],
+                            (getCumulativeScopeImmunizationQuery?.data || [])?.map(
+                              (r: any) => r?.percentage || 0
+                            ) || [],
                         },
                         {
                           name: "% Target Cakupan",
                           data:
-                            (
-                              getCumulativeScopeImmunizationQuery?.data || []
-                            )?.map(
+                            (getCumulativeScopeImmunizationQuery?.data || [])?.map(
                               (r: any) =>
                                 ((r?.threshold || 0) / 100) *
                                 ((r?.total * 100) / r?.percentage || 0)
@@ -1532,8 +1278,8 @@ const RoutineBabyImmunization = () => {
                             precision: 1,
                             formatter: (params: any) =>
                               `${formatNumber(
-                                (getCumulativeScopeImmunizationQuery?.data ||
-                                  [])[params.dataIndex]?.threshold
+                                (getCumulativeScopeImmunizationQuery?.data || [])[params.dataIndex]
+                                  ?.threshold
                               )}%`,
                           },
                           tooltip: {
@@ -1543,20 +1289,16 @@ const RoutineBabyImmunization = () => {
                         {
                           name: "Jumlah Penerima Imunisasi",
                           data:
-                            (
-                              getCumulativeScopeImmunizationQuery?.data || []
-                            )?.map(
+                            (getCumulativeScopeImmunizationQuery?.data || [])?.map(
                               (r: any) =>
-                                (((r?.percentage || 0) / 100) *
-                                  (r?.total * 100)) /
-                                r?.percentage || 0
+                                (((r?.percentage || 0) / 100) * (r?.total * 100)) / r?.percentage ||
+                                0
                             ) || [],
                           type: "bar",
                           label: {
                             show: true,
                             precision: 1,
-                            formatter: (params: any) =>
-                              `${formatNumber(params.value || 0)}`,
+                            formatter: (params: any) => `${formatNumber(params.value || 0)}`,
                           },
                         },
                       ])}
@@ -1581,18 +1323,13 @@ const RoutineBabyImmunization = () => {
                       title={
                         <div className="font-bold md:text-2xl">
                           <b className="text-primary-2">
-                            Grafik Cakupan Imunisasi pada Bayi Berdasarkan Jenis
-                            Imunisasi
+                            Grafik Cakupan Imunisasi pada Bayi Berdasarkan Jenis Imunisasi
                           </b>
                         </div>
                       }
                       subTitle="Grafik menampilkan tren cakupan imunisasi berdasarkan jenis imunisasi pada bayi."
                       addOn={
-                        <GraphAddOn
-                          dataCard={
-                            dataGraphRegionalRoutineImmunizationCoverageTrend2
-                          }
-                        />
+                        <GraphAddOn dataCard={dataGraphRegionalRoutineImmunizationCoverageTrend2} />
                       }
                       variant="private"
                       filterState={filterState}
@@ -1652,10 +1389,7 @@ const RoutineBabyImmunization = () => {
                                 {getTypeSuspase?.data
                                   ?.filter((item: any) => item.status === 0)
                                   .map((r: any, i: number) => (
-                                    <p
-                                      key={i + "exceed"}
-                                      style={{ marginRight: "0.5rem" }}
-                                    >
+                                    <p key={i + "exceed"} style={{ marginRight: "0.5rem" }}>
                                       {r.vaksin?.toUpperCase()}
                                       {", "}
                                     </p>
@@ -1670,29 +1404,27 @@ const RoutineBabyImmunization = () => {
                           {
                             name: "Cakupan",
                             data:
-                              (
-                                getGraphScope?.data?.[0]?.vaccine_list || []
-                              )?.map((r: any) => r?.ytd_total) || [],
+                              (getGraphScope?.data?.[0]?.vaccine_list || [])?.map(
+                                (r: any) => r?.ytd_total
+                              ) || [],
                             type: "bar",
                             label: {
                               show: true,
                               precision: 1,
-                              formatter: (params: any) =>
-                                `${formatNumber(params.value || 0)}`,
+                              formatter: (params: any) => `${formatNumber(params.value || 0)}`,
                             },
                           },
                           {
                             name: "% Cakupan",
                             data:
-                              (
-                                getGraphScope?.data?.[0]?.vaccine_list || []
-                              )?.map((r: any) => r?.pct) || [],
+                              (getGraphScope?.data?.[0]?.vaccine_list || [])?.map(
+                                (r: any) => r?.pct
+                              ) || [],
                             type: "line",
                             label: {
                               show: true,
                               precision: 1,
-                              formatter: (params: any) =>
-                                `${formatNumber(params.value)}%`,
+                              formatter: (params: any) => `${formatNumber(params.value)}%`,
                             },
                             // additionalData:
                             //   (
@@ -1706,15 +1438,14 @@ const RoutineBabyImmunization = () => {
                           {
                             name: "% Target Cakupan",
                             data:
-                              (
-                                getGraphScope?.data?.[0]?.vaccine_list || []
-                              )?.map((r: any) => r?.threshold || 0) || [],
+                              (getGraphScope?.data?.[0]?.vaccine_list || [])?.map(
+                                (r: any) => r?.threshold || 0
+                              ) || [],
                             type: "line",
                             label: {
                               show: true,
                               precision: 1,
-                              formatter: (params: any) =>
-                                `${formatNumber(params.value)}%`,
+                              formatter: (params: any) => `${formatNumber(params.value)}%`,
                             },
                             tooltip: {
                               show: false,
@@ -1738,37 +1469,32 @@ const RoutineBabyImmunization = () => {
                   <div className="my-4 p-4 md:p-8 border rounded-lg">
                     <GraphRoutineImmunizationCoverageTrend
                       opts={{
-                        height: 550
+                        height: 550,
                       }}
                       layout="vertical"
                       title={
                         <div className="font-bold md:text-2xl">
                           <b className="text-primary-2">
-                            Grafik Cakupan Imunisasi pada Bayi Berdasarkan Usia
-                            Pemberian Imunisasi
+                            Grafik Cakupan Imunisasi pada Bayi Berdasarkan Usia Pemberian Imunisasi
                           </b>
                         </div>
                       }
                       subTitle="Grafik menampilkan tren cakupan imunisasi pada bayi berdasarkan usia pemberian imunisasi."
                       addOn={
-                        <div
-                          className={`gap-4 grid grid-cols-2 text-sm ${openSans.className}`}
-                        >
-                          {dataGraphRegionalRoutineImmunizationCoverageTrend3.map(
-                            (r, i) => (
-                              <div
-                                className="px-4 py-3 rounded-xl"
-                                style={{
-                                  boxShadow: "0px 2px 12px 0px #00000014",
-                                }}
-                              >
-                                <div className="font-bold">{r.title}</div>
-                                <div>
-                                  <ul>{r?.value}</ul>
-                                </div>
+                        <div className={`gap-4 grid grid-cols-2 text-sm ${openSans.className}`}>
+                          {dataGraphRegionalRoutineImmunizationCoverageTrend3.map((r, i) => (
+                            <div
+                              className="px-4 py-3 rounded-xl"
+                              style={{
+                                boxShadow: "0px 2px 12px 0px #00000014",
+                              }}
+                            >
+                              <div className="font-bold">{r.title}</div>
+                              <div>
+                                <ul>{r?.value}</ul>
                               </div>
-                            )
-                          )}
+                            </div>
+                          ))}
                         </div>
                       }
                       variant="private"
@@ -1776,9 +1502,7 @@ const RoutineBabyImmunization = () => {
                       filterComp={
                         <Filter4
                           filterState={filterState}
-                          data={
-                            getGraphImmunizationAge?.data?.[0]?.vaccine_list
-                          }
+                          data={getGraphImmunizationAge?.data?.[0]?.vaccine_list}
                           showFilter={false}
                         />
                       }
@@ -1788,45 +1512,40 @@ const RoutineBabyImmunization = () => {
                           {
                             name: "Usia Ideal",
                             data:
-                              (
-                                getGraphImmunizationAge?.data?.[0]
-                                  ?.vaccine_list || []
-                              )?.map((r: any) => r?.pct_ideal) || [],
+                              (getGraphImmunizationAge?.data?.[0]?.vaccine_list || [])?.map(
+                                (r: any) => r?.pct_ideal
+                              ) || [],
                             type: "bar",
                           },
                           {
                             name: "Usia Ideal Total",
                             data:
-                              (
-                                getGraphImmunizationAge?.data?.[0]
-                                  ?.vaccine_list || []
-                              )?.map((r: any) => r?.ytd_ideal) || [],
+                              (getGraphImmunizationAge?.data?.[0]?.vaccine_list || [])?.map(
+                                (r: any) => r?.ytd_ideal
+                              ) || [],
                             type: "line",
                           },
                           {
                             name: "Usia Non Ideal",
                             data:
-                              (
-                                getGraphImmunizationAge?.data?.[0]
-                                  ?.vaccine_list || []
-                              )?.map((r: any) => r?.pct_non_ideal) || [],
+                              (getGraphImmunizationAge?.data?.[0]?.vaccine_list || [])?.map(
+                                (r: any) => r?.pct_non_ideal
+                              ) || [],
                             type: "bar",
                           },
                           {
                             name: "Usia Non Ideal Total",
                             data:
-                              (
-                                getGraphImmunizationAge?.data?.[0]
-                                  ?.vaccine_list || []
-                              )?.map((r: any) => r?.ytd_non_ideal) || [],
+                              (getGraphImmunizationAge?.data?.[0]?.vaccine_list || [])?.map(
+                                (r: any) => r?.ytd_non_ideal
+                              ) || [],
                             type: "line",
                             itemStyle: { opacity: 0 },
                           },
                         ],
-                        (
-                          getGraphImmunizationAge?.data?.[0]?.vaccine_list || []
-                        )?.map((r: any) => r?.vaccine_name) || [],
-                        getGraphImmunizationAge?.data?.[0]?.vaccine_list || []
+                        (getGraphImmunizationAge?.data?.[0]?.vaccine_list || [])?.map(
+                          (r: any) => r?.vaccine_name
+                        ) || []
                       )}
                     />
                   </div>
@@ -1841,14 +1560,13 @@ const RoutineBabyImmunization = () => {
                   <div className="my-4 p-4 md:p-8 border rounded-lg">
                     <GraphRoutineImmunizationCoverageTrend
                       opts={{
-                        height: 550
+                        height: 550,
                       }}
                       layout="vertical"
                       title={
                         <div className="font-bold md:text-2xl">
                           <b className="text-primary-2">
-                            Grafik Distribusi Imunisasi pada Bayi Berdasarkan
-                            Jenis Kelamin
+                            Grafik Distribusi Imunisasi pada Bayi Berdasarkan Jenis Kelamin
                           </b>
                         </div>
                       }
@@ -1864,35 +1582,30 @@ const RoutineBabyImmunization = () => {
                               }}
                             >
                               <div className="font-bold text-lg">
-                                Rata-Rata Penerima Imunisasi Berdasarkan Jenis
-                                Kelamin
+                                Rata-Rata Penerima Imunisasi Berdasarkan Jenis Kelamin
                               </div>
                               <GraphEcharts graphOptions={ageChartOptions} />
                             </div>
                           </div>
-                          {dataGraphRegionalRoutineImmunizationCoverageTrend4.map(
-                            (r, i) => (
+                          {dataGraphRegionalRoutineImmunizationCoverageTrend4.map((r, i) => (
+                            <div
+                              key={`gender-score-${i}`}
+                              className="relative flex flex-1 justify-center items-center"
+                            >
+                              {r?.isLoading && <Spin />}
                               <div
-                                key={`gender-score-${i}`}
-                                className="relative flex flex-1 justify-center items-center"
+                                className="flex-1 px-4 py-3 rounded-xl w-full h-full"
+                                style={{
+                                  boxShadow: "0px 2px 12px 0px #00000014",
+                                }}
                               >
-                                {r?.isLoading && <Spin />}
-                                <div
-                                  className="flex-1 px-4 py-3 rounded-xl w-full h-full"
-                                  style={{
-                                    boxShadow: "0px 2px 12px 0px #00000014",
-                                  }}
-                                >
-                                  <div className="font-bold text-lg">
-                                    {r.title}
-                                  </div>
-                                  <div>
-                                    <ul>{r?.value}</ul>
-                                  </div>
+                                <div className="font-bold text-lg">{r.title}</div>
+                                <div>
+                                  <ul>{r?.value}</ul>
                                 </div>
                               </div>
-                            )
-                          )}
+                            </div>
+                          ))}
                         </div>
                       }
                       variant="private"
@@ -1900,9 +1613,7 @@ const RoutineBabyImmunization = () => {
                       filterComp={
                         <Filter5
                           filterState={filterState}
-                          data={
-                            getGraphImmunizationGender?.data?.[0]?.vaccine_list
-                          }
+                          data={getGraphImmunizationGender?.data?.[0]?.vaccine_list}
                           showFilter={false}
                         />
                       }
@@ -1912,10 +1623,9 @@ const RoutineBabyImmunization = () => {
                           {
                             name: "Laki-laki",
                             data:
-                              (
-                                getGraphImmunizationGender?.data?.[0]
-                                  ?.vaccine_list || []
-                              )?.map((r: any) => r?.pct_male) || [],
+                              (getGraphImmunizationGender?.data?.[0]?.vaccine_list || [])?.map(
+                                (r: any) => r?.pct_male
+                              ) || [],
                             type: "bar",
                             label: {
                               precision: 1,
@@ -1924,21 +1634,18 @@ const RoutineBabyImmunization = () => {
                           {
                             name: "Perempuan",
                             data:
-                              (
-                                getGraphImmunizationGender?.data?.[0]
-                                  ?.vaccine_list || []
-                              )?.map((r: any) => r?.pct_female) || [],
+                              (getGraphImmunizationGender?.data?.[0]?.vaccine_list || [])?.map(
+                                (r: any) => r?.pct_female
+                              ) || [],
                             type: "bar",
                             label: {
                               precision: 1,
                             },
                           },
                         ],
-                        (
-                          getGraphImmunizationGender?.data?.[0]?.vaccine_list ||
-                          []
-                        )?.map((r: any) => r?.vaccine_name) || [],
-                        getGraphImmunizationGender?.data?.[0]?.vaccine_list || []
+                        (getGraphImmunizationGender?.data?.[0]?.vaccine_list || [])?.map(
+                          (r: any) => r?.vaccine_name
+                        ) || []
                       )}
                     />
                   </div>
