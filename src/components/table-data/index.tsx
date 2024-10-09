@@ -3,11 +3,19 @@ import { flexRender, Table } from "@tanstack/react-table";
 
 interface TableDataProps<T> {
   tableInstance: Table<T>;
+  titleTable?: string;
 }
 
-const TableData = <T,>({ tableInstance }: TableDataProps<T>) => {
+const TableData = <T,>({ tableInstance, titleTable }: TableDataProps<T>) => {
   return (
     <div className="px-5 py-10 border border-[#D6D6D6] rounded-[40px]">
+      {titleTable && (
+        <h2
+          className="text-2xl mb-4 leading-10 font-bold"
+        >
+          {titleTable}
+        </h2>
+      )}
       <table className="min-w-full bg-white">
         <thead>
           {tableInstance.getHeaderGroups().map((headerGroup) => (
