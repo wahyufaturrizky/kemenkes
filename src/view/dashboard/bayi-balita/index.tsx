@@ -52,10 +52,11 @@ export default function BayiBalita() {
     month: filter.bulan,
   };
 
-  const [visitationAnalyticLocalQuery, setVisitationAnalyticLocalQuery] = useState({
-    year: filter.tahun,
-    month: filter.bulan
-  });
+  const [visitationAnalyticLocalQuery, setVisitationAnalyticLocalQuery] =
+    useState({
+      year: filter.tahun,
+      month: filter.bulan,
+    });
 
   const optionQuery = {
     refetchOnMountOrArgChange: true,
@@ -600,7 +601,10 @@ export default function BayiBalita() {
         filterState={filterState}
       />
       <div className="w-full">
-        <FilterSummaryImmunizationWus filterState={filterState} setVisitationAnalyticLocalQuery={setVisitationAnalyticLocalQuery}/>
+        <FilterSummaryImmunizationWus
+          filterState={filterState}
+          setVisitationAnalyticLocalQuery={setVisitationAnalyticLocalQuery}
+        />
       </div>
       <SectionHeader
         title="Sasaran Balita"
@@ -1080,12 +1084,19 @@ export default function BayiBalita() {
             </p>
             <div>
               <p className="text-sm mb-2">Parameter</p>
-              <Select placeholder="Bulanan" options={dataMonth} value={dataMonth.find((m) => m.value === visitationAnalyticLocalQuery.month)} onChange={(e: any) => {
-                setVisitationAnalyticLocalQuery({
-                  ...visitationAnalyticLocalQuery,
-                  month: e.value
-                })
-              }}/>
+              <Select
+                placeholder="Bulanan"
+                options={dataMonth}
+                value={dataMonth.find(
+                  (m) => m.value === visitationAnalyticLocalQuery.month
+                )}
+                onChange={(e: any) => {
+                  setVisitationAnalyticLocalQuery({
+                    ...visitationAnalyticLocalQuery,
+                    month: e.value,
+                  });
+                }}
+              />
             </div>
           </div>
           <div className="relative">

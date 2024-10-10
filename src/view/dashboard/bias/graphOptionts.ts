@@ -108,6 +108,8 @@ export const graphOptions4 = (series: any[], xData: any[], rData: any[] = []) =>
             // Menggunakan data asli untuk "Total" dalam tooltip
             const originalData = series.find((serie) => serie.name === "Total").data[params[0].dataIndex];
             tooltipContent += `${item.marker} ${item.seriesName} <span style="float: right;"><strong>${formatNumber(originalData)}</strong></span><br/>`;
+          } else if (item.seriesName.includes("Total")) {
+            tooltipContent += `${item.marker} ${item.seriesName} <span style="float: right;"><strong>${formatNumber(item.value)}</strong></span><br/>`;
           } else if (item.seriesName === "Cakupan") {
             // Menggunakan format untuk "Cakupan"
             tooltipContent += `${item.marker} ${item.seriesName} <span style="float: right;"><strong>${item.value}</strong></span><br/>`;
@@ -137,15 +139,37 @@ export const graphOptions4 = (series: any[], xData: any[], rData: any[] = []) =>
         rotate: 45,
       },
     },
-    yAxis: {
-      type: "value",
-      min: 0,
-      max: 100,
-      axisLabel: {
-        formatter: (value: any) => `${formatNumber(value)}%`
+    yAxis: [
+      {
+        type: "value",
+        position: "left",
+        axisLabel: {
+          formatter: (value: any) => `${formatNumber(value)}`
+        },
       },
-    },
-    series: series,
+      {
+        type: "value",
+        position: "right",
+        axisLabel: {
+          formatter: (value: any) => `${formatNumber(value)}%`
+        },
+        min: 0,
+        max: 100,
+        // Menyembunyikan sumbu y kedua
+      },
+    ],
+    series: series.map((s) => {
+      if (s.name.includes("Total")) {
+        return {
+          ...s,
+          yAxisIndex: 1, // Menggunakan sumbu y pertama untuk "Cakupan"
+        };
+      }
+      return {
+        ...s,
+        yAxisIndex: 0, // Menggunakan sumbu y kedua untuk persentase
+      };
+    }),
   };
   return option;
 };

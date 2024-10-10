@@ -1795,6 +1795,15 @@ const RoutineBabyImmunization = () => {
                             type: "bar",
                           },
                           {
+                            name: "Usia Ideal Total",
+                            data:
+                              (
+                                getGraphImmunizationAge?.data?.[0]
+                                  ?.vaccine_list || []
+                              )?.map((r: any) => r?.ytd_ideal) || [],
+                            type: "line",
+                          },
+                          {
                             name: "Usia Non Ideal",
                             data:
                               (
@@ -1802,6 +1811,16 @@ const RoutineBabyImmunization = () => {
                                   ?.vaccine_list || []
                               )?.map((r: any) => r?.pct_non_ideal) || [],
                             type: "bar",
+                          },
+                          {
+                            name: "Usia Non Ideal Total",
+                            data:
+                              (
+                                getGraphImmunizationAge?.data?.[0]
+                                  ?.vaccine_list || []
+                              )?.map((r: any) => r?.ytd_non_ideal) || [],
+                            type: "line",
+                            itemStyle: { opacity: 0 },
                           },
                         ],
                         (
