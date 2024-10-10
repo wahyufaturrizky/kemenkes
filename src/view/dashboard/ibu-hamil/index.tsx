@@ -33,6 +33,7 @@ import FilterSection from "./FilterSection";
 import MapEChartsAnc from "@/components/map-echarts-anc";
 import MapAnc2 from "@/components/mapAnc2";
 import DataCard from "./totalPercentage";
+import VerticalBarChart from "./verticalBar"
 
 const MapComponent = dynamic(() => import("@/components/map-component"), {
   ssr: false,
@@ -148,16 +149,67 @@ export default function IbuHamil() {
             </section>
 
           
-            <section className="mt-10">
+            <section className="w-full mt-10 grid grid-cols-12 gap-3">
+            <div className="rounded-2xl border border-[#D6D6D6] col-span-12 lg:col-span-8 py-8 px-5">
               <SectionHeader
-                title="Peta Sebaran"
+                title=""
                 subtitle="Peta Capaian Penerima Layanan Dasar"
               />
               <div className="mt-5 rounded-xl border border-[#D6D6D6] p-[13px] h-[550px]">
-                {/* <MapComponent /> */}
                 <MapAnc2 />
               </div>
+            </div>
+            <div className="rounded-2xl border border-[#D6D6D6] col-span-12 lg:col-span-4 py-4 px-5 bg-[#4C5699]">
+              <h4 className="text-white font-bold text-xl">
+                Capaian Penerima Layanan Dasar
+              </h4>
+              <p className="text-[#EFEDFF] my-4 text-sm">
+                lorem
+              </p>
+              <div className="bg-white shadow-md mt-5 rounded-2xl py-5 px-3">
+                <div className="w-1/2 mb-2">
+                  <Select placeholder="Terendah" />
+                </div>
+                <div className="h-[680px]">
+                  <GraphItem
+                    isHideButtonDownload={true}
+                    graphOptions={graphOptions6(
+                      [
+                        {
+                          name: "Melaksanakan Layanan Kesehatan Ibu Hamil",
+                          type: "bar",
+                          stack: "total",
+                          label: {
+                            show: true,
+                            formatter: (params: any) => {
+                              const total = totalData[params.dataIndex];
+                              const value = params.value;
+                              const percentage = (
+                                (value / total) *
+                                100
+                              ).toFixed(2); // Calculate percentage and format it to 2 decimal places
+                              return `${params.value}%`;
+                            },
+                          },
+                          emphasis: {
+                            focus: "series",
+                          },
+                          itemStyle: {
+                            color: "#00B3AC",
+                          },
+                          data:
+                            (incGraphOptions1 || [])?.map((r: any) => r?.pct) ||
+                            [],
+                        },
+                      ],
+                      incGraphOptions1?.map((r: any) => r.label) || []
+                    )}
+                  />
+                </div>
+              </div>
+            </div>
             </section>
+            
 
             <section className="mt-10">
               <SectionHeader

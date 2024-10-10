@@ -306,7 +306,7 @@ export const graphOptions4 = (series: any[], legend: any[]) => {
 export const graphOptions5 = (series: any[], legend: any[]) => {
   const upperCaseLegend = (legend || []).map((item) => item.toUpperCase());
   const option: EChartsOptionProps = {
-    color: ["#C7EDEB", "#04DACF", "#BC2A3F"],
+    color: ["#00B1A9", "#04DACF", "#BC2A3F"],
     grid: { containLabel: true },
     tooltip: {
       trigger: "axis",
