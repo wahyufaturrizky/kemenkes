@@ -16,24 +16,17 @@ import styles from "./anc.module.css";
 import SectionHeader from "@/components/sectionHeader";
 import ScoreCardItem from "@/components/score-card-item";
 import GraphItem from "@/components/graph-item";
-import {
-  createColumnHelper,
-  getCoreRowModel,
-  useReactTable,
-} from "@tanstack/react-table";
+import { createColumnHelper, getCoreRowModel, useReactTable } from "@tanstack/react-table";
 import IndividualData from "./IndividualData";
 // import MapComponent from "@/components/map-component";
 import dynamic from "next/dynamic";
 import "leaflet/dist/leaflet.css";
-import {
-  useGetScopePostfarumQuery,
-  useGetScoreCardQuery,
-} from "@/lib/services/pnc";
+import { useGetScopePostfarumQuery, useGetScoreCardQuery } from "@/lib/services/pnc";
 import FilterSection from "./FilterSection";
 import MapEChartsAnc from "@/components/map-echarts-anc";
 import MapAnc2 from "@/components/mapAnc2";
 import DataCard from "./totalPercentage";
-import VerticalBarChart from "./verticalBar"
+import VerticalBarChart from "./verticalBar";
 
 const MapComponent = dynamic(() => import("@/components/map-component"), {
   ssr: false,
@@ -57,7 +50,7 @@ const defaultData: Data[] = [
     Kab_Kota: "Bandung",
     Target: "10000",
     Realisasi: 7500,
-    percentase_Penerima_Layanan: 75
+    percentase_Penerima_Layanan: 75,
   },
   {
     id: 2,
@@ -66,7 +59,7 @@ const defaultData: Data[] = [
     Kab_Kota: "Surabaya",
     Target: "8000",
     Realisasi: 6000,
-    percentase_Penerima_Layanan: 75
+    percentase_Penerima_Layanan: 75,
   },
   {
     id: 3,
@@ -75,8 +68,8 @@ const defaultData: Data[] = [
     Kab_Kota: "Jakarta Pusat",
     Target: "12000",
     Realisasi: 9000,
-    percentase_Penerima_Layanan: 75
-  }
+    percentase_Penerima_Layanan: 75,
+  },
 ];
 
 const columnHelper = createColumnHelper<Data>();
@@ -103,8 +96,7 @@ const columns = [
 ];
 
 export default function IbuHamil() {
-  const { data: dataScoreCard, isFetching: isFetchingDataScoreCard } =
-    useGetScoreCardQuery({});
+  const { data: dataScoreCard, isFetching: isFetchingDataScoreCard } = useGetScoreCardQuery({});
   const { data: dataScopePostfarum } = useGetScopePostfarumQuery({});
 
   const [data, _setData] = useState(() => [...defaultData]);
@@ -148,68 +140,54 @@ export default function IbuHamil() {
               <DataCard />
             </section>
 
-          
             <section className="w-full mt-10 grid grid-cols-12 gap-3">
-            <div className="rounded-2xl border border-[#D6D6D6] col-span-12 lg:col-span-8 py-8 px-5">
-              <SectionHeader
-                title=""
-                subtitle="Peta Capaian Penerima Layanan Dasar"
-              />
-              <div className="mt-5 rounded-xl border border-[#D6D6D6] p-[13px] h-[550px]">
-                <MapAnc2 />
-              </div>
-            </div>
-            <div className="rounded-2xl border border-[#D6D6D6] col-span-12 lg:col-span-4 py-4 px-5 bg-[#4C5699]">
-              <h4 className="text-white font-bold text-xl">
-                Capaian Penerima Layanan Dasar
-              </h4>
-              <p className="text-[#EFEDFF] my-4 text-sm">
-                lorem
-              </p>
-              <div className="bg-white shadow-md mt-5 rounded-2xl py-5 px-3">
-                <div className="w-1/2 mb-2">
-                  <Select placeholder="Terendah" />
+              <div className="rounded-2xl border border-[#D6D6D6] col-span-12 lg:col-span-8 py-8 px-5">
+                <SectionHeader title="" subtitle="Peta Capaian Penerima Layanan Dasar" />
+                <div className="mt-5 rounded-xl border border-[#D6D6D6] p-[13px] h-[550px]">
+                  <MapAnc2 />
                 </div>
-                <div className="h-[680px]">
-                  <GraphItem
-                    isHideButtonDownload={true}
-                    graphOptions={graphOptions6(
-                      [
-                        {
-                          name: "Melaksanakan Layanan Kesehatan Ibu Hamil",
-                          type: "bar",
-                          stack: "total",
-                          label: {
-                            show: true,
-                            formatter: (params: any) => {
-                              const total = totalData[params.dataIndex];
-                              const value = params.value;
-                              const percentage = (
-                                (value / total) *
-                                100
-                              ).toFixed(2); // Calculate percentage and format it to 2 decimal places
-                              return `${params.value}%`;
+              </div>
+              <div className="rounded-2xl border border-[#D6D6D6] col-span-12 lg:col-span-4 py-4 px-5 bg-[#4C5699]">
+                <h4 className="text-white font-bold text-xl">Capaian Penerima Layanan Dasar</h4>
+                <p className="text-[#EFEDFF] my-4 text-sm">lorem</p>
+                <div className="bg-white shadow-md mt-5 rounded-2xl py-5 px-3">
+                  <div className="w-1/2 mb-2">
+                    <Select placeholder="Terendah" />
+                  </div>
+                  <div className="h-[680px]">
+                    <GraphItem
+                      isHideButtonDownload={true}
+                      graphOptions={graphOptions6(
+                        [
+                          {
+                            name: "Melaksanakan Layanan Kesehatan Ibu Hamil",
+                            type: "bar",
+                            stack: "total",
+                            label: {
+                              show: true,
+                              formatter: (params: any) => {
+                                const total = totalData[params.dataIndex];
+                                const value = params.value;
+                                const percentage = ((value / total) * 100).toFixed(2); // Calculate percentage and format it to 2 decimal places
+                                return `${params.value}%`;
+                              },
                             },
+                            emphasis: {
+                              focus: "series",
+                            },
+                            itemStyle: {
+                              color: "#00B3AC",
+                            },
+                            data: (incGraphOptions1 || [])?.map((r: any) => r?.pct) || [],
                           },
-                          emphasis: {
-                            focus: "series",
-                          },
-                          itemStyle: {
-                            color: "#00B3AC",
-                          },
-                          data:
-                            (incGraphOptions1 || [])?.map((r: any) => r?.pct) ||
-                            [],
-                        },
-                      ],
-                      incGraphOptions1?.map((r: any) => r.label) || []
-                    )}
-                  />
+                        ],
+                        incGraphOptions1?.map((r: any) => r.label) || []
+                      )}
+                    />
+                  </div>
                 </div>
               </div>
-            </div>
             </section>
-            
 
             <section className="mt-10">
               <SectionHeader
@@ -233,13 +211,12 @@ export default function IbuHamil() {
                         {
                           name: "Realisasi",
                           data:
-                            (ancGtaphOptions5 || [])?.map(
-                              (r: any) => r?.persentase_bumil_anemia
-                            ) || [],
+                            (ancGtaphOptions5 || [])?.map((r: any) => r?.persentase_bumil_anemia) ||
+                            [],
                           type: "bar",
                           showBackground: true,
                           backgroundStyle: {
-                            color: '#C7EDEB'
+                            color: "#C7EDEB",
                           },
                           label: {
                             show: false,
@@ -251,9 +228,7 @@ export default function IbuHamil() {
                         {
                           name: "Cakupan % Nasional Anemia",
                           data:
-                            (ancGtaphOptions5 || [])?.map(
-                              (r: any) => r?.persentase_nasional
-                            ) || [],
+                            (ancGtaphOptions5 || [])?.map((r: any) => r?.persentase_nasional) || [],
                           type: "line",
                           label: {
                             show: false,
@@ -291,30 +266,24 @@ export default function IbuHamil() {
                         // },
                         {
                           name: "Realisasi",
-                          data:
-                            (ancGraphOptions4 || [])?.map(
-                              (r: any) => r?.value
-                            ) || [],
+                          data: (ancGraphOptions4 || [])?.map((r: any) => r?.value) || [],
                           type: "bar",
                           label: {
                             show: false,
                           },
                           showBackground: true,
                           backgroundStyle: {
-                            color: '#C7EDEB'
+                            color: "#C7EDEB",
                           },
                         },
                         {
                           name: "% Penerima Layanan Dasar",
-                          data:
-                            (ancGraphOptions4 || [])?.map((r: any) => r?.pct) ||
-                            [],
+                          data: (ancGraphOptions4 || [])?.map((r: any) => r?.pct) || [],
                           type: "line",
                           label: {
                             show: true,
                             precision: 1,
-                            formatter: (params: any) =>
-                              `${formatNumber(params.value)}%`,
+                            formatter: (params: any) => `${formatNumber(params.value)}%`,
                           },
                         },
                       ],
@@ -347,10 +316,7 @@ export default function IbuHamil() {
                             formatter: (params: any) => {
                               const total = totalData[params.dataIndex];
                               const value = params.value;
-                              const percentage = (
-                                (value / total) *
-                                100
-                              ).toFixed(2); // Calculate percentage and format it to 2 decimal places
+                              const percentage = ((value / total) * 100).toFixed(2); // Calculate percentage and format it to 2 decimal places
                               return `${params.value}%`;
                             },
                           },
@@ -360,9 +326,7 @@ export default function IbuHamil() {
                           itemStyle: {
                             color: "#00B3AC",
                           },
-                          data:
-                            (incGraphOptions1 || [])?.map((r: any) => r?.pct) ||
-                            [],
+                          data: (incGraphOptions1 || [])?.map((r: any) => r?.pct) || [],
                         },
                       ],
                       incGraphOptions1?.map((r: any) => r.label) || []
@@ -375,11 +339,9 @@ export default function IbuHamil() {
             <section className="mt-10">
               <div className="flex justify-between items-center">
                 <h1 className="text-xl leading-10 font-medium">
-                Tabel Capaian Penerima Layanan Dasar
+                  Tabel Capaian Penerima Layanan Dasar
                 </h1>
-                <p className="text-[14px] font-semibold">
-                  19 Mei 2024 - 20 Mei 2024
-                </p>
+                <p className="text-[14px] font-semibold">19 Mei 2024 - 20 Mei 2024</p>
               </div>
               <div className="mt-5 w-full flex justify-between items-center mb-4">
                 <div className="flex gap-3 items-center">
@@ -403,7 +365,10 @@ export default function IbuHamil() {
                   <InputSearch />
                 </div>
               </div>
-              <TableData tableInstance={tableInstance} titleTable={'Pelayanan Kesehatan Ibu Hamil'} />
+              <TableData
+                tableInstance={tableInstance}
+                titleTable={"Pelayanan Kesehatan Ibu Hamil"}
+              />
             </section>
           </div>
         </>

@@ -1,20 +1,21 @@
 "use client";
-import { DownloadButton, GraphEcharts } from "@/components";
+import { DownloadButton, GraphEcharts, Select } from "@/components";
 import ButtonIcon from "@/components/button-icon";
 import GraphItem from "@/components/graph-item";
 import Header from "@/components/header";
+import MapAnc2 from "@/components/mapAnc2";
 import Progress from "@/components/progress";
 import SectionHeader from "@/components/sectionHeader";
 import { formatNumber } from "@/helpers";
 import { useGetGraphImmunizationScopeQuery } from "@/lib/services/baby-immunization";
-import { ancGtaphOptions5, dataMonth } from "@/utils/constants";
+import { ancGraphOptions1, ancGtaphOptions5, dataMonth, incGraphOptions1 } from "@/utils/constants";
+import { graphOptions6 } from "@/view/dashboard/ibu-hamil/graphOptions";
 import { graphOptions5 } from "@/view/graphOptions";
 import FilterMonitoringFaktorRisiko from "@/view/home/components/FilterMonitoringFaktorRisiko";
 import { useMemo, useState } from "react";
 import { IoMdArrowForward, IoMdInformationCircleOutline } from "react-icons/io";
-import { graphOptions1 } from "../analisis-faktor-risiko/graphOptions";
+import { graphOptions4, graphOptions7 } from "../analisis-faktor-risiko/graphOptions";
 import styles from "../anc/anc.module.css";
-import TableMonitoringFaktorRisiko from "./tableMonitoringFaktorRisiko";
 
 export default function AnalisisFaktorRisiko() {
   const filterState = useState({
@@ -88,25 +89,6 @@ export default function AnalisisFaktorRisiko() {
     ],
   };
 
-  const filterGraph1a = useMemo(
-    () => ({
-      ...dateQuery,
-      region_type: "All",
-      vaccine_type: filter.tipe_vaksin1,
-      faskes_parent: filter.faskes
-        ? filter.faskes
-        : filter.kecamatan
-        ? filter.kecamatan
-        : filter.kabkota
-        ? filter.kabkota
-        : filter.provinsi
-        ? filter.provinsi
-        : "",
-      // faskes_parent: filter.faskes_parent,
-    }),
-    [rergionTypeGraph1, filter, dateQuery]
-  );
-
   const filterGraph1 = useMemo(
     () => ({
       ...dateQuery,
@@ -128,6 +110,77 @@ export default function AnalisisFaktorRisiko() {
 
   const { data: getGraphImmunizationScope, isLoading: isLoadingGraphImmunizationScope } =
     useGetGraphImmunizationScopeQuery(filterGraph1, optionQuery);
+
+  const dataNasional = [
+    [
+      1386, 976, 1473, 805, 1201, 1039, 1465, 1106, 923, 702, 1172, 731, 833, 1254, 1471, 1043,
+      1347, 994, 1305, 1387, 1259, 1230, 986, 1462, 679, 1390, 931, 854, 1091, 1358, 824, 1365,
+      1176, 1008, 1395, 1332, 1102, 1297,
+    ], // Data pertama
+    [
+      1086, 1099, 1380, 1460, 1301, 896, 762, 1189, 1083, 900, 1258, 1080, 1267, 1092, 1132, 1059,
+      1260, 1200, 1382, 1199, 1389, 1407, 1223, 1006, 1284, 871, 1031, 1192, 1444, 1261, 1396, 1306,
+      987, 808, 1303, 799, 1299, 1004,
+    ], // Data kedua
+    [
+      768, 1035, 1093, 1075, 1390, 762, 1177, 1176, 1003, 813, 1290, 1193, 1355, 1257, 1112, 1338,
+      948, 746, 997, 1131, 1362, 1478, 1291, 1426, 1434, 819, 1322, 1495, 924, 1447, 1226, 931,
+      1103, 1456, 827, 1023, 1350, 927,
+    ], // Data ketiga
+    [
+      1296, 1258, 1337, 1351, 1284, 1436, 971, 1275, 1191, 1302, 1273, 813, 1238, 1195, 1123, 1171,
+      1378, 1372, 1104, 1143, 1037, 1440, 1376, 1309, 1082, 1072, 1449, 1250, 1277, 874, 1486, 1209,
+      1328, 1293, 1397, 1307, 1205, 1183,
+    ], // Data keempat
+  ];
+
+  const totalData = ancGraphOptions1.map((option) => option.ya + option.tidak);
+
+  const series2: any[] = [
+    "Direct",
+    "Mail Ad",
+    "Affiliate Ad",
+    "Video Ad",
+    // "Search Engine",
+  ].map((name, sid) => {
+    return {
+      name,
+      type: "bar",
+      stack: "total",
+      barWidth: "60%",
+      // label:
+      //   sid === rawData.length - 1
+      //     ? {
+      //         // Hanya pada seri terakhirshow: true,
+      //         position: "top", // Tampilkan di atas barformatter: (params: any) => totalData[params.dataIndex].toString(), // Tampilkan totalfontWeight: 'bold',
+      //       }
+      //     : undefined,
+      // label: {
+      //   show: sid === rawData.length - 1, // Hanya di seri terakhir
+      //   position: "top",
+      //   formatter: (params: any) => totalData[params.dataIndex].toString(),
+      //   fontWeight: "bold",
+      // },
+      data: dataNasional[sid], // Menggunakan data asli tanpa pembagian
+    };
+  });
+
+  series2.push({
+    name: "New Line Ad",
+    type: "line",
+    data: [
+      1120, 1399, 888, 1333, 1222, 925, 1257, 1234, 1285, 1349, 1231, 1291, 1458, 1367, 1416, 1335,
+      1138, 1453, 1294, 1160, 1178, 1446, 1278, 1295, 1279, 1057, 1169, 1348, 1417, 1124, 1339,
+      1044, 1336, 1281, 1025, 1368, 1374, 1314,
+    ], // Data kelima
+
+    lineStyle: {
+      width: 2,
+    },
+    itemStyle: {
+      color: "black",
+    },
+  });
 
   return (
     <div className={`flex flex-col items-center p-[30px]  ${styles.jakartaFont}`}>
@@ -251,82 +304,163 @@ export default function AnalisisFaktorRisiko() {
           </div>
         </div>
       </div>
-      <SectionHeader
-        title="Profil Piramida Penduduk Skrining Aktivitas Fisik"
-        subtitle="Profil Piramida Penduduk Skrining Aktivitas Fisik"
-      />
-      <div className={`flex flex-wrap sm:flex-nowrap gap-4 relative`}>
-        <div className="flex-grow">
-          <div className="relative flex justify-center items-center">
-            <div className="w-full h-full overflow-scroll" style={{ minHeight: 550 }} id="graphhhh">
-              <GraphEcharts
-                graphOptions={graphOptions1(
-                  [
-                    {
-                      // @ts-ignore
-                      name: "Persentase",
-                      data:
-                        (getGraphImmunizationScope?.data || [])?.map((r: any) => ({
-                          value: r?.percentage,
-                          itemStyle: {
-                            color: r.faskes_desc === "All" ? "#2D9CED" : undefined,
-                          },
-                        })) || [],
-                      type: "bar",
-                      label: {
-                        show: true,
-                        precision: 1,
-                        position: "right",
-                        // formatter: (params: any) => `${params.value}%`,
-                        formatter: (params: any) => {
-                          const reversedData = (getGraphImmunizationScope?.data || [])
-                            .slice()
-                            .reverse(); // Membuat salinan dan membalik urutan
-                          const totalData = reversedData[params.dataIndex]?.total;
-                          const valueWithComma = params?.value?.toString().replace(".", ",");
+      <section>
+        <SectionHeader
+          title="Profil Piramida Penduduk Skrining Aktivitas Fisik"
+          subtitle="Profil Piramida Penduduk Skrining Aktivitas Fisik"
+        />
+        <div className="flex mt-5 flex-wrap sm:flex-nowrap gap-4 relative w-full shadow-[0_1px_8px_0px_rgba(0,0,0,0.3)] rounded-[16px] p-10">
+          <div className="flex-grow">
+            <div className="relative flex justify-center items-center">
+              <div
+                className="w-full h-full overflow-scroll"
+                style={{ minHeight: 550 }}
+                id="graphhhh"
+              >
+                <GraphEcharts
+                  graphOptions={graphOptions4(
+                    [
+                      {
+                        // @ts-ignore
+                        name: "Persentase",
+                        data:
+                          (getGraphImmunizationScope?.data || [])?.map((r: any) => ({
+                            value: r?.percentage,
+                            itemStyle: {
+                              color: r.faskes_desc === "All" ? "#2D9CED" : undefined,
+                            },
+                          })) || [],
+                        type: "bar",
+                        label: {
+                          show: true,
+                          precision: 1,
+                          position: "right",
+                          // formatter: (params: any) => `${params.value}%`,
+                          formatter: (params: any) => {
+                            const reversedData = (getGraphImmunizationScope?.data || [])
+                              .slice()
+                              .reverse(); // Membuat salinan dan membalik urutan
+                            const totalData = reversedData[params.dataIndex]?.total;
+                            const valueWithComma = params?.value?.toString().replace(".", ",");
 
-                          return filter.wilayah1 === "province" || filter.wilayah1 === "city"
-                            ? `${valueWithComma}% (${formatNumber(totalData)})`
-                            : `(${formatNumber(totalData)})`;
+                            return filter.wilayah1 === "province" || filter.wilayah1 === "city"
+                              ? `${valueWithComma}% (${formatNumber(totalData)})`
+                              : `(${formatNumber(totalData)})`;
+                          },
                         },
                       },
-                    },
+                      {
+                        name: "Target",
+                        type: "line",
+                        color: "#CD4243",
+                        data:
+                          (getGraphImmunizationScope?.data || [])?.map((r: any) => r?.threshold) ||
+                          [],
+                      },
+                      {
+                        name: "Total Penerima",
+                        type: "line",
+                        color: "#FAC515",
+                        data:
+                          (getGraphImmunizationScope?.data || [])?.map((r: any) => r?.total) || [],
+                        show: false, // Menyembunyikan seri secara default
+                        itemStyle: {
+                          opacity: 0, // Mengatur opacity item menjadi 0 untuk menyembunyikan item
+                        },
+                        lineStyle: {
+                          opacity: 0, // Mengatur opacity garis menjadi 0 untuk menyembunyikan garis
+                        },
+                      },
+                    ],
+                    (getGraphImmunizationScope?.data || [])?.map((r: any) =>
+                      r.faskes_desc === "All" ? "NASIONAL" : r.faskes_desc
+                    )
+                  )}
+                  opts={{
+                    height: 900,
+                  }}
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+      <section className="w-full mt-10 grid grid-cols-12 gap-3">
+        <div className="rounded-2xl border border-[#D6D6D6] col-span-12 lg:col-span-8 py-8 px-5">
+          <SectionHeader title="" subtitle="Peta Capaian Penerima Layanan Dasar" />
+          <div className="mt-5 rounded-xl border border-[#D6D6D6] p-[13px] h-[550px]">
+            <MapAnc2 />
+          </div>
+        </div>
+        <div className="rounded-2xl border border-[#D6D6D6] col-span-12 lg:col-span-4 py-4 px-5 bg-[#4C5699]">
+          <h4 className="text-white font-bold text-xl">Capaian Penerima Layanan Dasar</h4>
+          <p className="text-[#EFEDFF] my-4 text-sm">lorem</p>
+          <div className="bg-white shadow-md mt-5 rounded-2xl py-5 px-3">
+            <div className="w-1/2 mb-2">
+              <Select placeholder="Terendah" />
+            </div>
+            <div className="h-[680px]">
+              <GraphItem
+                isHideButtonDownload={true}
+                graphOptions={graphOptions6(
+                  [
                     {
-                      name: "Target",
-                      type: "line",
-                      color: "#CD4243",
-                      data:
-                        (getGraphImmunizationScope?.data || [])?.map((r: any) => r?.threshold) ||
-                        [],
-                    },
-                    {
-                      name: "Total Penerima",
-                      type: "line",
-                      color: "#FAC515",
-                      data:
-                        (getGraphImmunizationScope?.data || [])?.map((r: any) => r?.total) || [],
-                      show: false, // Menyembunyikan seri secara default
+                      name: "Melaksanakan Layanan Kesehatan Ibu Hamil",
+                      type: "bar",
+                      stack: "total",
+                      label: {
+                        show: true,
+                        formatter: (params: any) => {
+                          const total = totalData[params.dataIndex];
+                          const value = params.value;
+                          const percentage = ((value / total) * 100).toFixed(2); // Calculate percentage and format it to 2 decimal places
+                          return `${params.value}%`;
+                        },
+                      },
+                      emphasis: {
+                        focus: "series",
+                      },
                       itemStyle: {
-                        opacity: 0, // Mengatur opacity item menjadi 0 untuk menyembunyikan item
+                        color: "#00B3AC",
                       },
-                      lineStyle: {
-                        opacity: 0, // Mengatur opacity garis menjadi 0 untuk menyembunyikan garis
-                      },
+                      data: (incGraphOptions1 || [])?.map((r: any) => r?.pct) || [],
                     },
                   ],
-                  (getGraphImmunizationScope?.data || [])?.map((r: any) =>
-                    r.faskes_desc === "All" ? "NASIONAL" : r.faskes_desc
-                  )
+                  incGraphOptions1?.map((r: any) => r.label) || []
                 )}
-                opts={{
-                  height: 900,
-                }}
               />
             </div>
           </div>
         </div>
-      </div>
-      {/*  */}
+      </section>
+      <section className="w-full">
+        <SectionHeader
+          title="Aktivitas Fisik Berdasarkan Wilayah"
+          subtitle="Kurang Aktivitas Fisik"
+        />
+        <div className="w-full mt-6  border border-[#D6D6D6] rounded-2xl pb-14 h-[600px]">
+          <GraphEcharts
+            graphOptions={graphOptions7(series2)}
+            opts={{
+              height: 500,
+            }}
+          />
+        </div>
+      </section>
+      <section className="w-full">
+        <SectionHeader
+          title="Aktivitas Fisik Berdasarkan Waktu"
+          subtitle="Kurang Aktivitas Fisik"
+        />
+        <div className="w-full mt-6  border border-[#D6D6D6] rounded-2xl pb-14 h-[600px]">
+          <GraphEcharts
+            graphOptions={graphOptions7(series2)}
+            opts={{
+              height: 500,
+            }}
+          />
+        </div>
+      </section>
     </div>
   );
 }
