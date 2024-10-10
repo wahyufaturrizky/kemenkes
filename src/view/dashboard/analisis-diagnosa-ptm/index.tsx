@@ -17,7 +17,7 @@ import { IoMdArrowForward, IoMdInformationCircleOutline } from "react-icons/io";
 import { graphOptions4, graphOptions7 } from "../analisis-faktor-risiko/graphOptions";
 import styles from "../anc/anc.module.css";
 
-export default function AnalisisDiagnosaPTM() {
+export default function AnalisisFaktorRisiko() {
   const filterState = useState({
     tahun: 2023,
     // tahun: new Date().getFullYear(),
@@ -434,31 +434,75 @@ export default function AnalisisDiagnosaPTM() {
         </div>
       </section>
       <section className="w-full">
-        <SectionHeader
-          title="Aktivitas Fisik Berdasarkan Wilayah"
-          subtitle="Kurang Aktivitas Fisik"
-        />
-        <div className="w-full mt-6  border border-[#D6D6D6] rounded-2xl pb-14 h-[600px]">
-          <GraphEcharts
-            graphOptions={graphOptions7(series2)}
-            opts={{
-              height: 500,
-            }}
-          />
+        <SectionHeader title="Analisa Penanganan PTM" />
+
+        <div className="grid grid-cols-3 gap-2">
+          {[1, 2, 3].map(() => (
+            <div className="w-full p-4 mt-6 gap-3 flex flex-col shadow-[0px_1px_8px_0px_#0000000D] rounded-2xl pb-14 h-[600px]">
+              <p className="font-plus-jakarta-sans text-[18px] font-semibold leading-[22.68px] text-left">
+                Pasien dalam Masa Pengobatan
+              </p>
+
+              <p className="font-plus-jakarta-sans text-[14px] text-[#616161] font-medium leading-[17.64px] text-left">
+                Pasien hipertensi dengan minimal satu kali kunjungan 12 bulan terakhir
+              </p>
+
+              <p className="font-plus-jakarta-sans text-[#006A65] text-[32px] font-semibold leading-[32px] text-left">
+                10,632
+              </p>
+
+              <p className="font-plus-jakarta-sans text-[#616161] text-[14px] font-normal leading-[20px] text-left">
+                1,043 pasien terdaftar pada Jul-2023 dari
+              </p>
+
+              <p className="font-plus-jakarta-sans text-[#007AFF] text-[14px] font-normal leading-[20px] text-left">
+                12,213 kumulatif pasien-pasien terdaftar
+              </p>
+
+              <GraphEcharts
+                graphOptions={graphOptions7(series2)}
+                opts={{
+                  height: 500,
+                }}
+              />
+            </div>
+          ))}
         </div>
       </section>
       <section className="w-full">
-        <SectionHeader
-          title="Aktivitas Fisik Berdasarkan Waktu"
-          subtitle="Kurang Aktivitas Fisik"
-        />
-        <div className="w-full mt-6  border border-[#D6D6D6] rounded-2xl pb-14 h-[600px]">
-          <GraphEcharts
-            graphOptions={graphOptions7(series2)}
-            opts={{
-              height: 500,
-            }}
-          />
+        <SectionHeader title="Hasil Penanganan Pasien Hipertensi" />
+
+        <div className="grid grid-cols-3 gap-2">
+          {[1, 2, 3].map(() => (
+            <div className="w-full p-4 mt-6 gap-3 flex flex-col shadow-[0px_1px_8px_0px_#0000000D] rounded-2xl pb-14 h-[600px]">
+              <p className="font-plus-jakarta-sans text-[18px] font-semibold leading-[22.68px] text-left">
+                Pasien dalam Masa Pengobatan
+              </p>
+
+              <p className="font-plus-jakarta-sans text-[14px] text-[#616161] font-medium leading-[17.64px] text-left">
+                Pasien hipertensi dengan minimal satu kali kunjungan 12 bulan terakhir
+              </p>
+
+              <p className="font-plus-jakarta-sans text-[#006A65] text-[32px] font-semibold leading-[32px] text-left">
+                10,632
+              </p>
+
+              <p className="font-plus-jakarta-sans text-[#616161] text-[14px] font-normal leading-[20px] text-left">
+                1,043 pasien terdaftar pada Jul-2023 dari
+              </p>
+
+              <p className="font-plus-jakarta-sans text-[#007AFF] text-[14px] font-normal leading-[20px] text-left">
+                12,213 kumulatif pasien-pasien terdaftar
+              </p>
+
+              <GraphEcharts
+                graphOptions={graphOptions7(series2)}
+                opts={{
+                  height: 500,
+                }}
+              />
+            </div>
+          ))}
         </div>
       </section>
     </div>
