@@ -326,7 +326,7 @@ export default function AnalisisFaktorRisiko() {
           </div>
         </div>
       </div>
-      <TableMonitoringFaktorRisiko titleTable="Tabel Data Agregat" />
+      {/*  */}
     </div>
   );
 }
