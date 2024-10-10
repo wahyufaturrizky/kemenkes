@@ -24,6 +24,7 @@ import SectionHeader from "@/components/sectionHeader";
 import Card8Disease from "@/components/card8Disease";
 import { Filter1 } from "../bias/FilterBias";
 import GraphAnc from "@/components/graphAnc";
+import TableAnalisis from "@/components/tableAnalisis";
 interface AnalisisProps {
   btn: boolean;
   filterState: object;
@@ -228,6 +229,203 @@ const AnalisisAnc: React.FC<AnalisisProps> = ({ btn, filterState }) => {
                 ],
                 ancGraphOptions7?.map((r: any) => r.label)
               )}
+            />
+            <TableAnalisis
+              title="Tabel Agregat Kesehatan Bumil"
+              column={[
+                "Provinsi",
+                "Kab/Kota",
+                "Kecamatan",
+                "Desa/Kelurahan",
+                "Jumlah Sasaran Bumil",
+                "Jumlah Bumil Tercatat",
+                "Jumlah",
+              ]}
+              dataTable={[
+                {
+                  Provinsi: "Maluku",
+                  "Kab/Kota": "Ambon",
+                  Kecamatan: "Sirimau",
+                  "Desa/Kelurahan": "Desa Batu Merah",
+                  "Jumlah Sasaran Bumil": 1200,
+                  "Jumlah Bumil Tercatat": 600,
+                  Jumlah: 600,
+                },
+                {
+                  Provinsi: "Maluku",
+                  "Kab/Kota": "Ambon",
+                  Kecamatan: "Baguala",
+                  "Desa/Kelurahan": "Desa Lateri",
+                  "Jumlah Sasaran Bumil": 900,
+                  "Jumlah Bumil Tercatat": 450,
+                  Jumlah: 450,
+                },
+                {
+                  Provinsi: "Maluku",
+                  "Kab/Kota": "Maluku Tengah",
+                  Kecamatan: "Salahutu",
+                  "Desa/Kelurahan": "Desa Tulehu",
+                  "Jumlah Sasaran Bumil": 800,
+                  "Jumlah Bumil Tercatat": 400,
+                  Jumlah: 400,
+                },
+                {
+                  Provinsi: "Maluku",
+                  "Kab/Kota": "Maluku Tengah",
+                  Kecamatan: "Leihitu",
+                  "Desa/Kelurahan": "Desa Hitu",
+                  "Jumlah Sasaran Bumil": 1000,
+                  "Jumlah Bumil Tercatat": 500,
+                  Jumlah: 500,
+                },
+                {
+                  Provinsi: "Maluku",
+                  "Kab/Kota": "Buru",
+                  Kecamatan: "Namlea",
+                  "Desa/Kelurahan": "Desa Namlea",
+                  "Jumlah Sasaran Bumil": 1100,
+                  "Jumlah Bumil Tercatat": 550,
+                  Jumlah: 550,
+                },
+                {
+                  Provinsi: "Maluku",
+                  "Kab/Kota": "Buru",
+                  Kecamatan: "Waelata",
+                  "Desa/Kelurahan": "Desa Waelo",
+                  "Jumlah Sasaran Bumil": 700,
+                  "Jumlah Bumil Tercatat": 350,
+                  Jumlah: 350,
+                },
+                {
+                  Provinsi: "Maluku",
+                  "Kab/Kota": "Seram Bagian Barat",
+                  Kecamatan: "Kairatu",
+                  "Desa/Kelurahan": "Desa Kairatu",
+                  "Jumlah Sasaran Bumil": 950,
+                  "Jumlah Bumil Tercatat": 475,
+                  Jumlah: 475,
+                },
+                {
+                  Provinsi: "Maluku",
+                  "Kab/Kota": "Seram Bagian Barat",
+                  Kecamatan: "Taniwel",
+                  "Desa/Kelurahan": "Desa Taniwel",
+                  "Jumlah Sasaran Bumil": 800,
+                  "Jumlah Bumil Tercatat": 400,
+                  Jumlah: 400,
+                },
+                {
+                  Provinsi: "Maluku",
+                  "Kab/Kota": "Maluku Tenggara",
+                  Kecamatan: "Kei Kecil",
+                  "Desa/Kelurahan": "Desa Langgur",
+                  "Jumlah Sasaran Bumil": 1000,
+                  "Jumlah Bumil Tercatat": 500,
+                  Jumlah: 500,
+                },
+                {
+                  Provinsi: "Maluku",
+                  "Kab/Kota": "Maluku Tenggara",
+                  Kecamatan: "Kei Kecil Barat",
+                  "Desa/Kelurahan": "Desa Ohoidertutu",
+                  "Jumlah Sasaran Bumil": 850,
+                  "Jumlah Bumil Tercatat": 425,
+                  Jumlah: 425,
+                },
+              ]}
+            />
+            <TableAnalisis
+              title="Tabel Agregat Kesehatan Bumil"
+              column={[
+                "Bumil Memiliki Buku KIA",
+                "Bumil Mengikuti Kelas Bumil",
+                "Jumlah Bumil Konseling",
+                "Jumlah Bumil K1",
+                "Jumlah Sasaran Bumil",
+                "Jumlah Bumil K1USG",
+              ]}
+              dataTable={[
+                {
+                  "Bumil Memiliki Buku KIA": 20,
+                  "Bumil Mengikuti Kelas Bumil": 30,
+                  "Jumlah Bumil Konseling": 40,
+                  "Jumlah Bumil K1": 50,
+                  "Jumlah Sasaran Bumil": 1200,
+                  "Jumlah Bumil K1USG": 600,
+                },
+                {
+                  "Bumil Memiliki Buku KIA": 20,
+                  "Bumil Mengikuti Kelas Bumil": 30,
+                  "Jumlah Bumil Konseling": 40,
+                  "Jumlah Bumil K1": 50,
+                  "Jumlah Sasaran Bumil": 1200,
+                  "Jumlah Bumil K1USG": 600,
+                },
+                {
+                  "Bumil Memiliki Buku KIA": 20,
+                  "Bumil Mengikuti Kelas Bumil": 30,
+                  "Jumlah Bumil Konseling": 40,
+                  "Jumlah Bumil K1": 50,
+                  "Jumlah Sasaran Bumil": 1200,
+                  "Jumlah Bumil K1USG": 600,
+                },
+                {
+                  "Bumil Memiliki Buku KIA": 20,
+                  "Bumil Mengikuti Kelas Bumil": 30,
+                  "Jumlah Bumil Konseling": 40,
+                  "Jumlah Bumil K1": 50,
+                  "Jumlah Sasaran Bumil": 1200,
+                  "Jumlah Bumil K1USG": 600,
+                },
+                {
+                  "Bumil Memiliki Buku KIA": 20,
+                  "Bumil Mengikuti Kelas Bumil": 30,
+                  "Jumlah Bumil Konseling": 40,
+                  "Jumlah Bumil K1": 50,
+                  "Jumlah Sasaran Bumil": 1200,
+                  "Jumlah Bumil K1USG": 600,
+                },
+                {
+                  "Bumil Memiliki Buku KIA": 20,
+                  "Bumil Mengikuti Kelas Bumil": 30,
+                  "Jumlah Bumil Konseling": 40,
+                  "Jumlah Bumil K1": 50,
+                  "Jumlah Sasaran Bumil": 1200,
+                  "Jumlah Bumil K1USG": 600,
+                },
+                {
+                  "Bumil Memiliki Buku KIA": 20,
+                  "Bumil Mengikuti Kelas Bumil": 30,
+                  "Jumlah Bumil Konseling": 40,
+                  "Jumlah Bumil K1": 50,
+                  "Jumlah Sasaran Bumil": 1200,
+                  "Jumlah Bumil K1USG": 600,
+                },
+                {
+                  "Bumil Memiliki Buku KIA": 20,
+                  "Bumil Mengikuti Kelas Bumil": 30,
+                  "Jumlah Bumil Konseling": 40,
+                  "Jumlah Bumil K1": 50,
+                  "Jumlah Sasaran Bumil": 1200,
+                  "Jumlah Bumil K1USG": 600,
+                },
+                {
+                  "Bumil Memiliki Buku KIA": 20,
+                  "Bumil Mengikuti Kelas Bumil": 30,
+                  "Jumlah Bumil Konseling": 40,
+                  "Jumlah Bumil K1": 50,
+                  "Jumlah Sasaran Bumil": 1200,
+                  "Jumlah Bumil K1USG": 600,
+                },
+                {
+                  "Bumil Memiliki Buku KIA": 20,
+                  "Bumil Mengikuti Kelas Bumil": 30,
+                  "Jumlah Bumil Konseling": 40,
+                  "Jumlah Bumil K1": 50,
+                  "Jumlah Sasaran Bumil": 1200,
+                  "Jumlah Bumil K1USG": 600,
+                },
+              ]}
             />
           </>
         ) : (
@@ -604,7 +802,7 @@ const AnalisisAnc: React.FC<AnalisisProps> = ({ btn, filterState }) => {
               title="Analisis Mordibilitas Ibu Hami"
               subtitle="Jumlah dan persentase penyakit yang dialami Ibu Hamil"
             />
-            <div className="mx-14 my-11 grid grid-cols-8 gap-3">
+            <div className="mx-14 my-11 grid grid-cols-8 gap-3 h-[100vh]">
               <div className="w-full h-5 col-span-5 grid gap-3">
                 <div className="grid grid-cols-5 gap-3 h-[200px]">
                   {/* <div className="col-span-3 h-full bg-[#F38739]"></div> */}
@@ -801,6 +999,170 @@ const AnalisisAnc: React.FC<AnalisisProps> = ({ btn, filterState }) => {
                 </div>
               </div>
             </div>
+            <TableAnalisis
+              title="Tabel Data Agregat ANC Bumil"
+              column={[
+                "Jumlah Bumil K5",
+                "Jumlah Bumil K5USG",
+                "Jumlah Bumil Komplikasi",
+                "Jumlah Bumil Komplikasi Dirujuk",
+                "Jumlah Bumil Anemia",
+              ]}
+              dataTable={[
+                {
+                  "Jumlah Bumil K5": 20,
+                  "Jumlah Bumil K5USG": 30,
+                  "Jumlah Bumil Komplikasi": 40,
+                  "Jumlah Bumil Komplikasi Dirujuk": 50,
+                  "Jumlah Bumil Anemia": 1200,
+                },
+                {
+                  "Jumlah Bumil K5": 20,
+                  "Jumlah Bumil K5USG": 30,
+                  "Jumlah Bumil Komplikasi": 40,
+                  "Jumlah Bumil Komplikasi Dirujuk": 50,
+                  "Jumlah Bumil Anemia": 1200,
+                },
+                {
+                  "Jumlah Bumil K5": 20,
+                  "Jumlah Bumil K5USG": 30,
+                  "Jumlah Bumil Komplikasi": 40,
+                  "Jumlah Bumil Komplikasi Dirujuk": 50,
+                  "Jumlah Bumil Anemia": 1200,
+                },
+                {
+                  "Jumlah Bumil K5": 20,
+                  "Jumlah Bumil K5USG": 30,
+                  "Jumlah Bumil Komplikasi": 40,
+                  "Jumlah Bumil Komplikasi Dirujuk": 50,
+                  "Jumlah Bumil Anemia": 1200,
+                },
+                {
+                  "Jumlah Bumil K5": 20,
+                  "Jumlah Bumil K5USG": 30,
+                  "Jumlah Bumil Komplikasi": 40,
+                  "Jumlah Bumil Komplikasi Dirujuk": 50,
+                  "Jumlah Bumil Anemia": 1200,
+                },
+                {
+                  "Jumlah Bumil K5": 20,
+                  "Jumlah Bumil K5USG": 30,
+                  "Jumlah Bumil Komplikasi": 40,
+                  "Jumlah Bumil Komplikasi Dirujuk": 50,
+                  "Jumlah Bumil Anemia": 1200,
+                },
+                {
+                  "Jumlah Bumil K5": 20,
+                  "Jumlah Bumil K5USG": 30,
+                  "Jumlah Bumil Komplikasi": 40,
+                  "Jumlah Bumil Komplikasi Dirujuk": 50,
+                  "Jumlah Bumil Anemia": 1200,
+                },
+                {
+                  "Jumlah Bumil K5": 20,
+                  "Jumlah Bumil K5USG": 30,
+                  "Jumlah Bumil Komplikasi": 40,
+                  "Jumlah Bumil Komplikasi Dirujuk": 50,
+                  "Jumlah Bumil Anemia": 1200,
+                },
+                {
+                  "Jumlah Bumil K5": 20,
+                  "Jumlah Bumil K5USG": 30,
+                  "Jumlah Bumil Komplikasi": 40,
+                  "Jumlah Bumil Komplikasi Dirujuk": 50,
+                  "Jumlah Bumil Anemia": 1200,
+                },
+                {
+                  "Jumlah Bumil K5": 20,
+                  "Jumlah Bumil K5USG": 30,
+                  "Jumlah Bumil Komplikasi": 40,
+                  "Jumlah Bumil Komplikasi Dirujuk": 50,
+                  "Jumlah Bumil Anemia": 1200,
+                },
+              ]}
+            />
+            <TableAnalisis
+              title="Tabel Agregat Bumil dengan Penyakit Penyerta"
+              column={[
+                "Jumlah Bumil Diabetes",
+                "Jumlah Bumil TBC",
+                "Jumlah Bumil Hipertensi",
+                "Jumlah Bumil Penyakit Jantung",
+                "Jumlah Bumil DM",
+              ]}
+              dataTable={[
+                {
+                  "Jumlah Bumil Diabetes": 20,
+                  "Jumlah Bumil TBC": 30,
+                  "Jumlah Bumil Hipertensi": 40,
+                  "Jumlah Bumil Penyakit Jantung": 50,
+                  "Jumlah Bumil DM": 1200,
+                },
+                {
+                  "Jumlah Bumil Diabetes": 20,
+                  "Jumlah Bumil TBC": 30,
+                  "Jumlah Bumil Hipertensi": 40,
+                  "Jumlah Bumil Penyakit Jantung": 50,
+                  "Jumlah Bumil DM": 1200,
+                },
+                {
+                  "Jumlah Bumil Diabetes": 20,
+                  "Jumlah Bumil TBC": 30,
+                  "Jumlah Bumil Hipertensi": 40,
+                  "Jumlah Bumil Penyakit Jantung": 50,
+                  "Jumlah Bumil DM": 1200,
+                },
+                {
+                  "Jumlah Bumil Diabetes": 20,
+                  "Jumlah Bumil TBC": 30,
+                  "Jumlah Bumil Hipertensi": 40,
+                  "Jumlah Bumil Penyakit Jantung": 50,
+                  "Jumlah Bumil DM": 1200,
+                },
+                {
+                  "Jumlah Bumil Diabetes": 20,
+                  "Jumlah Bumil TBC": 30,
+                  "Jumlah Bumil Hipertensi": 40,
+                  "Jumlah Bumil Penyakit Jantung": 50,
+                  "Jumlah Bumil DM": 1200,
+                },
+                {
+                  "Jumlah Bumil Diabetes": 20,
+                  "Jumlah Bumil TBC": 30,
+                  "Jumlah Bumil Hipertensi": 40,
+                  "Jumlah Bumil Penyakit Jantung": 50,
+                  "Jumlah Bumil DM": 1200,
+                },
+                {
+                  "Jumlah Bumil Diabetes": 20,
+                  "Jumlah Bumil TBC": 30,
+                  "Jumlah Bumil Hipertensi": 40,
+                  "Jumlah Bumil Penyakit Jantung": 50,
+                  "Jumlah Bumil DM": 1200,
+                },
+                {
+                  "Jumlah Bumil Diabetes": 20,
+                  "Jumlah Bumil TBC": 30,
+                  "Jumlah Bumil Hipertensi": 40,
+                  "Jumlah Bumil Penyakit Jantung": 50,
+                  "Jumlah Bumil DM": 1200,
+                },
+                {
+                  "Jumlah Bumil Diabetes": 20,
+                  "Jumlah Bumil TBC": 30,
+                  "Jumlah Bumil Hipertensi": 40,
+                  "Jumlah Bumil Penyakit Jantung": 50,
+                  "Jumlah Bumil DM": 1200,
+                },
+                {
+                  "Jumlah Bumil Diabetes": 20,
+                  "Jumlah Bumil TBC": 30,
+                  "Jumlah Bumil Hipertensi": 40,
+                  "Jumlah Bumil Penyakit Jantung": 50,
+                  "Jumlah Bumil DM": 1200,
+                },
+              ]}
+            />
           </>
         )}
       </div>

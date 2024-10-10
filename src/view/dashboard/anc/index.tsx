@@ -4,27 +4,7 @@ import React from "react";
 import { useState } from "react";
 import { IoMdArrowBack } from "react-icons/io";
 import AnalisisANC from "./analisisAnc";
-import {
-  graphOptions1,
-  graphOptions2,
-  graphOptions3,
-  graphOptions4,
-  graphOptions5,
-  graphOptions6,
-  graphOptions7,
-} from "./graphOptions";
-import GraphEchartsAnc from "@/components/graph-echarts-anc";
-import {
-  ancGraphOptions1,
-  ancGraphOptions2,
-  ancGraphOptions3,
-  ancGraphOptions4,
-  ancGraphOptions6,
-  ancGraphOptions7,
-  ancGtaphOptions5,
-  dataMonth,
-  dataTabBaduta,
-} from "@/utils/constants";
+import { ancGraphOptions1, dataMonth, dataTabBaduta } from "@/utils/constants";
 import FilterSummaryImmunizationAnc from "@/view/home/components/FilterAnc";
 import { formatNumber } from "@/helpers";
 import Header from "@/components/header";
@@ -478,6 +458,23 @@ export default function Anc() {
               pct={`${formatNumber(TenT?.data?.pct) || 0}%`}
               isLoading={isLoadingTenT}
               color="#9CEE8C"
+              tooltipContent={`
+                <p className'font-bold mb-2'>10T</p>
+                <p className='mb-4'>Jumlah ibu hamil yang mendapatkan layanan 10T seluruhnya yang mencakup:</p>
+                <ol>
+                <li>Ukur bb dan tb</li>
+                <li>Diukur tekanan darah</li>
+                <li>Ukur lila</li>
+                <li>Diukur tinggi fundus</li>
+                <li>Ditentukan presentase janin dan denyut jantung janin</li>
+                <li>Pemberian imunisasi TT</li>
+                <li>Pemberian TTD</li>
+                <li>Pemeriksaan lab (pemeriksaan anemia & tripple eliminasi)</li>
+                <li>Tatalaksana konseling</li>
+                <li>Diberikan konseling</li>
+                </ol>
+                <p className='mt-2'>Dibagi sasaran ibu hamil</p>
+                `}
             />
             <Scorecard3
               title="4T"
@@ -486,6 +483,10 @@ export default function Anc() {
               pct={`${formatNumber(FourT?.data?.pct) || 0}%`}
               isLoading={isLoadingFourT}
               color="#D9EF82"
+              tooltipContent={`
+                <p className'font-bold mb-2'>4T</p>
+                <p className='mt-2'>Semua ibu hamil yang mengalami 4T (salah satu atau lebih dari satu) dibagi dengan semua ibu hamil</p>
+                `}
             />
             <Scorecard3
               title="USG"
@@ -494,6 +495,10 @@ export default function Anc() {
               pct={`${formatNumber(Usg?.data?.pct) || 0}%`}
               isLoading={isLoadingUsg}
               color="#A8DFF1"
+              tooltipContent={`
+                <p className'font-bold mb-2'>USG (KMK Trimester 3)</p>
+                <p className='mt-2'>Ibu hamil yang diperiksa USG di trimester 3 (usia kandungan > 180 hari) dengan hasil KMK dibagi dengan semua ibu hamil</p>
+                `}
             />
             <Scorecard3
               title="KMK"
@@ -502,6 +507,10 @@ export default function Anc() {
               pct={`${formatNumber(Kmk?.data?.pct) || 0}%`}
               isLoading={isLoadingKmk}
               color="#FF9899"
+              tooltipContent={`
+                <p className'font-bold mb-2'>KMK (Dirujuk)</p>
+                <p className='mt-2'>Ibu hamil yang diperiksa USG di trimester 3 (usia kandungan > 180 hari) dengan hasil KMK yang dirujuk dibagi dengan semua ibu hamil dengan KMK</p>
+                `}
             />
             <Scorecard3
               title="KEK"
@@ -509,6 +518,10 @@ export default function Anc() {
               pct={`${formatNumber(Kek?.data?.pct) || 0}%`}
               isLoading={isLoadingKek}
               color="#EE534F"
+              tooltipContent={`
+                <p className'font-bold mb-2'>KEK</p>
+                <p className='mt-2'>Ibu hamil dengan resiko KEK dibagi dengan semua ibu hamil yang dikukur lila</p>
+                `}
             />
             <Scorecard3
               title="KEK"
@@ -517,6 +530,10 @@ export default function Anc() {
               pct={`${formatNumber(KekRcv?.data?.pct) || 0}%`}
               isLoading={isLoadingKekRcv}
               color="#EE534F"
+              tooltipContent={`
+                <p className'font-bold mb-2'>KEK (Mendapatkan Tambahan Gizi)</p>
+                <p className='mt-2'>Ibu hamil dengan risiko KEK mendapatkan PMT dibagi dengan semua ibu hamil KEK</p>
+                `}
             />
             <Scorecard3
               title="KEK"
@@ -525,6 +542,10 @@ export default function Anc() {
               pct={`${formatNumber(KekCns?.data?.pct) || 0}%`}
               isLoading={isLoadingKekCns}
               color="#EE534F"
+              tooltipContent={`
+                <p className'font-bold mb-2'>KEK (Mengkonsumsi Tambahan Gizi)</p>
+                <p className='mt-2'>Ibu hamil dengan risiko KEK mengkonsumsi PMT dibagi dengan semua ibu hamil KEK</p>
+                `}
             />
             <Scorecard3
               title="KEK"
@@ -533,6 +554,10 @@ export default function Anc() {
               pct={`${formatNumber(KekPmt?.data?.pct) || 0}%`}
               isLoading={isLoadingKekPmt}
               color="#EE534F"
+              tooltipContent={`
+                <p className'font-bold mb-2'>KEK (Mendapatkan PMT lokla dengan penambahan berat badan)</p>
+                <p className='mt-2'>Ibu hamil dengan risiko KEK mengkonsumsi PMT dengan kenaikan BB dibagi dengan semua ibu hamil KEK</p>
+                `}
             />
             <Scorecard3
               title="Hb"
@@ -541,6 +566,10 @@ export default function Anc() {
               pct={`${formatNumber(Hb?.data?.pct) || 0}%`}
               isLoading={isLoadingHb}
               color="#C282FA"
+              tooltipContent={`
+                <p className'font-bold mb-2'>HB (Diberikan Hb)</p>
+                <p className='mt-2'>Semua ibu hamil yang dilakukan pemerikaan hb dibagi semua ibu hamil</p>
+                `}
             />
             <Scorecard3
               title="Anemia"
@@ -550,6 +579,10 @@ export default function Anc() {
               pct={`${formatNumber(AnemiaRcv?.data?.pct) || 0}%`}
               isLoading={isLoadingAnemiaRcv}
               color="#60D3AA"
+              tooltipContent={`
+                <p className'font-bold mb-2'>Anemia Ringan (Mendapat terapi TTD oral)</p>
+                <p className='mt-2'>Semua ibu hamil anemia ringan yang mendapatkan TTD dibagi semua ibu hamil</p>
+                `}
             />
             <Scorecard3
               title="Anemia"
@@ -559,15 +592,23 @@ export default function Anc() {
               pct={`${formatNumber(AnemiaInc?.data?.pct) || 0}%`}
               isLoading={isLoadingAnemiaInc}
               color="#60D3AA"
+              tooltipContent={`
+                <p className'font-bold mb-2'>Anemia Ringan (Mengalami kenaikan Hb)</p>
+                <p className='mt-2'>Semua ibu hamil anemia ringan yang mengalami kenaikan Hb dibagi dengan semua ibu hamil anemia ringan</p>
+                `}
             />
             <Scorecard3
               title="Anemia"
-              status="Ringan & Berat"
-              subtitle="mendapata rujukan ke FKRTL"
+              status="Sedang & Berat"
+              subtitle="mendapat rujukan ke FKRTL"
               value={formatNumber(AnemiaRef?.data?.total || "0")}
               pct={`${formatNumber(AnemiaRef?.data?.pct) || 0}%`}
               isLoading={isLoadingAnemiaRef}
               color="#60D3AA"
+              tooltipContent={`
+                <p className'font-bold mb-2'>Anemia Sedang & Berat (mendapat rujukan ke FKRTL)</p>
+                <p className='mt-2'>Persentase Ibu Hamil Anemia sedang dan berat yang dirujuk ke FKRTL dibagi dengan semua ibu hamil anemia sedang dan berat</p>
+                `}
             />
             <Scorecard3
               title="TTD"
@@ -576,6 +617,10 @@ export default function Anc() {
               pct={`${formatNumber(TTdRcv?.data?.pct) || 0}%`}
               isLoading={isLoadingTTdRcv}
               color="#ABC337"
+              tooltipContent={`
+                <p className'font-bold mb-2'>TTD (Mendapat 90 tablet)</p>
+                <p className='mt-2'>Bumil diberikan Tablet Tambah darah (TTD) dibagi dengan semua ibu hamil.</p>
+                `}
             />
             <Scorecard3
               title="TTD"
@@ -584,6 +629,10 @@ export default function Anc() {
               pct={`${formatNumber(TTdCns?.data?.pct) || 0}%`}
               isLoading={isLoadingTTdCns}
               color="#ABC337"
+              tooltipContent={`
+                <p className'font-bold mb-2'>TTD (Mengkonsumsi 90 tablet)</p>
+                <p className='mt-2'>Semua ibu hamil anemia ringan yang mengkosumsi TTD selama masa kehamilan minimal 90 tablet dibagi dengan semua ibu hamil</p>
+                `}
             />
             <Scorecard3
               title="Kelas"
@@ -592,6 +641,10 @@ export default function Anc() {
               pct={`${formatNumber(Class?.data?.pct) || 0}%`}
               isLoading={isLoadingClass}
               color="#F6CADD"
+              tooltipContent={`
+                <p className'font-bold mb-2'>Kelas (Mengikuti kelas ibu hamil min. 4x)</p>
+                <p className='mt-2'>Ibu hamil memiliki buku KIA dibagi dengan semua ibu hamil</p>
+                `}
             />
             <Scorecard3
               title="Td"
@@ -600,6 +653,10 @@ export default function Anc() {
               pct={`${formatNumber(Td?.data?.pct) || 0}%`}
               isLoading={isLoadingTd}
               color="#505581"
+              tooltipContent={`
+                <p className'font-bold mb-2'>TD (Mendapat imunisasi TD)</p>
+                <p className='mt-2'>Ibu hamil mendapatkan imunisasi Td dibagi dengan semua ibu hamil</p>
+                `}
             />
             <Scorecard3
               title="Buku KIA"
@@ -608,6 +665,10 @@ export default function Anc() {
               pct={`${formatNumber(Kia?.data?.pct) || 0}%`}
               isLoading={isLoadingKia}
               color="#8FA5B2"
+              tooltipContent={`
+                <p className'font-bold mb-2'>Buku KIA (Memiliki buku KIA)</p>
+                <p className='mt-2'>Ibu hamil memiliki buku KIA dibagi dengan semua ibu hamil</p>
+                `}
             />
             <Scorecard3
               title="Diukur"
@@ -616,6 +677,10 @@ export default function Anc() {
               pct={`${formatNumber(Diukur?.data?.pct) || 0}%`}
               isLoading={isLoadingDiukur}
               color="#5874D7"
+              tooltipContent={`
+                <p className'font-bold mb-2'>Dikukur Berat Badan dan Tinggi Badan</p>
+                <p className='mt-2'>Bumil ditimbang BB dan diukur TB dibagi semua ibu hamil dibagi dengan semua ibu hamil</p>
+                `}
             />
             <Scorecard3
               title="Tekanan Darah"
@@ -623,6 +688,10 @@ export default function Anc() {
               pct={`${formatNumber(TekananDarah?.data?.pct) || 0}%`}
               isLoading={isLoadingTekananDarah}
               color="#DB3A3A"
+              tooltipContent={`
+                <p className'font-bold mb-2'>Tekanan darah</p>
+                <p className='mt-2'>Bumil diukur Tekanan Darah dibagi dengan semua ibu hamil</p>
+                `}
             />
             <Scorecard3
               title="Diukur LiLA"
@@ -631,6 +700,10 @@ export default function Anc() {
               pct={`${formatNumber(Lila?.data?.pct) || 0}%`}
               isLoading={isLoadingLila}
               color="#5874D7"
+              tooltipContent={`
+                <p className'font-bold mb-2'>Diukur LilA (Lingkar Lengan Atas)</p>
+                <p className='mt-2'>Bumil diukur lingkar lengan atas (LiLA) dibagi dengan semua ibu hamil</p>
+                `}
             />
             <Scorecard3
               title="Tinggi Fundus"

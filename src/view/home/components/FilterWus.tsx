@@ -19,10 +19,17 @@ import {
 
 interface FilterProps {
   filterState?: any;
+  setVisitationAnalyticLocalQuery?: React.Dispatch<
+    React.SetStateAction<{
+      year: number;
+      month: string | undefined;
+    }>
+  >;
 }
 
 const FilterSummaryImmunizationWus: React.FC<FilterProps> = ({
   filterState,
+  setVisitationAnalyticLocalQuery,
 }) => {
   const [filter, setFilter] = filterState || useState({});
   const { data: getProvince } = useGetProvinceQuery({});
@@ -83,36 +90,48 @@ const FilterSummaryImmunizationWus: React.FC<FilterProps> = ({
   return (
     <div className="flex flex-col gap-2">
       <div>Filter</div>
-      <div className="flex flex-wrap items-center gap-4">
+      <div className="grid grid-cols-2 md:grid-cols-6 gap-4">
         <div>
           <Select
-            placeholder="Pilih Tahun"
+            placeholder="Tahun"
             options={standardOptionSameLabel(
               generateYearsArray(1979, new Date().getFullYear())
             )}
             onChange={(e: any) => {
-              setFilter({
-                ...filter,
-                tahun: e?.value,
-              });
+              if (e?.value) {
+                setFilter({
+                  ...filter,
+                  tahun: e?.value,
+                });
+              } else {
+                setFilter({
+                  ...filter,
+                  tahun: "",
+                  bulan: "",
+                });
+              }
             }}
             value={
               filter.tahun
                 ? standardOptionSameLabel(
-                  generateYearsArray(1979, new Date().getFullYear())
-                )?.find((f) => f.value === filter.tahun)
+                    generateYearsArray(1979, new Date().getFullYear())
+                  )?.find((f) => f.value === filter.tahun)
                 : filter.tahun
             }
           />
         </div>
         <div>
           <Select
-            placeholder="Pilih Bulan"
+            placeholder="Bulan"
             options={dataMonth}
             onChange={(e: any) => {
               setFilter({
                 ...filter,
                 bulan: e?.value,
+              });
+              setVisitationAnalyticLocalQuery?.({
+                year: filter.tahun,
+                month: e?.value,
               });
             }}
             value={
@@ -125,7 +144,7 @@ const FilterSummaryImmunizationWus: React.FC<FilterProps> = ({
         </div>
         <div>
           <Select
-            placeholder="Pilih Provinsi"
+            placeholder="Provinsi"
             options={standardOptions(
               getProvince?.data || [],
               "provinsi_name",
@@ -144,10 +163,10 @@ const FilterSummaryImmunizationWus: React.FC<FilterProps> = ({
             value={
               filter.provinsi
                 ? standardOptions(
-                  getProvince?.data || [],
-                  "provinsi_name",
-                  "provinsi"
-                )?.find((f) => f.value === filter.provinsi)
+                    getProvince?.data || [],
+                    "provinsi_name",
+                    "provinsi"
+                  )?.find((f) => f.value === filter.provinsi)
                 : filter.provinsi
             }
             isDisabled={!filter.bulan}
@@ -155,7 +174,7 @@ const FilterSummaryImmunizationWus: React.FC<FilterProps> = ({
         </div>
         <div>
           <Select
-            placeholder="Pilih Kabupaten/Kota"
+            placeholder="Kabupaten/Kota"
             options={standardOptions(
               getRegency?.data || [],
               "kabkota_name",
@@ -173,10 +192,10 @@ const FilterSummaryImmunizationWus: React.FC<FilterProps> = ({
             value={
               filter.kabkota
                 ? standardOptions(
-                  getRegency?.data || [],
-                  "kabkota_name",
-                  "kabkota"
-                )?.find((f) => f.value === filter.kabkota)
+                    getRegency?.data || [],
+                    "kabkota_name",
+                    "kabkota"
+                  )?.find((f) => f.value === filter.kabkota)
                 : filter.kabkota
             }
             isDisabled={!filter.provinsi}
@@ -184,7 +203,7 @@ const FilterSummaryImmunizationWus: React.FC<FilterProps> = ({
         </div>
         <div>
           <Select
-            placeholder="Pilih Kecamatan"
+            placeholder="Kecamatan"
             options={standardOptions(
               getSubDistrict?.data || [],
               "kecamatan_name",
@@ -201,20 +220,46 @@ const FilterSummaryImmunizationWus: React.FC<FilterProps> = ({
             value={
               filter.kecamatan
                 ? standardOptions(
-                  getSubDistrict?.data || [],
-                  "kecamatan_name",
-                  "kecamatan"
-                )?.find((f) => f.value === filter.kecamatan)
+                    getSubDistrict?.data || [],
+                    "kecamatan_name",
+                    "kecamatan"
+                  )?.find((f) => f.value === filter.kecamatan)
                 : filter.kecamatan
             }
             isDisabled={!filter.kabkota}
+          />
+        </div>
+        <div>
+          <Select
+            placeholder={"Desa/Kelurahan"}
+            options={standardOptions(
+              getListFaskes?.data || [],
+              "faskes_name",
+              "faskes_id"
+            )}
+            onChange={(e: any) => {
+              setFilter({
+                ...filter,
+                faskes: e?.value,
+              });
+            }}
+            value={
+              filter.faskes
+                ? standardOptions(
+                    getListFaskes?.data || [],
+                    "faskes_name",
+                    "faskes_id"
+                  )?.find((f) => f.value === filter.faskes)
+                : filter.faskes
+            }
+            isDisabled={!filter.kecamatan}
           />
         </div>
         {!filter.kewilayahan_type ? (
           <>
             <div>
               <Select
-                placeholder="Pilih Jenis Faskes"
+                placeholder="Jenis Faskes"
                 options={standardOptions(
                   getFacilityOfType?.data || [],
                   "jenis_sarana_name",
@@ -230,10 +275,10 @@ const FilterSummaryImmunizationWus: React.FC<FilterProps> = ({
                 value={
                   filter.jenis_sarana
                     ? standardOptions(
-                      getFacilityOfType?.data || [],
-                      "jenis_sarana_name",
-                      "jenis_sarana"
-                    )?.find((f) => f.value === filter.jenis_sarana)
+                        getFacilityOfType?.data || [],
+                        "jenis_sarana_name",
+                        "jenis_sarana"
+                      )?.find((f) => f.value === filter.jenis_sarana)
                     : filter.jenis_sarana
                 }
                 isDisabled={!filter.kecamatan}
@@ -241,7 +286,7 @@ const FilterSummaryImmunizationWus: React.FC<FilterProps> = ({
             </div>
             <div>
               <Select
-                placeholder="Pilih Faskes"
+                placeholder="Faskes"
                 options={standardOptions(
                   getMedicalFacility?.data || [],
                   "faskes_name",
@@ -253,10 +298,10 @@ const FilterSummaryImmunizationWus: React.FC<FilterProps> = ({
                 value={
                   filter.faskes
                     ? standardOptions(
-                      getMedicalFacility?.data || [],
-                      "faskes_name",
-                      "faskes"
-                    )?.find((f) => f.value === filter.faskes)
+                        getMedicalFacility?.data || [],
+                        "faskes_name",
+                        "faskes"
+                      )?.find((f) => f.value === filter.faskes)
                     : filter.faskes
                 }
                 isDisabled={!filter.jenis_sarana}
@@ -266,9 +311,7 @@ const FilterSummaryImmunizationWus: React.FC<FilterProps> = ({
         ) : (
           <div>
             <Select
-              placeholder={
-                "Pilih  Desa/Kelurahan"
-              }
+              placeholder={"Desa/Kelurahan"}
               options={standardOptions(
                 getListFaskes?.data || [],
                 "faskes_name",
@@ -283,10 +326,10 @@ const FilterSummaryImmunizationWus: React.FC<FilterProps> = ({
               value={
                 filter.faskes
                   ? standardOptions(
-                    getListFaskes?.data || [],
-                    "faskes_name",
-                    "faskes_id"
-                  )?.find((f) => f.value === filter.faskes)
+                      getListFaskes?.data || [],
+                      "faskes_name",
+                      "faskes_id"
+                    )?.find((f) => f.value === filter.faskes)
                   : filter.faskes
               }
               isDisabled={!filter.kecamatan}

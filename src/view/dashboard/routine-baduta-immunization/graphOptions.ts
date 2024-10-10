@@ -2,7 +2,7 @@ import { EChartsOptionProps } from "@/components/graph-echarts";
 import { formatNumber } from "@/helpers";
 import { dataMonth } from "@/utils/constants";
 
-export const graphOptions1 = (series: any[], legend: any[]) => {
+export const graphOptions1 = (series: any[], legend: any[], rData: any[] = []) => {
   const reversedLegend = legend.slice().reverse();
 
   // Membalik urutan series agar sesuai dengan urutan legend yang dibalik
@@ -28,6 +28,12 @@ export const graphOptions1 = (series: any[], legend: any[]) => {
         let tooltipContent = `<div style="min-width: 350px;">${params[0].axisValueLabel}<br/>`;
         params.forEach((item: any, i: number) => {
           tooltipContent += `${item.marker} ${item.seriesName} <span style="float: right;"><strong>${formatNumber(item.value)}%</strong></span><br/>`;
+          if (i === 0) {
+            const idx = rData.length - 1 - item.dataIndex;
+            if (rData[idx]) {
+              tooltipContent += `${item.marker} Total Penerima <span style="float: right;"><strong>${formatNumber(rData[idx]?.total)}</strong></span><br/>`;
+            }
+          }
         });
         tooltipContent += `</div>`;
         return tooltipContent;
@@ -174,7 +180,7 @@ export const graphOptions4 = (series: any[], xData: any[]) => {
   };
   return option;
 };
-export const graphOptions5 = (series: any[], legend: any[]) => {
+export const graphOptions5 = (series: any[], legend: any[], rData: any[] = []) => {
   const option: EChartsOptionProps = {
     color: ["#2E90FA", "#E478FA"],
     grid: { containLabel: true },
@@ -185,22 +191,16 @@ export const graphOptions5 = (series: any[], legend: any[]) => {
         params.forEach((item: any) => {
           if (item.seriesName === "Total") {
             // Menggunakan data asli untuk "Total" dalam tooltip
-            const originalData = series.find((serie) => serie.name === "Total")
-              .data[params[0].dataIndex];
-            tooltipContent += `${item.marker} ${item.seriesName
-              } <span style="float: right;"><strong>${formatNumber(
-                originalData
-              )}</strong></span><br/>`;
+            const originalData = series.find((serie) => serie.name === "Total").data[params[0].dataIndex];
+            tooltipContent += `${item.marker} ${item.seriesName} <span style="float: right;"><strong>${formatNumber(originalData)}</strong></span><br/>`;
           } else if (item.seriesName === "Cakupan") {
             // Menggunakan format untuk "Cakupan"
             tooltipContent += `${item.marker} ${item.seriesName} <span style="float: right;"><strong>${item.value}</strong></span><br/>`;
           } else {
             // Menggunakan format persentase untuk lainnya
-            tooltipContent += `${item.marker} ${item.seriesName
-              } <span style="float: right;"><strong>${formatNumber(
-                item.value
-              )}%</strong></span><br/>`;
+            tooltipContent += `${item.marker} ${item.seriesName} <span style="float: right;"><strong>${formatNumber(item.value)}%</strong></span><br/>`;
           }
+          tooltipContent += `${item.marker} Total <span style="float: right;"><strong>${formatNumber(rData[item.dataIndex][item.seriesName === "Laki-laki" ? "ytd_male" : "ytd_female"])}</strong></span><br/>`;
         });
         tooltipContent += `</div>`;
         return tooltipContent;

@@ -25,8 +25,8 @@ import {
 import { formatNumber } from "@/helpers";
 export default function BayiBalita() {
   const filterState = useState({
-    tahun: 2023,
-    // tahun: new Date().getFullYear(),
+    // tahun: 2023,
+    tahun: new Date().getFullYear(),
     bulan: dataMonth.find((r, i) => i === new Date().getMonth())?.value,
     provinsi: "",
     kabkota: "",
@@ -52,6 +52,12 @@ export default function BayiBalita() {
     month: filter.bulan,
   };
 
+  const [visitationAnalyticLocalQuery, setVisitationAnalyticLocalQuery] =
+    useState({
+      year: filter.tahun,
+      month: filter.bulan,
+    });
+
   const optionQuery = {
     refetchOnMountOrArgChange: true,
     skip:
@@ -75,7 +81,7 @@ export default function BayiBalita() {
     isFetching: isLoadingNutritionGovernance,
   } = useGetNutritionGovernanceQuery(dateQuery, optionQuery);
   const { data: VisitationAnalytic, isFetching: isLoadingVisitationAnalytic } =
-    useGetVisitationAnalyticQuery(dateQuery, optionQuery);
+    useGetVisitationAnalyticQuery(visitationAnalyticLocalQuery, optionQuery);
   const { data: VisitationFaskes, isFetching: isLoadingVisitationFaskes } =
     useGetVisitationFaskesQuery(dateQuery, optionQuery);
   const { data: AnaliticIndicator, isFetching: isLoadingAnaliticIndicator } =
@@ -595,7 +601,10 @@ export default function BayiBalita() {
         filterState={filterState}
       />
       <div className="w-full">
-        <FilterSummaryImmunizationWus filterState={filterState} />
+        <FilterSummaryImmunizationWus
+          filterState={filterState}
+          setVisitationAnalyticLocalQuery={setVisitationAnalyticLocalQuery}
+        />
       </div>
       <SectionHeader
         title="Sasaran Balita"
@@ -696,7 +705,7 @@ export default function BayiBalita() {
           ]}
         />
         <ProgressCard1
-          title="Total Anak Mendapatkan Pengukuran"
+          title="Total Anak Mendapatkan Perkembangan"
           total={BalitaMinitoredMoreThan2?.data?.number_of_patients_this_month}
           pct={75}
           pct2={
@@ -727,7 +736,7 @@ export default function BayiBalita() {
           <p className="font-bold text-2xl">Hasil Pengukuran</p>
           <div className="mt-[21px]">
             <Progress
-              data={MeaserementResult?.data?.weight_gain.map((data: any) => ({
+              data={MeaserementResult?.data?.weight_gain?.map((data: any) => ({
                 color:
                   data.weight_gain_status === "Adekuat"
                     ? "#CF3E53"
@@ -741,7 +750,7 @@ export default function BayiBalita() {
               title={"Kenaikan Berat Badan"}
             />
             <Progress
-              data={MeaserementResult?.data?.weight_per_age.map(
+              data={MeaserementResult?.data?.weight_per_age?.map(
                 (data: any) => ({
                   color:
                     data.weight_category === "BB kurang"
@@ -761,7 +770,7 @@ export default function BayiBalita() {
               title={"BB/U"}
             />
             <Progress
-              data={MeaserementResult?.data?.height_per_age.map(
+              data={MeaserementResult?.data?.height_per_age?.map(
                 (data: any) => ({
                   color:
                     data.height_category === "Normal"
@@ -781,7 +790,7 @@ export default function BayiBalita() {
               title={"TB/U"}
             />
             <Progress
-              data={MeaserementResult?.data?.weight_per_height.map(
+              data={MeaserementResult?.data?.weight_per_height?.map(
                 (data: any) => ({
                   color:
                     data.nutrition_category === "Gizi Baik"
@@ -807,10 +816,10 @@ export default function BayiBalita() {
           </div>
         </div>
         <div className="col-span-4 rounded-xl border border-[#D6D6D6] h-[300px] py-6 px-8 text-[#505581]">
-          <p className="font-bold text-2xl">Tata Laksana Gizi</p>
+          <p className="font-bold text-2xl">Tatalaksana Gizi</p>
           <div className="mt-[21px]">
             <Progress
-              data={NutritionGovernance?.data?.weight_lack_mt.map(
+              data={NutritionGovernance?.data?.weight_lack_mt?.map(
                 (data: any) => ({
                   color:
                     data.mp_asi_status === "Mendapat MPASI"
@@ -826,7 +835,7 @@ export default function BayiBalita() {
               title={"Balita BB Kurang Mendapat MT"}
             />
             <Progress
-              data={NutritionGovernance?.data?.nutrition_lack_mt.map(
+              data={NutritionGovernance?.data?.nutrition_lack_mt?.map(
                 (data: any) => ({
                   color:
                     data.mp_asi_status === "Mendapat MPASI"
@@ -842,7 +851,7 @@ export default function BayiBalita() {
               title={"Balita Gizi Kurang Mendapat MT"}
             />
             <Progress
-              data={NutritionGovernance?.data?.referred_stunting.map(
+              data={NutritionGovernance?.data?.referred_stunting?.map(
                 (data: any) => ({
                   color:
                     data.referring_status === "Dirujuk"
@@ -858,7 +867,7 @@ export default function BayiBalita() {
               title={"Balita Stunting Dirujuk"}
             />
             <Progress
-              data={NutritionGovernance?.data?.malnutrition_gets_treatment.map(
+              data={NutritionGovernance?.data?.malnutrition_gets_treatment?.map(
                 (data: any) => ({
                   color:
                     data.treatment_status === "Dapat TataLaksana"
@@ -874,7 +883,7 @@ export default function BayiBalita() {
               title={"Balita Gizi buruk Mendapat Tatalaksana"}
             />
             <Progress
-              data={NutritionGovernance?.data?.balita_get_vit_a.map(
+              data={NutritionGovernance?.data?.balita_get_vit_a?.map(
                 (data: any) => ({
                   color:
                     data.status_vit_a === "Mendapatkan Vitamin A"
@@ -1039,7 +1048,7 @@ export default function BayiBalita() {
                     %)
                   </p>
                 </div>
-                <div className="col-span-4 h-full">
+                <div className="col-span-4 h-[350px]">
                   <GraphEcharts graphOptions={chartOptions} />
                 </div>
                 <div className="col-span-4 text-center">
@@ -1075,7 +1084,19 @@ export default function BayiBalita() {
             </p>
             <div>
               <p className="text-sm mb-2">Parameter</p>
-              <Select placeholder="Bulanan" />
+              <Select
+                placeholder="Bulanan"
+                options={dataMonth}
+                value={dataMonth.find(
+                  (m) => m.value === visitationAnalyticLocalQuery.month
+                )}
+                onChange={(e: any) => {
+                  setVisitationAnalyticLocalQuery({
+                    ...visitationAnalyticLocalQuery,
+                    month: e.value,
+                  });
+                }}
+              />
             </div>
           </div>
           <div className="relative">
