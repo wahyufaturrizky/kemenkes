@@ -438,7 +438,7 @@ export default function AnalisisFaktorRisiko() {
 
         <div className="grid grid-cols-3 gap-2">
           {[1, 2, 3].map(() => (
-            <div className="w-full p-4 mt-6 gap-3 flex flex-col shadow-[0px_1px_8px_0px_#0000000D] rounded-2xl pb-14 h-[600px]">
+            <div className="w-full p-4 mt-6 gap-3 flex flex-col shadow-[0px_1px_8px_0px_#0000000D] rounded-2xl pb-14 h-[750px]">
               <p className="font-plus-jakarta-sans text-[18px] font-semibold leading-[22.68px] text-left">
                 Pasien dalam Masa Pengobatan
               </p>
