@@ -6,12 +6,7 @@ import Header from "@/components/header";
 import Progress from "@/components/progress";
 import SectionHeader from "@/components/sectionHeader";
 import { formatNumber } from "@/helpers";
-import {
-  useGetGraphImmunizationScopeQuery,
-  useGetHighestScopeImmunizationQuery,
-  useGetLowestScopeImmunizationQuery,
-  useGetTotalBayiImmunizationScopeQuery,
-} from "@/lib/services/baby-immunization";
+import { useGetGraphImmunizationScopeQuery } from "@/lib/services/baby-immunization";
 import { ancGtaphOptions5, dataMonth } from "@/utils/constants";
 import { graphOptions5 } from "@/view/graphOptions";
 import FilterMonitoringFaktorRisiko from "@/view/home/components/FilterMonitoringFaktorRisiko";
