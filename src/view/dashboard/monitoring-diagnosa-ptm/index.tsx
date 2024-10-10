@@ -24,9 +24,9 @@ import FilterMonitoringFaktorRisiko from "@/view/home/components/FilterMonitorin
 import { useState } from "react";
 import { IoMdArrowForward, IoMdInformationCircleOutline } from "react-icons/io";
 import styles from "../anc/anc.module.css";
-import TableMonitoringFaktorRisiko from "./tableMonitoringFaktorRisiko";
-
-export default function MonitoringDiagnosaPTM() {
+import TableMonitoringDiagnosaPTM from "./tableMonitoringDiagnosaPTM";
+import BoxDiagnosaPTM from "./BoxDiagnosaPTM";
+export default function MonitoringFaktorRisiko() {
   const [activeTab, setActiveTab] = useState("Chart View");
 
   const handleTabClick = (tab: any) => {
@@ -168,7 +168,7 @@ export default function MonitoringDiagnosaPTM() {
   };
 
   const chartOptions2: any = {
-    color: ["#006A65"],
+    color: ["#B3261E"],
     tooltip: {
       trigger: "item",
       formatter: function (params: any) {
@@ -255,7 +255,7 @@ export default function MonitoringDiagnosaPTM() {
       {" "}
       <Header
         title={`Dashboard\nCapaian SATUSEHAT`}
-        subtitle="Kesehatan Anak Usia Sekolah dan Remaja"
+        subtitle="Pengendalian Penyakit Tidak Menular (PTM) - Diagnosis"
         desc={`Dashboard ini menampilkan:\nmonitoring capaian Indikator ANC berdasarkan data yang dikirim oleh faskes ke SATUSEHAT`}
         space={true}
       />
@@ -276,15 +276,15 @@ export default function MonitoringDiagnosaPTM() {
         <FilterMonitoringFaktorRisiko filterState={filterState} />
       </div>
       <div className="px-4">
-        <SectionHeader title="Capaian Deteksi Dini PTM" subtitle="Faktor Risiko PTM" />
+        <SectionHeader title="Capaian Deteksi Dini PTM" subtitle="Diagnosa PTM" />
         <div className="mt-5 grid grid-cols-12 gap-6 w-full">
           <div className="h-[600px] lg:col-span-5 col-span-12">
             <div className="grid grid-rows-12 h-full gap-6">
-              <div className="rounded-2xl row-span-5 bg-[#006A65] text-white pl-10 flex flex-col justify-center relative">
+              <div className="rounded-2xl row-span-5 bg-[#B3261E] text-white pl-10 flex flex-col justify-center relative">
                 <div className="absolute top-3 right-3">
                   <IoMdInformationCircleOutline size={24} color="white" />
                 </div>
-                <p className="text-xl font-normal">Jumlah Peserta</p>
+                <p className="text-xl font-normal">Jumlah Peserta Terdiagnosis</p>
                 <p className="text-4xl font-normal">11,037,458</p>
               </div>
               <div className="rounded-2xl row-span-7 border border-[#D6D6D6] px-4 py-8 flex flex-col justify-between h-full">
@@ -348,218 +348,168 @@ export default function MonitoringDiagnosaPTM() {
             </div>
           </div>
         </div>
-        <SectionHeader
-          title="Pola konsumsi dan Gaya Hidup"
-          subtitle="Card yang menampilkan hasil wawancara faktor risiko berkaitan dengan pola konsumsi dan gaya hidup"
-        />
-        <div className="grid grid-cols-12 w-full gap-3 mt-5">
-          <CardPemeriksaan
-            label="IMT/U"
-            value={7015619}
-            pct="57.5"
-            data={BodyMassIndexAge?.data?.map((data: any) => ({
-              color:
-                data.bmi_category === "Gizi Baik"
-                  ? "#27A762"
-                  : data.bmi_category === "Gizi Kurang"
-                  ? "#FFEE16"
-                  : data.bmi_category === "Gizi Buruk"
-                  ? "#F3B239"
-                  : data.bmi_category === "Gizi Lebih"
-                  ? "#FF8800"
-                  : data.bmi_category === "Obesitas"
-                  ? "#CF3E53"
-                  : "#000000", // Warna default jika kategori tidak cocok
-              label: data.bmi_category,
-              value: data.total, // Sesuaikan sesuai dengan data Anda
-              percentage: data.percentage, // Sesuaikan sesuai dengan data Anda
-            }))}
-          />
-          <CardPemeriksaan
-            label="Tekanan Darah"
-            value={7015619}
-            pct="57.5"
-            data={BloodPresure?.data?.map((data: any) => ({
-              color:
-                data.hypertension_risk === "Hipertensi Tingkat 1"
-                  ? "#FF8800"
-                  : data.hypertension_risk === "Hipertensi Tingkat 2"
-                  ? "#CF3E53"
-                  : data.hypertension_risk === "Gizi Buruk"
-                  ? "#F3B239"
-                  : data.hypertension_risk === "Gizi Lebih"
-                  ? "#FF8800"
-                  : data.hypertension_risk === "Obesitas"
-                  ? "#CF3E53"
-                  : "#000000", // Warna default jika kategori tidak cocok
-              label: data.hypertension_risk,
-              value: data.total, // Sesuaikan sesuai dengan data Anda
-              percentage: data.percentage, // Sesuaikan sesuai dengan data Anda
-            }))}
-          />
-          <CardPemeriksaan
-            label="Skrining Penglihatan"
-            value={7015619}
-            pct="57.5"
-            data={Vision?.data?.map((data: any) => ({
-              color:
-                data.vision === "Normal"
-                  ? "#27A762"
-                  : data.vision === "Gizi Kurang"
-                  ? "#FFEE16"
-                  : data.vision === "Gizi Buruk"
-                  ? "#F3B239"
-                  : data.vision === "Gizi Lebih"
-                  ? "#FF8800"
-                  : data.vision === "Obesitas"
-                  ? "#CF3E53"
-                  : "#000000", // Warna default jika kategori tidak cocok
-              label: data.vision,
-              value: data.total, // Sesuaikan sesuai dengan data Anda
-              percentage: data.percentage, // Sesuaikan sesuai dengan data Anda
-            }))}
-          />
-          <CardPemeriksaan
-            label="Pendengaran"
-            value={7015619}
-            pct="57.5"
-            data={Hearing?.data?.map((data: any) => ({
-              color:
-                data.hearing === "Normal"
-                  ? "#27A762"
-                  : data.hearing === "Bermasalah"
-                  ? "#CF3E53"
-                  : "#000000",
-              label: data.hearing,
-              value: data.total,
-              percentage: data.percentage,
-            }))}
-          />
-          <CardPemeriksaan
-            label="Skrining Kesehatan Jiwa"
-            value={7015619}
-            pct="57.5"
-            data={MentalHealth?.data?.map((data: any) => ({
-              color:
-                data.mental_health === "Normal"
-                  ? "#27A762"
-                  : data.mental_health === "Borderline"
-                  ? "#FFEE16"
-                  : data.mental_health === "Abnormal"
-                  ? "#CF3E53"
-                  : "#000000",
-              label: data.mental_health,
-              value: data.total,
-              percentage: data.percentage,
-            }))}
-          />
-          <CardPemeriksaan
-            label="Skrining Napza"
-            value={7015619}
-            pct="57.5"
-            data={NapzaScreening?.data?.map((data: any) => ({
-              color:
-                data.napza_risk === "Tidak Beresiko Napza"
-                  ? "#27A762"
-                  : data.napza_risk === "Beresiko Napza"
-                  ? "#CF3E53"
-                  : "#000000",
-              label: data.napza_risk,
-              value: data.total,
-              percentage: data.percentage,
-            }))}
-          />
-          <CardPemeriksaan
-            label="Kesehatan Gigi & Mulut"
-            value={7015619}
-            pct="57.5"
-            data={Health?.data?.map((data: any) => ({
-              color:
-                data.health === "Tidak Beresiko Napza"
-                  ? "#27A762"
-                  : data.health === "Beresiko Napza"
-                  ? "#CF3E53"
-                  : "#000000",
-              label: data.health,
-              value: data.total,
-              percentage: data.percentage,
-            }))}
-          />
-          <CardPemeriksaan
-            label="Kebugaran"
-            value={7015619}
-            pct="57.5"
-            data={Fitness?.data?.map((data: any) => ({
-              color:
-                data.fitness === "Baik"
-                  ? "#32DE81"
-                  : data.fitness === "Cukup"
-                  ? "#FFEE16"
-                  : data.fitness === "Kurang"
-                  ? "#FF8800"
-                  : "#000000",
-              label: data.fitness,
-              value: data.total,
-              percentage: data.percentage,
-            }))}
-          />
-          <CardPemeriksaan
-            label="Skiring Anemia"
-            value={7015619}
-            pct="57.5"
-            data={AnemiaScreening?.data?.map((data: any) => ({
-              color:
-                data.anemia_risk === "Tidak Anemia"
-                  ? "#27A762"
-                  : data.anemia_risk === "Anemia Ringan"
-                  ? "#FFEE16"
-                  : data.anemia_risk === "Anemia Sedang"
-                  ? "#F3B239"
-                  : data.anemia_risk === "Anemia Berat"
-                  ? "#CF3E53"
-                  : "#000000",
-              label: data.anemia_risk,
-              value: data.total,
-              percentage: data.percentage,
-            }))}
-            textBlue
-          />
-          <CardPemeriksaan
-            label="Faktor Risiko Merokok"
-            value={7015619}
-            pct="57.5"
-            data={Smoking?.data?.map((data: any) => ({
-              color:
-                data.smoking === "Tidak Merokok"
-                  ? "#27A762"
-                  : data.smoking === "Merokok"
-                  ? "#CF3E53"
-                  : "#000000",
-              label: data.smoking,
-              value: data.total,
-              percentage: data.percentage,
-            }))}
-          />
-          <CardPemeriksaan
-            label="Paparan Asap Rokok"
-            value={7015619}
-            pct="57.5"
-            data={CigaretteSmoking?.data?.map((data: any) => ({
-              color:
-                data.cigarette_smoking === "Tidak Terpapar"
-                  ? "#27A762"
-                  : data.cigarette_smoking === "Terpapar"
-                  ? "#CF3E53"
-                  : "#000000",
-              label: data.cigarette_smoking,
-              value: data.total,
-              percentage: data.percentage,
-            }))}
-            textBlue
-          />
-        </div>
 
-        <TableMonitoringFaktorRisiko titleTable="Tabel Data Agregat" />
+        <section>
+          <SectionHeader
+            title="Gangguan Kardiovaskular dan Metabolik"
+            subtitle="Card yang menampilkan diagnosa berkaitan dengan gangguan kardiovaskular dan metabolik"
+          />
+          <div className="p-5 my-5 flex rounded-[16px] shadow-[0_4px_6px_0px_#10182808] shadow-[0_0px_16px_0px_#1018281F]">
+            <BoxDiagnosaPTM
+              title="Penyandang Penyakit Jantung"
+              subTitle="57.5% dari jumlah seluruh Peserta tediagnosa"
+              titleAmount="Peserta"
+              amount="715,619"
+              classNameContainer="w-[300px] flex flex-col gap-5 p-5"
+            />
+            <div className="flex gap-5 overflow-x-auto w-[1200]">
+              {[1, 2, 3, 4, 5].map(() => (
+                <BoxDiagnosaPTM
+                  title="Penyandang Penyakit Jantung"
+                  subTitle="57.5% dari jumlah seluruh Peserta tediagnosa"
+                  titleAmount=""
+                  showInfo={false}
+                  amount="715,619"
+                  classNameContainer="flex w-[190px] flex-col p-5 border border-[#F6D0FE] rounded-[12px] bg-[#FEFAFF]"
+                  classNameTitle="font-plus-jakarta-sans text-[16px] font-semibold leading-[27px] text-left"
+                  classNameAmount="font-plus-jakarta-sans text-[24px] font-semibold leading-[54px] text-left text-[#821790]"
+                  classNameSubTitle="font-plus-jakarta-sans text-[14px] font-normal leading-[27px] text-left"
+                />
+              ))}
+            </div>
+          </div>
+
+          <div className="grid grid-cols-3 gap-3">
+            {[1, 2, 3, 4].map(() => (
+              <BoxDiagnosaPTM
+                title="Penyandang Penyakit Jantung"
+                subTitle="57.5% dari jumlah seluruh Peserta tediagnosa"
+                titleAmount="Peserta"
+                amount="715,619"
+                classNameContainer="rounded-[16px] shadow-[0_4px_6px_0px_#10182808] shadow-[0_0px_16px_0px_#1018281F] flex flex-col gap-5 p-5"
+              />
+            ))}
+          </div>
+        </section>
+
+        <section>
+          <SectionHeader title="Kanker" subtitle="Card yang menampilkan diagnosa penyakit kanker" />
+
+          <div className="grid grid-cols-3 gap-3 my-5">
+            {[1, 2, 3, 4].map(() => (
+              <BoxDiagnosaPTM
+                title="Penyandang Penyakit Jantung"
+                subTitle="57.5% dari jumlah seluruh Peserta tediagnosa"
+                titleAmount="Peserta"
+                amount="715,619"
+                classNameContainer="rounded-[16px] shadow-[0_4px_6px_0px_#10182808] shadow-[0_0px_16px_0px_#1018281F] flex flex-col gap-5 p-5"
+              />
+            ))}
+          </div>
+
+          <div className="p-5 my-5 flex rounded-[16px] shadow-[0_4px_6px_0px_#10182808] shadow-[0_0px_16px_0px_#1018281F]">
+            <BoxDiagnosaPTM
+              title="Penyandang Penyakit Jantung"
+              subTitle="57.5% dari jumlah seluruh Peserta tediagnosa"
+              titleAmount="Peserta"
+              amount="715,619"
+              classNameContainer="w-[300px] flex flex-col gap-5 p-5"
+            />
+            <div className="flex gap-5 overflow-x-auto w-[1200]">
+              {[1, 2, 3, 4, 5].map(() => (
+                <BoxDiagnosaPTM
+                  title="Penyandang Penyakit Jantung"
+                  subTitle="57.5% dari jumlah seluruh Peserta tediagnosa"
+                  titleAmount=""
+                  showInfo={false}
+                  amount="715,619"
+                  classNameContainer="flex w-[190px] flex-col p-5 border border-[#F6D0FE] rounded-[12px] bg-[#FEFAFF]"
+                  classNameTitle="font-plus-jakarta-sans text-[16px] font-semibold leading-[27px] text-left"
+                  classNameAmount="font-plus-jakarta-sans text-[24px] font-semibold leading-[54px] text-left text-[#821790]"
+                  classNameSubTitle="font-plus-jakarta-sans text-[14px] font-normal leading-[27px] text-left"
+                />
+              ))}
+            </div>
+          </div>
+
+          <div className="grid grid-cols-3 gap-3 my-5">
+            {[1, 2, 3, 4].map(() => (
+              <BoxDiagnosaPTM
+                title="Penyandang Penyakit Jantung"
+                subTitle="57.5% dari jumlah seluruh Peserta tediagnosa"
+                titleAmount="Peserta"
+                amount="715,619"
+                classNameContainer="rounded-[16px] shadow-[0_4px_6px_0px_#10182808] shadow-[0_0px_16px_0px_#1018281F] flex flex-col gap-5 p-5"
+              />
+            ))}
+          </div>
+        </section>
+
+        <section>
+          <SectionHeader
+            title="Gangguan Indera"
+            subtitle="Card yang menampilkan diagnosa berkaitan dengan gangguan indera"
+          />
+
+          <div className="p-5 my-5 flex rounded-[16px] shadow-[0_4px_6px_0px_#10182808] shadow-[0_0px_16px_0px_#1018281F]">
+            <BoxDiagnosaPTM
+              title="Penyandang Penyakit Jantung"
+              subTitle="57.5% dari jumlah seluruh Peserta tediagnosa"
+              titleAmount="Peserta"
+              amount="715,619"
+              classNameContainer="w-[300px] flex flex-col gap-5 p-5"
+            />
+            <div className="flex gap-5 overflow-x-auto w-[1200]">
+              {[1, 2, 3, 4, 5].map(() => (
+                <BoxDiagnosaPTM
+                  title="Penyandang Penyakit Jantung"
+                  subTitle="57.5% dari jumlah seluruh Peserta tediagnosa"
+                  titleAmount=""
+                  showInfo={false}
+                  amount="715,619"
+                  classNameContainer="flex w-[190px] flex-col p-5 border border-[#F6D0FE] rounded-[12px] bg-[#FEFAFF]"
+                  classNameTitle="font-plus-jakarta-sans text-[16px] font-semibold leading-[27px] text-left"
+                  classNameAmount="font-plus-jakarta-sans text-[24px] font-semibold leading-[54px] text-left text-[#821790]"
+                  classNameSubTitle="font-plus-jakarta-sans text-[14px] font-normal leading-[27px] text-left"
+                />
+              ))}
+            </div>
+          </div>
+        </section>
+
+        <section>
+          <SectionHeader
+            title="Gangguan Pernapasan"
+            subtitle="Card yang menampilkan diagnosa berkaitan dengan gangguan pernapasan"
+          />
+
+          <div className="p-5 my-5 flex rounded-[16px] shadow-[0_4px_6px_0px_#10182808] shadow-[0_0px_16px_0px_#1018281F]">
+            <BoxDiagnosaPTM
+              title="Penyandang Penyakit Jantung"
+              subTitle="57.5% dari jumlah seluruh Peserta tediagnosa"
+              titleAmount="Peserta"
+              amount="715,619"
+              classNameContainer="w-[300px] flex flex-col gap-5 p-5"
+            />
+            <div className="flex gap-5 overflow-x-auto w-[1200]">
+              {[1, 2, 3, 4, 5].map(() => (
+                <BoxDiagnosaPTM
+                  title="Penyandang Penyakit Jantung"
+                  subTitle="57.5% dari jumlah seluruh Peserta tediagnosa"
+                  titleAmount=""
+                  showInfo={false}
+                  amount="715,619"
+                  classNameContainer="flex w-[190px] flex-col p-5 border border-[#F6D0FE] rounded-[12px] bg-[#FEFAFF]"
+                  classNameTitle="font-plus-jakarta-sans text-[16px] font-semibold leading-[27px] text-left"
+                  classNameAmount="font-plus-jakarta-sans text-[24px] font-semibold leading-[54px] text-left text-[#821790]"
+                  classNameSubTitle="font-plus-jakarta-sans text-[14px] font-normal leading-[27px] text-left"
+                />
+              ))}
+            </div>
+          </div>
+        </section>
+
+        <TableMonitoringDiagnosaPTM titleTable="Tabel Data Agregat " />
       </div>
     </div>
   );

@@ -304,12 +304,12 @@ export default function AnalisisFaktorRisiko() {
           </div>
         </div>
       </div>
-      <section>
+      <section className="w-full">
         <SectionHeader
           title="Profil Piramida Penduduk Skrining Aktivitas Fisik"
           subtitle="Profil Piramida Penduduk Skrining Aktivitas Fisik"
         />
-        <div className="flex mt-5 flex-wrap sm:flex-nowrap gap-4 relative w-full shadow-[0_1px_8px_0px_rgba(0,0,0,0.3)] rounded-[16px] p-10">
+        <div className="flex mt-5 flex-wrap sm:flex-nowrap gap-4 relative  shadow-[0_1px_8px_0px_rgba(0,0,0,0.3)] rounded-[16px] p-10">
           <div className="flex-grow">
             <div className="relative flex justify-center items-center">
               <div
