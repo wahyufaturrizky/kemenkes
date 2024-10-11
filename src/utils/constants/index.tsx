@@ -946,9 +946,9 @@ export const ancGraphOptions7 = [
 
 // inc data placeholder
 export const incGraphOptions1 = [
-  { label: "Ibu Nifas Vit A", pct: 80 },
-  { label: "Ibu Nifas KF4", pct: 90 },
-  { label: "Ibu Bersalin di Faskes", pct: 95 },
+  { label: "Indikator 1", pct: 80 },
+  { label: "Indikator 2", pct: 90 },
+  { label: "Indikator 3", pct: 95 },
 ];
 
 export const indikatorAnc = [
