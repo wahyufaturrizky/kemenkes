@@ -4,10 +4,19 @@ import dtoLogo from "@/assets/images/logo-dto.png";
 interface HeaderComp {
   title: string;
   subtitle?: string;
+  note?: string;
+  classNameContainerGrey?: string;
   desc: string;
   space: boolean;
 }
-const Header: React.FC<HeaderComp> = ({ title, subtitle, desc, space }) => {
+const Header: React.FC<HeaderComp> = ({
+  title,
+  subtitle,
+  desc,
+  space,
+  classNameContainerGrey = "h-20",
+  note,
+}) => {
   const formatTeks = (text: string) => {
     return text.split("\n").map((line, index) => (
       <span key={index}>
@@ -30,7 +39,9 @@ const Header: React.FC<HeaderComp> = ({ title, subtitle, desc, space }) => {
         <div className="col-span-3 md:col-span-1 bg-secondary h-[180px] flex flex-col justify-center  xl:px-12 px-1 font-bold">
           <p>{formatTeks(desc)}</p>
         </div>
-        <div className={`h-20 ${space ? "" : "hidden"}`}></div>
+        <div className={`${space ? "" : "hidden"} ${classNameContainerGrey}`}>
+          {note && <p className="font-plus-jakarta-sans text-xs font-normal">{note}</p>}
+        </div>
       </div>
     </>
   );

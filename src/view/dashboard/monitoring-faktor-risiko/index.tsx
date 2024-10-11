@@ -24,10 +24,12 @@ import FilterMonitoringFaktorRisiko from "@/view/home/components/FilterMonitorin
 import { useState } from "react";
 import { IoMdArrowForward, IoMdInformationCircleOutline } from "react-icons/io";
 import styles from "../anc/anc.module.css";
+import BoxSelected from "./BoxSelected";
 import TableMonitoringFaktorRisiko from "./tableMonitoringFaktorRisiko";
 
 export default function MonitoringDiagnosaPTM() {
   const [activeTab, setActiveTab] = useState("Chart View");
+  const [stateFilter, setStateFilter] = useState("Faktor Risiko");
 
   const handleTabClick = (tab: any) => {
     setActiveTab(tab);
@@ -252,12 +254,13 @@ export default function MonitoringDiagnosaPTM() {
 
   return (
     <div className={`flex flex-col items-center p-[30px]  ${styles.jakartaFont}`}>
-      {" "}
       <Header
         title={`Dashboard\nCapaian SATUSEHAT`}
         subtitle="Kesehatan Anak Usia Sekolah dan Remaja"
+        note="Dashboard ini menampilkan data berdasarkan pemeriksaan pertama dari setiap jenis skrining PTM yang dilakukan peserta dalam 1 tahun"
         desc={`Dashboard ini menampilkan:\nmonitoring capaian Indikator ANC berdasarkan data yang dikirim oleh faskes ke SATUSEHAT`}
         space={true}
+        classNameContainerGrey="px-2.5 py-6"
       />
       <div className="w-full my-5">
         <div className="flex justify-end">
@@ -269,9 +272,32 @@ export default function MonitoringDiagnosaPTM() {
           />
         </div>
       </div>
-      <div className="w-full my-5">
+      <section className="my-5 grid grid-cols-4 gap-4 items-center w-full">
         <p className="font-medium text-3xl">Selamat Datang !</p>
-      </div>
+
+        {[
+          {
+            title: "Monitoring/Overview",
+            subTitle: "Faktor Risiko",
+          },
+          {
+            title: "",
+            subTitle: "Analisa",
+          },
+          {
+            title: "",
+            subTitle: "Indikator",
+          },
+        ].map(({ title, subTitle }) => (
+          <BoxSelected
+            stateFilter={stateFilter}
+            setStateFilter={setStateFilter}
+            title={title}
+            subTitle={subTitle}
+          />
+        ))}
+      </section>
+
       <div className="w-full">
         <FilterMonitoringFaktorRisiko filterState={filterState} />
       </div>
