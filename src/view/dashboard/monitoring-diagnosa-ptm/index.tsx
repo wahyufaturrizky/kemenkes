@@ -26,7 +26,8 @@ import { IoMdArrowForward, IoMdInformationCircleOutline } from "react-icons/io";
 import styles from "../anc/anc.module.css";
 import TableMonitoringDiagnosaPTM from "./tableMonitoringDiagnosaPTM";
 import BoxDiagnosaPTM from "./BoxDiagnosaPTM";
-export default function MonitoringFaktorRisiko() {
+
+export default function MonitoringDiagnosaPTM() {
   const [activeTab, setActiveTab] = useState("Chart View");
 
   const handleTabClick = (tab: any) => {

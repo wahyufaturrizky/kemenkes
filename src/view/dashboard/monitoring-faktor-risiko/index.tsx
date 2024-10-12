@@ -26,14 +26,18 @@ import { IoMdArrowForward, IoMdInformationCircleOutline } from "react-icons/io";
 import styles from "../anc/anc.module.css";
 import BoxSelected from "./BoxSelected";
 import TableMonitoringFaktorRisiko from "./tableMonitoringFaktorRisiko";
+import { useForm } from "react-hook-form";
+import { initFilterSelamatDatang } from "@/view/dashboard/monitoring-faktor-risiko/init-value";
+import { FormValuesMonitoringFaktorRisiko } from "./type";
 
-export default function MonitoringDiagnosaPTM() {
-  const [activeTab, setActiveTab] = useState("Chart View");
-  const [stateFilter, setStateFilter] = useState("Faktor Risiko");
+export default function MonitoringFaktorRisiko() {
+  const { handleSubmit, control } = useForm<FormValuesMonitoringFaktorRisiko>({
+    defaultValues: {
+      filterSelamatDatang: "",
+      subFilterSelamatDatang: "",
+    },
+  });
 
-  const handleTabClick = (tab: any) => {
-    setActiveTab(tab);
-  };
   const filterState = useState({
     tahun: 2023,
     // tahun: new Date().getFullYear(),
@@ -102,34 +106,6 @@ export default function MonitoringDiagnosaPTM() {
   const { data: CigaretteSmoking, isFetching: isLoadingCigaretteSmoking } =
     useGetCigaretteSmokingQuery(dateQuery, optionQuery);
 
-  // const dataCard1: any = [];
-  // BodyMassIndexAge?.map((data: any) => {
-  //   dataCard1.push({
-  //     color:
-  //       data.bmi_category === "Gizi Baik"
-  //         ? "#27A762"
-  //         : data.bmi_category === "Gizi Kurang"
-  //         ? "#FFEE16"
-  //         : "#000000", // Warna default jika kategori tidak cocok
-  //     label: data.bmi_category,
-  //     value: data.value, // Sesuaikan sesuai dengan data Anda
-  //     percentage: data.percentage, // Sesuaikan sesuai dengan data Anda
-  //   });
-  // });
-
-  // const dataCard1: any = BodyMassIndexAge?.data?.map((data: any) => ({
-  //   color:
-  //     data.bmi_category === "Gizi Baik"
-  //       ? "#27A762"
-  //       : data.bmi_category === "Gizi Kurang"
-  //       ? "#FFEE16"
-  //       : "#000000", // Warna default jika kategori tidak cocok
-  //   label: data.bmi_category,
-  //   value: data.total, // Sesuaikan sesuai dengan data Anda
-  //   percentage: data.percentage, // Sesuaikan sesuai dengan data Anda
-  // }));
-
-  // console.log(CigaretteSmoking, "isi data");
   const isBrowser = typeof window !== "undefined";
   const chartOptions: any = {
     tooltip: {
@@ -151,13 +127,6 @@ export default function MonitoringDiagnosaPTM() {
           show: false,
           position: "center",
         },
-        // emphasis: {
-        //   label: {
-        //     show: true,
-        //     fontSize: 40,
-        //     fontWeight: "bold",
-        //   },
-        // },
         labelLine: {
           show: false,
         },
@@ -195,63 +164,6 @@ export default function MonitoringDiagnosaPTM() {
     ],
   };
 
-  const dataNasional = [
-    { region: "Aceh", value: 45, pct: 70 },
-    { region: "Sumatera Utara", value: 60, pct: 55 },
-    { region: "Sumatera Barat", value: 30, pct: 40 },
-    { region: "Riau", value: 85, pct: 90 },
-    { region: "Jambi", value: 50, pct: 65 },
-    { region: "Sumatera Selatan", value: 75, pct: 80 },
-    { region: "Bengkulu", value: 20, pct: 35 },
-    { region: "Lampung", value: 90, pct: 95 },
-    { region: "Kepulauan Bangka Belitung", value: 40, pct: 50 },
-    { region: "Kepulauan Riau", value: 55, pct: 60 },
-    { region: "DKI Jakarta", value: 100, pct: 100 },
-    { region: "Jawa Barat", value: 65, pct: 70 },
-    { region: "Jawa Tengah", value: 35, pct: 45 },
-    { region: "DI Yogyakarta", value: 25, pct: 30 },
-    { region: "Jawa Timur", value: 80, pct: 85 },
-    { region: "Banten", value: 50, pct: 55 },
-    { region: "Bali", value: 70, pct: 75 },
-    { region: "Nusa Tenggara Barat", value: 45, pct: 50 },
-    { region: "Nusa Tenggara Timur", value: 20, pct: 25 },
-    { region: "Kalimantan Barat", value: 60, pct: 65 },
-    { region: "Kalimantan Tengah", value: 55, pct: 60 },
-    { region: "Kalimantan Selatan", value: 30, pct: 35 },
-    { region: "Kalimantan Timur", value: 85, pct: 90 },
-    { region: "Kalimantan Utara", value: 40, pct: 45 },
-    { region: "Sulawesi Utara", value: 75, pct: 80 },
-    { region: "Sulawesi Tengah", value: 50, pct: 55 },
-    { region: "Sulawesi Selatan", value: 95, pct: 100 },
-    { region: "Sulawesi Tenggara", value: 65, pct: 70 },
-    { region: "Gorontalo", value: 35, pct: 40 },
-    { region: "Sulawesi Barat", value: 25, pct: 30 },
-    { region: "Maluku", value: 80, pct: 85 },
-    { region: "Maluku Utara", value: 60, pct: 65 },
-    { region: "Papua", value: 50, pct: 55 },
-    { region: "Papua Barat", value: 90, pct: 95 },
-    { region: "Papua Tengah", value: 45, pct: 50 },
-    { region: "Papua Pegunungan", value: 20, pct: 25 },
-    { region: "Papua Selatan", value: 75, pct: 80 },
-    { region: "Papua Barat Daya", value: 55, pct: 60 },
-  ];
-
-  const dataGraph2 = [
-    { label: "Gizi Baik", sekolah: 25, remaja: 70 },
-    { label: "Gizi Kurang", sekolah: 38, remaja: 50 },
-    { label: "Gizi Buruk", sekolah: 30, remaja: 35 },
-    { label: "Gizi Lebih", sekolah: 37, remaja: 50 },
-    { label: "Obesitas", sekolah: 25, remaja: 70 },
-  ];
-  const dataSD = [30, 40, 50, 60, 80];
-  const dataSMP = [45, 55, 65, 75, 85];
-  const dataSMA = [40, 50, 60, 70, 80];
-
-  // Hitung total data secara dinamis
-  const totalData = dataSD.map((value, index) => {
-    return value + dataSMP[index] + dataSMA[index];
-  });
-
   return (
     <div className={`flex flex-col items-center p-[30px]  ${styles.jakartaFont}`}>
       <Header
@@ -275,25 +187,12 @@ export default function MonitoringDiagnosaPTM() {
       <section className="my-5 grid grid-cols-4 gap-4 items-center w-full">
         <p className="font-medium text-3xl">Selamat Datang !</p>
 
-        {[
-          {
-            title: "Monitoring/Overview",
-            subTitle: "Faktor Risiko",
-          },
-          {
-            title: "",
-            subTitle: "Analisa",
-          },
-          {
-            title: "",
-            subTitle: "Indikator",
-          },
-        ].map(({ title, subTitle }) => (
+        {initFilterSelamatDatang.map((data) => (
           <BoxSelected
-            stateFilter={stateFilter}
-            setStateFilter={setStateFilter}
-            title={title}
-            subTitle={subTitle}
+            {...data}
+            control={control}
+            name="filterSelamatDatang"
+            subName="subFilterSelamatDatang"
           />
         ))}
       </section>
