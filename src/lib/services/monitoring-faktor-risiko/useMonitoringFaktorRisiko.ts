@@ -1,11 +1,11 @@
 import { useQuery } from "@tanstack/react-query";
 import { client } from "../client";
 
-const baseUrlRiskMonitoring = `${process.env.NEXT_PUBLIC_API_BASE_URL}/risk-factor-monitoring`;
+const baseUrl = `${process.env.NEXT_PUBLIC_API_BASE_URL}/risk-factor-monitoring`;
 
 const fetchTotalParticipant = async ({ query = {} }) => {
   return client("/total-participant", {
-    apiURL: baseUrlRiskMonitoring,
+    apiURL: baseUrl,
     params: {
       ...query,
     },
@@ -22,7 +22,7 @@ const useTotalParticipant = ({ query = {}, options }: any = {}) => {
 
 const fetchTotalVisitation = async ({ query = {} }) => {
   return client("/total-visitation", {
-    apiURL: baseUrlRiskMonitoring,
+    apiURL: baseUrl,
     params: {
       ...query,
     },
@@ -39,7 +39,7 @@ const useTotalVisitation = ({ query = {}, options }: any = {}) => {
 
 const fetchActivity = async ({ query = {} }) => {
   return client("/activity", {
-    apiURL: baseUrlRiskMonitoring,
+    apiURL: baseUrl,
     params: {
       ...query,
     },
@@ -56,7 +56,7 @@ const useActivity = ({ query = {}, options }: any = {}) => {
 
 const fetchConsumption = async ({ query = {} }) => {
   return client("/consumption", {
-    apiURL: baseUrlRiskMonitoring,
+    apiURL: baseUrl,
     params: {
       ...query,
     },
@@ -73,7 +73,7 @@ const useConsumption = ({ query = {}, options }: any = {}) => {
 
 const fetchSmoking = async ({ query = {} }) => {
   return client("/smoking", {
-    apiURL: baseUrlRiskMonitoring,
+    apiURL: baseUrl,
     params: {
       ...query,
     },

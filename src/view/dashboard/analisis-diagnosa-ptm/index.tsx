@@ -16,6 +16,16 @@ import { useMemo, useState } from "react";
 import { IoMdArrowForward, IoMdInformationCircleOutline } from "react-icons/io";
 import { graphOptions4, graphOptions7 } from "../analisis-faktor-risiko/graphOptions";
 import styles from "../anc/anc.module.css";
+import { useTotalParticipant } from "@/lib/services/monitoring-diagnosa-ptm/useMonitoringDiagnosaPTM";
+import {
+  useTotalVisitation,
+  useHypertensionPyramid,
+  useHypertensionDistributionMap,
+  usePatientUnderTreatment,
+  usePatientLostFollowUp,
+  useControlledPatientIn3Month,
+  useUncontrolledPatientIn3Month,
+} from "@/lib/services/analisis-diagnosa-ptm/useAnalisisDiagnosaPTM";
 
 export default function AnalisisFaktorRisiko() {
   const filterState = useState({
@@ -148,19 +158,6 @@ export default function AnalisisFaktorRisiko() {
       type: "bar",
       stack: "total",
       barWidth: "60%",
-      // label:
-      //   sid === rawData.length - 1
-      //     ? {
-      //         // Hanya pada seri terakhirshow: true,
-      //         position: "top", // Tampilkan di atas barformatter: (params: any) => totalData[params.dataIndex].toString(), // Tampilkan totalfontWeight: 'bold',
-      //       }
-      //     : undefined,
-      // label: {
-      //   show: sid === rawData.length - 1, // Hanya di seri terakhir
-      //   position: "top",
-      //   formatter: (params: any) => totalData[params.dataIndex].toString(),
-      //   fontWeight: "bold",
-      // },
       data: dataNasional[sid], // Menggunakan data asli tanpa pembagian
     };
   });
@@ -181,6 +178,22 @@ export default function AnalisisFaktorRisiko() {
       color: "black",
     },
   });
+
+  const { data: dataTotalParticipant, isPending: isPendingTotalParticipant } =
+    useTotalParticipant();
+  const { data: dataTotalVisitation, isPending: isPendingTotalVisitation } = useTotalVisitation();
+  const { data: dataHypertensionPyramid, isPending: isPendingHypertensionPyramid } =
+    useHypertensionPyramid();
+  const { data: dataHypertensionDistributionMap, isPending: isPendingHypertensionDistributionMap } =
+    useHypertensionDistributionMap();
+  const { data: dataPatientUnderTreatment, isPending: isPendingPatientUnderTreatment } =
+    usePatientUnderTreatment();
+  const { data: dataPatientLostFollowUp, isPending: isPendingPatientLostFollowUp } =
+    usePatientLostFollowUp();
+  const { data: dataControlledPatientIn3Month, isPending: isPendingControlledPatientIn3Month } =
+    useControlledPatientIn3Month();
+  const { data: dataUncontrolledPatientIn3Month, isPending: isPendingUncontrolledPatientIn3Month } =
+    useUncontrolledPatientIn3Month();
 
   return (
     <div className={`flex flex-col items-center p-[30px]  ${styles.jakartaFont}`}>

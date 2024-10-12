@@ -16,6 +16,16 @@ import TableMonitoringDiagnosaPTM from "./tableMonitoringDiagnosaPTM";
 import { useForm } from "react-hook-form";
 import { FormValuesMonitoringDiagnosaPTM } from "@/view/dashboard/monitoring-diagnosa-ptm/type";
 import BoxSelected from "./BoxSelected";
+import {
+  useTotalParticipant,
+  useTotalVisitation,
+  useDisease,
+  useBloodDisorder,
+  useThalassema,
+  useHearingDisorder,
+  useVisualDisorder,
+  usePPOK,
+} from "@/lib/services/monitoring-diagnosa-ptm/useMonitoringDiagnosaPTM";
 
 export default function MonitoringDiagnosaPTM() {
   const { control, reset } = useForm<FormValuesMonitoringDiagnosaPTM>({
@@ -104,6 +114,16 @@ export default function MonitoringDiagnosaPTM() {
       },
     ],
   };
+
+  const { data: dataTotalParticipant, isPending: isPendingTotalParticipant } =
+    useTotalParticipant();
+  const { data: dataTotalVisitation, isPending: isPendingTotalVisitation } = useTotalVisitation();
+  const { data: dataDisease, isPending: isPendingDisease } = useDisease();
+  const { data: dataBloodDisorder, isPending: isPendingBloodDisorder } = useBloodDisorder();
+  const { data: dataThalassema, isPending: isPendingThalassema } = useThalassema();
+  const { data: dataHearingDisorder, isPending: isPendingHearingDisorder } = useHearingDisorder();
+  const { data: dataVisualDisorder, isPending: isPendingVisualDisorder } = useVisualDisorder();
+  const { data: datausePPOK, isPending: isPendingusePPOK } = usePPOK();
 
   return (
     <div className={`flex flex-col items-center p-[30px]  ${styles.jakartaFont}`}>
