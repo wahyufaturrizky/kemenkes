@@ -1,9 +1,9 @@
 import SearchIcon from "@/assets/images/search.png";
+import { SelectedItemType } from "@/view/dashboard/monitoring-faktor-risiko/type";
 import Image from "next/image";
-import { subMenuType, SelectedItemType } from "@/view/dashboard/monitoring-faktor-risiko/type";
 import { Controller } from "react-hook-form";
 
-const SelectedItem = ({ title, subTitle, subName, control }: SelectedItemType) => {
+const SelectedItem = ({ title, subTitle, subName, control, reset }: SelectedItemType) => {
   return (
     <Controller
       name={subName as never}
@@ -12,7 +12,13 @@ const SelectedItem = ({ title, subTitle, subName, control }: SelectedItemType) =
         const isActive = value === title;
         return (
           <div
-            onClick={() => onChange(title)}
+            onClick={() => {
+              onChange(title);
+              reset &&
+                reset({
+                  filterSelamatDatang: "",
+                });
+            }}
             className={`${
               isActive && "bg-[#006A65] p-3 rounded-[4px]"
             } flex items-center gap-3 cursor-pointer`}

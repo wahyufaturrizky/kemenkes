@@ -5,7 +5,15 @@ import { Controller } from "react-hook-form";
 import BoxDropDownSelected from "./BoxDropDownSelected";
 import { BoxSelectedProps } from "./type";
 
-const BoxSelected = ({ title, subTitle, control, name, subName, subMenu }: BoxSelectedProps) => {
+const BoxSelected = ({
+  title,
+  subTitle,
+  control,
+  name,
+  subName,
+  subMenu,
+  reset,
+}: BoxSelectedProps) => {
   return (
     <Controller
       name={name as never}
@@ -45,7 +53,12 @@ const BoxSelected = ({ title, subTitle, control, name, subName, subMenu }: BoxSe
 
             {isActive && (
               <div className="mt-4">
-                <BoxDropDownSelected control={control} subMenu={subMenu} subName={subName} />
+                <BoxDropDownSelected
+                  reset={reset}
+                  control={control}
+                  subMenu={subMenu}
+                  subName={subName}
+                />
               </div>
             )}
           </div>

@@ -19,24 +19,54 @@ import {
   useGetSmokingQuery,
   useGetVisionQuery,
 } from "@/lib/services/monitoring-faktor-risiko";
+import {
+  useActivity,
+  useTotalParticipant,
+  useTotalVisitation,
+  useConsumption,
+  useSmoking,
+} from "@/lib/services/monitoring-faktor-risiko/useMonitoringFaktorRisiko";
 import { dataMonth } from "@/utils/constants";
+import { initFilterSelamatDatang } from "@/view/dashboard/monitoring-faktor-risiko/init-value";
 import FilterMonitoringFaktorRisiko from "@/view/home/components/FilterMonitoringFaktorRisiko";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import ReactDOM from "react-dom";
+import { useForm } from "react-hook-form";
 import { IoMdArrowForward, IoMdInformationCircleOutline } from "react-icons/io";
 import styles from "../anc/anc.module.css";
 import BoxSelected from "./BoxSelected";
 import TableMonitoringFaktorRisiko from "./tableMonitoringFaktorRisiko";
-import { useForm } from "react-hook-form";
-import { initFilterSelamatDatang } from "@/view/dashboard/monitoring-faktor-risiko/init-value";
 import { FormValuesMonitoringFaktorRisiko } from "./type";
 
 export default function MonitoringFaktorRisiko() {
-  const { handleSubmit, control } = useForm<FormValuesMonitoringFaktorRisiko>({
+  const wrapperRef = useRef<HTMLDivElement>(null);
+  const [isVisible, setIsVisible] = useState<boolean>(true);
+
+  const { handleSubmit, control, reset } = useForm<FormValuesMonitoringFaktorRisiko>({
     defaultValues: {
       filterSelamatDatang: "",
       subFilterSelamatDatang: "",
     },
   });
+
+  useEffect(() => {
+    document.addEventListener("click", handleClickOutside, true);
+    return () => {
+      document.removeEventListener("click", handleClickOutside, true);
+    };
+  }, []);
+
+  const handleClickOutside = (event: any) => {
+    const domNode = ReactDOM.findDOMNode(wrapperRef as any);
+    // error is coming from below
+    if (!domNode || !domNode.contains(event.target)) {
+      setIsVisible(false);
+      reset({
+        filterSelamatDatang: "",
+        subFilterSelamatDatang: "",
+      });
+    }
+  };
 
   const filterState = useState({
     tahun: 2023,
@@ -164,6 +194,13 @@ export default function MonitoringFaktorRisiko() {
     ],
   };
 
+  const { data: dataTotalParticipant, isPending: isPendingTotalParticipant } =
+    useTotalParticipant();
+  const { data: dataTotalVisitation, isPending: isPendingTotalVisitation } = useTotalVisitation();
+  const { data: dataActivity, isPending: isPendingActivity } = useActivity();
+  const { data: dataConsumption, isPending: isPendingConsumption } = useConsumption();
+  const { data: dataSmoking, isPending: isPendingSmoking } = useSmoking();
+
   return (
     <div className={`flex flex-col items-center p-[30px]  ${styles.jakartaFont}`}>
       <Header
@@ -189,8 +226,10 @@ export default function MonitoringFaktorRisiko() {
 
         {initFilterSelamatDatang.map((data) => (
           <BoxSelected
+            key={data.subTitle}
             {...data}
             control={control}
+            reset={reset}
             name="filterSelamatDatang"
             subName="subFilterSelamatDatang"
           />
@@ -200,292 +239,291 @@ export default function MonitoringFaktorRisiko() {
       <div className="w-full">
         <FilterMonitoringFaktorRisiko filterState={filterState} />
       </div>
-      <div className="px-4">
-        <SectionHeader title="Capaian Deteksi Dini PTM" subtitle="Faktor Risiko PTM" />
-        <div className="mt-5 grid grid-cols-12 gap-6 w-full">
-          <div className="h-[600px] lg:col-span-5 col-span-12">
-            <div className="grid grid-rows-12 h-full gap-6">
-              <div className="rounded-2xl row-span-5 bg-[#006A65] text-white pl-10 flex flex-col justify-center relative">
-                <div className="absolute top-3 right-3">
-                  <IoMdInformationCircleOutline size={24} color="white" />
-                </div>
-                <p className="text-xl font-normal">Jumlah Peserta</p>
-                <p className="text-4xl font-normal">11,037,458</p>
-              </div>
-              <div className="rounded-2xl row-span-7 border border-[#D6D6D6] px-4 py-8 flex flex-col justify-between h-full">
-                <p className="font-semibold text-xl">Breakdown per jenis kelamin</p>
-                <div className="grid grid-cols-12 gap-3 max-h-[100px]">
-                  <div className="col-span-4 text-center">
-                    <p className="text-[#3BC6BE] font-semibold mb-7">Laki-laki</p>
-                    <p className="font-semibold text-[#616161]">34,753,536</p>
-                    <p className="font-light text-[#616161]">(41.5%)</p>
-                  </div>
-                  <div className="col-span-4 h-[100px]">
-                    <GraphEcharts graphOptions={chartOptions} />
-                  </div>
-                  <div className="col-span-4 text-center">
-                    <p className="text-[#CF3E53] font-semibold mb-7">Perempuan</p>
-                    <p className="font-semibold text-[#616161]">34,753,536</p>
-                    <p className="font-light text-[#616161]">(41.5%)</p>
-                  </div>
-                </div>
-                <div className="mt-[10px]">
-                  <Progress
-                    data={[
-                      {
-                        color: "#CF3E53",
-                        label: "Perempuan",
-                        value: 5500,
-                        percentage: 70,
-                      },
-                      {
-                        color: "#3BC6BE",
-                        label: "Laki-laki",
-                        value: 3500,
-                        percentage: 30,
-                      },
-                    ]}
-                  />
-                </div>
-              </div>
-            </div>
-          </div>
-          <div className="h-[600px] lg:col-span-7 col-span-12 rounded-2xl border border-[#D6D6D6] py-8 pl-8 pr-2">
-            <div className="flex justify-between">
-              <p className="font-semibold text-xl">
-                Tren Bulanan Jumlah <span className="text-[#006A65]">Peserta</span>
-                <br />
-                Tahun 2024
-              </p>
-              <div>
-                <p className="text-sm mb-2">Parameter</p>
-                <Select placeholder="Bulanan" />
-              </div>
-            </div>
-            <div className="relative h-[full] ">
-              <p className="[writing-mode:vertical-rl] [transform:rotate(180deg)] absolute top-28 left-4 font-semibold text-xs text-[#616161]">
-                Kunjungan [juta]
-              </p>
-              <GraphEcharts graphOptions={chartOptions2} opts={{ height: 400 }} />
-            </div>
-            <div className="w-full flex justify-end items-end mt-20">
-              <DownloadButton text="Unduh Excel" />
-            </div>
-          </div>
-        </div>
-        <SectionHeader
-          title="Pola konsumsi dan Gaya Hidup"
-          subtitle="Card yang menampilkan hasil wawancara faktor risiko berkaitan dengan pola konsumsi dan gaya hidup"
-        />
-        <div className="grid grid-cols-12 w-full gap-3 mt-5">
-          <CardPemeriksaan
-            label="IMT/U"
-            value={7015619}
-            pct="57.5"
-            data={BodyMassIndexAge?.data?.map((data: any) => ({
-              color:
-                data.bmi_category === "Gizi Baik"
-                  ? "#27A762"
-                  : data.bmi_category === "Gizi Kurang"
-                  ? "#FFEE16"
-                  : data.bmi_category === "Gizi Buruk"
-                  ? "#F3B239"
-                  : data.bmi_category === "Gizi Lebih"
-                  ? "#FF8800"
-                  : data.bmi_category === "Obesitas"
-                  ? "#CF3E53"
-                  : "#000000", // Warna default jika kategori tidak cocok
-              label: data.bmi_category,
-              value: data.total, // Sesuaikan sesuai dengan data Anda
-              percentage: data.percentage, // Sesuaikan sesuai dengan data Anda
-            }))}
-          />
-          <CardPemeriksaan
-            label="Tekanan Darah"
-            value={7015619}
-            pct="57.5"
-            data={BloodPresure?.data?.map((data: any) => ({
-              color:
-                data.hypertension_risk === "Hipertensi Tingkat 1"
-                  ? "#FF8800"
-                  : data.hypertension_risk === "Hipertensi Tingkat 2"
-                  ? "#CF3E53"
-                  : data.hypertension_risk === "Gizi Buruk"
-                  ? "#F3B239"
-                  : data.hypertension_risk === "Gizi Lebih"
-                  ? "#FF8800"
-                  : data.hypertension_risk === "Obesitas"
-                  ? "#CF3E53"
-                  : "#000000", // Warna default jika kategori tidak cocok
-              label: data.hypertension_risk,
-              value: data.total, // Sesuaikan sesuai dengan data Anda
-              percentage: data.percentage, // Sesuaikan sesuai dengan data Anda
-            }))}
-          />
-          <CardPemeriksaan
-            label="Skrining Penglihatan"
-            value={7015619}
-            pct="57.5"
-            data={Vision?.data?.map((data: any) => ({
-              color:
-                data.vision === "Normal"
-                  ? "#27A762"
-                  : data.vision === "Gizi Kurang"
-                  ? "#FFEE16"
-                  : data.vision === "Gizi Buruk"
-                  ? "#F3B239"
-                  : data.vision === "Gizi Lebih"
-                  ? "#FF8800"
-                  : data.vision === "Obesitas"
-                  ? "#CF3E53"
-                  : "#000000", // Warna default jika kategori tidak cocok
-              label: data.vision,
-              value: data.total, // Sesuaikan sesuai dengan data Anda
-              percentage: data.percentage, // Sesuaikan sesuai dengan data Anda
-            }))}
-          />
-          <CardPemeriksaan
-            label="Pendengaran"
-            value={7015619}
-            pct="57.5"
-            data={Hearing?.data?.map((data: any) => ({
-              color:
-                data.hearing === "Normal"
-                  ? "#27A762"
-                  : data.hearing === "Bermasalah"
-                  ? "#CF3E53"
-                  : "#000000",
-              label: data.hearing,
-              value: data.total,
-              percentage: data.percentage,
-            }))}
-          />
-          <CardPemeriksaan
-            label="Skrining Kesehatan Jiwa"
-            value={7015619}
-            pct="57.5"
-            data={MentalHealth?.data?.map((data: any) => ({
-              color:
-                data.mental_health === "Normal"
-                  ? "#27A762"
-                  : data.mental_health === "Borderline"
-                  ? "#FFEE16"
-                  : data.mental_health === "Abnormal"
-                  ? "#CF3E53"
-                  : "#000000",
-              label: data.mental_health,
-              value: data.total,
-              percentage: data.percentage,
-            }))}
-          />
-          <CardPemeriksaan
-            label="Skrining Napza"
-            value={7015619}
-            pct="57.5"
-            data={NapzaScreening?.data?.map((data: any) => ({
-              color:
-                data.napza_risk === "Tidak Beresiko Napza"
-                  ? "#27A762"
-                  : data.napza_risk === "Beresiko Napza"
-                  ? "#CF3E53"
-                  : "#000000",
-              label: data.napza_risk,
-              value: data.total,
-              percentage: data.percentage,
-            }))}
-          />
-          <CardPemeriksaan
-            label="Kesehatan Gigi & Mulut"
-            value={7015619}
-            pct="57.5"
-            data={Health?.data?.map((data: any) => ({
-              color:
-                data.health === "Tidak Beresiko Napza"
-                  ? "#27A762"
-                  : data.health === "Beresiko Napza"
-                  ? "#CF3E53"
-                  : "#000000",
-              label: data.health,
-              value: data.total,
-              percentage: data.percentage,
-            }))}
-          />
-          <CardPemeriksaan
-            label="Kebugaran"
-            value={7015619}
-            pct="57.5"
-            data={Fitness?.data?.map((data: any) => ({
-              color:
-                data.fitness === "Baik"
-                  ? "#32DE81"
-                  : data.fitness === "Cukup"
-                  ? "#FFEE16"
-                  : data.fitness === "Kurang"
-                  ? "#FF8800"
-                  : "#000000",
-              label: data.fitness,
-              value: data.total,
-              percentage: data.percentage,
-            }))}
-          />
-          <CardPemeriksaan
-            label="Skiring Anemia"
-            value={7015619}
-            pct="57.5"
-            data={AnemiaScreening?.data?.map((data: any) => ({
-              color:
-                data.anemia_risk === "Tidak Anemia"
-                  ? "#27A762"
-                  : data.anemia_risk === "Anemia Ringan"
-                  ? "#FFEE16"
-                  : data.anemia_risk === "Anemia Sedang"
-                  ? "#F3B239"
-                  : data.anemia_risk === "Anemia Berat"
-                  ? "#CF3E53"
-                  : "#000000",
-              label: data.anemia_risk,
-              value: data.total,
-              percentage: data.percentage,
-            }))}
-            textBlue
-          />
-          <CardPemeriksaan
-            label="Faktor Risiko Merokok"
-            value={7015619}
-            pct="57.5"
-            data={Smoking?.data?.map((data: any) => ({
-              color:
-                data.smoking === "Tidak Merokok"
-                  ? "#27A762"
-                  : data.smoking === "Merokok"
-                  ? "#CF3E53"
-                  : "#000000",
-              label: data.smoking,
-              value: data.total,
-              percentage: data.percentage,
-            }))}
-          />
-          <CardPemeriksaan
-            label="Paparan Asap Rokok"
-            value={7015619}
-            pct="57.5"
-            data={CigaretteSmoking?.data?.map((data: any) => ({
-              color:
-                data.cigarette_smoking === "Tidak Terpapar"
-                  ? "#27A762"
-                  : data.cigarette_smoking === "Terpapar"
-                  ? "#CF3E53"
-                  : "#000000",
-              label: data.cigarette_smoking,
-              value: data.total,
-              percentage: data.percentage,
-            }))}
-            textBlue
-          />
-        </div>
 
-        <TableMonitoringFaktorRisiko titleTable="Tabel Data Agregat" />
+      <SectionHeader title="Capaian Deteksi Dini PTM" subtitle="Faktor Risiko PTM" />
+      <div className="mt-5 grid grid-cols-12 gap-6 w-full">
+        <div className="h-[600px] lg:col-span-5 col-span-12">
+          <div className="grid grid-rows-12 h-full gap-6">
+            <div className="rounded-2xl row-span-5 bg-[#006A65] text-white pl-10 flex flex-col justify-center relative">
+              <div className="absolute top-3 right-3">
+                <IoMdInformationCircleOutline size={24} color="white" />
+              </div>
+              <p className="text-xl font-normal">Jumlah Peserta</p>
+              <p className="text-4xl font-normal">11,037,458</p>
+            </div>
+            <div className="rounded-2xl row-span-7 border border-[#D6D6D6] px-4 py-8 flex flex-col justify-between h-full">
+              <p className="font-semibold text-xl">Breakdown per jenis kelamin</p>
+              <div className="grid grid-cols-12 gap-3 max-h-[100px]">
+                <div className="col-span-4 text-center">
+                  <p className="text-[#3BC6BE] font-semibold mb-7">Laki-laki</p>
+                  <p className="font-semibold text-[#616161]">34,753,536</p>
+                  <p className="font-light text-[#616161]">(41.5%)</p>
+                </div>
+                <div className="col-span-4 h-[100px]">
+                  <GraphEcharts graphOptions={chartOptions} />
+                </div>
+                <div className="col-span-4 text-center">
+                  <p className="text-[#CF3E53] font-semibold mb-7">Perempuan</p>
+                  <p className="font-semibold text-[#616161]">34,753,536</p>
+                  <p className="font-light text-[#616161]">(41.5%)</p>
+                </div>
+              </div>
+              <div className="mt-[10px]">
+                <Progress
+                  data={[
+                    {
+                      color: "#CF3E53",
+                      label: "Perempuan",
+                      value: 5500,
+                      percentage: 70,
+                    },
+                    {
+                      color: "#3BC6BE",
+                      label: "Laki-laki",
+                      value: 3500,
+                      percentage: 30,
+                    },
+                  ]}
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+        <div className="h-[600px] lg:col-span-7 col-span-12 rounded-2xl border border-[#D6D6D6] py-8 pl-8 pr-2">
+          <div className="flex justify-between">
+            <p className="font-semibold text-xl">
+              Tren Bulanan Jumlah <span className="text-[#006A65]">Peserta</span>
+              <br />
+              Tahun 2024
+            </p>
+            <div>
+              <p className="text-sm mb-2">Parameter</p>
+              <Select placeholder="Bulanan" />
+            </div>
+          </div>
+          <div className="relative h-[full] ">
+            <p className="[writing-mode:vertical-rl] [transform:rotate(180deg)] absolute top-28 left-4 font-semibold text-xs text-[#616161]">
+              Kunjungan [juta]
+            </p>
+            <GraphEcharts graphOptions={chartOptions2} opts={{ height: 400 }} />
+          </div>
+          <div className="w-full flex justify-end items-end mt-20">
+            <DownloadButton text="Unduh Excel" />
+          </div>
+        </div>
       </div>
+      <SectionHeader
+        title="Pola konsumsi dan Gaya Hidup"
+        subtitle="Card yang menampilkan hasil wawancara faktor risiko berkaitan dengan pola konsumsi dan gaya hidup"
+      />
+      <div className="grid grid-cols-12 w-full gap-3 mt-5">
+        <CardPemeriksaan
+          label="IMT/U"
+          value={7015619}
+          pct="57.5"
+          data={BodyMassIndexAge?.data?.map((data: any) => ({
+            color:
+              data.bmi_category === "Gizi Baik"
+                ? "#27A762"
+                : data.bmi_category === "Gizi Kurang"
+                ? "#FFEE16"
+                : data.bmi_category === "Gizi Buruk"
+                ? "#F3B239"
+                : data.bmi_category === "Gizi Lebih"
+                ? "#FF8800"
+                : data.bmi_category === "Obesitas"
+                ? "#CF3E53"
+                : "#000000", // Warna default jika kategori tidak cocok
+            label: data.bmi_category,
+            value: data.total, // Sesuaikan sesuai dengan data Anda
+            percentage: data.percentage, // Sesuaikan sesuai dengan data Anda
+          }))}
+        />
+        <CardPemeriksaan
+          label="Tekanan Darah"
+          value={7015619}
+          pct="57.5"
+          data={BloodPresure?.data?.map((data: any) => ({
+            color:
+              data.hypertension_risk === "Hipertensi Tingkat 1"
+                ? "#FF8800"
+                : data.hypertension_risk === "Hipertensi Tingkat 2"
+                ? "#CF3E53"
+                : data.hypertension_risk === "Gizi Buruk"
+                ? "#F3B239"
+                : data.hypertension_risk === "Gizi Lebih"
+                ? "#FF8800"
+                : data.hypertension_risk === "Obesitas"
+                ? "#CF3E53"
+                : "#000000", // Warna default jika kategori tidak cocok
+            label: data.hypertension_risk,
+            value: data.total, // Sesuaikan sesuai dengan data Anda
+            percentage: data.percentage, // Sesuaikan sesuai dengan data Anda
+          }))}
+        />
+        <CardPemeriksaan
+          label="Skrining Penglihatan"
+          value={7015619}
+          pct="57.5"
+          data={Vision?.data?.map((data: any) => ({
+            color:
+              data.vision === "Normal"
+                ? "#27A762"
+                : data.vision === "Gizi Kurang"
+                ? "#FFEE16"
+                : data.vision === "Gizi Buruk"
+                ? "#F3B239"
+                : data.vision === "Gizi Lebih"
+                ? "#FF8800"
+                : data.vision === "Obesitas"
+                ? "#CF3E53"
+                : "#000000", // Warna default jika kategori tidak cocok
+            label: data.vision,
+            value: data.total, // Sesuaikan sesuai dengan data Anda
+            percentage: data.percentage, // Sesuaikan sesuai dengan data Anda
+          }))}
+        />
+        <CardPemeriksaan
+          label="Pendengaran"
+          value={7015619}
+          pct="57.5"
+          data={Hearing?.data?.map((data: any) => ({
+            color:
+              data.hearing === "Normal"
+                ? "#27A762"
+                : data.hearing === "Bermasalah"
+                ? "#CF3E53"
+                : "#000000",
+            label: data.hearing,
+            value: data.total,
+            percentage: data.percentage,
+          }))}
+        />
+        <CardPemeriksaan
+          label="Skrining Kesehatan Jiwa"
+          value={7015619}
+          pct="57.5"
+          data={MentalHealth?.data?.map((data: any) => ({
+            color:
+              data.mental_health === "Normal"
+                ? "#27A762"
+                : data.mental_health === "Borderline"
+                ? "#FFEE16"
+                : data.mental_health === "Abnormal"
+                ? "#CF3E53"
+                : "#000000",
+            label: data.mental_health,
+            value: data.total,
+            percentage: data.percentage,
+          }))}
+        />
+        <CardPemeriksaan
+          label="Skrining Napza"
+          value={7015619}
+          pct="57.5"
+          data={NapzaScreening?.data?.map((data: any) => ({
+            color:
+              data.napza_risk === "Tidak Beresiko Napza"
+                ? "#27A762"
+                : data.napza_risk === "Beresiko Napza"
+                ? "#CF3E53"
+                : "#000000",
+            label: data.napza_risk,
+            value: data.total,
+            percentage: data.percentage,
+          }))}
+        />
+        <CardPemeriksaan
+          label="Kesehatan Gigi & Mulut"
+          value={7015619}
+          pct="57.5"
+          data={Health?.data?.map((data: any) => ({
+            color:
+              data.health === "Tidak Beresiko Napza"
+                ? "#27A762"
+                : data.health === "Beresiko Napza"
+                ? "#CF3E53"
+                : "#000000",
+            label: data.health,
+            value: data.total,
+            percentage: data.percentage,
+          }))}
+        />
+        <CardPemeriksaan
+          label="Kebugaran"
+          value={7015619}
+          pct="57.5"
+          data={Fitness?.data?.map((data: any) => ({
+            color:
+              data.fitness === "Baik"
+                ? "#32DE81"
+                : data.fitness === "Cukup"
+                ? "#FFEE16"
+                : data.fitness === "Kurang"
+                ? "#FF8800"
+                : "#000000",
+            label: data.fitness,
+            value: data.total,
+            percentage: data.percentage,
+          }))}
+        />
+        <CardPemeriksaan
+          label="Skiring Anemia"
+          value={7015619}
+          pct="57.5"
+          data={AnemiaScreening?.data?.map((data: any) => ({
+            color:
+              data.anemia_risk === "Tidak Anemia"
+                ? "#27A762"
+                : data.anemia_risk === "Anemia Ringan"
+                ? "#FFEE16"
+                : data.anemia_risk === "Anemia Sedang"
+                ? "#F3B239"
+                : data.anemia_risk === "Anemia Berat"
+                ? "#CF3E53"
+                : "#000000",
+            label: data.anemia_risk,
+            value: data.total,
+            percentage: data.percentage,
+          }))}
+          textBlue
+        />
+        <CardPemeriksaan
+          label="Faktor Risiko Merokok"
+          value={7015619}
+          pct="57.5"
+          data={Smoking?.data?.map((data: any) => ({
+            color:
+              data.smoking === "Tidak Merokok"
+                ? "#27A762"
+                : data.smoking === "Merokok"
+                ? "#CF3E53"
+                : "#000000",
+            label: data.smoking,
+            value: data.total,
+            percentage: data.percentage,
+          }))}
+        />
+        <CardPemeriksaan
+          label="Paparan Asap Rokok"
+          value={7015619}
+          pct="57.5"
+          data={CigaretteSmoking?.data?.map((data: any) => ({
+            color:
+              data.cigarette_smoking === "Tidak Terpapar"
+                ? "#27A762"
+                : data.cigarette_smoking === "Terpapar"
+                ? "#CF3E53"
+                : "#000000",
+            label: data.cigarette_smoking,
+            value: data.total,
+            percentage: data.percentage,
+          }))}
+          textBlue
+        />
+      </div>
+
+      <TableMonitoringFaktorRisiko titleTable="Tabel Data Agregat" />
     </div>
   );
 }
