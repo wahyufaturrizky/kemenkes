@@ -23,7 +23,6 @@ export async function client(
   if (data) {
     config.data = data;
   }
-  console.log("@config", config);
 
   return axios(config)
     .then(async (response: AxiosResponse<any, any>) => {

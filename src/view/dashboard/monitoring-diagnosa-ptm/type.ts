@@ -1,21 +1,13 @@
-import { Dispatch, RefObject, SetStateAction } from "react";
+import {
+  subMenuType,
+  FormValuesMonitoringFaktorRisiko,
+} from "@/view/dashboard/monitoring-faktor-risiko/type";
+import { Dispatch, SetStateAction } from "react";
 import { Control, UseFormReset } from "react-hook-form";
-export type FormValuesMonitoringFaktorRisiko = {
+export type FormValuesMonitoringDiagnosaPTM = {
   filterSelamatDatang: string;
   subFilterSelamatDatang: string;
 };
-
-export interface SelectedItemType extends subMenuType {
-  subName: string;
-  control?: Control<FormValuesMonitoringFaktorRisiko, any>;
-  reset?: UseFormReset<FormValuesMonitoringFaktorRisiko>;
-}
-
-export interface initFilterSelamatDatangType {
-  title: string;
-  subTitle: string;
-  subMenu: subMenuType[];
-}
 
 export interface BoxDropDownSelectedProps {
   subName: string;
@@ -24,9 +16,10 @@ export interface BoxDropDownSelectedProps {
   reset?: UseFormReset<FormValuesMonitoringFaktorRisiko>;
 }
 
-export interface subMenuType {
+export interface initFilterSelamatDatangType {
   title: string;
   subTitle: string;
+  subMenu: subMenuType[];
 }
 
 export interface BoxSelectedProps {

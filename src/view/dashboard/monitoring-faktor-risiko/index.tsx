@@ -40,33 +40,13 @@ import { FormValuesMonitoringFaktorRisiko } from "./type";
 
 export default function MonitoringFaktorRisiko() {
   const wrapperRef = useRef<HTMLDivElement>(null);
-  const [isVisible, setIsVisible] = useState<boolean>(true);
 
-  const { handleSubmit, control, reset } = useForm<FormValuesMonitoringFaktorRisiko>({
+  const { control, reset } = useForm<FormValuesMonitoringFaktorRisiko>({
     defaultValues: {
       filterSelamatDatang: "",
       subFilterSelamatDatang: "",
     },
   });
-
-  useEffect(() => {
-    document.addEventListener("click", handleClickOutside, true);
-    return () => {
-      document.removeEventListener("click", handleClickOutside, true);
-    };
-  }, []);
-
-  const handleClickOutside = (event: any) => {
-    const domNode = ReactDOM.findDOMNode(wrapperRef as any);
-    // error is coming from below
-    if (!domNode || !domNode.contains(event.target)) {
-      setIsVisible(false);
-      reset({
-        filterSelamatDatang: "",
-        subFilterSelamatDatang: "",
-      });
-    }
-  };
 
   const filterState = useState({
     tahun: 2023,

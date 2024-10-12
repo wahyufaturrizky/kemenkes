@@ -1,7 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { client } from "../client";
 
-const baseUrlRiskMonitoring = process.env.NEXT_PUBLIC_API_BASE_URL_RISK_MONITORING;
+const baseUrlRiskMonitoring = `${process.env.NEXT_PUBLIC_API_BASE_URL}/risk-factor-monitoring`;
 
 const fetchTotalParticipant = async ({ query = {} }) => {
   return client("/total-participant", {
