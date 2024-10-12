@@ -23,8 +23,19 @@ import {
   useActivityCheckDistribution,
   useActivityBasedOnRegion,
 } from "@/lib/services/analisis-faktor-risiko/useAnalisisFaktorRisiko";
+import { useForm } from "react-hook-form";
+import { FormValuesAnalisisFaktorRisiko } from "@/view/dashboard/analisis-faktor-risiko/type";
+import BoxSelected from "./BoxSelected";
+import { initFilterSelamatDatang } from "./init-value";
 
 export default function AnalisisDiagnosaPTM() {
+  const { control, reset } = useForm<FormValuesAnalisisFaktorRisiko>({
+    defaultValues: {
+      filterSelamatDatang: "",
+      subFilterSelamatDatang: "",
+    },
+  });
+
   const filterState = useState({
     tahun: 2023,
     // tahun: new Date().getFullYear(),
@@ -203,9 +214,20 @@ export default function AnalisisDiagnosaPTM() {
           />
         </div>
       </div>
-      <div className="w-full my-5">
+      <section className="my-5 grid grid-cols-4 gap-4 items-center w-full">
         <p className="font-medium text-3xl">Selamat Datang !</p>
-      </div>
+
+        {initFilterSelamatDatang.map((data) => (
+          <BoxSelected
+            key={data.subTitle}
+            {...data}
+            control={control}
+            reset={reset}
+            name="filterSelamatDatang"
+            subName="subFilterSelamatDatang"
+          />
+        ))}
+      </section>
       <div className="w-full">
         <FilterMonitoringFaktorRisiko filterState={filterState} />
       </div>

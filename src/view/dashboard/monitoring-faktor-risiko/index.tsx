@@ -21,16 +21,15 @@ import {
 } from "@/lib/services/monitoring-faktor-risiko";
 import {
   useActivity,
-  useTotalParticipant,
-  useTotalVisitation,
   useConsumption,
   useSmoking,
+  useTotalParticipant,
+  useTotalVisitation,
 } from "@/lib/services/monitoring-faktor-risiko/useMonitoringFaktorRisiko";
 import { dataMonth } from "@/utils/constants";
 import { initFilterSelamatDatang } from "@/view/dashboard/monitoring-faktor-risiko/init-value";
 import FilterMonitoringFaktorRisiko from "@/view/home/components/FilterMonitoringFaktorRisiko";
-import { useEffect, useRef, useState } from "react";
-import ReactDOM from "react-dom";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { IoMdArrowForward, IoMdInformationCircleOutline } from "react-icons/io";
 import styles from "../anc/anc.module.css";
@@ -39,8 +38,6 @@ import TableMonitoringFaktorRisiko from "./tableMonitoringFaktorRisiko";
 import { FormValuesMonitoringFaktorRisiko } from "./type";
 
 export default function MonitoringFaktorRisiko() {
-  const wrapperRef = useRef<HTMLDivElement>(null);
-
   const { control, reset } = useForm<FormValuesMonitoringFaktorRisiko>({
     defaultValues: {
       filterSelamatDatang: "",

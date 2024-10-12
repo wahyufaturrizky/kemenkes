@@ -26,8 +26,19 @@ import {
   useControlledPatientIn3Month,
   useUncontrolledPatientIn3Month,
 } from "@/lib/services/analisis-diagnosa-ptm/useAnalisisDiagnosaPTM";
+import { useForm } from "react-hook-form";
+import { FormValuesAnalisisDiagnosaPTM } from "@/view/dashboard/analisis-diagnosa-ptm/type";
+import { initFilterSelamatDatang } from "./init-value";
+import BoxSelected from "./BoxSelected";
 
 export default function AnalisisFaktorRisiko() {
+  const { control, reset } = useForm<FormValuesAnalisisDiagnosaPTM>({
+    defaultValues: {
+      filterSelamatDatang: "",
+      subFilterSelamatDatang: "",
+    },
+  });
+
   const filterState = useState({
     tahun: 2023,
     // tahun: new Date().getFullYear(),
@@ -214,9 +225,20 @@ export default function AnalisisFaktorRisiko() {
           />
         </div>
       </div>
-      <div className="w-full my-5">
+      <section className="my-5 grid grid-cols-4 gap-4 items-center w-full">
         <p className="font-medium text-3xl">Selamat Datang !</p>
-      </div>
+
+        {initFilterSelamatDatang.map((data) => (
+          <BoxSelected
+            key={data.subTitle}
+            {...data}
+            control={control}
+            reset={reset}
+            name="filterSelamatDatang"
+            subName="subFilterSelamatDatang"
+          />
+        ))}
+      </section>
       <div className="w-full">
         <FilterMonitoringFaktorRisiko filterState={filterState} />
       </div>
