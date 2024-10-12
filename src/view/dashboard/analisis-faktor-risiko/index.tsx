@@ -203,6 +203,8 @@ export default function AnalisisDiagnosaPTM() {
         subtitle="Kesehatan Anak Usia Sekolah dan Remaja"
         desc={`Dashboard ini menampilkan:\nmonitoring capaian Indikator ANC berdasarkan data yang dikirim oleh faskes ke SATUSEHAT`}
         space={true}
+        note="Dashboard ini menampilkan data berdasarkan pemeriksaan pertama dari setiap jenis skrining PTM yang dilakukan peserta dalam 1 tahun"
+        classNameContainerGrey="px-2.5 py-6"
       />
       <div className="w-full my-5">
         <div className="flex justify-end">
