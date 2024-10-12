@@ -16,6 +16,13 @@ import { useMemo, useState } from "react";
 import { IoMdArrowForward, IoMdInformationCircleOutline } from "react-icons/io";
 import { graphOptions4, graphOptions7 } from "../analisis-faktor-risiko/graphOptions";
 import styles from "../anc/anc.module.css";
+import {
+  useTotalParticipant,
+  useTotalVisitation,
+  useActivityPyramid,
+  useActivityCheckDistribution,
+  useActivityBasedOnRegion,
+} from "@/lib/services/analisis-faktor-risiko/useAnalisisFaktorRisiko";
 
 export default function AnalisisDiagnosaPTM() {
   const filterState = useState({
@@ -103,7 +110,6 @@ export default function AnalisisDiagnosaPTM() {
         : filter.provinsi
         ? filter.provinsi
         : "",
-      // faskes_parent: filter.faskes_parent,
     }),
     [rergionTypeGraph1, filter, dateQuery]
   );
@@ -148,20 +154,7 @@ export default function AnalisisDiagnosaPTM() {
       type: "bar",
       stack: "total",
       barWidth: "60%",
-      // label:
-      //   sid === rawData.length - 1
-      //     ? {
-      //         // Hanya pada seri terakhirshow: true,
-      //         position: "top", // Tampilkan di atas barformatter: (params: any) => totalData[params.dataIndex].toString(), // Tampilkan totalfontWeight: 'bold',
-      //       }
-      //     : undefined,
-      // label: {
-      //   show: sid === rawData.length - 1, // Hanya di seri terakhir
-      //   position: "top",
-      //   formatter: (params: any) => totalData[params.dataIndex].toString(),
-      //   fontWeight: "bold",
-      // },
-      data: dataNasional[sid], // Menggunakan data asli tanpa pembagian
+      data: dataNasional[sid],
     };
   });
 
@@ -181,6 +174,15 @@ export default function AnalisisDiagnosaPTM() {
       color: "black",
     },
   });
+
+  const { data: dataTotalParticipant, isPending: isPendingTotalParticipant } =
+    useTotalParticipant();
+  const { data: dataTotalVisitation, isPending: isPendingTotalVisitation } = useTotalVisitation();
+  const { data: dataActivityPyramid, isPending: isPendingActivityPyramid } = useActivityPyramid();
+  const { data: dataActivityCheckDistribution, isPending: isPendingActivityCheckDistribution } =
+    useActivityCheckDistribution();
+  const { data: dataActivityBasedOnRegion, isPending: isPendingActivityBasedOnRegion } =
+    useActivityBasedOnRegion();
 
   return (
     <div className={`flex flex-col items-center p-[30px]  ${styles.jakartaFont}`}>
