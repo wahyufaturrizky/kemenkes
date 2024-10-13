@@ -712,14 +712,22 @@ export default function Anc() {
               pct={`${formatNumber(TinggiFundus?.data?.pct) || 0}%`}
               isLoading={isLoadingTinggiFundus}
               color="#5874D7"
+              tooltipContent={`
+                <p className'font-bold mb-2'>Tinggu Fundus (Penilaian usia/besar janin)</p>
+                <p className='mt-2'>Bumil Diperiksa Tinggi Fundus (penilaian usia/besar janin) dibagi dengan semua ibu hamil.</p>
+                `}
             />
             <Scorecard3
-              title="Djj"
+              title="DJJ"
               subtitle="Presentasi dan denyut jantung"
               value={formatNumber(Djj?.data?.total || "0")}
               pct={`${formatNumber(Djj?.data?.pct) || 0}%`}
               isLoading={isLoadingDjj}
               color="#FB5EA2"
+              tooltipContent={`
+                <p className'font-bold mb-2'>DJJ (Presentasi dan Denyut Jantung)</p>
+                <p className='mt-2'>Bumil Ditentukan Presentasi dan Denyut Jantung Janin (DJJ) dibagi dengan semua ibu hamil.</p>
+                `}
             />
             <Scorecard3
               title="Imunisasi TT"
@@ -728,6 +736,10 @@ export default function Anc() {
               pct={`${formatNumber(Tt?.data?.pct) || 0}%`}
               isLoading={isLoadingTt}
               color="#D9EF82"
+              tooltipContent={`
+                <p className'font-bold mb-2'>Imunisasi TT (Imunisasi Tetanus Taksoid)</p>
+                <p className='mt-2'>Bumil Diberikan Imunisasi Tetanus Taksoid (TT) dibagi dengan semua ibu hamil.</p>
+                `}
             />
             <Scorecard3
               title="Laboratorium"
@@ -736,6 +748,10 @@ export default function Anc() {
               pct={`${formatNumber(Lab?.data?.pct) || 0}%`}
               isLoading={isLoadingLab}
               color="#60D3AA"
+              tooltipContent={`
+                <p className'font-bold mb-2'>Laboratorium (Termasuk anemia & skrining triple eliminasi)</p>
+                <p className='mt-2'>Bumil Dilakukan Pemeriksaan Laboratorium (termasuk status anemia dan skrining triple eliminasi) dibagi dengan semua ibu hamil.</p>
+                `}
             />
             <Scorecard3
               title="Tatalaksana Kasus"
@@ -743,6 +759,10 @@ export default function Anc() {
               pct={`${formatNumber(Tatalaksana?.data?.pct) || 0}%`}
               isLoading={isLoadingTatalaksana}
               color="#8FA5B2"
+              tooltipContent={`
+                <p className'font-bold mb-2'>Tatalaksana Kasus</p>
+                <p className='mt-2'>Bumil Diberikan Imunisasi Tetanus Taksoid (TT) dibagi dengan semua ibu hamil</p>
+                `}
             />
             <Scorecard3
               title="Konseling"
@@ -751,6 +771,10 @@ export default function Anc() {
               pct={`${formatNumber(Konseling?.data?.pct) || 0}%`}
               isLoading={isLoadingKonseling}
               color="#F6CADD"
+              tooltipContent={`
+                <p className'font-bold mb-2'>Konseling (Temu Wicara)</p>
+                <p className='mt-2'>Bumil Dilakukan Temu Wicara/Konseling dibagi dengan semua ibu hamil.</p>
+                `}
             />
           </div>
           <SectionHeader
