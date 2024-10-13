@@ -18,9 +18,8 @@ export const memoizedSelector = (() => {
       region,
       badutaImmunization,
       // babyImmunization,
-      // wus 
-    } =
-      state; // Destructure state to extract relevant parts
+      // wus
+    } = state; // Destructure state to extract relevant parts
     const result = {
       auth,
       baseApi,
@@ -37,3 +36,11 @@ export const memoizedSelector = (() => {
     return result; // Return the result
   };
 })();
+
+export const formatNumber = (number: number) => {
+  return number.toLocaleString();
+};
+
+export const formatPercentage = (number: number) => {
+  return parseFloat(number.toFixed(2));
+};

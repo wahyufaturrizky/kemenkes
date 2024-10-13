@@ -36,6 +36,7 @@ import styles from "../anc/anc.module.css";
 import BoxSelected from "./BoxSelected";
 import TableMonitoringFaktorRisiko from "./tableMonitoringFaktorRisiko";
 import { FormValuesMonitoringFaktorRisiko } from "./type";
+import { formatPercentage } from "@/lib/utils";
 
 export default function MonitoringFaktorRisiko() {
   const { control, reset } = useForm<FormValuesMonitoringFaktorRisiko>({
@@ -226,23 +227,72 @@ export default function MonitoringFaktorRisiko() {
                 <IoMdInformationCircleOutline size={24} color="white" />
               </div>
               <p className="text-xl font-normal">Jumlah Peserta</p>
-              <p className="text-4xl font-normal">11,037,458</p>
+              <p className="text-4xl font-normal">
+                {isPendingTotalParticipant
+                  ? "Loading..."
+                  : formatNumber(
+                      Number(
+                        dataTotalParticipant?.data?.data?.total_participant_based_on_gender?.[0]
+                          ?.all_total
+                      )
+                    )}
+              </p>
             </div>
             <div className="rounded-2xl row-span-7 border border-[#D6D6D6] px-4 py-8 flex flex-col justify-between h-full">
               <p className="font-semibold text-xl">Breakdown per jenis kelamin</p>
               <div className="grid grid-cols-12 gap-3 max-h-[100px]">
                 <div className="col-span-4 text-center">
                   <p className="text-[#3BC6BE] font-semibold mb-7">Laki-laki</p>
-                  <p className="font-semibold text-[#616161]">34,753,536</p>
-                  <p className="font-light text-[#616161]">(41.5%)</p>
+                  <p className="font-semibold text-[#616161]">
+                    {isPendingTotalParticipant
+                      ? "Loading..."
+                      : formatNumber(
+                          Number(
+                            dataTotalParticipant?.data?.data?.total_participant_based_on_gender?.[0]
+                              ?.total
+                          )
+                        )}
+                  </p>
+                  <p className="font-light text-[#616161]">
+                    (
+                    {isPendingTotalParticipant
+                      ? "Loading..."
+                      : formatPercentage(
+                          Number(
+                            dataTotalParticipant?.data?.data?.total_participant_based_on_gender?.[0]
+                              ?.percentage
+                          )
+                        )}
+                    %)
+                  </p>
                 </div>
                 <div className="col-span-4 h-[100px]">
                   <GraphEcharts graphOptions={chartOptions} />
                 </div>
                 <div className="col-span-4 text-center">
                   <p className="text-[#CF3E53] font-semibold mb-7">Perempuan</p>
-                  <p className="font-semibold text-[#616161]">34,753,536</p>
-                  <p className="font-light text-[#616161]">(41.5%)</p>
+                  <p className="font-semibold text-[#616161]">
+                    {isPendingTotalParticipant
+                      ? "Loading..."
+                      : formatNumber(
+                          Number(
+                            dataTotalParticipant?.data?.data?.total_participant_based_on_gender?.[1]
+                              ?.total
+                          )
+                        )}
+                  </p>
+                  <p className="font-light text-[#616161]">
+                    (
+                    {isPendingTotalParticipant
+                      ? "Loading..."
+                      : formatPercentage(
+                          Number(
+                            dataTotalParticipant?.data?.data?.total_participant_based_on_gender?.[1]
+                              ?.percentage
+                          )
+                        )}
+                    %)
+                  </p>
                 </div>
               </div>
               <div className="mt-[10px]">
@@ -251,14 +301,22 @@ export default function MonitoringFaktorRisiko() {
                     {
                       color: "#CF3E53",
                       label: "Perempuan",
-                      value: 5500,
-                      percentage: 70,
+                      value:
+                        dataTotalParticipant?.data?.data?.total_participant_based_on_gender?.[1]
+                          ?.total,
+                      percentage:
+                        dataTotalParticipant?.data?.data?.total_participant_based_on_gender?.[1]
+                          ?.percentage,
                     },
                     {
                       color: "#3BC6BE",
                       label: "Laki-laki",
-                      value: 3500,
-                      percentage: 30,
+                      value:
+                        dataTotalParticipant?.data?.data?.total_participant_based_on_gender?.[0]
+                          ?.total,
+                      percentage:
+                        dataTotalParticipant?.data?.data?.total_participant_based_on_gender?.[0]
+                          ?.percentage,
                     },
                   ]}
                 />

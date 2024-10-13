@@ -1,3 +1,4 @@
+import { AxiosResponse } from "axios";
 import { Dispatch, RefObject, SetStateAction } from "react";
 import { Control, UseFormReset } from "react-hook-form";
 
@@ -40,4 +41,28 @@ export interface BoxSelectedProps {
   subMenu: subMenuType[];
   control?: Control<FormValuesMonitoringFaktorRisiko, any>;
   setStateFilter?: Dispatch<SetStateAction<string>>;
+}
+
+export interface DataResponsTotalParticipantType extends AxiosResponse {
+  success: boolean;
+  message: string;
+  data: { data: DataTotalParticipantType };
+}
+
+export interface DataTotalParticipantType {
+  total_participant_based_on_gender: TotalParticipantBasedOnGenderType[];
+  total_participant_based_on_time: TotalParticipantBasedOnTimeType[];
+}
+
+export interface TotalParticipantBasedOnGenderType {
+  all_total: number;
+  gender: string;
+  total: number;
+  percentage: number;
+}
+
+export interface TotalParticipantBasedOnTimeType {
+  year: number;
+  month: number;
+  total: number;
 }
