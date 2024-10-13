@@ -1,7 +1,8 @@
+import { API_BASE_URL_BADR_PTM } from "@/helpers/config";
 import { useQuery } from "@tanstack/react-query";
 import { client } from "../client";
 
-const baseUrl = `${process.env.NEXT_PUBLIC_API_BASE_URL}/diagnose-monitoring`;
+const baseUrl = `${API_BASE_URL_BADR_PTM}/diagnose-monitoring`;
 
 const fetchTotalParticipant = async ({ query = {} }) => {
   return client("/total-participant", {
@@ -140,12 +141,12 @@ const usePPOK = ({ query = {}, options }: any = {}) => {
 };
 
 export {
+  useBloodDisorder,
+  useDisease,
+  useHearingDisorder,
+  usePPOK,
+  useThalassema,
   useTotalParticipant,
   useTotalVisitation,
-  useDisease,
-  useBloodDisorder,
-  useThalassema,
-  useHearingDisorder,
   useVisualDisorder,
-  usePPOK,
 };

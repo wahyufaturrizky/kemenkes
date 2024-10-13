@@ -1,7 +1,8 @@
+import { API_BASE_URL_BADR_PTM } from "@/helpers/config";
 import { useQuery } from "@tanstack/react-query";
 import { client } from "../client";
 
-const baseUrl = `${process.env.NEXT_PUBLIC_API_BASE_URL}/risk-factor-analysis`;
+const baseUrl = `${API_BASE_URL_BADR_PTM}/risk-factor-analysis`;
 
 const fetchTotalParticipant = async ({ query = {} }) => {
   return client("/total-participant", {
@@ -89,9 +90,9 @@ const useActivityBasedOnRegion = ({ query = {}, options }: any = {}) => {
 };
 
 export {
+  useActivityBasedOnRegion,
+  useActivityCheckDistribution,
+  useActivityPyramid,
   useTotalParticipant,
   useTotalVisitation,
-  useActivityPyramid,
-  useActivityCheckDistribution,
-  useActivityBasedOnRegion,
 };
