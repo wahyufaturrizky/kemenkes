@@ -186,18 +186,56 @@ export default function AnalisisDiagnosaPTM() {
     },
   });
 
-  const { data: dataTotalParticipant, isPending: isPendingTotalParticipant } =
-    useTotalParticipant();
-  const { data: dataTotalVisitation, isPending: isPendingTotalVisitation } = useTotalVisitation();
-  const { data: dataActivityPyramid, isPending: isPendingActivityPyramid } = useActivityPyramid();
+  const { data: dataTotalParticipant, isPending: isPendingTotalParticipant } = useTotalParticipant({
+    query: {
+      year: filter.tahun,
+      month: filter.bulan,
+      province: filter.provinsi,
+      city: filter.kabkota,
+      sub_district: filter.kecamatan,
+    },
+  });
+  const { data: dataTotalVisitation, isPending: isPendingTotalVisitation } = useTotalVisitation({
+    query: {
+      year: filter.tahun,
+      month: filter.bulan,
+      province: filter.provinsi,
+      city: filter.kabkota,
+      sub_district: filter.kecamatan,
+    },
+  });
+  const { data: dataActivityPyramid, isPending: isPendingActivityPyramid } = useActivityPyramid({
+    query: {
+      year: filter.tahun,
+      month: filter.bulan,
+      province: filter.provinsi,
+      city: filter.kabkota,
+      sub_district: filter.kecamatan,
+    },
+  });
   const { data: dataActivityCheckDistribution, isPending: isPendingActivityCheckDistribution } =
-    useActivityCheckDistribution();
+    useActivityCheckDistribution({
+      query: {
+        year: filter.tahun,
+        month: filter.bulan,
+        province: filter.provinsi,
+        city: filter.kabkota,
+        sub_district: filter.kecamatan,
+      },
+    });
   const { data: dataActivityBasedOnRegion, isPending: isPendingActivityBasedOnRegion } =
-    useActivityBasedOnRegion();
+    useActivityBasedOnRegion({
+      query: {
+        year: filter.tahun,
+        month: filter.bulan,
+        province: filter.provinsi,
+        city: filter.kabkota,
+        sub_district: filter.kecamatan,
+      },
+    });
 
   return (
     <div className={`flex flex-col items-center p-[30px]  ${styles.jakartaFont}`}>
-      {" "}
       <Header
         title={`Dashboard\nCapaian SATUSEHAT`}
         subtitle="Kesehatan Anak Usia Sekolah dan Remaja"

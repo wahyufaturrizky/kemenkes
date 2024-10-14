@@ -56,6 +56,7 @@ export default function MonitoringDiagnosaPTM() {
     tipe_vaksin5: "bias",
     tren_type: "kumulatif",
   });
+  const [filter] = filterState;
 
   const isBrowser = typeof window !== "undefined";
   const chartOptions: any = {
@@ -114,16 +115,80 @@ export default function MonitoringDiagnosaPTM() {
       },
     ],
   };
+  console.log("@filterState", filterState);
 
-  const { data: dataTotalParticipant, isPending: isPendingTotalParticipant } =
-    useTotalParticipant();
-  const { data: dataTotalVisitation, isPending: isPendingTotalVisitation } = useTotalVisitation();
-  const { data: dataDisease, isPending: isPendingDisease } = useDisease();
-  const { data: dataBloodDisorder, isPending: isPendingBloodDisorder } = useBloodDisorder();
-  const { data: dataThalassema, isPending: isPendingThalassema } = useThalassema();
-  const { data: dataHearingDisorder, isPending: isPendingHearingDisorder } = useHearingDisorder();
-  const { data: dataVisualDisorder, isPending: isPendingVisualDisorder } = useVisualDisorder();
-  const { data: datausePPOK, isPending: isPendingusePPOK } = usePPOK();
+  const { data: dataTotalParticipant, isPending: isPendingTotalParticipant } = useTotalParticipant({
+    query: {
+      year: filter.tahun,
+      month: filter.bulan,
+      province: filter.provinsi,
+      city: filter.kabkota,
+      sub_district: filter.kecamatan,
+    },
+  });
+  const { data: dataTotalVisitation, isPending: isPendingTotalVisitation } = useTotalVisitation({
+    query: {
+      year: filter.tahun,
+      month: filter.bulan,
+      province: filter.provinsi,
+      city: filter.kabkota,
+      sub_district: filter.kecamatan,
+    },
+  });
+  const { data: dataDisease, isPending: isPendingDisease } = useDisease({
+    query: {
+      year: filter.tahun,
+      month: filter.bulan,
+      province: filter.provinsi,
+      city: filter.kabkota,
+      sub_district: filter.kecamatan,
+    },
+  });
+  const { data: dataBloodDisorder, isPending: isPendingBloodDisorder } = useBloodDisorder({
+    query: {
+      year: filter.tahun,
+      month: filter.bulan,
+      province: filter.provinsi,
+      city: filter.kabkota,
+      sub_district: filter.kecamatan,
+    },
+  });
+  const { data: dataThalassema, isPending: isPendingThalassema } = useThalassema({
+    query: {
+      year: filter.tahun,
+      month: filter.bulan,
+      province: filter.provinsi,
+      city: filter.kabkota,
+      sub_district: filter.kecamatan,
+    },
+  });
+  const { data: dataHearingDisorder, isPending: isPendingHearingDisorder } = useHearingDisorder({
+    query: {
+      year: filter.tahun,
+      month: filter.bulan,
+      province: filter.provinsi,
+      city: filter.kabkota,
+      sub_district: filter.kecamatan,
+    },
+  });
+  const { data: dataVisualDisorder, isPending: isPendingVisualDisorder } = useVisualDisorder({
+    query: {
+      year: filter.tahun,
+      month: filter.bulan,
+      province: filter.provinsi,
+      city: filter.kabkota,
+      sub_district: filter.kecamatan,
+    },
+  });
+  const { data: datausePPOK, isPending: isPendingusePPOK } = usePPOK({
+    query: {
+      year: filter.tahun,
+      month: filter.bulan,
+      province: filter.provinsi,
+      city: filter.kabkota,
+      sub_district: filter.kecamatan,
+    },
+  });
 
   return (
     <div className={`flex flex-col items-center p-[30px]  ${styles.jakartaFont}`}>

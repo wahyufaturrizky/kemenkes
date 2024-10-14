@@ -171,13 +171,62 @@ export default function MonitoringFaktorRisiko() {
       },
     ],
   };
+  console.log("@filter", filter);
 
-  const { data: dataTotalParticipant, isPending: isPendingTotalParticipant } =
-    useTotalParticipant();
-  const { data: dataTotalVisitation, isPending: isPendingTotalVisitation } = useTotalVisitation();
-  const { data: dataActivity, isPending: isPendingActivity } = useActivity();
-  const { data: dataConsumption, isPending: isPendingConsumption } = useConsumption();
-  const { data: dataSmoking, isPending: isPendingSmoking } = useSmoking();
+  const { data: dataTotalParticipant, isPending: isPendingTotalParticipant } = useTotalParticipant({
+    query: {
+      year: filter.tahun,
+      month: filter.bulan,
+      province: filter.provinsi,
+      city: filter.kabkota,
+      sub_district: filter.kecamatan,
+    },
+  });
+  const { data: dataTotalVisitation, isPending: isPendingTotalVisitation } = useTotalVisitation({
+    query: {
+      year: filter.tahun,
+      month: filter.bulan,
+      province: filter.provinsi,
+      city: filter.kabkota,
+      sub_district: filter.kecamatan,
+    },
+  });
+  const { data: dataActivity, isPending: isPendingActivity } = useActivity({
+    query: {
+      year: filter.tahun,
+      month: filter.bulan,
+      province: filter.provinsi,
+      city: filter.kabkota,
+      sub_district: filter.kecamatan,
+    },
+  });
+  const { data: dataConsumption, isPending: isPendingConsumption } = useConsumption({
+    query: {
+      year: filter.tahun,
+      month: filter.bulan,
+      province: filter.provinsi,
+      city: filter.kabkota,
+      sub_district: filter.kecamatan,
+    },
+  });
+  const { data: dataSmoking, isPending: isPendingSmoking } = useSmoking({
+    query: {
+      year: filter.tahun,
+      month: filter.bulan,
+      province: filter.provinsi,
+      city: filter.kabkota,
+      sub_district: filter.kecamatan,
+    },
+  });
+
+  const { total_participant_based_on_gender } = dataTotalParticipant?.data?.data ?? {};
+  const {
+    all_total,
+    total: totalMale,
+    percentage: percentageMale,
+  } = total_participant_based_on_gender?.[0] ?? {};
+  const { total: totalFemale, percentage: percentageFemale } =
+    total_participant_based_on_gender?.[1] ?? {};
 
   return (
     <div className={`flex flex-col items-center p-[30px]  ${styles.jakartaFont}`}>
@@ -228,14 +277,7 @@ export default function MonitoringFaktorRisiko() {
               </div>
               <p className="text-xl font-normal">Jumlah Peserta</p>
               <p className="text-4xl font-normal">
-                {isPendingTotalParticipant
-                  ? "Loading..."
-                  : formatNumber(
-                      Number(
-                        dataTotalParticipant?.data?.data?.total_participant_based_on_gender?.[0]
-                          ?.all_total
-                      )
-                    )}
+                {isPendingTotalParticipant ? "Loading..." : formatNumber(Number(all_total))}
               </p>
             </div>
             <div className="rounded-2xl row-span-7 border border-[#D6D6D6] px-4 py-8 flex flex-col justify-between h-full">
@@ -244,25 +286,13 @@ export default function MonitoringFaktorRisiko() {
                 <div className="col-span-4 text-center">
                   <p className="text-[#3BC6BE] font-semibold mb-7">Laki-laki</p>
                   <p className="font-semibold text-[#616161]">
-                    {isPendingTotalParticipant
-                      ? "Loading..."
-                      : formatNumber(
-                          Number(
-                            dataTotalParticipant?.data?.data?.total_participant_based_on_gender?.[0]
-                              ?.total
-                          )
-                        )}
+                    {isPendingTotalParticipant ? "Loading..." : formatNumber(Number(totalMale))}
                   </p>
                   <p className="font-light text-[#616161]">
                     (
                     {isPendingTotalParticipant
                       ? "Loading..."
-                      : formatPercentage(
-                          Number(
-                            dataTotalParticipant?.data?.data?.total_participant_based_on_gender?.[0]
-                              ?.percentage
-                          )
-                        )}
+                      : formatPercentage(Number(percentageMale))}
                     %)
                   </p>
                 </div>
@@ -272,25 +302,13 @@ export default function MonitoringFaktorRisiko() {
                 <div className="col-span-4 text-center">
                   <p className="text-[#CF3E53] font-semibold mb-7">Perempuan</p>
                   <p className="font-semibold text-[#616161]">
-                    {isPendingTotalParticipant
-                      ? "Loading..."
-                      : formatNumber(
-                          Number(
-                            dataTotalParticipant?.data?.data?.total_participant_based_on_gender?.[1]
-                              ?.total
-                          )
-                        )}
+                    {isPendingTotalParticipant ? "Loading..." : formatNumber(Number(totalFemale))}
                   </p>
                   <p className="font-light text-[#616161]">
                     (
                     {isPendingTotalParticipant
                       ? "Loading..."
-                      : formatPercentage(
-                          Number(
-                            dataTotalParticipant?.data?.data?.total_participant_based_on_gender?.[1]
-                              ?.percentage
-                          )
-                        )}
+                      : formatPercentage(Number(percentageFemale))}
                     %)
                   </p>
                 </div>
@@ -301,22 +319,14 @@ export default function MonitoringFaktorRisiko() {
                     {
                       color: "#CF3E53",
                       label: "Perempuan",
-                      value:
-                        dataTotalParticipant?.data?.data?.total_participant_based_on_gender?.[1]
-                          ?.total,
-                      percentage:
-                        dataTotalParticipant?.data?.data?.total_participant_based_on_gender?.[1]
-                          ?.percentage,
+                      value: totalFemale,
+                      percentage: percentageFemale,
                     },
                     {
                       color: "#3BC6BE",
                       label: "Laki-laki",
-                      value:
-                        dataTotalParticipant?.data?.data?.total_participant_based_on_gender?.[0]
-                          ?.total,
-                      percentage:
-                        dataTotalParticipant?.data?.data?.total_participant_based_on_gender?.[0]
-                          ?.percentage,
+                      value: totalMale,
+                      percentage: percentageMale,
                     },
                   ]}
                 />

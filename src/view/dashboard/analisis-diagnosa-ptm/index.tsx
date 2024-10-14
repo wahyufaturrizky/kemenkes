@@ -190,21 +190,84 @@ export default function AnalisisFaktorRisiko() {
     },
   });
 
-  const { data: dataTotalParticipant, isPending: isPendingTotalParticipant } =
-    useTotalParticipant();
-  const { data: dataTotalVisitation, isPending: isPendingTotalVisitation } = useTotalVisitation();
+  const { data: dataTotalParticipant, isPending: isPendingTotalParticipant } = useTotalParticipant({
+    query: {
+      year: filter.tahun,
+      month: filter.bulan,
+      province: filter.provinsi,
+      city: filter.kabkota,
+      sub_district: filter.kecamatan,
+    },
+  });
+  const { data: dataTotalVisitation, isPending: isPendingTotalVisitation } = useTotalVisitation({
+    query: {
+      year: filter.tahun,
+      month: filter.bulan,
+      province: filter.provinsi,
+      city: filter.kabkota,
+      sub_district: filter.kecamatan,
+    },
+  });
   const { data: dataHypertensionPyramid, isPending: isPendingHypertensionPyramid } =
-    useHypertensionPyramid();
+    useHypertensionPyramid({
+      query: {
+        year: filter.tahun,
+        month: filter.bulan,
+        province: filter.provinsi,
+        city: filter.kabkota,
+        sub_district: filter.kecamatan,
+      },
+    });
   const { data: dataHypertensionDistributionMap, isPending: isPendingHypertensionDistributionMap } =
-    useHypertensionDistributionMap();
+    useHypertensionDistributionMap({
+      query: {
+        year: filter.tahun,
+        month: filter.bulan,
+        province: filter.provinsi,
+        city: filter.kabkota,
+        sub_district: filter.kecamatan,
+      },
+    });
   const { data: dataPatientUnderTreatment, isPending: isPendingPatientUnderTreatment } =
-    usePatientUnderTreatment();
+    usePatientUnderTreatment({
+      query: {
+        year: filter.tahun,
+        month: filter.bulan,
+        province: filter.provinsi,
+        city: filter.kabkota,
+        sub_district: filter.kecamatan,
+      },
+    });
   const { data: dataPatientLostFollowUp, isPending: isPendingPatientLostFollowUp } =
-    usePatientLostFollowUp();
+    usePatientLostFollowUp({
+      query: {
+        year: filter.tahun,
+        month: filter.bulan,
+        province: filter.provinsi,
+        city: filter.kabkota,
+        sub_district: filter.kecamatan,
+      },
+    });
   const { data: dataControlledPatientIn3Month, isPending: isPendingControlledPatientIn3Month } =
-    useControlledPatientIn3Month();
+    useControlledPatientIn3Month({
+      query: {
+        year: filter.tahun,
+        month: filter.bulan,
+        province: filter.provinsi,
+        city: filter.kabkota,
+        sub_district: filter.kecamatan,
+      },
+    });
   const { data: dataUncontrolledPatientIn3Month, isPending: isPendingUncontrolledPatientIn3Month } =
-    useUncontrolledPatientIn3Month();
+    useUncontrolledPatientIn3Month({
+      query: {
+        year: filter.tahun,
+        month: filter.bulan,
+        province: filter.provinsi,
+        city: filter.kabkota,
+        sub_district: filter.kecamatan,
+      },
+    });
 
   return (
     <div className={`flex flex-col items-center p-[30px]  ${styles.jakartaFont}`}>
