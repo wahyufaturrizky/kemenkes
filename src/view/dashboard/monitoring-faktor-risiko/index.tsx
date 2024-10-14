@@ -26,9 +26,18 @@ import {
   useTotalParticipant,
   useTotalVisitation,
 } from "@/lib/services/monitoring-faktor-risiko/useMonitoringFaktorRisiko";
-import { dataMonth } from "@/utils/constants";
+import { formatPercentage, removeEmptyKeys } from "@/lib/utils";
+import { dataMonths } from "@/utils/constants";
 import { initFilterSelamatDatang } from "@/view/dashboard/monitoring-faktor-risiko/init-value";
+import {
+  formatChartBreakdownJenisKelamin,
+  formatChartTrenBulananJumlahPeserta,
+  accumulatorData,
+  labelGayaHidup,
+  labelMerokok,
+} from "@/view/dashboard/monitoring-faktor-risiko/util";
 import FilterMonitoringFaktorRisiko from "@/view/home/components/FilterMonitoringFaktorRisiko";
+import { Spin } from "antd";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { IoMdArrowForward, IoMdInformationCircleOutline } from "react-icons/io";
@@ -36,7 +45,13 @@ import styles from "../anc/anc.module.css";
 import BoxSelected from "./BoxSelected";
 import TableMonitoringFaktorRisiko from "./tableMonitoringFaktorRisiko";
 import { FormValuesMonitoringFaktorRisiko } from "./type";
-import { formatPercentage, removeEmptyKeys } from "@/lib/utils";
+import {
+  DataTotalParticipantType,
+  DataActivityType,
+  ListSubType,
+  DataConsumptionType,
+  DataSmokingType,
+} from "@/view/dashboard/monitoring-faktor-risiko/type";
 
 export default function MonitoringFaktorRisiko() {
   const { control, reset } = useForm<FormValuesMonitoringFaktorRisiko>({
@@ -49,7 +64,8 @@ export default function MonitoringFaktorRisiko() {
   const filterState = useState({
     tahun: 2023,
     // tahun: new Date().getFullYear(),
-    bulan: dataMonth.find((r, i) => i === new Date().getMonth())?.value,
+    // bulan: dataMonth.find((r, i) => i === new Date().getMonth())?.value,
+    bulan: "",
     provinsi: "",
     kabkota: "",
     kecamatan: "",
@@ -67,18 +83,17 @@ export default function MonitoringFaktorRisiko() {
     tipe_vaksin5: "bias",
     tren_type: "kumulatif",
   });
-  const [filter] = filterState;
+  const [filter, setFilter] = filterState;
+  const { tahun, bulan, provinsi, kabkota, kecamatan } = filter;
 
   const dateQuery = {
-    year: filter.tahun,
-    month: filter.bulan,
+    year: tahun,
+    month: bulan,
   };
 
   const optionQuery = {
     refetchOnMountOrArgChange: true,
-    skip:
-      !filter.tahun ||
-      (!filter.bulan && (!filter.provinsi || !filter.kabkota || !filter.kecamatan)),
+    skip: !filter.tahun || (!bulan && (!provinsi || !kabkota || !kecamatan)),
   };
 
   const { data: BodyMassIndexAge, isFetching: isLoadingBodyMassIndexAge } =
@@ -115,62 +130,6 @@ export default function MonitoringFaktorRisiko() {
     useGetCigaretteSmokingQuery(dateQuery, optionQuery);
 
   const isBrowser = typeof window !== "undefined";
-  const chartOptions: any = {
-    tooltip: {
-      trigger: "item",
-    },
-    legend: {
-      top: "5%",
-      left: "center",
-      show: false,
-    },
-    series: [
-      {
-        name: "Access From",
-        type: "pie",
-        top: isBrowser && window?.innerWidth >= 2500 ? "-120px" : "-180px",
-        radius: ["40%", "50%"],
-        avoidLabelOverlap: false,
-        label: {
-          show: false,
-          position: "center",
-        },
-        labelLine: {
-          show: false,
-        },
-        data: [
-          { value: 65, name: "Laki-laki" },
-          { value: 35, name: "Perempuan" },
-        ],
-      },
-    ],
-  };
-
-  const chartOptions2: any = {
-    color: ["#006A65"],
-    tooltip: {
-      trigger: "item",
-      formatter: function (params: any) {
-        return `${params.marker} ${params.name}: ${formatNumber(params.value)}`;
-      },
-    },
-    xAxis: {
-      type: "category",
-      data: dataMonth.map((data: any) => data.label.slice(0, 3)),
-      axisLabel: {
-        interval: 0,
-      },
-    },
-    yAxis: {
-      type: "value",
-    },
-    series: [
-      {
-        data: [2, 3, 4, 5, 6, 7, 8, 9, 10, 1, 2, 3],
-        type: "line",
-      },
-    ],
-  };
 
   const { data: dataTotalParticipant, isPending: isPendingTotalParticipant } = useTotalParticipant({
     query: removeEmptyKeys(filter),
@@ -188,7 +147,8 @@ export default function MonitoringFaktorRisiko() {
     query: removeEmptyKeys(filter),
   });
 
-  const { total_participant_based_on_gender } = dataTotalParticipant?.data?.data ?? {};
+  const { total_participant_based_on_gender, total_participant_based_on_time } =
+    dataTotalParticipant?.data?.data ?? {};
   const {
     all_total,
     total: totalMale,
@@ -196,6 +156,11 @@ export default function MonitoringFaktorRisiko() {
   } = total_participant_based_on_gender?.[0] ?? {};
   const { total: totalFemale, percentage: percentageFemale } =
     total_participant_based_on_gender?.[1] ?? {};
+
+  const { data: activityData } = dataActivity?.data ?? {};
+
+  const consumptionData: DataConsumptionType | {} = dataConsumption?.data?.data ?? {};
+  const smokingData: DataSmokingType | {} = dataSmoking?.data?.data ?? {};
 
   return (
     <div className={`flex flex-col items-center p-[30px]  ${styles.jakartaFont}`}>
@@ -265,8 +230,15 @@ export default function MonitoringFaktorRisiko() {
                     %)
                   </p>
                 </div>
-                <div className="col-span-4 h-[100px]">
-                  <GraphEcharts graphOptions={chartOptions} />
+                <div className="col-span-4 h-[300px]">
+                  <GraphEcharts
+                    showLoading={isPendingTotalParticipant}
+                    graphOptions={formatChartBreakdownJenisKelamin({
+                      isBrowser,
+                      totalFemale,
+                      totalMale,
+                    })}
+                  />
                 </div>
                 <div className="col-span-4 text-center">
                   <p className="text-[#CF3E53] font-semibold mb-7">Perempuan</p>
@@ -283,22 +255,28 @@ export default function MonitoringFaktorRisiko() {
                 </div>
               </div>
               <div className="mt-[10px]">
-                <Progress
-                  data={[
-                    {
-                      color: "#CF3E53",
-                      label: "Perempuan",
-                      value: totalFemale,
-                      percentage: percentageFemale,
-                    },
-                    {
-                      color: "#3BC6BE",
-                      label: "Laki-laki",
-                      value: totalMale,
-                      percentage: percentageMale,
-                    },
-                  ]}
-                />
+                {isPendingTotalParticipant ? (
+                  <div className="w-full flex justify-center">
+                    <Spin tip="Loading..." />
+                  </div>
+                ) : (
+                  <Progress
+                    data={[
+                      {
+                        color: "#CF3E53",
+                        label: "Perempuan",
+                        value: totalFemale,
+                        percentage: percentageFemale,
+                      },
+                      {
+                        color: "#3BC6BE",
+                        label: "Laki-laki",
+                        value: totalMale,
+                        percentage: percentageMale,
+                      },
+                    ]}
+                  />
+                )}
               </div>
             </div>
           </div>
@@ -308,18 +286,35 @@ export default function MonitoringFaktorRisiko() {
             <p className="font-semibold text-xl">
               Tren Bulanan Jumlah <span className="text-[#006A65]">Peserta</span>
               <br />
-              Tahun 2024
+              Tahun {tahun}
             </p>
             <div>
               <p className="text-sm mb-2">Parameter</p>
-              <Select placeholder="Bulanan" />
+              <Select
+                placeholder="Bulanan"
+                options={dataMonths}
+                onChange={(e: any) => {
+                  setFilter({
+                    ...filter,
+                    bulan: e?.value,
+                  });
+                }}
+                value={dataMonths?.find((f) => f.value === bulan)}
+                isDisabled={!tahun}
+              />
             </div>
           </div>
           <div className="relative h-[full] ">
             <p className="[writing-mode:vertical-rl] [transform:rotate(180deg)] absolute top-28 left-4 font-semibold text-xs text-[#616161]">
               Kunjungan [juta]
             </p>
-            <GraphEcharts graphOptions={chartOptions2} opts={{ height: 400 }} />
+            <GraphEcharts
+              showLoading={isPendingTotalParticipant}
+              graphOptions={formatChartTrenBulananJumlahPeserta({
+                total_participant_based_on_time,
+              })}
+              opts={{ height: 400 }}
+            />
           </div>
           <div className="w-full flex justify-end items-end mt-20">
             <DownloadButton text="Unduh Excel" />
@@ -332,209 +327,83 @@ export default function MonitoringFaktorRisiko() {
       />
       <div className="grid grid-cols-12 w-full gap-3 mt-5">
         <CardPemeriksaan
-          label="IMT/U"
-          value={7015619}
-          pct="57.5"
-          data={BodyMassIndexAge?.data?.map((data: any) => ({
-            color:
-              data.bmi_category === "Gizi Baik"
-                ? "#27A762"
-                : data.bmi_category === "Gizi Kurang"
-                ? "#FFEE16"
-                : data.bmi_category === "Gizi Buruk"
-                ? "#F3B239"
-                : data.bmi_category === "Gizi Lebih"
-                ? "#FF8800"
-                : data.bmi_category === "Obesitas"
-                ? "#CF3E53"
-                : "#000000", // Warna default jika kategori tidak cocok
-            label: data.bmi_category,
-            value: data.total, // Sesuaikan sesuai dengan data Anda
-            percentage: data.percentage, // Sesuaikan sesuai dengan data Anda
-          }))}
+          label="Aktivitas fisik"
+          value={Number(accumulatorData(activityData, "total"))}
+          pct={String(formatPercentage(Number(accumulatorData(activityData, "percentage"))))}
+          data={activityData?.map((itemAct: DataActivityType) => {
+            const { activity_type, total, percentage } = itemAct;
+            return {
+              color:
+                activity_type === "Setiap Hari"
+                  ? "#27A762"
+                  : activity_type === "Tidak Setiap Hari"
+                  ? "#FFEE16"
+                  : "#000000",
+              label: activity_type,
+              value: total,
+              percentage: formatPercentage(percentage),
+            };
+          })}
         />
-        <CardPemeriksaan
-          label="Tekanan Darah"
-          value={7015619}
-          pct="57.5"
-          data={BloodPresure?.data?.map((data: any) => ({
-            color:
-              data.hypertension_risk === "Hipertensi Tingkat 1"
-                ? "#FF8800"
-                : data.hypertension_risk === "Hipertensi Tingkat 2"
-                ? "#CF3E53"
-                : data.hypertension_risk === "Gizi Buruk"
-                ? "#F3B239"
-                : data.hypertension_risk === "Gizi Lebih"
-                ? "#FF8800"
-                : data.hypertension_risk === "Obesitas"
-                ? "#CF3E53"
-                : "#000000", // Warna default jika kategori tidak cocok
-            label: data.hypertension_risk,
-            value: data.total, // Sesuaikan sesuai dengan data Anda
-            percentage: data.percentage, // Sesuaikan sesuai dengan data Anda
-          }))}
-        />
-        <CardPemeriksaan
-          label="Skrining Penglihatan"
-          value={7015619}
-          pct="57.5"
-          data={Vision?.data?.map((data: any) => ({
-            color:
-              data.vision === "Normal"
-                ? "#27A762"
-                : data.vision === "Gizi Kurang"
-                ? "#FFEE16"
-                : data.vision === "Gizi Buruk"
-                ? "#F3B239"
-                : data.vision === "Gizi Lebih"
-                ? "#FF8800"
-                : data.vision === "Obesitas"
-                ? "#CF3E53"
-                : "#000000", // Warna default jika kategori tidak cocok
-            label: data.vision,
-            value: data.total, // Sesuaikan sesuai dengan data Anda
-            percentage: data.percentage, // Sesuaikan sesuai dengan data Anda
-          }))}
-        />
-        <CardPemeriksaan
-          label="Pendengaran"
-          value={7015619}
-          pct="57.5"
-          data={Hearing?.data?.map((data: any) => ({
-            color:
-              data.hearing === "Normal"
-                ? "#27A762"
-                : data.hearing === "Bermasalah"
-                ? "#CF3E53"
-                : "#000000",
-            label: data.hearing,
-            value: data.total,
-            percentage: data.percentage,
-          }))}
-        />
-        <CardPemeriksaan
-          label="Skrining Kesehatan Jiwa"
-          value={7015619}
-          pct="57.5"
-          data={MentalHealth?.data?.map((data: any) => ({
-            color:
-              data.mental_health === "Normal"
-                ? "#27A762"
-                : data.mental_health === "Borderline"
-                ? "#FFEE16"
-                : data.mental_health === "Abnormal"
-                ? "#CF3E53"
-                : "#000000",
-            label: data.mental_health,
-            value: data.total,
-            percentage: data.percentage,
-          }))}
-        />
-        <CardPemeriksaan
-          label="Skrining Napza"
-          value={7015619}
-          pct="57.5"
-          data={NapzaScreening?.data?.map((data: any) => ({
-            color:
-              data.napza_risk === "Tidak Beresiko Napza"
-                ? "#27A762"
-                : data.napza_risk === "Beresiko Napza"
-                ? "#CF3E53"
-                : "#000000",
-            label: data.napza_risk,
-            value: data.total,
-            percentage: data.percentage,
-          }))}
-        />
-        <CardPemeriksaan
-          label="Kesehatan Gigi & Mulut"
-          value={7015619}
-          pct="57.5"
-          data={Health?.data?.map((data: any) => ({
-            color:
-              data.health === "Tidak Beresiko Napza"
-                ? "#27A762"
-                : data.health === "Beresiko Napza"
-                ? "#CF3E53"
-                : "#000000",
-            label: data.health,
-            value: data.total,
-            percentage: data.percentage,
-          }))}
-        />
-        <CardPemeriksaan
-          label="Kebugaran"
-          value={7015619}
-          pct="57.5"
-          data={Fitness?.data?.map((data: any) => ({
-            color:
-              data.fitness === "Baik"
-                ? "#32DE81"
-                : data.fitness === "Cukup"
-                ? "#FFEE16"
-                : data.fitness === "Kurang"
-                ? "#FF8800"
-                : "#000000",
-            label: data.fitness,
-            value: data.total,
-            percentage: data.percentage,
-          }))}
-        />
-        <CardPemeriksaan
-          label="Skiring Anemia"
-          value={7015619}
-          pct="57.5"
-          data={AnemiaScreening?.data?.map((data: any) => ({
-            color:
-              data.anemia_risk === "Tidak Anemia"
-                ? "#27A762"
-                : data.anemia_risk === "Anemia Ringan"
-                ? "#FFEE16"
-                : data.anemia_risk === "Anemia Sedang"
-                ? "#F3B239"
-                : data.anemia_risk === "Anemia Berat"
-                ? "#CF3E53"
-                : "#000000",
-            label: data.anemia_risk,
-            value: data.total,
-            percentage: data.percentage,
-          }))}
-          textBlue
-        />
-        <CardPemeriksaan
-          label="Faktor Risiko Merokok"
-          value={7015619}
-          pct="57.5"
-          data={Smoking?.data?.map((data: any) => ({
-            color:
-              data.smoking === "Tidak Merokok"
-                ? "#27A762"
-                : data.smoking === "Merokok"
-                ? "#CF3E53"
-                : "#000000",
-            label: data.smoking,
-            value: data.total,
-            percentage: data.percentage,
-          }))}
-        />
-        <CardPemeriksaan
-          label="Paparan Asap Rokok"
-          value={7015619}
-          pct="57.5"
-          data={CigaretteSmoking?.data?.map((data: any) => ({
-            color:
-              data.cigarette_smoking === "Tidak Terpapar"
-                ? "#27A762"
-                : data.cigarette_smoking === "Terpapar"
-                ? "#CF3E53"
-                : "#000000",
-            label: data.cigarette_smoking,
-            value: data.total,
-            percentage: data.percentage,
-          }))}
-          textBlue
-        />
+        {Object.keys(consumptionData || {}).map((itemConsumtion: any) => {
+          return (
+            <CardPemeriksaan
+              label={labelGayaHidup[itemConsumtion]}
+              value={Number(accumulatorData((consumptionData as any)[itemConsumtion], "total"))}
+              pct={String(
+                formatPercentage(
+                  Number(accumulatorData((consumptionData as any)[itemConsumtion], "percentage"))
+                )
+              )}
+              data={(consumptionData as any)[itemConsumtion]?.map((itemFruit: ListSubType) => {
+                const { status, total, percentage } = itemFruit;
+                return {
+                  color:
+                    status === "Setiap Hari"
+                      ? "#FF8800"
+                      : status === "Tidak Setiap Hari"
+                      ? "#CF3E53"
+                      : "#000000",
+                  label: status,
+                  value: total,
+                  percentage: formatPercentage(percentage),
+                };
+              })}
+            />
+          );
+        })}
+
+        {Object.keys(smokingData || {}).map((itemConsumtion: any) => {
+          return (
+            <CardPemeriksaan
+              label={labelMerokok[itemConsumtion]}
+              value={Number(accumulatorData((smokingData as any)[itemConsumtion], "total"))}
+              pct={String(
+                formatPercentage(
+                  Number(accumulatorData((smokingData as any)[itemConsumtion], "percentage"))
+                )
+              )}
+              data={(smokingData as any)[itemConsumtion]?.map((itemFruit: ListSubType) => {
+                const { status, total, percentage } = itemFruit;
+                return {
+                  color:
+                    status === "Berhenti < 10 Tahun"
+                      ? "#FF8800"
+                      : status === "Merokok"
+                      ? "#CF3E53"
+                      : status === "Perokok Aktif"
+                      ? "#27A762"
+                      : status === "Perokok Pasif"
+                      ? "#FFEE16"
+                      : "#000000",
+                  label: status,
+                  value: total,
+                  percentage: formatPercentage(percentage),
+                };
+              })}
+            />
+          );
+        })}
       </div>
 
       <TableMonitoringFaktorRisiko titleTable="Tabel Data Agregat" />

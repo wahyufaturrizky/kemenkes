@@ -1,7 +1,12 @@
 import { API_BASE_URL_BADR_PTM } from "@/helpers/config";
 import { useQuery, UseQueryResult } from "@tanstack/react-query";
 import { client } from "../client";
-import { DataResponsTotalParticipantType } from "@/view/dashboard/monitoring-faktor-risiko/type";
+import {
+  DataResponeTotalParticipantType,
+  DataResponseActivityType,
+  DataResponseConsumptionType,
+  DataResponseSmokingType,
+} from "@/view/dashboard/monitoring-faktor-risiko/type";
 
 const baseUrl = `${API_BASE_URL_BADR_PTM}/risk-factor-monitoring`;
 
@@ -15,7 +20,7 @@ const fetchTotalParticipant = async ({ query = {} }) => {
 };
 
 const useTotalParticipant = ({ query = {}, options }: any = {}): UseQueryResult<
-  DataResponsTotalParticipantType,
+  DataResponeTotalParticipantType,
   Error
 > => {
   return useQuery({
@@ -51,7 +56,10 @@ const fetchActivity = async ({ query = {} }) => {
   }).then((data) => data);
 };
 
-const useActivity = ({ query = {}, options }: any = {}) => {
+const useActivity = ({ query = {}, options }: any = {}): UseQueryResult<
+  DataResponseActivityType,
+  Error
+> => {
   return useQuery({
     queryKey: ["activity", query],
     queryFn: () => fetchActivity({ query }),
@@ -68,7 +76,10 @@ const fetchConsumption = async ({ query = {} }) => {
   }).then((data) => data);
 };
 
-const useConsumption = ({ query = {}, options }: any = {}) => {
+const useConsumption = ({ query = {}, options }: any = {}): UseQueryResult<
+  DataResponseConsumptionType,
+  Error
+> => {
   return useQuery({
     queryKey: ["consumption", query],
     queryFn: () => fetchConsumption({ query }),
@@ -85,7 +96,10 @@ const fetchSmoking = async ({ query = {} }) => {
   }).then((data) => data);
 };
 
-const useSmoking = ({ query = {}, options }: any = {}) => {
+const useSmoking = ({ query = {}, options }: any = {}): UseQueryResult<
+  DataResponseSmokingType,
+  Error
+> => {
   return useQuery({
     queryKey: ["smoking", query],
     queryFn: () => fetchSmoking({ query }),

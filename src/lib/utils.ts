@@ -1,4 +1,9 @@
 import { RootState } from "@/lib/store";
+import { dataMonths } from "@/utils/constants";
+import {
+  dataMonthsType,
+  TotalParticipantBasedOnTimeType,
+} from "@/view/dashboard/monitoring-faktor-risiko/type";
 
 // Define the selector function
 export const memoizedSelector = (() => {
@@ -57,4 +62,16 @@ export const removeEmptyKeys = (filter: any) => {
   };
 
   return Object.fromEntries(Object.entries(obj).filter(([_, v]) => v != null && v !== ""));
+};
+
+export const formatDateChart = (dateFromApi: TotalParticipantBasedOnTimeType[]) => {
+  const res = dataMonths
+    .filter((item: dataMonthsType) =>
+      dateFromApi
+        ?.map((itemMonth: TotalParticipantBasedOnTimeType) => String(itemMonth.month))
+        .includes(String(item.value))
+    )
+    .map((resFilter: dataMonthsType) => resFilter.label.slice(0, 3));
+
+  return res;
 };

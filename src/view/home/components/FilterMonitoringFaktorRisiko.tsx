@@ -94,7 +94,7 @@ const FilterMonitoringFaktorRisiko: React.FC<FilterProps> = ({ filterState }) =>
                 bulan: e?.value,
               });
             }}
-            value={filter.bulan ? dataMonths?.find((f) => f.value === filter.bulan) : filter.bulan}
+            value={dataMonths?.find((f) => f.value === filter.bulan)}
             isDisabled={!filter.tahun}
           />
         </div>

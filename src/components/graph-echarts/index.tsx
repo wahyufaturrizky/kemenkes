@@ -15,14 +15,22 @@ export interface EChartsOptionProps extends EChartsOption {
 interface GraphEChartsProps {
   graphOptions: EChartsOptionProps;
   opts?: Opts;
+  showLoading?: boolean;
 }
 
-const GraphECharts: React.FC<GraphEChartsProps> = ({ graphOptions, opts }) => {
+const GraphECharts: React.FC<GraphEChartsProps> = ({ graphOptions, opts, showLoading }) => {
   const [option, setOption] = useState<any>({});
   useEffect(() => {
     if (graphOptions.series) setOption(graphOptions);
   }, [graphOptions]);
-  return <ReactECharts option={option} opts={opts} style={{ height: '100%', width: '100%' }} />;
+  return (
+    <ReactECharts
+      showLoading={showLoading}
+      option={option}
+      opts={opts}
+      style={{ height: "100%", width: "100%" }}
+    />
+  );
 };
 
 export default GraphECharts;
