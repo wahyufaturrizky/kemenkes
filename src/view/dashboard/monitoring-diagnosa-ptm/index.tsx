@@ -26,7 +26,12 @@ import {
   useVisualDisorder,
   usePPOK,
 } from "@/lib/services/monitoring-diagnosa-ptm/useMonitoringDiagnosaPTM";
-import { removeEmptyKeys } from "@/lib/utils";
+import { removeEmptyKeys, formatPercentage } from "@/lib/utils";
+import {
+  formatChartBreakdownJenisKelamin,
+  formatChartTrenBulananJumlahPeserta,
+} from "@/view/dashboard/monitoring-faktor-risiko/util";
+import { Spin } from "antd";
 
 export default function MonitoringDiagnosaPTM() {
   const { control, reset } = useForm<FormValuesMonitoringDiagnosaPTM>({
@@ -39,7 +44,8 @@ export default function MonitoringDiagnosaPTM() {
   const filterState = useState({
     tahun: 2023,
     // tahun: new Date().getFullYear(),
-    bulan: dataMonth.find((r, i) => i === new Date().getMonth())?.value,
+    // bulan: dataMonth.find((r, i) => i === new Date().getMonth())?.value,
+    bulan: "",
     provinsi: "",
     kabkota: "",
     kecamatan: "",
@@ -57,7 +63,9 @@ export default function MonitoringDiagnosaPTM() {
     tipe_vaksin5: "bias",
     tren_type: "kumulatif",
   });
-  const [filter] = filterState;
+  const [filter, setFilter] = filterState;
+
+  const { tahun, bulan, provinsi, kabkota, kecamatan } = filter;
 
   const isBrowser = typeof window !== "undefined";
   const chartOptions: any = {
@@ -118,48 +126,16 @@ export default function MonitoringDiagnosaPTM() {
   };
 
   const { data: dataTotalParticipant, isPending: isPendingTotalParticipant } = useTotalParticipant({
-    query: {
-      year: filter.tahun,
-      month: filter.bulan,
-      province: filter.provinsi,
-      city: filter.kabkota,
-      sub_district: filter.kecamatan,
-      faskes_type: filter.jenis_sarana,
-      ward: filter.faskes,
-    },
+    query: removeEmptyKeys(filter),
   });
   const { data: dataTotalVisitation, isPending: isPendingTotalVisitation } = useTotalVisitation({
-    query: {
-      year: filter.tahun,
-      month: filter.bulan,
-      province: filter.provinsi,
-      city: filter.kabkota,
-      sub_district: filter.kecamatan,
-      faskes_type: filter.jenis_sarana,
-      ward: filter.faskes,
-    },
+    query: removeEmptyKeys(filter),
   });
   const { data: dataDisease, isPending: isPendingDisease } = useDisease({
-    query: {
-      year: filter.tahun,
-      month: filter.bulan,
-      province: filter.provinsi,
-      city: filter.kabkota,
-      sub_district: filter.kecamatan,
-      faskes_type: filter.jenis_sarana,
-      ward: filter.faskes,
-    },
+    query: removeEmptyKeys(filter),
   });
   const { data: dataBloodDisorder, isPending: isPendingBloodDisorder } = useBloodDisorder({
-    query: {
-      year: filter.tahun,
-      month: filter.bulan,
-      province: filter.provinsi,
-      city: filter.kabkota,
-      sub_district: filter.kecamatan,
-      faskes_type: filter.jenis_sarana,
-      ward: filter.faskes,
-    },
+    query: removeEmptyKeys(filter),
   });
   const { data: dataThalassema, isPending: isPendingThalassema } = useThalassema({
     query: removeEmptyKeys(filter),
@@ -173,6 +149,16 @@ export default function MonitoringDiagnosaPTM() {
   const { data: datausePPOK, isPending: isPendingusePPOK } = usePPOK({
     query: removeEmptyKeys(filter),
   });
+
+  const { total_participant_based_on_gender, total_participant_based_on_time } =
+    dataTotalParticipant?.data?.data ?? {};
+  const {
+    all_total,
+    total: totalMale,
+    percentage: percentageMale,
+  } = total_participant_based_on_gender?.[0] ?? {};
+  const { total: totalFemale, percentage: percentageFemale } =
+    total_participant_based_on_gender?.[1] ?? {};
 
   return (
     <div className={`flex flex-col items-center p-[30px]  ${styles.jakartaFont}`}>
@@ -222,42 +208,73 @@ export default function MonitoringDiagnosaPTM() {
                 <IoMdInformationCircleOutline size={24} color="white" />
               </div>
               <p className="text-xl font-normal">Jumlah Peserta Terdiagnosis</p>
-              <p className="text-4xl font-normal">11,037,458</p>
+              <p className="text-4xl font-normal">
+                {isPendingTotalParticipant ? "Loading..." : formatNumber(Number(all_total))}
+              </p>
             </div>
             <div className="rounded-2xl row-span-7 border border-[#D6D6D6] px-4 py-8 flex flex-col justify-between h-full">
               <p className="font-semibold text-xl">Breakdown per jenis kelamin</p>
               <div className="grid grid-cols-12 gap-3 max-h-[100px]">
                 <div className="col-span-4 text-center">
                   <p className="text-[#3BC6BE] font-semibold mb-7">Laki-laki</p>
-                  <p className="font-semibold text-[#616161]">34,753,536</p>
-                  <p className="font-light text-[#616161]">(41.5%)</p>
+                  <p className="font-semibold text-[#616161]">
+                    {isPendingTotalParticipant ? "Loading..." : formatNumber(Number(totalMale))}
+                  </p>
+                  <p className="font-light text-[#616161]">
+                    (
+                    {isPendingTotalParticipant
+                      ? "Loading..."
+                      : formatPercentage(Number(percentageMale))}
+                    %)
+                  </p>
                 </div>
-                <div className="col-span-4 h-[100px]">
-                  <GraphEcharts graphOptions={chartOptions} />
+                <div className="col-span-4 h-[300px]">
+                  <GraphEcharts
+                    showLoading={isPendingTotalParticipant}
+                    graphOptions={formatChartBreakdownJenisKelamin({
+                      isBrowser,
+                      totalFemale,
+                      totalMale,
+                    })}
+                  />
                 </div>
                 <div className="col-span-4 text-center">
                   <p className="text-[#CF3E53] font-semibold mb-7">Perempuan</p>
-                  <p className="font-semibold text-[#616161]">34,753,536</p>
-                  <p className="font-light text-[#616161]">(41.5%)</p>
+                  <p className="font-semibold text-[#616161]">
+                    {isPendingTotalParticipant ? "Loading..." : formatNumber(Number(totalFemale))}
+                  </p>
+                  <p className="font-light text-[#616161]">
+                    (
+                    {isPendingTotalParticipant
+                      ? "Loading..."
+                      : formatPercentage(Number(percentageFemale))}
+                    %)
+                  </p>
                 </div>
               </div>
               <div className="mt-[10px]">
-                <Progress
-                  data={[
-                    {
-                      color: "#CF3E53",
-                      label: "Perempuan",
-                      value: 5500,
-                      percentage: 70,
-                    },
-                    {
-                      color: "#3BC6BE",
-                      label: "Laki-laki",
-                      value: 3500,
-                      percentage: 30,
-                    },
-                  ]}
-                />
+                {isPendingTotalParticipant ? (
+                  <div className="w-full flex justify-center">
+                    <Spin tip="Loading..." />
+                  </div>
+                ) : (
+                  <Progress
+                    data={[
+                      {
+                        color: "#CF3E53",
+                        label: "Perempuan",
+                        value: totalFemale,
+                        percentage: percentageFemale,
+                      },
+                      {
+                        color: "#3BC6BE",
+                        label: "Laki-laki",
+                        value: totalMale,
+                        percentage: percentageMale,
+                      },
+                    ]}
+                  />
+                )}
               </div>
             </div>
           </div>
@@ -267,7 +284,7 @@ export default function MonitoringDiagnosaPTM() {
             <p className="font-semibold text-xl">
               Tren Bulanan Jumlah <span className="text-[#006A65]">Peserta</span>
               <br />
-              Tahun 2024
+              Tahun {tahun}
             </p>
             <div>
               <p className="text-sm mb-2">Parameter</p>
@@ -278,7 +295,13 @@ export default function MonitoringDiagnosaPTM() {
             <p className="[writing-mode:vertical-rl] [transform:rotate(180deg)] absolute top-28 left-4 font-semibold text-xs text-[#616161]">
               Kunjungan [juta]
             </p>
-            <GraphEcharts graphOptions={chartOptions2} opts={{ height: 400 }} />
+            <GraphEcharts
+              showLoading={isPendingTotalParticipant}
+              graphOptions={formatChartTrenBulananJumlahPeserta({
+                total_participant_based_on_time,
+              })}
+              opts={{ height: 400 }}
+            />
           </div>
           <div className="w-full flex justify-end items-end mt-20">
             <DownloadButton text="Unduh Excel" />

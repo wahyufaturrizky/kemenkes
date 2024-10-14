@@ -1,6 +1,7 @@
 import { API_BASE_URL_BADR_PTM } from "@/helpers/config";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, UseQueryResult } from "@tanstack/react-query";
 import { client } from "../client";
+import { DataResponeTotalParticipantType } from "@/view/dashboard/monitoring-faktor-risiko/type";
 
 const baseUrl = `${API_BASE_URL_BADR_PTM}/diagnose-monitoring`;
 
@@ -13,7 +14,10 @@ const fetchTotalParticipant = async ({ query = {} }) => {
   }).then((data) => data);
 };
 
-const useTotalParticipant = ({ query = {}, options }: any = {}) => {
+const useTotalParticipant = ({ query = {}, options }: any = {}): UseQueryResult<
+  DataResponeTotalParticipantType,
+  Error
+> => {
   return useQuery({
     queryKey: ["total-participant", query],
     queryFn: () => fetchTotalParticipant({ query }),

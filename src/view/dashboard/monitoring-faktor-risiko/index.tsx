@@ -7,19 +7,6 @@ import Progress from "@/components/progress";
 import SectionHeader from "@/components/sectionHeader";
 import { formatNumber } from "@/helpers";
 import {
-  useGetAnemiaScreeningQuery,
-  useGetBloodPresureQuery,
-  useGetBodyMassIndexAgeQuery,
-  useGetCigaretteSmokingQuery,
-  useGetFitnessQuery,
-  useGetHealthQuery,
-  useGetHearingQuery,
-  useGetMentalHealthQuery,
-  useGetNapzaScreeningQuery,
-  useGetSmokingQuery,
-  useGetVisionQuery,
-} from "@/lib/services/monitoring-faktor-risiko";
-import {
   useActivity,
   useConsumption,
   useSmoking,
@@ -30,9 +17,15 @@ import { formatPercentage, removeEmptyKeys } from "@/lib/utils";
 import { dataMonths } from "@/utils/constants";
 import { initFilterSelamatDatang } from "@/view/dashboard/monitoring-faktor-risiko/init-value";
 import {
+  DataActivityType,
+  DataConsumptionType,
+  DataSmokingType,
+  ListSubType,
+} from "@/view/dashboard/monitoring-faktor-risiko/type";
+import {
+  accumulatorData,
   formatChartBreakdownJenisKelamin,
   formatChartTrenBulananJumlahPeserta,
-  accumulatorData,
   labelGayaHidup,
   labelMerokok,
 } from "@/view/dashboard/monitoring-faktor-risiko/util";
@@ -45,13 +38,6 @@ import styles from "../anc/anc.module.css";
 import BoxSelected from "./BoxSelected";
 import TableMonitoringFaktorRisiko from "./tableMonitoringFaktorRisiko";
 import { FormValuesMonitoringFaktorRisiko } from "./type";
-import {
-  DataTotalParticipantType,
-  DataActivityType,
-  ListSubType,
-  DataConsumptionType,
-  DataSmokingType,
-} from "@/view/dashboard/monitoring-faktor-risiko/type";
 
 export default function MonitoringFaktorRisiko() {
   const { control, reset } = useForm<FormValuesMonitoringFaktorRisiko>({
@@ -85,49 +71,6 @@ export default function MonitoringFaktorRisiko() {
   });
   const [filter, setFilter] = filterState;
   const { tahun, bulan, provinsi, kabkota, kecamatan } = filter;
-
-  const dateQuery = {
-    year: tahun,
-    month: bulan,
-  };
-
-  const optionQuery = {
-    refetchOnMountOrArgChange: true,
-    skip: !filter.tahun || (!bulan && (!provinsi || !kabkota || !kecamatan)),
-  };
-
-  const { data: BodyMassIndexAge, isFetching: isLoadingBodyMassIndexAge } =
-    useGetBodyMassIndexAgeQuery(dateQuery, optionQuery);
-  const { data: BloodPresure, isFetching: isLoadingBloodPresure } = useGetBloodPresureQuery(
-    dateQuery,
-    optionQuery
-  );
-  const { data: Vision, isFetching: isLoadingVision } = useGetVisionQuery(dateQuery, optionQuery);
-  const { data: Hearing, isFetching: isLoadingHearing } = useGetHearingQuery(
-    dateQuery,
-    optionQuery
-  );
-  const { data: MentalHealth, isFetching: isLoadingMentalHealth } = useGetMentalHealthQuery(
-    dateQuery,
-    optionQuery
-  );
-  const { data: NapzaScreening, isFetching: isLoadingNapzaScreening } = useGetNapzaScreeningQuery(
-    dateQuery,
-    optionQuery
-  );
-  const { data: Health, isFetching: isLoadingHealth } = useGetHealthQuery(dateQuery, optionQuery);
-  const { data: Fitness, isFetching: isLoadingFitness } = useGetFitnessQuery(
-    dateQuery,
-    optionQuery
-  );
-  const { data: AnemiaScreening, isFetching: isLoadingAnemiaScreening } =
-    useGetAnemiaScreeningQuery(dateQuery, optionQuery);
-  const { data: Smoking, isFetching: isLoadingSmoking } = useGetSmokingQuery(
-    dateQuery,
-    optionQuery
-  );
-  const { data: CigaretteSmoking, isFetching: isLoadingCigaretteSmoking } =
-    useGetCigaretteSmokingQuery(dateQuery, optionQuery);
 
   const isBrowser = typeof window !== "undefined";
 
