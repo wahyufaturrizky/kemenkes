@@ -40,7 +40,7 @@ const TableData = <T,>({ tableInstance, titleTable }: TableDataProps<T>) => {
           {tableInstance.getRowModel().rows.map((row) => (
             <tr key={row.id}>
               {row.getVisibleCells().map((cell) => (
-                <td className="py-3 px-6 border-gray-200" key={cell.id}>
+                <td className="py-3 text-center items-center px-6 border-gray-200" key={cell.id}>
                   {flexRender(cell.column.columnDef.cell, cell.getContext())}
                 </td>
               ))}

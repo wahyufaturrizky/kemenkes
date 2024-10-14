@@ -6,8 +6,10 @@ interface HeaderComp {
   subtitle?: string;
   desc: string;
   space: boolean;
+  contentSpace?: string;
+  dateUpdate?: string;
 }
-const Header: React.FC<HeaderComp> = ({ title, subtitle, desc, space }) => {
+const Header: React.FC<HeaderComp> = ({ title, subtitle, desc, space, contentSpace,dateUpdate }) => {
   const formatTeks = (text: string) => {
     return text.split("\n").map((line, index) => (
       <span key={index}>
@@ -30,8 +32,20 @@ const Header: React.FC<HeaderComp> = ({ title, subtitle, desc, space }) => {
         <div className="col-span-3 md:col-span-1 bg-secondary h-[180px] flex flex-col justify-center  xl:px-12 px-1 font-bold">
           <p>{formatTeks(desc)}</p>
         </div>
-        <div className={`h-20 ${space ? "" : "hidden"}`}></div>
-      </div>
+        <div className={`h-20 ${space ? "flex items-center justify-between col-span-3" : "hidden"}`}>
+          <p className="px-4 text-[12px] font-normal">
+            {formatTeks(contentSpace ? contentSpace : "")}
+          </p>
+          <div className="text-end px-4">
+            <p className="text-[12px] font-normal">
+              {dateUpdate ? "Keterangan Update Data Terakhir :" : ""}
+            </p>
+            <p className="font-bold">
+              {dateUpdate}
+            </p>
+          </div>
+        </div>
+      </div >
     </>
   );
 };
