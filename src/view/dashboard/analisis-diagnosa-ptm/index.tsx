@@ -30,6 +30,7 @@ import { useForm } from "react-hook-form";
 import { FormValuesAnalisisDiagnosaPTM } from "@/view/dashboard/analisis-diagnosa-ptm/type";
 import { initFilterSelamatDatang } from "./init-value";
 import BoxSelected from "./BoxSelected";
+import { removeEmptyKeys } from "@/lib/utils";
 
 export default function AnalisisFaktorRisiko() {
   const { control, reset } = useForm<FormValuesAnalisisDiagnosaPTM>({
@@ -191,82 +192,34 @@ export default function AnalisisFaktorRisiko() {
   });
 
   const { data: dataTotalParticipant, isPending: isPendingTotalParticipant } = useTotalParticipant({
-    query: {
-      year: filter.tahun,
-      month: filter.bulan,
-      province: filter.provinsi,
-      city: filter.kabkota,
-      sub_district: filter.kecamatan,
-    },
+    query: removeEmptyKeys(filter),
   });
   const { data: dataTotalVisitation, isPending: isPendingTotalVisitation } = useTotalVisitation({
-    query: {
-      year: filter.tahun,
-      month: filter.bulan,
-      province: filter.provinsi,
-      city: filter.kabkota,
-      sub_district: filter.kecamatan,
-    },
+    query: removeEmptyKeys(filter),
   });
   const { data: dataHypertensionPyramid, isPending: isPendingHypertensionPyramid } =
     useHypertensionPyramid({
-      query: {
-        year: filter.tahun,
-        month: filter.bulan,
-        province: filter.provinsi,
-        city: filter.kabkota,
-        sub_district: filter.kecamatan,
-      },
+      query: removeEmptyKeys(filter),
     });
   const { data: dataHypertensionDistributionMap, isPending: isPendingHypertensionDistributionMap } =
     useHypertensionDistributionMap({
-      query: {
-        year: filter.tahun,
-        month: filter.bulan,
-        province: filter.provinsi,
-        city: filter.kabkota,
-        sub_district: filter.kecamatan,
-      },
+      query: removeEmptyKeys(filter),
     });
   const { data: dataPatientUnderTreatment, isPending: isPendingPatientUnderTreatment } =
     usePatientUnderTreatment({
-      query: {
-        year: filter.tahun,
-        month: filter.bulan,
-        province: filter.provinsi,
-        city: filter.kabkota,
-        sub_district: filter.kecamatan,
-      },
+      query: removeEmptyKeys(filter),
     });
   const { data: dataPatientLostFollowUp, isPending: isPendingPatientLostFollowUp } =
     usePatientLostFollowUp({
-      query: {
-        year: filter.tahun,
-        month: filter.bulan,
-        province: filter.provinsi,
-        city: filter.kabkota,
-        sub_district: filter.kecamatan,
-      },
+      query: removeEmptyKeys(filter),
     });
   const { data: dataControlledPatientIn3Month, isPending: isPendingControlledPatientIn3Month } =
     useControlledPatientIn3Month({
-      query: {
-        year: filter.tahun,
-        month: filter.bulan,
-        province: filter.provinsi,
-        city: filter.kabkota,
-        sub_district: filter.kecamatan,
-      },
+      query: removeEmptyKeys(filter),
     });
   const { data: dataUncontrolledPatientIn3Month, isPending: isPendingUncontrolledPatientIn3Month } =
     useUncontrolledPatientIn3Month({
-      query: {
-        year: filter.tahun,
-        month: filter.bulan,
-        province: filter.provinsi,
-        city: filter.kabkota,
-        sub_district: filter.kecamatan,
-      },
+      query: removeEmptyKeys(filter),
     });
 
   return (

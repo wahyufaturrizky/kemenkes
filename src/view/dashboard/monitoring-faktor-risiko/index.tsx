@@ -36,7 +36,7 @@ import styles from "../anc/anc.module.css";
 import BoxSelected from "./BoxSelected";
 import TableMonitoringFaktorRisiko from "./tableMonitoringFaktorRisiko";
 import { FormValuesMonitoringFaktorRisiko } from "./type";
-import { formatPercentage } from "@/lib/utils";
+import { formatPercentage, removeEmptyKeys } from "@/lib/utils";
 
 export default function MonitoringFaktorRisiko() {
   const { control, reset } = useForm<FormValuesMonitoringFaktorRisiko>({
@@ -171,52 +171,21 @@ export default function MonitoringFaktorRisiko() {
       },
     ],
   };
-  console.log("@filter", filter);
 
   const { data: dataTotalParticipant, isPending: isPendingTotalParticipant } = useTotalParticipant({
-    query: {
-      year: filter.tahun,
-      month: filter.bulan,
-      province: filter.provinsi,
-      city: filter.kabkota,
-      sub_district: filter.kecamatan,
-    },
+    query: removeEmptyKeys(filter),
   });
   const { data: dataTotalVisitation, isPending: isPendingTotalVisitation } = useTotalVisitation({
-    query: {
-      year: filter.tahun,
-      month: filter.bulan,
-      province: filter.provinsi,
-      city: filter.kabkota,
-      sub_district: filter.kecamatan,
-    },
+    query: removeEmptyKeys(filter),
   });
   const { data: dataActivity, isPending: isPendingActivity } = useActivity({
-    query: {
-      year: filter.tahun,
-      month: filter.bulan,
-      province: filter.provinsi,
-      city: filter.kabkota,
-      sub_district: filter.kecamatan,
-    },
+    query: removeEmptyKeys(filter),
   });
   const { data: dataConsumption, isPending: isPendingConsumption } = useConsumption({
-    query: {
-      year: filter.tahun,
-      month: filter.bulan,
-      province: filter.provinsi,
-      city: filter.kabkota,
-      sub_district: filter.kecamatan,
-    },
+    query: removeEmptyKeys(filter),
   });
   const { data: dataSmoking, isPending: isPendingSmoking } = useSmoking({
-    query: {
-      year: filter.tahun,
-      month: filter.bulan,
-      province: filter.provinsi,
-      city: filter.kabkota,
-      sub_district: filter.kecamatan,
-    },
+    query: removeEmptyKeys(filter),
   });
 
   const { total_participant_based_on_gender } = dataTotalParticipant?.data?.data ?? {};

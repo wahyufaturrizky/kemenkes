@@ -44,3 +44,17 @@ export const formatNumber = (number: number) => {
 export const formatPercentage = (number: number) => {
   return parseFloat(number.toFixed(2));
 };
+
+export const removeEmptyKeys = (filter: any) => {
+  const obj = {
+    year: filter.tahun,
+    month: filter.bulan,
+    province: filter.provinsi,
+    city: filter.kabkota,
+    sub_district: filter.kecamatan,
+    faskes_type: filter.jenis_sarana,
+    ward: filter.faskes,
+  };
+
+  return Object.fromEntries(Object.entries(obj).filter(([_, v]) => v != null && v !== ""));
+};

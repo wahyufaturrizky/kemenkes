@@ -27,6 +27,7 @@ import { useForm } from "react-hook-form";
 import { FormValuesAnalisisFaktorRisiko } from "@/view/dashboard/analisis-faktor-risiko/type";
 import BoxSelected from "./BoxSelected";
 import { initFilterSelamatDatang } from "./init-value";
+import { removeEmptyKeys } from "@/lib/utils";
 
 export default function AnalisisDiagnosaPTM() {
   const { control, reset } = useForm<FormValuesAnalisisFaktorRisiko>({
@@ -187,51 +188,21 @@ export default function AnalisisDiagnosaPTM() {
   });
 
   const { data: dataTotalParticipant, isPending: isPendingTotalParticipant } = useTotalParticipant({
-    query: {
-      year: filter.tahun,
-      month: filter.bulan,
-      province: filter.provinsi,
-      city: filter.kabkota,
-      sub_district: filter.kecamatan,
-    },
+    query: removeEmptyKeys(filter),
   });
   const { data: dataTotalVisitation, isPending: isPendingTotalVisitation } = useTotalVisitation({
-    query: {
-      year: filter.tahun,
-      month: filter.bulan,
-      province: filter.provinsi,
-      city: filter.kabkota,
-      sub_district: filter.kecamatan,
-    },
+    query: removeEmptyKeys(filter),
   });
   const { data: dataActivityPyramid, isPending: isPendingActivityPyramid } = useActivityPyramid({
-    query: {
-      year: filter.tahun,
-      month: filter.bulan,
-      province: filter.provinsi,
-      city: filter.kabkota,
-      sub_district: filter.kecamatan,
-    },
+    query: removeEmptyKeys(filter),
   });
   const { data: dataActivityCheckDistribution, isPending: isPendingActivityCheckDistribution } =
     useActivityCheckDistribution({
-      query: {
-        year: filter.tahun,
-        month: filter.bulan,
-        province: filter.provinsi,
-        city: filter.kabkota,
-        sub_district: filter.kecamatan,
-      },
+      query: removeEmptyKeys(filter),
     });
   const { data: dataActivityBasedOnRegion, isPending: isPendingActivityBasedOnRegion } =
     useActivityBasedOnRegion({
-      query: {
-        year: filter.tahun,
-        month: filter.bulan,
-        province: filter.provinsi,
-        city: filter.kabkota,
-        sub_district: filter.kecamatan,
-      },
+      query: removeEmptyKeys(filter),
     });
 
   return (

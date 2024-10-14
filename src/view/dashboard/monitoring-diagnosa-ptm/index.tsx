@@ -26,6 +26,7 @@ import {
   useVisualDisorder,
   usePPOK,
 } from "@/lib/services/monitoring-diagnosa-ptm/useMonitoringDiagnosaPTM";
+import { removeEmptyKeys } from "@/lib/utils";
 
 export default function MonitoringDiagnosaPTM() {
   const { control, reset } = useForm<FormValuesMonitoringDiagnosaPTM>({
@@ -115,7 +116,6 @@ export default function MonitoringDiagnosaPTM() {
       },
     ],
   };
-  console.log("@filterState", filterState);
 
   const { data: dataTotalParticipant, isPending: isPendingTotalParticipant } = useTotalParticipant({
     query: {
@@ -124,6 +124,8 @@ export default function MonitoringDiagnosaPTM() {
       province: filter.provinsi,
       city: filter.kabkota,
       sub_district: filter.kecamatan,
+      faskes_type: filter.jenis_sarana,
+      ward: filter.faskes,
     },
   });
   const { data: dataTotalVisitation, isPending: isPendingTotalVisitation } = useTotalVisitation({
@@ -133,6 +135,8 @@ export default function MonitoringDiagnosaPTM() {
       province: filter.provinsi,
       city: filter.kabkota,
       sub_district: filter.kecamatan,
+      faskes_type: filter.jenis_sarana,
+      ward: filter.faskes,
     },
   });
   const { data: dataDisease, isPending: isPendingDisease } = useDisease({
@@ -142,6 +146,8 @@ export default function MonitoringDiagnosaPTM() {
       province: filter.provinsi,
       city: filter.kabkota,
       sub_district: filter.kecamatan,
+      faskes_type: filter.jenis_sarana,
+      ward: filter.faskes,
     },
   });
   const { data: dataBloodDisorder, isPending: isPendingBloodDisorder } = useBloodDisorder({
@@ -151,43 +157,21 @@ export default function MonitoringDiagnosaPTM() {
       province: filter.provinsi,
       city: filter.kabkota,
       sub_district: filter.kecamatan,
+      faskes_type: filter.jenis_sarana,
+      ward: filter.faskes,
     },
   });
   const { data: dataThalassema, isPending: isPendingThalassema } = useThalassema({
-    query: {
-      year: filter.tahun,
-      month: filter.bulan,
-      province: filter.provinsi,
-      city: filter.kabkota,
-      sub_district: filter.kecamatan,
-    },
+    query: removeEmptyKeys(filter),
   });
   const { data: dataHearingDisorder, isPending: isPendingHearingDisorder } = useHearingDisorder({
-    query: {
-      year: filter.tahun,
-      month: filter.bulan,
-      province: filter.provinsi,
-      city: filter.kabkota,
-      sub_district: filter.kecamatan,
-    },
+    query: removeEmptyKeys(filter),
   });
   const { data: dataVisualDisorder, isPending: isPendingVisualDisorder } = useVisualDisorder({
-    query: {
-      year: filter.tahun,
-      month: filter.bulan,
-      province: filter.provinsi,
-      city: filter.kabkota,
-      sub_district: filter.kecamatan,
-    },
+    query: removeEmptyKeys(filter),
   });
   const { data: datausePPOK, isPending: isPendingusePPOK } = usePPOK({
-    query: {
-      year: filter.tahun,
-      month: filter.bulan,
-      province: filter.provinsi,
-      city: filter.kabkota,
-      sub_district: filter.kecamatan,
-    },
+    query: removeEmptyKeys(filter),
   });
 
   return (
