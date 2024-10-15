@@ -1,5 +1,6 @@
 import React from "react";
 import { flexRender, Table } from "@tanstack/react-table";
+import { Spin } from "antd";
 
 interface TableDataProps<T> {
   tableInstance: Table<T>;
@@ -21,16 +22,10 @@ const TableData = <T,>({ tableInstance, titleTable }: TableDataProps<T>) => {
           {tableInstance.getHeaderGroups().map((headerGroup) => (
             <tr className="bg-[#F5F5F5]" key={headerGroup.id}>
               {headerGroup.headers.map((header) => (
-                <th
-                  key={header.id}
-                  className="py-3 px-6 text-[#737373] font-semibold"
-                >
+                <th key={header.id} className="py-3 px-6 text-[#737373] font-semibold">
                   {header.isPlaceholder
                     ? null
-                    : flexRender(
-                        header.column.columnDef.header,
-                        header.getContext()
-                      )}
+                    : flexRender(header.column.columnDef.header, header.getContext())}
                 </th>
               ))}
             </tr>

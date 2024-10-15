@@ -5,6 +5,8 @@ import StoreProvider from "./StoreProvider";
 import { Suspense } from "react";
 import Loading from "./loading";
 import { archivo } from "@/assets/fonts";
+import { AntdRegistry } from "@ant-design/nextjs-registry";
+import { Providers } from "./providers";
 
 export const metadata: Metadata = {
   title: "SatuSehat",
@@ -19,11 +21,13 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={archivo.className}>
-        <StoreProvider>
-          <Suspense fallback={<Loading />}>
-            {children}
-          </Suspense>
-        </StoreProvider>
+        <Providers>
+          <StoreProvider>
+            <Suspense fallback={<Loading />}>
+              <AntdRegistry>{children}</AntdRegistry>
+            </Suspense>
+          </StoreProvider>
+        </Providers>
       </body>
     </html>
   );

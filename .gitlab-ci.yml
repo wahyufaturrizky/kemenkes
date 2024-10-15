@@ -1,0 +1,15 @@
+image: debian:bookworm-slim
+
+stages:
+  - deploy
+
+deploy:
+  stage: deploy
+  only:
+    - main
+  before_script:
+    - apt update && apt install tar openssh-client sshpass -y
+  script:
+    - tar -czvf dashboard-ssd-fe.tar.gz --exclude='*.gz' --exclude='*.sh' --exclude='*.exe' * .env*
+    - sshpass -p $SSH_KEY scp -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -P 22422 ./dashboard-ssd-fe.tar.gz $SSH_USER@$SSH_HOST:/home/$SSH_USER
+    - sshpass -p $SSH_KEY ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -p 22422 $SSH_USER@$SSH_HOST "{ mkdir -p dashboard-ssd-fe && tar -xzvf dashboard-ssd-fe.tar.gz -C ./dashboard-ssd-fe && docker build -t dashboard-ssd-fe ./dashboard-ssd-fe && docker compose -f dto-dev.yml down -v && docker compose -f dto-dev.yml up -d && docker image prune -f && rm -rf dashboard-ssd-fe && rm dashboard-ssd-fe.tar.gz; } || { rm -rf dashboard-ssd-fe && rm dashboard-ssd-fe.tar.gz; }"
