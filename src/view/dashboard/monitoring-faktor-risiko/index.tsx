@@ -10,9 +10,8 @@ import {
   useActivity,
   useConsumption,
   useSmoking,
-  useTotalParticipant,
-  useTotalVisitation,
   useTableAggregate,
+  useTotalParticipant,
 } from "@/lib/services/monitoring-faktor-risiko/useMonitoringFaktorRisiko";
 import { formatPercentage, removeEmptyKeys } from "@/lib/utils";
 import { dataMonths } from "@/utils/constants";
@@ -71,7 +70,7 @@ export default function MonitoringFaktorRisiko() {
     tren_type: "kumulatif",
   });
   const [filter, setFilter] = filterState;
-  const { tahun, bulan, provinsi, kabkota, kecamatan } = filter;
+  const { tahun, bulan } = filter;
 
   const isBrowser = typeof window !== "undefined";
 
@@ -103,7 +102,6 @@ export default function MonitoringFaktorRisiko() {
 
   const { data: activityData } = dataActivity?.data ?? {};
   const { data: tableAggregateData } = dataTableAggregate?.data ?? {};
-  console.log("@tableAggregateData", tableAggregateData);
 
   const consumptionData: DataConsumptionType | {} = dataConsumption?.data?.data ?? {};
   const smokingData: DataSmokingType | {} = dataSmoking?.data?.data ?? {};
@@ -262,9 +260,7 @@ export default function MonitoringFaktorRisiko() {
               opts={{ height: 400 }}
             />
           </div>
-          <div className="w-full flex justify-end items-end mt-20">
-            <DownloadButton text="Unduh Excel" />
-          </div>
+          <DownloadButton />
         </div>
       </div>
       <SectionHeader
@@ -291,7 +287,7 @@ export default function MonitoringFaktorRisiko() {
             };
           })}
         />
-        {Object.keys(consumptionData || {}).map((itemConsumtion: any) => {
+        {Object.keys(consumptionData || {}).map((itemConsumtion: string) => {
           return (
             <CardPemeriksaan
               label={labelGayaHidup[itemConsumtion]}

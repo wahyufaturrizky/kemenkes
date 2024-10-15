@@ -49,11 +49,13 @@ export const formatChartBreakdownJenisKelamin = ({
 
 export const formatChartTrenBulananJumlahPeserta = ({
   total_participant_based_on_time,
+  color = "#006A65",
 }: {
   total_participant_based_on_time?: TotalParticipantBasedOnTimeType[];
+  color?: string;
 }): EChartsOption => {
   return {
-    color: ["#006A65"],
+    color: [color],
     tooltip: {
       trigger: "item",
       formatter: function (params: any) {
