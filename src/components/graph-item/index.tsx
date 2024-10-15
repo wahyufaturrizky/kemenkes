@@ -19,12 +19,7 @@ interface GraphItemProps {
   showDownload?: boolean;
 }
 
-const GraphItem: React.FC<GraphItemProps> = ({
-  graphOptions,
-  opts,
-  isHideButtonDownload,
-  showDownload = true,
-}) => {
+const GraphItem: React.FC<GraphItemProps> = ({ graphOptions, opts, showDownload = true }) => {
   const [option, setOption] = useState<any>({});
   const chartRef = useRef<any>(null);
 
@@ -63,7 +58,7 @@ const GraphItem: React.FC<GraphItemProps> = ({
 
   return (
     <div style={{ height: "100%" }}>
-      {(showDownload || !isHideButtonDownload) && (
+      {showDownload && (
         <button
           onClick={downloadChart}
           className="mb-4 px-3 py-2 bg-teal-500 rounded-lg text-white"

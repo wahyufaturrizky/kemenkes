@@ -1,10 +1,7 @@
-import { EChartsOption } from "echarts-for-react";
-import {
-  TotalParticipantBasedOnTimeType,
-  DataActivityType,
-} from "@/view/dashboard/monitoring-faktor-risiko/type";
 import { formatNumber } from "@/helpers";
 import { formatDateChart } from "@/lib/utils";
+import { TotalParticipantBasedOnTimeType } from "@/view/dashboard/monitoring-faktor-risiko/type";
+import { EChartsOption } from "echarts-for-react";
 
 export const formatChartBreakdownJenisKelamin = ({
   isBrowser,

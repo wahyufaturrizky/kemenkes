@@ -7,27 +7,29 @@ import MapAnc2 from "@/components/mapAnc2";
 import Progress from "@/components/progress";
 import SectionHeader from "@/components/sectionHeader";
 import { formatNumber } from "@/helpers";
+import {
+  useActivityBasedOnRegion,
+  useActivityCheckDistribution,
+  useActivityPyramid,
+  useTotalParticipant,
+  useTotalVisitation,
+} from "@/lib/services/analisis-faktor-risiko/useAnalisisFaktorRisiko";
 import { useGetGraphImmunizationScopeQuery } from "@/lib/services/baby-immunization";
-import { ancGraphOptions1, ancGtaphOptions5, dataMonth, incGraphOptions1 } from "@/utils/constants";
+import { formatPercentage, removeEmptyKeys } from "@/lib/utils";
+import { ancGraphOptions1, incGraphOptions1 } from "@/utils/constants";
+import { FormValuesAnalisisFaktorRisiko } from "@/view/dashboard/analisis-faktor-risiko/type";
+import { formatChartTotalParticipant } from "@/view/dashboard/analisis-faktor-risiko/util";
 import { graphOptions6 } from "@/view/dashboard/ibu-hamil/graphOptions";
-import { graphOptions5 } from "@/view/graphOptions";
 import FilterMonitoringFaktorRisiko from "@/view/home/components/FilterMonitoringFaktorRisiko";
+import { Spin } from "antd";
 import { useMemo, useState } from "react";
+import { useForm } from "react-hook-form";
 import { IoMdArrowForward, IoMdInformationCircleOutline } from "react-icons/io";
 import { graphOptions4, graphOptions7 } from "../analisis-faktor-risiko/graphOptions";
 import styles from "../anc/anc.module.css";
-import {
-  useTotalParticipant,
-  useTotalVisitation,
-  useActivityPyramid,
-  useActivityCheckDistribution,
-  useActivityBasedOnRegion,
-} from "@/lib/services/analisis-faktor-risiko/useAnalisisFaktorRisiko";
-import { useForm } from "react-hook-form";
-import { FormValuesAnalisisFaktorRisiko } from "@/view/dashboard/analisis-faktor-risiko/type";
 import BoxSelected from "./BoxSelected";
 import { initFilterSelamatDatang } from "./init-value";
-import { removeEmptyKeys } from "@/lib/utils";
+import { formatChartBreakdownJenisKelamin } from "@/view/dashboard/monitoring-faktor-risiko/util";
 
 export default function AnalisisDiagnosaPTM() {
   const { control, reset } = useForm<FormValuesAnalisisFaktorRisiko>({
@@ -40,7 +42,8 @@ export default function AnalisisDiagnosaPTM() {
   const filterState = useState({
     tahun: 2023,
     // tahun: new Date().getFullYear(),
-    bulan: dataMonth.find((r, i) => i === new Date().getMonth())?.value,
+    // bulan: dataMonth.find((r, i) => i === new Date().getMonth())?.value,
+    bulan: "",
     provinsi: "",
     kabkota: "",
     kecamatan: "",
@@ -60,7 +63,8 @@ export default function AnalisisDiagnosaPTM() {
     tipe_vaksin1: "IMUNISASI DASAR LENGKAP",
     wilayah1: "province",
   });
-  const [filter] = filterState;
+  const [filter, setFilter] = filterState;
+  const { tahun, bulan } = filter;
 
   const dateQuery = {
     year: filter.tahun,
@@ -205,6 +209,18 @@ export default function AnalisisDiagnosaPTM() {
       query: removeEmptyKeys(filter),
     });
 
+  const { total_participant_based_on_gender, total_participant_based_on_time } =
+    dataTotalParticipant?.data?.data ?? {};
+
+  const {
+    all_total,
+    total: totalMale,
+    percentage: percentageMale,
+  } = total_participant_based_on_gender?.[0] ?? {};
+
+  const { total: totalFemale, percentage: percentageFemale } =
+    total_participant_based_on_gender?.[1] ?? {};
+
   return (
     <div className={`flex flex-col items-center p-[30px]  ${styles.jakartaFont}`}>
       <Header
@@ -252,42 +268,73 @@ export default function AnalisisDiagnosaPTM() {
               </div>
               <p className="text-xl font-normal">Jumlah Peserta Skrining</p>
               <p className="text-xl font-bold">Aktivtas Fisik</p>
-              <p className="text-4xl font-normal">11,037,458</p>
+              <p className="text-4xl font-normal">
+                {isPendingTotalParticipant ? "Loading..." : formatNumber(Number(all_total))}
+              </p>
             </div>
             <div className="rounded-2xl row-span-7 border border-[#D6D6D6] px-4 py-8 flex flex-col justify-between h-full">
               <p className="font-semibold text-xl">Breakdown per jenis kelamin</p>
               <div className="grid grid-cols-12 gap-3 max-h-[100px]">
                 <div className="col-span-4 text-center">
                   <p className="text-[#3BC6BE] font-semibold mb-7">Laki-laki</p>
-                  <p className="font-semibold text-[#616161]">34,753,536</p>
-                  <p className="font-light text-[#616161]">(41.5%)</p>
+                  <p className="font-semibold text-[#616161]">
+                    {isPendingTotalParticipant ? "Loading..." : formatNumber(Number(totalMale))}
+                  </p>
+                  <p className="font-light text-[#616161]">
+                    (
+                    {isPendingTotalParticipant
+                      ? "Loading..."
+                      : formatPercentage(Number(percentageMale))}
+                    %)
+                  </p>
                 </div>
-                <div className="col-span-4 h-[100px]">
-                  <GraphEcharts graphOptions={chartOptions} />
+                <div className="col-span-4 h-[300px]">
+                  <GraphEcharts
+                    showLoading={isPendingTotalParticipant}
+                    graphOptions={formatChartBreakdownJenisKelamin({
+                      isBrowser,
+                      totalFemale,
+                      totalMale,
+                    })}
+                  />
                 </div>
                 <div className="col-span-4 text-center">
                   <p className="text-[#CF3E53] font-semibold mb-7">Perempuan</p>
-                  <p className="font-semibold text-[#616161]">34,753,536</p>
-                  <p className="font-light text-[#616161]">(41.5%)</p>
+                  <p className="font-semibold text-[#616161]">
+                    {isPendingTotalParticipant ? "Loading..." : formatNumber(Number(totalFemale))}
+                  </p>
+                  <p className="font-light text-[#616161]">
+                    (
+                    {isPendingTotalParticipant
+                      ? "Loading..."
+                      : formatPercentage(Number(percentageFemale))}
+                    %)
+                  </p>
                 </div>
               </div>
               <div className="mt-[10px]">
-                <Progress
-                  data={[
-                    {
-                      color: "#CF3E53",
-                      label: "Perempuan",
-                      value: 5500,
-                      percentage: 70,
-                    },
-                    {
-                      color: "#3BC6BE",
-                      label: "Laki-laki",
-                      value: 3500,
-                      percentage: 30,
-                    },
-                  ]}
-                />
+                {isPendingTotalParticipant ? (
+                  <div className="w-full flex justify-center">
+                    <Spin tip="Loading..." />
+                  </div>
+                ) : (
+                  <Progress
+                    data={[
+                      {
+                        color: "#CF3E53",
+                        label: "Perempuan",
+                        value: totalFemale,
+                        percentage: percentageFemale,
+                      },
+                      {
+                        color: "#3BC6BE",
+                        label: "Laki-laki",
+                        value: totalMale,
+                        percentage: percentageMale,
+                      },
+                    ]}
+                  />
+                )}
               </div>
             </div>
           </div>
@@ -296,47 +343,13 @@ export default function AnalisisDiagnosaPTM() {
           <div className="relative h-[full] ">
             <GraphItem
               showDownload={false}
-              graphOptions={graphOptions5(
-                [
-                  {
-                    name: "Jumlah Bumil Anemia",
-                    data: (ancGtaphOptions5 || [])?.map((r: any) => r?.jumlah) || [],
-                    type: "bar",
-                    label: {
-                      show: false,
-                    },
-                  },
-                  {
-                    name: "% Bumil Anemia",
-                    data:
-                      (ancGtaphOptions5 || [])?.map((r: any) => r?.persentase_bumil_anemia) || [],
-                    type: "line",
-                    label: {
-                      show: false,
-                      // precision: 1,
-                      // formatter: (params: any) =>
-                      //   `${formatNumber(params.value)}%`,
-                    },
-                  },
-                  {
-                    name: "Cakupan % Nasional Anemia",
-                    data: (ancGtaphOptions5 || [])?.map((r: any) => r?.persentase_nasional) || [],
-                    type: "line",
-                    label: {
-                      show: false,
-                      // precision: 1,
-                      // formatter: (params: any) =>
-                      //   `${formatNumber(params.value)}%`,
-                    },
-                  },
-                ],
-                ancGtaphOptions5?.map((r) => r.region)
-              )}
+              graphOptions={formatChartTotalParticipant({
+                total_participant_based_on_time,
+              })}
+              opts={{ height: 500 }}
             />
           </div>
-          <div className="w-full flex items-end mt-20">
-            <DownloadButton text="Unduh Excel" />
-          </div>
+          <DownloadButton />
         </div>
       </div>
       <section className="w-full">
