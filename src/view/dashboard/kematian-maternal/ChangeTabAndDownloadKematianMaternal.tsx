@@ -14,9 +14,10 @@ interface FilterProps {
   btnDownloadPostion?: 'bottom' | 'top';
   btnWithTitle?: boolean;
   sectionClicked: string;
+  title?: string;
 }
 
-export const ChangeTabAndDownloadKematianMaternal: React.FC<FilterProps> = ({ filterState, data, tabActive, btnDownloadPostion, btnWithTitle, sectionClicked }) => {
+export const ChangeTabAndDownloadKematianMaternal: React.FC<FilterProps> = ({ filterState, data, tabActive, btnDownloadPostion, btnWithTitle, sectionClicked, title }) => {
   const [filter, setFilter] = filterState || useState({});
   const [activeTab, setActiveTab] = useState("Chart View");
   const handleTabClick = (tab: any) => {
@@ -50,12 +51,12 @@ export const ChangeTabAndDownloadKematianMaternal: React.FC<FilterProps> = ({ fi
     <div className="flex justify-between items-center mt-5">
       <div>
         {btnDownloadPostion === 'bottom' && activeTab === 'Chart View' && (
-          <h3 className="text-[20px] font-[500]">Tren Kematian Maternal</h3>
+          <h3 className="text-[20px] font-[500]">{title}</h3>
         )
         }
         {activeTab === 'Table View' && (
           <div className="mb-3 flex flex-row gap-4" onClick={handleDownload}>
-            <h3 className="text-[20px] font-[500]">Tren Kematian Maternal</h3>
+            <h3 className="text-[20px] font-[500]">{title}</h3>
             <DownloadButton text="Unduh Excel" />
           </div>)
         }

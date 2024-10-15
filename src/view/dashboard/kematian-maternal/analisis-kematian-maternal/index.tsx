@@ -311,7 +311,6 @@ export default function KematianMaternalAnalisis() {
 
       {/* Section Filter */}
       <div className="w-full mt-10">
-        {/* TODO : Change UI For Filter */}
         <FilterKematianMaternal showPeriode={false} />
       </div>
 

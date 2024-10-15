@@ -3,6 +3,7 @@ import {
     getCoreRowModel,
     useReactTable,
     createColumnHelper,
+    getExpandedRowModel,
 } from "@tanstack/react-table";
 import { useState } from "react";
 import { optionsTable } from "./dataValue";
@@ -39,6 +40,7 @@ const TableKematianMaternal: React.FC<propsTableAnc> = ({
         columns,
         data,
         getCoreRowModel: getCoreRowModel(),
+        getExpandedRowModel: getExpandedRowModel(),
     });
 
     return (

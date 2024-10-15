@@ -204,7 +204,6 @@ export default function KematianMaternal() {
 
             {/* Section Filter */}
             <div className="w-full mt-10">
-                {/* TODO : Change UI For Filter */}
                 <FilterKematianMaternal />
             </div>
 
@@ -243,7 +242,7 @@ export default function KematianMaternal() {
                 </div>
                 <div className="col-span-12 md:col-span-8 border w-full border-[#D6D6D6] rounded-2xl ">
                     <div className="px-8 py-6" >
-                        <ChangeTabAndDownloadKematianMaternal filterState={filterState} data={[]} tabActive={handleCallback} btnDownloadPostion="bottom" sectionClicked="sectionChartJumlahKematian" />
+                        <ChangeTabAndDownloadKematianMaternal filterState={filterState} data={[]} tabActive={handleCallback} btnDownloadPostion="bottom" sectionClicked="sectionChartJumlahKematian" title="Tren Kematian Maternal" />
                     </div>
                     {tabActive.sectionChartJumlahKematian === "Chart View" && (
                         <div className="flex flex-col items-end">
