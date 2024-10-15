@@ -1,4 +1,4 @@
-import * as _ from 'lodash';
+import * as _ from "lodash";
 
 export function standardOptionSameLabel(data: any[]) {
   const value = data.map((r) => {
@@ -14,6 +14,16 @@ export function standardOptions(data: any[], key1: string, key2: string) {
     return {
       label: r[key1],
       value: r[key2],
+    };
+  });
+  return value;
+}
+
+export function standardOptionsMonitoringFaktorRisiko(data: any[], key1: string, key2: string) {
+  const value = (data || [])?.map((r) => {
+    return {
+      label: r[key1],
+      value: r[key1],
     };
   });
   return value;
@@ -62,15 +72,18 @@ export function ageResponseConvert(data: any) {
   }
 
   return {
-    pct_1_2, pct_2_3, pct_3_4, pct_4_5
-  }
+    pct_1_2,
+    pct_2_3,
+    pct_3_4,
+    pct_4_5,
+  };
 }
 
 export function removeEmptyValue(object: object) {
   const value = _.omitBy(object, (value: any) => {
     if (Array.isArray(value)) {
       return value?.length === 0;
-    } else if (value === '' || _.isNull(value) || _.isUndefined(value)) {
+    } else if (value === "" || _.isNull(value) || _.isUndefined(value)) {
       return true;
     }
     return false;
@@ -79,12 +92,12 @@ export function removeEmptyValue(object: object) {
 }
 
 export function regionParser(
-  opts: Array<{ label: string, value: string }>,
+  opts: Array<{ label: string; value: string }>,
   wilayah1: string
 ): string {
-  const idx = opts.findIndex(opt => opt.value === wilayah1);
+  const idx = opts.findIndex((opt) => opt.value === wilayah1);
   if (idx !== -1 && idx < opts.length - 1) {
-    return opts[idx + 1].value
+    return opts[idx + 1].value;
   }
   return "All";
 }

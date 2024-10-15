@@ -16,8 +16,27 @@ import { useMemo, useState } from "react";
 import { IoMdArrowForward, IoMdInformationCircleOutline } from "react-icons/io";
 import { graphOptions4, graphOptions7 } from "../analisis-faktor-risiko/graphOptions";
 import styles from "../anc/anc.module.css";
+import {
+  useTotalParticipant,
+  useTotalVisitation,
+  useActivityPyramid,
+  useActivityCheckDistribution,
+  useActivityBasedOnRegion,
+} from "@/lib/services/analisis-faktor-risiko/useAnalisisFaktorRisiko";
+import { useForm } from "react-hook-form";
+import { FormValuesAnalisisFaktorRisiko } from "@/view/dashboard/analisis-faktor-risiko/type";
+import BoxSelected from "./BoxSelected";
+import { initFilterSelamatDatang } from "./init-value";
+import { removeEmptyKeys } from "@/lib/utils";
 
 export default function AnalisisDiagnosaPTM() {
+  const { control, reset } = useForm<FormValuesAnalisisFaktorRisiko>({
+    defaultValues: {
+      filterSelamatDatang: "",
+      subFilterSelamatDatang: "",
+    },
+  });
+
   const filterState = useState({
     tahun: 2023,
     // tahun: new Date().getFullYear(),
@@ -103,7 +122,6 @@ export default function AnalisisDiagnosaPTM() {
         : filter.provinsi
         ? filter.provinsi
         : "",
-      // faskes_parent: filter.faskes_parent,
     }),
     [rergionTypeGraph1, filter, dateQuery]
   );
@@ -148,20 +166,7 @@ export default function AnalisisDiagnosaPTM() {
       type: "bar",
       stack: "total",
       barWidth: "60%",
-      // label:
-      //   sid === rawData.length - 1
-      //     ? {
-      //         // Hanya pada seri terakhirshow: true,
-      //         position: "top", // Tampilkan di atas barformatter: (params: any) => totalData[params.dataIndex].toString(), // Tampilkan totalfontWeight: 'bold',
-      //       }
-      //     : undefined,
-      // label: {
-      //   show: sid === rawData.length - 1, // Hanya di seri terakhir
-      //   position: "top",
-      //   formatter: (params: any) => totalData[params.dataIndex].toString(),
-      //   fontWeight: "bold",
-      // },
-      data: dataNasional[sid], // Menggunakan data asli tanpa pembagian
+      data: dataNasional[sid],
     };
   });
 
@@ -182,14 +187,33 @@ export default function AnalisisDiagnosaPTM() {
     },
   });
 
+  const { data: dataTotalParticipant, isPending: isPendingTotalParticipant } = useTotalParticipant({
+    query: removeEmptyKeys(filter),
+  });
+  const { data: dataTotalVisitation, isPending: isPendingTotalVisitation } = useTotalVisitation({
+    query: removeEmptyKeys(filter),
+  });
+  const { data: dataActivityPyramid, isPending: isPendingActivityPyramid } = useActivityPyramid({
+    query: removeEmptyKeys(filter),
+  });
+  const { data: dataActivityCheckDistribution, isPending: isPendingActivityCheckDistribution } =
+    useActivityCheckDistribution({
+      query: removeEmptyKeys(filter),
+    });
+  const { data: dataActivityBasedOnRegion, isPending: isPendingActivityBasedOnRegion } =
+    useActivityBasedOnRegion({
+      query: removeEmptyKeys(filter),
+    });
+
   return (
     <div className={`flex flex-col items-center p-[30px]  ${styles.jakartaFont}`}>
-      {" "}
       <Header
         title={`Dashboard\nCapaian SATUSEHAT`}
         subtitle="Kesehatan Anak Usia Sekolah dan Remaja"
         desc={`Dashboard ini menampilkan:\nmonitoring capaian Indikator ANC berdasarkan data yang dikirim oleh faskes ke SATUSEHAT`}
         space={true}
+        note="Dashboard ini menampilkan data berdasarkan pemeriksaan pertama dari setiap jenis skrining PTM yang dilakukan peserta dalam 1 tahun"
+        classNameContainerGrey="px-2.5 py-6"
       />
       <div className="w-full my-5">
         <div className="flex justify-end">
@@ -201,9 +225,20 @@ export default function AnalisisDiagnosaPTM() {
           />
         </div>
       </div>
-      <div className="w-full my-5">
+      <section className="my-5 grid grid-cols-4 gap-4 items-center w-full">
         <p className="font-medium text-3xl">Selamat Datang !</p>
-      </div>
+
+        {initFilterSelamatDatang.map((data) => (
+          <BoxSelected
+            key={data.subTitle}
+            {...data}
+            control={control}
+            reset={reset}
+            name="filterSelamatDatang"
+            subName="subFilterSelamatDatang"
+          />
+        ))}
+      </section>
       <div className="w-full">
         <FilterMonitoringFaktorRisiko filterState={filterState} />
       </div>
