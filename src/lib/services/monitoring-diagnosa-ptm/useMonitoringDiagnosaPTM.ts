@@ -1,7 +1,18 @@
 import { API_BASE_URL_BADR_PTM } from "@/helpers/config";
+import {
+  DataResponseBloodDisorderType,
+  DataResponseDiseaseType,
+  DataResponseHearingDisorderType,
+  DataResponsePPOKType,
+  DataResponseThalassemaType,
+  DataResponseVisualDisorderType,
+} from "@/view/dashboard/monitoring-diagnosa-ptm/type";
+import {
+  DataResponeTotalParticipantType,
+  DataResponseTableAggregateType,
+} from "@/view/dashboard/monitoring-faktor-risiko/type";
 import { useQuery, UseQueryResult } from "@tanstack/react-query";
 import { client } from "../client";
-import { DataResponeTotalParticipantType } from "@/view/dashboard/monitoring-faktor-risiko/type";
 
 const baseUrl = `${API_BASE_URL_BADR_PTM}/diagnose-monitoring`;
 
@@ -51,7 +62,10 @@ const fetchDisease = async ({ query = {} }) => {
   }).then((data) => data);
 };
 
-const useDisease = ({ query = {}, options }: any = {}) => {
+const useDisease = ({ query = {}, options }: any = {}): UseQueryResult<
+  DataResponseDiseaseType,
+  Error
+> => {
   return useQuery({
     queryKey: ["disease", query],
     queryFn: () => fetchDisease({ query }),
@@ -68,7 +82,10 @@ const fetchBloodDisorder = async ({ query = {} }) => {
   }).then((data) => data);
 };
 
-const useBloodDisorder = ({ query = {}, options }: any = {}) => {
+const useBloodDisorder = ({ query = {}, options }: any = {}): UseQueryResult<
+  DataResponseBloodDisorderType,
+  Error
+> => {
   return useQuery({
     queryKey: ["blood-disorder", query],
     queryFn: () => fetchBloodDisorder({ query }),
@@ -85,7 +102,10 @@ const fetchThalassema = async ({ query = {} }) => {
   }).then((data) => data);
 };
 
-const useThalassema = ({ query = {}, options }: any = {}) => {
+const useThalassema = ({ query = {}, options }: any = {}): UseQueryResult<
+  DataResponseThalassemaType,
+  Error
+> => {
   return useQuery({
     queryKey: ["thalassema", query],
     queryFn: () => fetchThalassema({ query }),
@@ -102,7 +122,10 @@ const fetchHearingDisorder = async ({ query = {} }) => {
   }).then((data) => data);
 };
 
-const useHearingDisorder = ({ query = {}, options }: any = {}) => {
+const useHearingDisorder = ({ query = {}, options }: any = {}): UseQueryResult<
+  DataResponseHearingDisorderType,
+  Error
+> => {
   return useQuery({
     queryKey: ["hearing-disorder", query],
     queryFn: () => fetchHearingDisorder({ query }),
@@ -119,7 +142,10 @@ const fetchVisualDisorder = async ({ query = {} }) => {
   }).then((data) => data);
 };
 
-const useVisualDisorder = ({ query = {}, options }: any = {}) => {
+const useVisualDisorder = ({ query = {}, options }: any = {}): UseQueryResult<
+  DataResponseVisualDisorderType,
+  Error
+> => {
   return useQuery({
     queryKey: ["visual-disorder", query],
     queryFn: () => fetchVisualDisorder({ query }),
@@ -136,10 +162,33 @@ const fetchPPOK = async ({ query = {} }) => {
   }).then((data) => data);
 };
 
-const usePPOK = ({ query = {}, options }: any = {}) => {
+const usePPOK = ({ query = {}, options }: any = {}): UseQueryResult<
+  DataResponsePPOKType,
+  Error
+> => {
   return useQuery({
     queryKey: ["ppok", query],
     queryFn: () => fetchPPOK({ query }),
+    ...options,
+  });
+};
+
+const fetchTableAggregate = async ({ query = {} }) => {
+  return client("/table-aggregate", {
+    apiURL: baseUrl,
+    params: {
+      ...query,
+    },
+  }).then((data) => data);
+};
+
+const useTableAggregate = ({ query = {}, options }: any = {}): UseQueryResult<
+  DataResponseTableAggregateType,
+  Error
+> => {
+  return useQuery({
+    queryKey: ["table-aggregate", query],
+    queryFn: () => fetchTableAggregate({ query }),
     ...options,
   });
 };
@@ -149,6 +198,7 @@ export {
   useDisease,
   useHearingDisorder,
   usePPOK,
+  useTableAggregate,
   useThalassema,
   useTotalParticipant,
   useTotalVisitation,

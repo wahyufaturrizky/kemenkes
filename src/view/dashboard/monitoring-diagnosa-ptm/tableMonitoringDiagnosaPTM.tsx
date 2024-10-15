@@ -1,64 +1,44 @@
 import { DownloadButton, InputSearch, TableData } from "@/components";
+import { RowTableAggregateType } from "@/view/dashboard/monitoring-diagnosa-ptm/type";
 import { createColumnHelper, getCoreRowModel, useReactTable } from "@tanstack/react-table";
-import { useState } from "react";
+import { TableMonitoringFaktorRisikoType } from "@/view/dashboard/monitoring-faktor-risiko/type";
 
-type Data = {
-  province: string;
-  city: string;
-  kecamatan: string;
-  kelurahan_desa: string;
-  jumlah_hamil: number;
-  percentase_hamil: number;
-};
-
-const defaultData: Data[] = [
-  {
-    province: "DKI Jakarta",
-    city: "Jakarta Utara",
-    kecamatan: "Tebet",
-    kelurahan_desa: "Desa Mawar Indah",
-    jumlah_hamil: 511.0,
-    percentase_hamil: 9.0,
-  },
-  {
-    province: "DKI Jakarta",
-    city: "Kota Jakarta Timur",
-    kecamatan: "Kecamatan Cempaka",
-    kelurahan_desa: "Kelurahan Cempaka Timur",
-    jumlah_hamil: 423.8,
-    percentase_hamil: 9.0,
-  },
-];
-
-const columnHelper = createColumnHelper<Data>();
+const columnHelper = createColumnHelper<RowTableAggregateType>();
 
 const columns = [
   columnHelper.accessor("province", {
     cell: (info) => info.getValue(),
+    header: "Province",
   }),
-  columnHelper.accessor("city", {
+  columnHelper.accessor("faskes", {
     cell: (info) => info.getValue(),
+    header: "Faskes",
   }),
-  columnHelper.accessor("kecamatan", {
+  columnHelper.accessor("total_participant", {
     cell: (info) => info.getValue(),
+    header: "Total Participant",
   }),
-  columnHelper.accessor("kelurahan_desa", {
+  columnHelper.accessor("total_involved_participant", {
     cell: (info) => info.getValue(),
+    header: "Total Involved Participant",
   }),
-  columnHelper.accessor("jumlah_hamil", {
+  columnHelper.accessor("grouper", {
     cell: (info) => info.getValue(),
+    header: "Grouper",
   }),
-  columnHelper.accessor("percentase_hamil", {
+  columnHelper.accessor("total_grouper_participant", {
     cell: (info) => info.getValue(),
+    header: "Total Grouper Participant",
   }),
 ];
 
-const TableMonitoringDiagnosaPTM = ({ titleTable = "" }) => {
-  const [data, _setData] = useState(() => [...defaultData]);
-
+const TableMonitoringDiagnosaPTM = ({
+  titleTable = "",
+  tableAggregateData,
+}: TableMonitoringFaktorRisikoType) => {
   const tableInstance = useReactTable({
     columns,
-    data,
+    data: tableAggregateData,
     getCoreRowModel: getCoreRowModel(),
   });
 
