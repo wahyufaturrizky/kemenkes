@@ -26,15 +26,15 @@ export async function client(
 
   return axios(config)
     .then(async (response: AxiosResponse<any, any>) => {
-      console.log(
-        `@success res, url = ${response.config.url} , METHOD = ${response.config.method}`,
-        response
-      );
+      // console.log(
+      //   `@success res, url = ${response.config.url} , METHOD = ${response.config.method}`,
+      //   response
+      // );
 
       return response;
     })
     .catch((e: any) => {
-      console.log(`@Error res, url = ${e.config.url} , METHOD = ${e.config.method}`, e);
-      message.error(e?.message);
+      // console.log(`@Error res, url = ${e.config.url} , METHOD = ${e.config.method}`, e);
+      // message.error(e?.message);
     });
 }

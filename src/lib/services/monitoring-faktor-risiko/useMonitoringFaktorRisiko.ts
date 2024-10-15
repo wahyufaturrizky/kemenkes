@@ -6,6 +6,7 @@ import {
   DataResponseActivityType,
   DataResponseConsumptionType,
   DataResponseSmokingType,
+  DataResponseTableAggregateType,
 } from "@/view/dashboard/monitoring-faktor-risiko/type";
 
 const baseUrl = `${API_BASE_URL_BADR_PTM}/risk-factor-monitoring`;
@@ -107,4 +108,31 @@ const useSmoking = ({ query = {}, options }: any = {}): UseQueryResult<
   });
 };
 
-export { useActivity, useConsumption, useSmoking, useTotalParticipant, useTotalVisitation };
+const fetchTableAggregate = async ({ query = {} }) => {
+  return client("/table-aggregate", {
+    apiURL: baseUrl,
+    params: {
+      ...query,
+    },
+  }).then((data) => data);
+};
+
+const useTableAggregate = ({ query = {}, options }: any = {}): UseQueryResult<
+  DataResponseTableAggregateType,
+  Error
+> => {
+  return useQuery({
+    queryKey: ["table-aggregate", query],
+    queryFn: () => fetchTableAggregate({ query }),
+    ...options,
+  });
+};
+
+export {
+  useTableAggregate,
+  useActivity,
+  useConsumption,
+  useSmoking,
+  useTotalParticipant,
+  useTotalVisitation,
+};

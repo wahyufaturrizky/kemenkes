@@ -2,6 +2,7 @@
 
 import { Select } from "@/components";
 import { generateYearsArray, standardOptionSameLabel, standardOptions } from "@/helpers";
+import { standardOptionsMonitoringFaktorRisiko } from "@/helpers/index";
 import { useGetListFaskesQuery } from "@/lib/services/public-immunization";
 import {
   useGetFacilityOfTypeQuery,
@@ -14,9 +15,13 @@ import { dataMonths } from "@/utils/constants";
 import { useState } from "react";
 interface FilterProps {
   filterState?: any;
+  showPilihFaskes?: any;
 }
 
-const FilterMonitoringFaktorRisiko: React.FC<FilterProps> = ({ filterState }) => {
+const FilterMonitoringFaktorRisiko: React.FC<FilterProps> = ({
+  filterState,
+  showPilihFaskes = true,
+}) => {
   const [filter, setFilter] = filterState || useState({});
   const { data: getProvince } = useGetProvinceQuery({});
   const { data: getRegency } = useGetRegencyQuery(
@@ -208,7 +213,7 @@ const FilterMonitoringFaktorRisiko: React.FC<FilterProps> = ({ filterState }) =>
             <div>
               <Select
                 placeholder="Pilih Jenis Faskes"
-                options={standardOptions(
+                options={standardOptionsMonitoringFaktorRisiko(
                   getFacilityOfType?.data || [],
                   "jenis_sarana_name",
                   "jenis_sarana"
@@ -222,7 +227,7 @@ const FilterMonitoringFaktorRisiko: React.FC<FilterProps> = ({ filterState }) =>
                 }}
                 value={
                   filter.jenis_sarana
-                    ? standardOptions(
+                    ? standardOptionsMonitoringFaktorRisiko(
                         getFacilityOfType?.data || [],
                         "jenis_sarana_name",
                         "jenis_sarana"
@@ -232,25 +237,27 @@ const FilterMonitoringFaktorRisiko: React.FC<FilterProps> = ({ filterState }) =>
                 isDisabled={!filter.kecamatan}
               />
             </div>
-            <div>
-              <Select
-                placeholder="Pilih Faskes"
-                options={standardOptions(getMedicalFacility?.data || [], "faskes_name", "faskes")}
-                onChange={(e: any) => {
-                  setFilter({ ...filter, wilayah: "faskes", faskes: e?.value });
-                }}
-                value={
-                  filter.faskes
-                    ? standardOptions(
-                        getMedicalFacility?.data || [],
-                        "faskes_name",
-                        "faskes"
-                      )?.find((f) => f.value === filter.faskes)
-                    : filter.faskes
-                }
-                isDisabled={!filter.jenis_sarana}
-              />
-            </div>
+            {showPilihFaskes && (
+              <div>
+                <Select
+                  placeholder="Pilih Faskes"
+                  options={standardOptions(getMedicalFacility?.data || [], "faskes_name", "faskes")}
+                  onChange={(e: any) => {
+                    setFilter({ ...filter, wilayah: "faskes", faskes: e?.value });
+                  }}
+                  value={
+                    filter.faskes
+                      ? standardOptions(
+                          getMedicalFacility?.data || [],
+                          "faskes_name",
+                          "faskes"
+                        )?.find((f) => f.value === filter.faskes)
+                      : filter.faskes
+                  }
+                  isDisabled={!filter.jenis_sarana}
+                />
+              </div>
+            )}
           </>
         ) : (
           <div>

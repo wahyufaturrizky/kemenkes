@@ -12,6 +12,7 @@ import {
   useSmoking,
   useTotalParticipant,
   useTotalVisitation,
+  useTableAggregate,
 } from "@/lib/services/monitoring-faktor-risiko/useMonitoringFaktorRisiko";
 import { formatPercentage, removeEmptyKeys } from "@/lib/utils";
 import { dataMonths } from "@/utils/constants";
@@ -77,17 +78,17 @@ export default function MonitoringFaktorRisiko() {
   const { data: dataTotalParticipant, isPending: isPendingTotalParticipant } = useTotalParticipant({
     query: removeEmptyKeys(filter),
   });
-  const { data: dataTotalVisitation, isPending: isPendingTotalVisitation } = useTotalVisitation({
+  const { data: dataActivity } = useActivity({
     query: removeEmptyKeys(filter),
   });
-  const { data: dataActivity, isPending: isPendingActivity } = useActivity({
+  const { data: dataConsumption } = useConsumption({
     query: removeEmptyKeys(filter),
   });
-  const { data: dataConsumption, isPending: isPendingConsumption } = useConsumption({
+  const { data: dataSmoking } = useSmoking({
     query: removeEmptyKeys(filter),
   });
-  const { data: dataSmoking, isPending: isPendingSmoking } = useSmoking({
-    query: removeEmptyKeys(filter),
+  const { data: dataTableAggregate } = useTableAggregate({
+    query: removeEmptyKeys({ ...filter, indicator: "Aktifitas Fisik" }),
   });
 
   const { total_participant_based_on_gender, total_participant_based_on_time } =
@@ -101,6 +102,8 @@ export default function MonitoringFaktorRisiko() {
     total_participant_based_on_gender?.[1] ?? {};
 
   const { data: activityData } = dataActivity?.data ?? {};
+  const { data: tableAggregateData } = dataTableAggregate?.data ?? {};
+  console.log("@tableAggregateData", tableAggregateData);
 
   const consumptionData: DataConsumptionType | {} = dataConsumption?.data?.data ?? {};
   const smokingData: DataSmokingType | {} = dataSmoking?.data?.data ?? {};
@@ -141,7 +144,7 @@ export default function MonitoringFaktorRisiko() {
       </section>
 
       <div className="w-full">
-        <FilterMonitoringFaktorRisiko filterState={filterState} />
+        <FilterMonitoringFaktorRisiko showPilihFaskes={false} filterState={filterState} />
       </div>
 
       <SectionHeader title="Capaian Deteksi Dini PTM" subtitle="Faktor Risiko PTM" />
@@ -349,7 +352,10 @@ export default function MonitoringFaktorRisiko() {
         })}
       </div>
 
-      <TableMonitoringFaktorRisiko titleTable="Tabel Data Agregat" />
+      <TableMonitoringFaktorRisiko
+        tableAggregateData={tableAggregateData || []}
+        titleTable="Tabel Data Agregat"
+      />
     </div>
   );
 }

@@ -59,6 +59,7 @@ export const removeEmptyKeys = (filter: any) => {
     sub_district: filter.kecamatan,
     faskes_type: filter.jenis_sarana,
     ward: filter.faskes,
+    indicator: filter.indicator,
   };
 
   return Object.fromEntries(Object.entries(obj).filter(([_, v]) => v != null && v !== ""));

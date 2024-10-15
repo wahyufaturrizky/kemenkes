@@ -1,6 +1,7 @@
 import { AxiosResponse } from "axios";
 import { Dispatch, SetStateAction } from "react";
 import { Control, UseFormReset } from "react-hook-form";
+import TableMonitoringFaktorRisiko from "@/view/dashboard/monitoring-faktor-risiko/tableMonitoringFaktorRisiko";
 
 type ActivityType = "Setiap Hari" | "Tidak" | "Tidak Setiap Hari";
 type SmokingType =
@@ -51,6 +52,11 @@ export interface BoxSelectedProps {
   setStateFilter?: Dispatch<SetStateAction<string>>;
 }
 
+export interface TableMonitoringFaktorRisikoType {
+  titleTable: string;
+  tableAggregateData: RowTableAggregateType[];
+}
+
 export interface DataResponeTotalParticipantType extends AxiosResponse {
   success: boolean;
   message: string;
@@ -77,6 +83,32 @@ export interface DataResponseSmokingType extends AxiosResponse {
   data: {
     data: DataSmokingType;
   };
+}
+
+export interface DataResponseTableAggregateType extends AxiosResponse {
+  success: boolean;
+  message: string;
+  data: {
+    data: RowTableAggregateType[];
+  };
+}
+
+export type RowAggregateTableType = {
+  province: string;
+  faskes: string;
+  total_participant: number;
+  total_involved_participant: number;
+  grouper: string;
+  total_grouper_participant: number;
+};
+
+export interface RowTableAggregateType {
+  province: string;
+  faskes: string;
+  total_participant: number;
+  total_involved_participant: number;
+  grouper: string;
+  total_grouper_participant: number;
 }
 
 export interface DataSmokingType {
