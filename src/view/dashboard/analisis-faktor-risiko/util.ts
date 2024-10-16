@@ -243,8 +243,15 @@ export const formatChartActivityBasedOnRegion = ({
   dataActivityBasedOnRegionBasedOnParticipant?: SubActivityBasedOnRegionType[];
 }) => {
   const res = {
+    grid: {
+      left: "3%",
+      right: "4%",
+      bottom: "10%",
+      containLabel: true,
+    },
     xAxis: {
       type: "value",
+      max: 100, // Atur nilai maksimum menjadi positif
       axisLabel: {
         formatter: "{value}%",
         color: "#888",
