@@ -1,36 +1,45 @@
 "use client";
-import { DownloadButton, GraphEcharts, Select } from "@/components";
+import { DownloadButton, GraphEcharts } from "@/components";
 import ButtonIcon from "@/components/button-icon";
 import GraphItem from "@/components/graph-item";
 import Header from "@/components/header";
-import MapAnc2 from "@/components/mapAnc2";
+import MapAnalisisiDiagnosaPTM from "@/components/map-analisis-diagnosa-ptm";
 import Progress from "@/components/progress";
 import SectionHeader from "@/components/sectionHeader";
 import { formatNumber } from "@/helpers";
-import { useGetGraphImmunizationScopeQuery } from "@/lib/services/baby-immunization";
-import { ancGraphOptions1, ancGtaphOptions5, dataMonth, incGraphOptions1 } from "@/utils/constants";
-import { graphOptions6 } from "@/view/dashboard/ibu-hamil/graphOptions";
-import { graphOptions5 } from "@/view/graphOptions";
-import FilterMonitoringFaktorRisiko from "@/view/home/components/FilterMonitoringFaktorRisiko";
-import { useMemo, useState } from "react";
-import { IoMdArrowForward, IoMdInformationCircleOutline } from "react-icons/io";
-import { graphOptions4, graphOptions7 } from "../analisis-faktor-risiko/graphOptions";
-import styles from "../anc/anc.module.css";
-import { useTotalParticipant } from "@/lib/services/monitoring-diagnosa-ptm/useMonitoringDiagnosaPTM";
 import {
-  useTotalVisitation,
-  useHypertensionPyramid,
-  useHypertensionDistributionMap,
-  usePatientUnderTreatment,
-  usePatientLostFollowUp,
   useControlledPatientIn3Month,
+  useHypertensionDistributionMap,
+  useHypertensionPyramid,
+  usePatientLostFollowUp,
+  usePatientUnderTreatment,
   useUncontrolledPatientIn3Month,
 } from "@/lib/services/analisis-diagnosa-ptm/useAnalisisDiagnosaPTM";
+import { useGetGraphImmunizationScopeQuery } from "@/lib/services/baby-immunization";
+import { useTotalParticipant } from "@/lib/services/monitoring-diagnosa-ptm/useMonitoringDiagnosaPTM";
+import { formatPercentage, removeEmptyKeys } from "@/lib/utils";
+import {
+  ChartType,
+  FormValuesAnalisisDiagnosaPTM,
+  SubDataSectionType,
+} from "@/view/dashboard/analisis-diagnosa-ptm/type";
+import { mapChartSection } from "@/view/dashboard/analisis-diagnosa-ptm/util";
+import { formatChartBreakdownJenisKelamin } from "@/view/dashboard/monitoring-faktor-risiko/util";
+import FilterMonitoringFaktorRisiko from "@/view/home/components/FilterMonitoringFaktorRisiko";
+import { Spin } from "antd";
+import { useMemo, useState } from "react";
 import { useForm } from "react-hook-form";
-import { FormValuesAnalisisDiagnosaPTM } from "@/view/dashboard/analisis-diagnosa-ptm/type";
-import { initFilterSelamatDatang } from "./init-value";
+import { IoMdArrowForward, IoMdInformationCircleOutline } from "react-icons/io";
+import { formatChartTotalParticipant } from "../analisis-faktor-risiko/util";
+import styles from "../anc/anc.module.css";
+import { BoxChart } from "./BoxChart";
 import BoxSelected from "./BoxSelected";
-import { removeEmptyKeys } from "@/lib/utils";
+import { initFilterSelamatDatang } from "./init-value";
+import {
+  formatChartActivityBasedOnRegion,
+  formatChartPiramida,
+  formatChartPiramidaILP,
+} from "./util";
 
 export default function AnalisisFaktorRisiko() {
   const { control, reset } = useForm<FormValuesAnalisisDiagnosaPTM>({
@@ -43,7 +52,8 @@ export default function AnalisisFaktorRisiko() {
   const filterState = useState({
     tahun: 2023,
     // tahun: new Date().getFullYear(),
-    bulan: dataMonth.find((r, i) => i === new Date().getMonth())?.value,
+    // bulan: dataMonth.find((r, i) => i === new Date().getMonth())?.value,
+    bulan: "",
     provinsi: "",
     kabkota: "",
     kecamatan: "",
@@ -133,68 +143,7 @@ export default function AnalisisFaktorRisiko() {
   const { data: getGraphImmunizationScope, isLoading: isLoadingGraphImmunizationScope } =
     useGetGraphImmunizationScopeQuery(filterGraph1, optionQuery);
 
-  const dataNasional = [
-    [
-      1386, 976, 1473, 805, 1201, 1039, 1465, 1106, 923, 702, 1172, 731, 833, 1254, 1471, 1043,
-      1347, 994, 1305, 1387, 1259, 1230, 986, 1462, 679, 1390, 931, 854, 1091, 1358, 824, 1365,
-      1176, 1008, 1395, 1332, 1102, 1297,
-    ], // Data pertama
-    [
-      1086, 1099, 1380, 1460, 1301, 896, 762, 1189, 1083, 900, 1258, 1080, 1267, 1092, 1132, 1059,
-      1260, 1200, 1382, 1199, 1389, 1407, 1223, 1006, 1284, 871, 1031, 1192, 1444, 1261, 1396, 1306,
-      987, 808, 1303, 799, 1299, 1004,
-    ], // Data kedua
-    [
-      768, 1035, 1093, 1075, 1390, 762, 1177, 1176, 1003, 813, 1290, 1193, 1355, 1257, 1112, 1338,
-      948, 746, 997, 1131, 1362, 1478, 1291, 1426, 1434, 819, 1322, 1495, 924, 1447, 1226, 931,
-      1103, 1456, 827, 1023, 1350, 927,
-    ], // Data ketiga
-    [
-      1296, 1258, 1337, 1351, 1284, 1436, 971, 1275, 1191, 1302, 1273, 813, 1238, 1195, 1123, 1171,
-      1378, 1372, 1104, 1143, 1037, 1440, 1376, 1309, 1082, 1072, 1449, 1250, 1277, 874, 1486, 1209,
-      1328, 1293, 1397, 1307, 1205, 1183,
-    ], // Data keempat
-  ];
-
-  const totalData = ancGraphOptions1.map((option) => option.ya + option.tidak);
-
-  const series2: any[] = [
-    "Direct",
-    "Mail Ad",
-    "Affiliate Ad",
-    "Video Ad",
-    // "Search Engine",
-  ].map((name, sid) => {
-    return {
-      name,
-      type: "bar",
-      stack: "total",
-      barWidth: "60%",
-      data: dataNasional[sid], // Menggunakan data asli tanpa pembagian
-    };
-  });
-
-  series2.push({
-    name: "New Line Ad",
-    type: "line",
-    data: [
-      1120, 1399, 888, 1333, 1222, 925, 1257, 1234, 1285, 1349, 1231, 1291, 1458, 1367, 1416, 1335,
-      1138, 1453, 1294, 1160, 1178, 1446, 1278, 1295, 1279, 1057, 1169, 1348, 1417, 1124, 1339,
-      1044, 1336, 1281, 1025, 1368, 1374, 1314,
-    ], // Data kelima
-
-    lineStyle: {
-      width: 2,
-    },
-    itemStyle: {
-      color: "black",
-    },
-  });
-
   const { data: dataTotalParticipant, isPending: isPendingTotalParticipant } = useTotalParticipant({
-    query: removeEmptyKeys(filter),
-  });
-  const { data: dataTotalVisitation, isPending: isPendingTotalVisitation } = useTotalVisitation({
     query: removeEmptyKeys(filter),
   });
   const { data: dataHypertensionPyramid, isPending: isPendingHypertensionPyramid } =
@@ -222,9 +171,37 @@ export default function AnalisisFaktorRisiko() {
       query: removeEmptyKeys(filter),
     });
 
+  const { based_on_participant: dataHypertensionPyramidBasedOnParticipant } =
+    dataHypertensionPyramid?.data?.data ?? {};
+
+  const { total_participant_based_on_gender, total_participant_based_on_time } =
+    dataTotalParticipant?.data?.data ?? {};
+
+  const { based_on_participant: dataHypertensionDistributionMapBasedOnParticipant } =
+    dataHypertensionDistributionMap?.data?.data ?? {};
+
+  const { data: patientUnderTreatmentData } = dataPatientUnderTreatment?.data ?? {};
+  const { data: dataPatientLostFollowUpData } = dataPatientLostFollowUp?.data ?? {};
+  const { data: dataControlledPatientIn3MonthData } = dataControlledPatientIn3Month?.data ?? {};
+  const { data: dataUncontrolledPatientIn3MonthData } = dataUncontrolledPatientIn3Month?.data ?? {};
+
+  const {
+    all_total,
+    total: totalMale,
+    percentage: percentageMale,
+  } = total_participant_based_on_gender?.[0] ?? {};
+
+  const { total: totalFemale, percentage: percentageFemale } =
+    total_participant_based_on_gender?.[1] ?? {};
+
+  const isLoadingSectionChart =
+    isPendingPatientUnderTreatment ||
+    isPendingPatientLostFollowUp ||
+    isPendingControlledPatientIn3Month ||
+    isPendingUncontrolledPatientIn3Month;
+
   return (
     <div className={`flex flex-col items-center p-[30px]  ${styles.jakartaFont}`}>
-      {" "}
       <Header
         title={`Dashboard\nCapaian SATUSEHAT`}
         subtitle="Kesehatan Anak Usia Sekolah dan Remaja"
@@ -270,42 +247,73 @@ export default function AnalisisFaktorRisiko() {
               </div>
               <p className="text-xl font-normal">Jumlah Peserta Skrining</p>
               <p className="text-xl font-bold">Aktivtas Fisik</p>
-              <p className="text-4xl font-normal">11,037,458</p>
+              <p className="text-4xl font-normal">
+                {isPendingTotalParticipant ? "Loading..." : formatNumber(Number(all_total))}
+              </p>
             </div>
             <div className="rounded-2xl row-span-7 border border-[#D6D6D6] px-4 py-8 flex flex-col justify-between h-full">
               <p className="font-semibold text-xl">Breakdown per jenis kelamin</p>
               <div className="grid grid-cols-12 gap-3 max-h-[100px]">
                 <div className="col-span-4 text-center">
                   <p className="text-[#3BC6BE] font-semibold mb-7">Laki-laki</p>
-                  <p className="font-semibold text-[#616161]">34,753,536</p>
-                  <p className="font-light text-[#616161]">(41.5%)</p>
+                  <p className="font-semibold text-[#616161]">
+                    {isPendingTotalParticipant ? "Loading..." : formatNumber(Number(totalMale))}
+                  </p>
+                  <p className="font-light text-[#616161]">
+                    (
+                    {isPendingTotalParticipant
+                      ? "Loading..."
+                      : formatPercentage(Number(percentageMale))}
+                    %)
+                  </p>
                 </div>
-                <div className="col-span-4 h-[100px]">
-                  <GraphEcharts graphOptions={chartOptions} />
+                <div className="col-span-4 h-[300px]">
+                  <GraphEcharts
+                    showLoading={isPendingTotalParticipant}
+                    graphOptions={formatChartBreakdownJenisKelamin({
+                      isBrowser,
+                      totalFemale,
+                      totalMale,
+                    })}
+                  />
                 </div>
                 <div className="col-span-4 text-center">
                   <p className="text-[#CF3E53] font-semibold mb-7">Perempuan</p>
-                  <p className="font-semibold text-[#616161]">34,753,536</p>
-                  <p className="font-light text-[#616161]">(41.5%)</p>
+                  <p className="font-semibold text-[#616161]">
+                    {isPendingTotalParticipant ? "Loading..." : formatNumber(Number(totalFemale))}
+                  </p>
+                  <p className="font-light text-[#616161]">
+                    (
+                    {isPendingTotalParticipant
+                      ? "Loading..."
+                      : formatPercentage(Number(percentageFemale))}
+                    %)
+                  </p>
                 </div>
               </div>
               <div className="mt-[10px]">
-                <Progress
-                  data={[
-                    {
-                      color: "#CF3E53",
-                      label: "Perempuan",
-                      value: 5500,
-                      percentage: 70,
-                    },
-                    {
-                      color: "#3BC6BE",
-                      label: "Laki-laki",
-                      value: 3500,
-                      percentage: 30,
-                    },
-                  ]}
-                />
+                {isPendingTotalParticipant ? (
+                  <div className="w-full flex justify-center">
+                    <Spin tip="Loading..." />
+                  </div>
+                ) : (
+                  <Progress
+                    data={[
+                      {
+                        color: "#CF3E53",
+                        label: "Perempuan",
+                        value: totalFemale,
+                        percentage: percentageFemale,
+                      },
+                      {
+                        color: "#3BC6BE",
+                        label: "Laki-laki",
+                        value: totalMale,
+                        percentage: percentageMale,
+                      },
+                    ]}
+                  />
+                )}
               </div>
             </div>
           </div>
@@ -314,47 +322,13 @@ export default function AnalisisFaktorRisiko() {
           <div className="relative h-[full] ">
             <GraphItem
               showDownload={false}
-              graphOptions={graphOptions5(
-                [
-                  {
-                    name: "Jumlah Bumil Anemia",
-                    data: (ancGtaphOptions5 || [])?.map((r: any) => r?.jumlah) || [],
-                    type: "bar",
-                    label: {
-                      show: false,
-                    },
-                  },
-                  {
-                    name: "% Bumil Anemia",
-                    data:
-                      (ancGtaphOptions5 || [])?.map((r: any) => r?.persentase_bumil_anemia) || [],
-                    type: "line",
-                    label: {
-                      show: false,
-                      // precision: 1,
-                      // formatter: (params: any) =>
-                      //   `${formatNumber(params.value)}%`,
-                    },
-                  },
-                  {
-                    name: "Cakupan % Nasional Anemia",
-                    data: (ancGtaphOptions5 || [])?.map((r: any) => r?.persentase_nasional) || [],
-                    type: "line",
-                    label: {
-                      show: false,
-                      // precision: 1,
-                      // formatter: (params: any) =>
-                      //   `${formatNumber(params.value)}%`,
-                    },
-                  },
-                ],
-                ancGtaphOptions5?.map((r) => r.region)
-              )}
+              graphOptions={formatChartTotalParticipant({
+                total_participant_based_on_time,
+              })}
+              opts={{ height: 500 }}
             />
           </div>
-          <div className="w-full flex items-end mt-20">
-            <DownloadButton text="Unduh Excel" />
-          </div>
+          <DownloadButton />
         </div>
       </div>
       <section className="w-full">
@@ -370,69 +344,38 @@ export default function AnalisisFaktorRisiko() {
                 style={{ minHeight: 550 }}
                 id="graphhhh"
               >
-                <GraphEcharts
-                  graphOptions={graphOptions4(
-                    [
-                      {
-                        // @ts-ignore
-                        name: "Persentase",
-                        data:
-                          (getGraphImmunizationScope?.data || [])?.map((r: any) => ({
-                            value: r?.percentage,
-                            itemStyle: {
-                              color: r.faskes_desc === "All" ? "#2D9CED" : undefined,
-                            },
-                          })) || [],
-                        type: "bar",
-                        label: {
-                          show: true,
-                          precision: 1,
-                          position: "right",
-                          // formatter: (params: any) => `${params.value}%`,
-                          formatter: (params: any) => {
-                            const reversedData = (getGraphImmunizationScope?.data || [])
-                              .slice()
-                              .reverse(); // Membuat salinan dan membalik urutan
-                            const totalData = reversedData[params.dataIndex]?.total;
-                            const valueWithComma = params?.value?.toString().replace(".", ",");
-
-                            return filter.wilayah1 === "province" || filter.wilayah1 === "city"
-                              ? `${valueWithComma}% (${formatNumber(totalData)})`
-                              : `(${formatNumber(totalData)})`;
-                          },
-                        },
-                      },
-                      {
-                        name: "Target",
-                        type: "line",
-                        color: "#CD4243",
-                        data:
-                          (getGraphImmunizationScope?.data || [])?.map((r: any) => r?.threshold) ||
-                          [],
-                      },
-                      {
-                        name: "Total Penerima",
-                        type: "line",
-                        color: "#FAC515",
-                        data:
-                          (getGraphImmunizationScope?.data || [])?.map((r: any) => r?.total) || [],
-                        show: false, // Menyembunyikan seri secara default
-                        itemStyle: {
-                          opacity: 0, // Mengatur opacity item menjadi 0 untuk menyembunyikan item
-                        },
-                        lineStyle: {
-                          opacity: 0, // Mengatur opacity garis menjadi 0 untuk menyembunyikan garis
-                        },
-                      },
-                    ],
-                    (getGraphImmunizationScope?.data || [])?.map((r: any) =>
-                      r.faskes_desc === "All" ? "NASIONAL" : r.faskes_desc
-                    )
-                  )}
-                  opts={{
-                    height: 900,
-                  }}
-                />
+                <div className="grid grid-cols-2 gap-4">
+                  <div>
+                    <p className="font-plus-jakarta-sans font-bold text-sm text-center">
+                      Hasil Skrining <span className="text-[#3BC6BE]">Aktivitas Fisik</span>{" "}
+                      Berdasarkan Jenis Kelamin
+                    </p>
+                    <GraphEcharts
+                      showLoading={isPendingHypertensionPyramid}
+                      graphOptions={formatChartPiramida({
+                        dataHypertensionPyramidBasedOnParticipant,
+                      })}
+                      opts={{
+                        height: 900,
+                      }}
+                    />
+                  </div>
+                  <div>
+                    <p className="font-plus-jakarta-sans font-bold text-sm text-center">
+                      Hasil Skrining <span className="text-[#3BC6BE]">Aktivitas Fisik</span>{" "}
+                      Berdasarkan Umur ILP
+                    </p>
+                    <GraphEcharts
+                      showLoading={isPendingHypertensionPyramid}
+                      graphOptions={formatChartPiramidaILP({
+                        dataHypertensionPyramidBasedOnParticipant,
+                      })}
+                      opts={{
+                        height: 900,
+                      }}
+                    />
+                  </div>
+                </div>
               </div>
             </div>
           </div>
@@ -440,124 +383,73 @@ export default function AnalisisFaktorRisiko() {
       </section>
       <section className="w-full mt-10 grid grid-cols-12 gap-3">
         <div className="rounded-2xl border border-[#D6D6D6] col-span-12 lg:col-span-8 py-8 px-5">
-          <SectionHeader title="" subtitle="Peta Capaian Penerima Layanan Dasar" />
+          <SectionHeader
+            title="Peta Sebaran Peserta Terdiagnosis Hipertensi"
+            subtitle="Peta Sebaran Peserta Terdiagnosis Hipertensi"
+          />
           <div className="mt-5 rounded-xl border border-[#D6D6D6] p-[13px] h-[550px]">
-            <MapAnc2 />
+            {dataHypertensionDistributionMapBasedOnParticipant?.length && (
+              <MapAnalisisiDiagnosaPTM
+                dataHypertensionDistributionMapBasedOnParticipant={
+                  dataHypertensionDistributionMapBasedOnParticipant
+                }
+              />
+            )}
           </div>
         </div>
         <div className="rounded-2xl border border-[#D6D6D6] col-span-12 lg:col-span-4 py-4 px-5 bg-[#4C5699]">
-          <h4 className="text-white font-bold text-xl">Capaian Penerima Layanan Dasar</h4>
-          <p className="text-[#EFEDFF] my-4 text-sm">lorem</p>
+          <h4 className="text-white font-bold text-xl">Diagnosis Hipertensi</h4>
+          <p className="text-[#EFEDFF] my-4 text-sm">
+            Diurutkan dari wilayah dengan Hipertensi paling banyak:
+          </p>
           <div className="bg-white shadow-md mt-5 rounded-2xl py-5 px-3">
-            <div className="w-1/2 mb-2">
-              <Select placeholder="Terendah" />
-            </div>
-            <div className="h-[680px]">
+            <div className="h-[680px] overflow-y-auto">
               <GraphItem
-                isHideButtonDownload={true}
-                graphOptions={graphOptions6(
-                  [
-                    {
-                      name: "Melaksanakan Layanan Kesehatan Ibu Hamil",
-                      type: "bar",
-                      stack: "total",
-                      label: {
-                        show: true,
-                        formatter: (params: any) => {
-                          const total = totalData[params.dataIndex];
-                          const value = params.value;
-                          const percentage = ((value / total) * 100).toFixed(2); // Calculate percentage and format it to 2 decimal places
-                          return `${params.value}%`;
-                        },
-                      },
-                      emphasis: {
-                        focus: "series",
-                      },
-                      itemStyle: {
-                        color: "#00B3AC",
-                      },
-                      data: (incGraphOptions1 || [])?.map((r: any) => r?.pct) || [],
-                    },
-                  ],
-                  incGraphOptions1?.map((r: any) => r.label) || []
-                )}
+                showDownload={false}
+                showLoading={isPendingHypertensionDistributionMap}
+                graphOptions={formatChartActivityBasedOnRegion({
+                  dataHypertensionDistributionMapBasedOnParticipant,
+                })}
+                opts={{
+                  height: 1500,
+                }}
               />
             </div>
           </div>
         </div>
       </section>
-      <section className="w-full">
-        <SectionHeader title="Analisa Penanganan PTM" />
+      {mapChartSection({
+        patientUnderTreatmentData,
+        dataPatientLostFollowUpData,
+        dataControlledPatientIn3MonthData,
+        dataUncontrolledPatientIn3MonthData,
+      }).map((data: SubDataSectionType) => {
+        const { title, subTitle, chart } = data;
+        return (
+          <section key={title} className="w-full">
+            <SectionHeader title={title} subtitle={subTitle} />
 
-        <div className="grid grid-cols-3 gap-2">
-          {[1, 2, 3].map(() => (
-            <div className="w-full p-4 mt-6 gap-3 flex flex-col shadow-[0px_1px_8px_0px_#0000000D] rounded-2xl pb-14 h-[750px]">
-              <p className="font-plus-jakarta-sans text-[18px] font-semibold leading-[22.68px] text-left">
-                Pasien dalam Masa Pengobatan
-              </p>
+            <div className="grid grid-cols-3 gap-2">
+              {chart.map((itemChart: ChartType, i: number) => {
+                const { title, subTitle, dataChart, amount, note1, note2 } = itemChart;
 
-              <p className="font-plus-jakarta-sans text-[14px] text-[#616161] font-medium leading-[17.64px] text-left">
-                Pasien hipertensi dengan minimal satu kali kunjungan 12 bulan terakhir
-              </p>
-
-              <p className="font-plus-jakarta-sans text-[#006A65] text-[32px] font-semibold leading-[32px] text-left">
-                10,632
-              </p>
-
-              <p className="font-plus-jakarta-sans text-[#616161] text-[14px] font-normal leading-[20px] text-left">
-                1,043 pasien terdaftar pada Jul-2023 dari
-              </p>
-
-              <p className="font-plus-jakarta-sans text-[#007AFF] text-[14px] font-normal leading-[20px] text-left">
-                12,213 kumulatif pasien-pasien terdaftar
-              </p>
-
-              <GraphEcharts
-                graphOptions={graphOptions7(series2)}
-                opts={{
-                  height: 500,
-                }}
-              />
+                return (
+                  <BoxChart
+                    key={i}
+                    title={title}
+                    subTitle={subTitle}
+                    amount={amount}
+                    note1={note1}
+                    note2={note2}
+                    dataChart={dataChart}
+                    showLoading={isLoadingSectionChart}
+                  />
+                );
+              })}
             </div>
-          ))}
-        </div>
-      </section>
-      <section className="w-full">
-        <SectionHeader title="Hasil Penanganan Pasien Hipertensi" />
-
-        <div className="grid grid-cols-3 gap-2">
-          {[1, 2, 3].map(() => (
-            <div className="w-full p-4 mt-6 gap-3 flex flex-col shadow-[0px_1px_8px_0px_#0000000D] rounded-2xl pb-14 h-[600px]">
-              <p className="font-plus-jakarta-sans text-[18px] font-semibold leading-[22.68px] text-left">
-                Pasien dalam Masa Pengobatan
-              </p>
-
-              <p className="font-plus-jakarta-sans text-[14px] text-[#616161] font-medium leading-[17.64px] text-left">
-                Pasien hipertensi dengan minimal satu kali kunjungan 12 bulan terakhir
-              </p>
-
-              <p className="font-plus-jakarta-sans text-[#006A65] text-[32px] font-semibold leading-[32px] text-left">
-                10,632
-              </p>
-
-              <p className="font-plus-jakarta-sans text-[#616161] text-[14px] font-normal leading-[20px] text-left">
-                1,043 pasien terdaftar pada Jul-2023 dari
-              </p>
-
-              <p className="font-plus-jakarta-sans text-[#007AFF] text-[14px] font-normal leading-[20px] text-left">
-                12,213 kumulatif pasien-pasien terdaftar
-              </p>
-
-              <GraphEcharts
-                graphOptions={graphOptions7(series2)}
-                opts={{
-                  height: 500,
-                }}
-              />
-            </div>
-          ))}
-        </div>
-      </section>
+          </section>
+        );
+      })}
     </div>
   );
 }

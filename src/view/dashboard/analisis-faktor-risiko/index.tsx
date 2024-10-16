@@ -1,5 +1,5 @@
 "use client";
-import { DownloadButton, GraphEcharts, Select } from "@/components";
+import { DownloadButton, GraphEcharts } from "@/components";
 import ButtonIcon from "@/components/button-icon";
 import GraphItem from "@/components/graph-item";
 import Header from "@/components/header";
@@ -12,11 +12,8 @@ import {
   useActivityCheckDistribution,
   useActivityPyramid,
   useTotalParticipant,
-  useTotalVisitation,
 } from "@/lib/services/analisis-faktor-risiko/useAnalisisFaktorRisiko";
-import { useGetGraphImmunizationScopeQuery } from "@/lib/services/baby-immunization";
 import { formatPercentage, removeEmptyKeys } from "@/lib/utils";
-import { ancGraphOptions1, incGraphOptions1 } from "@/utils/constants";
 import { FormValuesAnalisisFaktorRisiko } from "@/view/dashboard/analisis-faktor-risiko/type";
 import {
   formatChartActivityBasedOnRegion,
@@ -24,11 +21,10 @@ import {
   formatChartPiramidaILP,
   formatChartTotalParticipant,
 } from "@/view/dashboard/analisis-faktor-risiko/util";
-import { graphOptions6 } from "@/view/dashboard/ibu-hamil/graphOptions";
 import { formatChartBreakdownJenisKelamin } from "@/view/dashboard/monitoring-faktor-risiko/util";
 import FilterMonitoringFaktorRisiko from "@/view/home/components/FilterMonitoringFaktorRisiko";
 import { Spin } from "antd";
-import { useMemo, useState } from "react";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { IoMdArrowForward, IoMdInformationCircleOutline } from "react-icons/io";
 import { graphOptions7 } from "../analisis-faktor-risiko/graphOptions";
@@ -68,75 +64,9 @@ export default function AnalisisDiagnosaPTM() {
     tipe_vaksin1: "IMUNISASI DASAR LENGKAP",
     wilayah1: "province",
   });
-  const [filter, setFilter] = filterState;
-  const { tahun, bulan } = filter;
-
-  const dateQuery = {
-    year: filter.tahun,
-    month: filter.bulan,
-  };
-
-  const optionQuery = {
-    refetchOnMountOrArgChange: true,
-    skip:
-      !filter.tahun ||
-      (!filter.bulan && (!filter.provinsi || !filter.kabkota || !filter.kecamatan)),
-  };
-
-  const [rergionTypeGraph1, setRegionTypeGraph1] = useState("province");
+  const [filter] = filterState;
 
   const isBrowser = typeof window !== "undefined";
-  const chartOptions: any = {
-    tooltip: {
-      trigger: "item",
-    },
-    legend: {
-      top: "5%",
-      left: "center",
-      show: false,
-    },
-    series: [
-      {
-        name: "Access From",
-        type: "pie",
-        top: isBrowser && window?.innerWidth >= 2500 ? "-120px" : "-180px",
-        radius: ["40%", "50%"],
-        avoidLabelOverlap: false,
-        label: {
-          show: false,
-          position: "center",
-        },
-        labelLine: {
-          show: false,
-        },
-        data: [
-          { value: 65, name: "Laki-laki" },
-          { value: 35, name: "Perempuan" },
-        ],
-      },
-    ],
-  };
-
-  const filterGraph1 = useMemo(
-    () => ({
-      ...dateQuery,
-      region_type: filter.wilayah1,
-      vaccine_type: filter.tipe_vaksin1,
-      faskes_parent: filter.faskes
-        ? filter.faskes
-        : filter.kecamatan
-        ? filter.kecamatan
-        : filter.kabkota
-        ? filter.kabkota
-        : filter.provinsi
-        ? filter.provinsi
-        : "",
-    }),
-    [rergionTypeGraph1, filter, dateQuery]
-  );
-
-  const { data: getGraphImmunizationScope, isLoading: isLoadingGraphImmunizationScope } =
-    useGetGraphImmunizationScopeQuery(filterGraph1, optionQuery);
 
   const dataNasional = [
     [
@@ -160,8 +90,6 @@ export default function AnalisisDiagnosaPTM() {
       1328, 1293, 1397, 1307, 1205, 1183,
     ], // Data keempat
   ];
-
-  const totalData = ancGraphOptions1.map((option) => option.ya + option.tidak);
 
   const series2: any[] = [
     "Direct",
@@ -361,8 +289,8 @@ export default function AnalisisDiagnosaPTM() {
       </div>
       <section className="w-full">
         <SectionHeader
-          title="Profil Piramida Penduduk Skrining Aktivitas Fisik"
-          subtitle="Profil Piramida Penduduk Skrining Aktivitas Fisik"
+          title="Profil Piramida Penduduk Tediagnosis Hipertensi"
+          subtitle="Profil Piramida Penduduk Tediagnosis Hipertensi"
         />
         <div className="flex mt-5 flex-wrap sm:flex-nowrap gap-4 relative  shadow-[0_1px_8px_0px_rgba(0,0,0,0.3)] rounded-[16px] p-10">
           <div className="flex-grow">
@@ -411,7 +339,7 @@ export default function AnalisisDiagnosaPTM() {
         <div className="rounded-2xl border border-[#D6D6D6] col-span-12 lg:col-span-8 py-8 px-5">
           <SectionHeader title="" subtitle="Peta Capaian Penerima Layanan Dasar" />
           <div className="mt-5 rounded-xl border border-[#D6D6D6] p-[13px] h-[550px]">
-            {dataActivityCheckDistributionBasedOnParticipant && (
+            {dataActivityCheckDistributionBasedOnParticipant?.length && (
               <MapAnalisisiFaktorRisiko
                 dataActivityCheckDistributionBasedOnParticipant={
                   dataActivityCheckDistributionBasedOnParticipant

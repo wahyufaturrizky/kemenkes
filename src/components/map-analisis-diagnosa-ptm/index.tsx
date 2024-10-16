@@ -14,10 +14,10 @@ interface MapData {
   tercatat: number;
 }
 
-const MapAnalisisiFaktorRisiko = ({
-  dataActivityCheckDistributionBasedOnParticipant,
+const MapAnalisisiDiagnosaPTM = ({
+  dataHypertensionDistributionMapBasedOnParticipant,
 }: {
-  dataActivityCheckDistributionBasedOnParticipant?: SubActivityCheckDistribution[];
+  dataHypertensionDistributionMapBasedOnParticipant?: SubActivityCheckDistribution[];
 }) => {
   const chartRef = useRef<HTMLDivElement>(null);
 
@@ -109,7 +109,7 @@ const MapAnalisisiFaktorRisiko = ({
                 show: true,
               },
             },
-            data: dataActivityCheckDistributionBasedOnParticipant?.map(
+            data: dataHypertensionDistributionMapBasedOnParticipant?.map(
               (item: SubActivityCheckDistribution) => ({
                 name: item.province_name,
                 percentage: item.percentage,
@@ -377,4 +377,4 @@ const MapAnalisisiFaktorRisiko = ({
   return <div ref={chartRef} style={{ width: "100%", height: "500px" }} />;
 };
 
-export default MapAnalisisiFaktorRisiko;
+export default MapAnalisisiDiagnosaPTM;

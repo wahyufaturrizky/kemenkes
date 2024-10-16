@@ -76,3 +76,36 @@ export const formatDateChart = (dateFromApi: TotalParticipantBasedOnTimeType[]) 
 
   return res;
 };
+
+export const formatDateChart2 = (dateFromApi: TotalParticipantBasedOnTimeType[]) => {
+  const res = dataMonths
+    .filter((item: dataMonthsType) =>
+      dateFromApi
+        ?.map((itemMonth: TotalParticipantBasedOnTimeType) => String(itemMonth.month))
+        .includes(String(item.value))
+    )
+    .map((resFilter: dataMonthsType) => resFilter.label.slice(0, 3));
+
+  return res;
+};
+
+export const formatDate = (dateString: string) => {
+  const date = new Date(dateString);
+  const monthNames = [
+    "Jan",
+    "Feb",
+    "Mar",
+    "Apr",
+    "May",
+    "Jun",
+    "Jul",
+    "Aug",
+    "Sep",
+    "Oct",
+    "Nov",
+    "Dec",
+  ];
+  const month = monthNames[date?.getUTCMonth()];
+  const year = date?.getUTCFullYear();
+  return `${month}-${year}`;
+};

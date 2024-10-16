@@ -23,6 +23,7 @@ const GraphECharts: React.FC<GraphEChartsProps> = ({ graphOptions, opts, showLoa
   useEffect(() => {
     if (graphOptions.series) setOption(graphOptions);
   }, [graphOptions]);
+
   return (
     <ReactECharts
       showLoading={showLoading}

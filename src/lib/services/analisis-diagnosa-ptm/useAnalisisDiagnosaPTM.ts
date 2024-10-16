@@ -1,6 +1,18 @@
 import { API_BASE_URL_BADR_PTM } from "@/helpers/config";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, UseQueryResult } from "@tanstack/react-query";
 import { client } from "../client";
+import {
+  DataResponeActivityPyramidType,
+  DataResponeActivityCheckDistributionType,
+} from "@/view/dashboard/analisis-faktor-risiko/type";
+import {
+  DataResponeControlledPatientIn3MonthType,
+  DataResponeDataResponeUncontrolledPatientIn3MonthTypeType,
+  DataResponeHypertensionDistributionMapType,
+  DataResponeHypertensionPyramidType,
+  DataResponePatientLostFollowUpType,
+  DataResponePatientUnderTreatmentType,
+} from "@/view/dashboard/analisis-diagnosa-ptm/type";
 
 const baseUrl = `${API_BASE_URL_BADR_PTM}/diagnose-analysis`;
 
@@ -47,7 +59,10 @@ const fetchHypertensionPyramid = async ({ query = {} }) => {
   }).then((data) => data);
 };
 
-const useHypertensionPyramid = ({ query = {}, options }: any = {}) => {
+const useHypertensionPyramid = ({ query = {}, options }: any = {}): UseQueryResult<
+  DataResponeHypertensionPyramidType,
+  Error
+> => {
   return useQuery({
     queryKey: ["hypertension-pyramid", query],
     queryFn: () => fetchHypertensionPyramid({ query }),
@@ -64,7 +79,10 @@ const fetchHypertensionDistributionMap = async ({ query = {} }) => {
   }).then((data) => data);
 };
 
-const useHypertensionDistributionMap = ({ query = {}, options }: any = {}) => {
+const useHypertensionDistributionMap = ({ query = {}, options }: any = {}): UseQueryResult<
+  DataResponeHypertensionDistributionMapType,
+  Error
+> => {
   return useQuery({
     queryKey: ["hypertension-distribution-map", query],
     queryFn: () => fetchHypertensionDistributionMap({ query }),
@@ -81,7 +99,10 @@ const fetchPatientUnderTreatment = async ({ query = {} }) => {
   }).then((data) => data);
 };
 
-const usePatientUnderTreatment = ({ query = {}, options }: any = {}) => {
+const usePatientUnderTreatment = ({ query = {}, options }: any = {}): UseQueryResult<
+  DataResponePatientUnderTreatmentType,
+  Error
+> => {
   return useQuery({
     queryKey: ["patient-under-treatment", query],
     queryFn: () => fetchPatientUnderTreatment({ query }),
@@ -98,7 +119,10 @@ const fetchPatientLostFollowUp = async ({ query = {} }) => {
   }).then((data) => data);
 };
 
-const usePatientLostFollowUp = ({ query = {}, options }: any = {}) => {
+const usePatientLostFollowUp = ({ query = {}, options }: any = {}): UseQueryResult<
+  DataResponePatientLostFollowUpType,
+  Error
+> => {
   return useQuery({
     queryKey: ["patient-lost-follow-up", query],
     queryFn: () => fetchPatientLostFollowUp({ query }),
@@ -115,7 +139,10 @@ const fetchControlledPatientIn3Month = async ({ query = {} }) => {
   }).then((data) => data);
 };
 
-const useControlledPatientIn3Month = ({ query = {}, options }: any = {}) => {
+const useControlledPatientIn3Month = ({ query = {}, options }: any = {}): UseQueryResult<
+  DataResponeControlledPatientIn3MonthType,
+  Error
+> => {
   return useQuery({
     queryKey: ["controlled-patient-in-3-month", query],
     queryFn: () => fetchControlledPatientIn3Month({ query }),
@@ -132,7 +159,10 @@ const fetchUncontrolledPatientIn3Month = async ({ query = {} }) => {
   }).then((data) => data);
 };
 
-const useUncontrolledPatientIn3Month = ({ query = {}, options }: any = {}) => {
+const useUncontrolledPatientIn3Month = ({ query = {}, options }: any = {}): UseQueryResult<
+  DataResponeDataResponeUncontrolledPatientIn3MonthTypeType,
+  Error
+> => {
   return useQuery({
     queryKey: ["uncontrolled-patient-in-3-month", query],
     queryFn: () => fetchUncontrolledPatientIn3Month({ query }),
