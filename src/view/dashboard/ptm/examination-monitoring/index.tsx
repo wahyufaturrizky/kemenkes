@@ -1,25 +1,20 @@
-
 "use client";
 
-import React from "react";
 import { Select } from "@/components";
-import styles from "../ptm.module.css";
+import GraphItem from "@/components/graph-item";
 import HeaderPTM from "@/components/header-ptm";
-import TabsPTM from "@/components/tabs-ptm";
-import FilterExaminationMonitoring from "./FilterExaminationMonitoring";
 import MapPTM from "@/components/mapPTM";
 import SectionHeader from "@/components/sectionHeader";
-import GraphItem from "@/components/graph-item";
-import { graphOptions4, graphOptions6, graphOptions7 } from "../early-detection-analysis/graphOptions";
-import { ptmGraphOptions, ancGtaphOptions5, dataMonth, incGraphOptions1 } from "@/utils/constants";
+import { incGraphOptions1, ptmGraphOptions } from "@/utils/constants";
+import { graphOptions6 } from "../early-detection-analysis/graphOptions";
+import styles from "../ptm.module.css";
+import FilterExaminationMonitoring from "./FilterExaminationMonitoring";
 
 export default function ExaminationMonitoring({}) {
   const totalData = ptmGraphOptions.map((option) => option.ya + option.tidak);
 
   return (
-    <div
-      className={`flex flex-col items-center p-[30px] ${styles.jakartaFont}`}
-    >
+    <div className={`flex flex-col items-center p-[30px] ${styles.jakartaFont}`}>
       <HeaderPTM
         title={`Dashboard\nCapaian SATUSEHAT`}
         subtitle="Pengendalian Penyakit Tidak Menular (PTM) - Deteksi Dini"
@@ -32,16 +27,18 @@ export default function ExaminationMonitoring({}) {
       {/* ExaminationMonitoring View */}
 
       {/* Tab Overview Start */}
-        <FilterExaminationMonitoring />
-        <div className="flex flex-row w-full justify-between mt-5 gap-5">
-          <div className="bg-[#EFEDFF] flex flex-col items-center h-[1200px] w-[220px] px-3">
-            <p className="text-[#4C5699] font-extrabold text-lg text-center mt-[100px]">Jumlah Pemeriksaan Tekanan Darah</p>
-            <div className="flex flex-col gap-2 mt-[100px]">
-              <p className="text-[#424242] font-semibold text-3xl text-center">865.000</p>
-              <p className="text-[#616161] font-normal text-sm text-center">Kunjungan</p>
-            </div>
+      <FilterExaminationMonitoring />
+      <div className="flex flex-row w-full justify-between mt-5 gap-5">
+        <div className="bg-[#EFEDFF] flex flex-col items-center h-[1200px] w-[220px] px-3">
+          <p className="text-[#4C5699] font-extrabold text-lg text-center mt-[100px]">
+            Jumlah Pemeriksaan Tekanan Darah
+          </p>
+          <div className="flex flex-col gap-2 mt-[100px]">
+            <p className="text-[#424242] font-semibold text-3xl text-center">865.000</p>
+            <p className="text-[#616161] font-normal text-sm text-center">Kunjungan</p>
           </div>
-          <div className="rounded-2xl border border-[#D6D6D6] col-span-12 lg:col-span-8 py-8 px-5 w-full">
+        </div>
+        <div className="rounded-2xl border border-[#D6D6D6] col-span-12 lg:col-span-8 py-8 px-5 w-full">
           <SectionHeader title="" subtitle="Peta Sebaran Pemeriksaan Tekanan Darah" />
           <div className="mt-5 rounded-xl border border-[#D6D6D6] p-[13px] h-[450px]">
             <MapPTM />
@@ -49,8 +46,9 @@ export default function ExaminationMonitoring({}) {
         </div>
         <div className="border border-[#D6D6D6] col-span-12 lg:col-span-4 py-4 px-5 bg-[#4C5699]">
           <h4 className="text-white font-bold text-xl">Kunjungan Pemeriksaan Tekanan Darah</h4>
-          <p className="text-[#EFEDFF] my-4 text-sm">Diurutkan dari wilayah dengan skrining Tekanan Darah tertinggi hingga terendah
-</p>
+          <p className="text-[#EFEDFF] my-4 text-sm">
+            Diurutkan dari wilayah dengan skrining Tekanan Darah tertinggi hingga terendah
+          </p>
           <div className="bg-white shadow-md mt-5 rounded-2xl py-5 px-3">
             <div className="w-1/2 mb-2">
               <Select placeholder="Terendah" />
@@ -88,7 +86,7 @@ export default function ExaminationMonitoring({}) {
             </div>
           </div>
         </div>
-        </div>
+      </div>
       {/* Tab Overview End */}
     </div>
   );
