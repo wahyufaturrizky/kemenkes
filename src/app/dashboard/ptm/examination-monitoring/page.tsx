@@ -1,7 +1,9 @@
+import ExaminationMonitoring from "@/view/dashboard/ptm/examination-monitoring";
+
 export default function ExaminationMonitoringPage() {
   return (
     <main>
-      <p>ExaminationMonitoringPage</p>
+      <ExaminationMonitoring />
     </main>
   );
 }

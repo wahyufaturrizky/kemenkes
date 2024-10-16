@@ -1075,3 +1075,41 @@ export const subIndikatorAnc = [
     value: "Persentase Ibu Hamil 10T",
   },
 ];
+
+export const ptmGraphOptions = [
+  {
+    label: "Bumil Mendapat TTD Selama Hamil Min 90 Tablet",
+    ya: 300,
+    tidak: 320,
+  },
+  {
+    label: "Bumil Mengonsumsi TTD Selama Hamil Min 90 Tablet",
+    ya: 340,
+    tidak: 220,
+  },
+  {
+    label: "Bumil Diperiksa Hb",
+    ya: 200,
+    tidak: 320,
+  },
+  {
+    label: "Bumil Anemia",
+    ya: 320,
+    tidak: 220,
+  },
+  {
+    label: "Bumil Anemia yang Menerima Terapi TTD Oral",
+    ya: 350,
+    tidak: 320,
+  },
+  {
+    label: "Bumil Anemia Ringan mengalami Kenaikan Hb Sesuai",
+    ya: 300,
+    tidak: 350,
+  },
+  {
+    label: "Bumil Anemia Sedang Dirujuk ke FKRTL",
+    ya: 310,
+    tidak: 120,
+  },
+];
