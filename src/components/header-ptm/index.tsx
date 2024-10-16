@@ -34,7 +34,7 @@ const HeaderPTM: React.FC<HeaderComp> = ({ title, subtitle, desc, miniDesc, upda
         </div>
       </div>
       <div
-        className="flex flex-row justify-between w-full h-20 bg-[#EBEBEB] p-2.5"
+        className="flex flex-row justify-between items-center w-full h-20 bg-[#EBEBEB] p-2.5"
       >
         <div className="font-normal text-black text-xs">{formatTeks(miniDesc)}</div>
         <div>

@@ -1,5 +1,7 @@
+import MonitoringAchievement from "@/view/dashboard/ptm/monitoring-achievement";
+
 export default function MonitoringAchievementPage() {
-    <main>
-        <p>MonitoringAchievementPage</p>
-    </main>
+  return (
+      <main><MonitoringAchievement /></main>
+  )
 }
