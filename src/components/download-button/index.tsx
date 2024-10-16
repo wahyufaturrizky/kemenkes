@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { FiArrowDownCircle, FiChevronDown } from 'react-icons/fi';
+import React, { useState } from "react";
+import { FiArrowDownCircle, FiChevronDown } from "react-icons/fi";
 
 interface DownloadOption {
   label: string;
@@ -7,13 +7,18 @@ interface DownloadOption {
 }
 
 interface DownloadButtonProps {
-  text: string;
+  text?: string;
   isDropdown?: boolean;
   options?: DownloadOption[];
   onClick?: () => void;
 }
 
-const DownloadButton: React.FC<DownloadButtonProps> = ({ text, isDropdown = false, options = [], onClick }) => {
+const DownloadButton: React.FC<DownloadButtonProps> = ({
+  text = "",
+  isDropdown = false,
+  options = [],
+  onClick,
+}) => {
   const [isOpen, setIsOpen] = useState(false);
 
   const handleClick = () => {
@@ -32,9 +37,11 @@ const DownloadButton: React.FC<DownloadButtonProps> = ({ text, isDropdown = fals
       >
         <FiArrowDownCircle />
         <span className="text-sm font-semibold">{text}</span>
-        {isDropdown && <FiChevronDown className={`ml-1 transition-transform ${isOpen ? 'rotate-180' : ''}`} />}
+        {isDropdown && (
+          <FiChevronDown className={`ml-1 transition-transform ${isOpen ? "rotate-180" : ""}`} />
+        )}
       </button>
-      
+
       {isDropdown && isOpen && (
         <div className="absolute z-10 mt-1 w-full bg-white border border-gray-200 rounded-md shadow-lg">
           {options.map((option, index) => (
