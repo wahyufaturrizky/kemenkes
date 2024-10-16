@@ -15,11 +15,17 @@ export interface EChartsOptionProps extends EChartsOption {
 interface GraphItemProps {
   graphOptions: EChartsOptionProps;
   opts?: Opts;
+  showLoading?: boolean;
   isHideButtonDownload?: boolean;
   showDownload?: boolean;
 }
 
-const GraphItem: React.FC<GraphItemProps> = ({ graphOptions, opts, showDownload = true }) => {
+const GraphItem: React.FC<GraphItemProps> = ({
+  graphOptions,
+  opts,
+  showDownload = true,
+  showLoading,
+}) => {
   const [option, setOption] = useState<any>({});
   const chartRef = useRef<any>(null);
 
@@ -66,7 +72,13 @@ const GraphItem: React.FC<GraphItemProps> = ({ graphOptions, opts, showDownload 
           Download
         </button>
       )}
-      <ReactECharts ref={chartRef} option={option} opts={opts} style={{ height: "100%" }} />
+      <ReactECharts
+        showLoading={showLoading}
+        ref={chartRef}
+        option={option}
+        opts={opts}
+        style={{ height: "100%" }}
+      />
     </div>
   );
 };

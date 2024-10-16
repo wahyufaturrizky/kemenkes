@@ -3,7 +3,7 @@ import { DownloadButton, GraphEcharts, Select } from "@/components";
 import ButtonIcon from "@/components/button-icon";
 import GraphItem from "@/components/graph-item";
 import Header from "@/components/header";
-import MapAnc2 from "@/components/mapAnc2";
+import MapAnalisisiFaktorRisiko from "@/components/map-analisis-faktor-risiko";
 import Progress from "@/components/progress";
 import SectionHeader from "@/components/sectionHeader";
 import { formatNumber } from "@/helpers";
@@ -18,18 +18,23 @@ import { useGetGraphImmunizationScopeQuery } from "@/lib/services/baby-immunizat
 import { formatPercentage, removeEmptyKeys } from "@/lib/utils";
 import { ancGraphOptions1, incGraphOptions1 } from "@/utils/constants";
 import { FormValuesAnalisisFaktorRisiko } from "@/view/dashboard/analisis-faktor-risiko/type";
-import { formatChartTotalParticipant } from "@/view/dashboard/analisis-faktor-risiko/util";
+import {
+  formatChartActivityBasedOnRegion,
+  formatChartPiramida,
+  formatChartPiramidaILP,
+  formatChartTotalParticipant,
+} from "@/view/dashboard/analisis-faktor-risiko/util";
 import { graphOptions6 } from "@/view/dashboard/ibu-hamil/graphOptions";
+import { formatChartBreakdownJenisKelamin } from "@/view/dashboard/monitoring-faktor-risiko/util";
 import FilterMonitoringFaktorRisiko from "@/view/home/components/FilterMonitoringFaktorRisiko";
 import { Spin } from "antd";
 import { useMemo, useState } from "react";
 import { useForm } from "react-hook-form";
 import { IoMdArrowForward, IoMdInformationCircleOutline } from "react-icons/io";
-import { graphOptions4, graphOptions7 } from "../analisis-faktor-risiko/graphOptions";
+import { graphOptions7 } from "../analisis-faktor-risiko/graphOptions";
 import styles from "../anc/anc.module.css";
 import BoxSelected from "./BoxSelected";
 import { initFilterSelamatDatang } from "./init-value";
-import { formatChartBreakdownJenisKelamin } from "@/view/dashboard/monitoring-faktor-risiko/util";
 
 export default function AnalisisDiagnosaPTM() {
   const { control, reset } = useForm<FormValuesAnalisisFaktorRisiko>({
@@ -194,16 +199,12 @@ export default function AnalisisDiagnosaPTM() {
   const { data: dataTotalParticipant, isPending: isPendingTotalParticipant } = useTotalParticipant({
     query: removeEmptyKeys(filter),
   });
-  const { data: dataTotalVisitation, isPending: isPendingTotalVisitation } = useTotalVisitation({
-    query: removeEmptyKeys(filter),
-  });
   const { data: dataActivityPyramid, isPending: isPendingActivityPyramid } = useActivityPyramid({
     query: removeEmptyKeys(filter),
   });
-  const { data: dataActivityCheckDistribution, isPending: isPendingActivityCheckDistribution } =
-    useActivityCheckDistribution({
-      query: removeEmptyKeys(filter),
-    });
+  const { data: dataActivityCheckDistribution } = useActivityCheckDistribution({
+    query: removeEmptyKeys(filter),
+  });
   const { data: dataActivityBasedOnRegion, isPending: isPendingActivityBasedOnRegion } =
     useActivityBasedOnRegion({
       query: removeEmptyKeys(filter),
@@ -211,6 +212,12 @@ export default function AnalisisDiagnosaPTM() {
 
   const { total_participant_based_on_gender, total_participant_based_on_time } =
     dataTotalParticipant?.data?.data ?? {};
+  const { based_on_participant: dataActivityPyramidBasedOnParticipant } =
+    dataActivityPyramid?.data?.data ?? {};
+  const { based_on_participant: dataActivityCheckDistributionBasedOnParticipant } =
+    dataActivityCheckDistribution?.data?.data ?? {};
+  const { based_on_participant: dataActivityBasedOnRegionBasedOnParticipant } =
+    dataActivityBasedOnRegion?.data?.data ?? {};
 
   const {
     all_total,
@@ -365,69 +372,36 @@ export default function AnalisisDiagnosaPTM() {
                 style={{ minHeight: 550 }}
                 id="graphhhh"
               >
-                <GraphEcharts
-                  graphOptions={graphOptions4(
-                    [
-                      {
-                        // @ts-ignore
-                        name: "Persentase",
-                        data:
-                          (getGraphImmunizationScope?.data || [])?.map((r: any) => ({
-                            value: r?.percentage,
-                            itemStyle: {
-                              color: r.faskes_desc === "All" ? "#2D9CED" : undefined,
-                            },
-                          })) || [],
-                        type: "bar",
-                        label: {
-                          show: true,
-                          precision: 1,
-                          position: "right",
-                          // formatter: (params: any) => `${params.value}%`,
-                          formatter: (params: any) => {
-                            const reversedData = (getGraphImmunizationScope?.data || [])
-                              .slice()
-                              .reverse(); // Membuat salinan dan membalik urutan
-                            const totalData = reversedData[params.dataIndex]?.total;
-                            const valueWithComma = params?.value?.toString().replace(".", ",");
-
-                            return filter.wilayah1 === "province" || filter.wilayah1 === "city"
-                              ? `${valueWithComma}% (${formatNumber(totalData)})`
-                              : `(${formatNumber(totalData)})`;
-                          },
-                        },
-                      },
-                      {
-                        name: "Target",
-                        type: "line",
-                        color: "#CD4243",
-                        data:
-                          (getGraphImmunizationScope?.data || [])?.map((r: any) => r?.threshold) ||
-                          [],
-                      },
-                      {
-                        name: "Total Penerima",
-                        type: "line",
-                        color: "#FAC515",
-                        data:
-                          (getGraphImmunizationScope?.data || [])?.map((r: any) => r?.total) || [],
-                        show: false, // Menyembunyikan seri secara default
-                        itemStyle: {
-                          opacity: 0, // Mengatur opacity item menjadi 0 untuk menyembunyikan item
-                        },
-                        lineStyle: {
-                          opacity: 0, // Mengatur opacity garis menjadi 0 untuk menyembunyikan garis
-                        },
-                      },
-                    ],
-                    (getGraphImmunizationScope?.data || [])?.map((r: any) =>
-                      r.faskes_desc === "All" ? "NASIONAL" : r.faskes_desc
-                    )
-                  )}
-                  opts={{
-                    height: 900,
-                  }}
-                />
+                <div className="grid grid-cols-2 gap-4">
+                  <div>
+                    <p className="font-plus-jakarta-sans font-bold text-sm text-center">
+                      Hasil Skrining <span className="text-[#3BC6BE]">Aktivitas Fisik</span>{" "}
+                      Berdasarkan Jenis Kelamin
+                    </p>
+                    <GraphEcharts
+                      showLoading={isPendingActivityPyramid}
+                      graphOptions={formatChartPiramida({ dataActivityPyramidBasedOnParticipant })}
+                      opts={{
+                        height: 900,
+                      }}
+                    />
+                  </div>
+                  <div>
+                    <p className="font-plus-jakarta-sans font-bold text-sm text-center">
+                      Hasil Skrining <span className="text-[#3BC6BE]">Aktivitas Fisik</span>{" "}
+                      Berdasarkan Umur ILP
+                    </p>
+                    <GraphEcharts
+                      showLoading={isPendingActivityPyramid}
+                      graphOptions={formatChartPiramidaILP({
+                        dataActivityPyramidBasedOnParticipant,
+                      })}
+                      opts={{
+                        height: 900,
+                      }}
+                    />
+                  </div>
+                </div>
               </div>
             </div>
           </div>
@@ -437,45 +411,31 @@ export default function AnalisisDiagnosaPTM() {
         <div className="rounded-2xl border border-[#D6D6D6] col-span-12 lg:col-span-8 py-8 px-5">
           <SectionHeader title="" subtitle="Peta Capaian Penerima Layanan Dasar" />
           <div className="mt-5 rounded-xl border border-[#D6D6D6] p-[13px] h-[550px]">
-            <MapAnc2 />
+            {dataActivityCheckDistributionBasedOnParticipant && (
+              <MapAnalisisiFaktorRisiko
+                dataActivityCheckDistributionBasedOnParticipant={
+                  dataActivityCheckDistributionBasedOnParticipant
+                }
+              />
+            )}
           </div>
         </div>
         <div className="rounded-2xl border border-[#D6D6D6] col-span-12 lg:col-span-4 py-4 px-5 bg-[#4C5699]">
-          <h4 className="text-white font-bold text-xl">Capaian Penerima Layanan Dasar</h4>
-          <p className="text-[#EFEDFF] my-4 text-sm">lorem</p>
-          <div className="bg-white shadow-md mt-5 rounded-2xl py-5 px-3">
-            <div className="w-1/2 mb-2">
-              <Select placeholder="Terendah" />
-            </div>
-            <div className="h-[680px]">
+          <h4 className="text-white font-bold text-xl">Pemeriksaan Aktivittas Fisik</h4>
+          <p className="text-[#EFEDFF] my-4 text-sm">
+            Diurutkan dari wilayah dengan skrining Aktivitas Fisik tertinggi hingga terendah
+          </p>
+          <div className="bg-white shadow-md rounded-2xl py-5 px-3">
+            <div className="h-[680px] overflow-y-auto">
               <GraphItem
-                isHideButtonDownload={true}
-                graphOptions={graphOptions6(
-                  [
-                    {
-                      name: "Melaksanakan Layanan Kesehatan Ibu Hamil",
-                      type: "bar",
-                      stack: "total",
-                      label: {
-                        show: true,
-                        formatter: (params: any) => {
-                          const total = totalData[params.dataIndex];
-                          const value = params.value;
-                          const percentage = ((value / total) * 100).toFixed(2); // Calculate percentage and format it to 2 decimal places
-                          return `${params.value}%`;
-                        },
-                      },
-                      emphasis: {
-                        focus: "series",
-                      },
-                      itemStyle: {
-                        color: "#00B3AC",
-                      },
-                      data: (incGraphOptions1 || [])?.map((r: any) => r?.pct) || [],
-                    },
-                  ],
-                  incGraphOptions1?.map((r: any) => r.label) || []
-                )}
+                showDownload={false}
+                showLoading={isPendingActivityBasedOnRegion}
+                graphOptions={formatChartActivityBasedOnRegion({
+                  dataActivityBasedOnRegionBasedOnParticipant,
+                })}
+                opts={{
+                  height: 31999,
+                }}
               />
             </div>
           </div>

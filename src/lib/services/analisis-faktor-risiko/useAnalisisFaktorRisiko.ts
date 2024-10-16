@@ -1,7 +1,12 @@
 import { API_BASE_URL_BADR_PTM } from "@/helpers/config";
+import {
+  DataResponeActivityBasedOnRegionType,
+  DataResponeActivityCheckDistributionType,
+  DataResponeActivityPyramidType,
+} from "@/view/dashboard/analisis-faktor-risiko/type";
+import { DataResponeTotalParticipantType } from "@/view/dashboard/monitoring-faktor-risiko/type";
 import { useQuery, UseQueryResult } from "@tanstack/react-query";
 import { client } from "../client";
-import { DataResponeTotalParticipantType } from "@/view/dashboard/monitoring-faktor-risiko/type";
 
 const baseUrl = `${API_BASE_URL_BADR_PTM}/risk-factor-analysis`;
 
@@ -51,7 +56,10 @@ const fetchActivityPyramid = async ({ query = {} }) => {
   }).then((data) => data);
 };
 
-const useActivityPyramid = ({ query = {}, options }: any = {}) => {
+const useActivityPyramid = ({ query = {}, options }: any = {}): UseQueryResult<
+  DataResponeActivityPyramidType,
+  Error
+> => {
   return useQuery({
     queryKey: ["activity-pyramid", query],
     queryFn: () => fetchActivityPyramid({ query }),
@@ -68,7 +76,10 @@ const fetchActivityCheckDistribution = async ({ query = {} }) => {
   }).then((data) => data);
 };
 
-const useActivityCheckDistribution = ({ query = {}, options }: any = {}) => {
+const useActivityCheckDistribution = ({ query = {}, options }: any = {}): UseQueryResult<
+  DataResponeActivityCheckDistributionType,
+  Error
+> => {
   return useQuery({
     queryKey: ["activity-check-distribution", query],
     queryFn: () => fetchActivityCheckDistribution({ query }),
@@ -85,7 +96,10 @@ const fetchActivityBasedOnRegion = async ({ query = {} }) => {
   }).then((data) => data);
 };
 
-const useActivityBasedOnRegion = ({ query = {}, options }: any = {}) => {
+const useActivityBasedOnRegion = ({ query = {}, options }: any = {}): UseQueryResult<
+  DataResponeActivityBasedOnRegionType,
+  Error
+> => {
   return useQuery({
     queryKey: ["activity-based-on-region", query],
     queryFn: () => fetchActivityBasedOnRegion({ query }),
