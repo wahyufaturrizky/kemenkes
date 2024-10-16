@@ -9,8 +9,14 @@ interface TableDataProps<T> {
 
 const TableData = <T,>({ tableInstance, titleTable }: TableDataProps<T>) => {
   return (
-    <div className="px-5 py-10 border border-[#D6D6D6] rounded-[40px]">
-      {titleTable && <h2 className="text-2xl mb-4 leading-10 font-bold">{titleTable}</h2>}
+    <div className="px-5 overflow-x-auto py-10 border border-[#D6D6D6] rounded-[40px]">
+      {titleTable && (
+        <h2
+          className="text-2xl mb-4 leading-10 font-bold"
+        >
+          {titleTable}
+        </h2>
+      )}
       <table className="min-w-full bg-white">
         <thead>
           {tableInstance.getHeaderGroups().map((headerGroup) => (
@@ -29,7 +35,7 @@ const TableData = <T,>({ tableInstance, titleTable }: TableDataProps<T>) => {
           {tableInstance.getRowModel().rows.map((row) => (
             <tr key={row.id}>
               {row.getVisibleCells().map((cell) => (
-                <td className="py-3 px-6 border-gray-200" key={cell.id}>
+                <td className="py-3 text-center items-center px-6 border-gray-200" key={cell.id}>
                   {flexRender(cell.column.columnDef.cell, cell.getContext())}
                 </td>
               ))}
